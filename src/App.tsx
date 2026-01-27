@@ -3,7 +3,18 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Index from "./pages/Index";
+
+import SplashPage from "./pages/SplashPage";
+import OnboardingPage from "./pages/OnboardingPage";
+import SignupPage from "./pages/SignupPage";
+import HomePage from "./pages/HomePage";
+import CreateRequestPage from "./pages/CreateRequestPage";
+import JoinRequestPage from "./pages/JoinRequestPage";
+import RequestDetailPage from "./pages/RequestDetailPage";
+import CreditsPage from "./pages/CreditsPage";
+import NotificationsPage from "./pages/NotificationsPage";
+import ProfilePage from "./pages/ProfilePage";
+import AdminPage from "./pages/AdminPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -15,8 +26,17 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Index />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          <Route path="/" element={<SplashPage />} />
+          <Route path="/onboarding" element={<OnboardingPage />} />
+          <Route path="/signup" element={<SignupPage />} />
+          <Route path="/home" element={<HomePage />} />
+          <Route path="/create" element={<CreateRequestPage />} />
+          <Route path="/join/:id" element={<JoinRequestPage />} />
+          <Route path="/request/:id" element={<RequestDetailPage />} />
+          <Route path="/credits" element={<CreditsPage />} />
+          <Route path="/notifications" element={<NotificationsPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/admin" element={<AdminPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
