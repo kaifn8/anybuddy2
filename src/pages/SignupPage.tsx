@@ -52,8 +52,20 @@ export default function SignupPage() {
     }
   };
   
+  // Auto-submit OTP when complete
+  useEffect(() => {
+    if (step === 'otp' && otp.every(d => d) && otp.join('').length === 4) {
+      gsap.to(contentRef.current, {
+        opacity: 0,
+        y: -20,
+        duration: 0.2,
+        onComplete: () => setStep('name'),
+      });
+    }
+  }, [otp, step]);
+  
   const handleOtpChange = (index: number, value: string) => {
-    if (value.length > 1) value = value[0];
+    if (value.length > 1) value = value[value.length - 1]; // Take the last character for paste
     if (!/^\d*$/.test(value)) return;
     
     const newOtp = [...otp];
@@ -63,16 +75,6 @@ export default function SignupPage() {
     // Auto-focus next input
     if (value && index < 3) {
       otpRefs.current[index + 1]?.focus();
-    }
-    
-    // Auto-submit when complete
-    if (newOtp.every(d => d) && newOtp.join('').length === 4) {
-      gsap.to(contentRef.current, {
-        opacity: 0,
-        y: -20,
-        duration: 0.2,
-        onComplete: () => setStep('name'),
-      });
     }
   };
   
