@@ -22,7 +22,7 @@ export function RequestCard({ request, onJoin, onView, isJoined, className }: Re
   return (
     <div 
       className={cn(
-        'bg-card rounded-2xl p-4 card-shadow card-shadow-hover cursor-pointer slide-up',
+        'glass-card p-4 cursor-pointer hover-lift slide-up',
         className
       )}
       onClick={onView}
@@ -31,37 +31,37 @@ export function RequestCard({ request, onJoin, onView, isJoined, className }: Re
         <CategoryIcon category={request.category} />
         
         <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 mb-1">
+          <div className="flex items-center gap-2 mb-1.5">
             <UrgencyBadge urgency={request.urgency} />
             <TrustBadge level={request.userTrust} showLabel={false} />
           </div>
           
-          <h3 className="font-semibold text-foreground truncate mb-1">
+          <h3 className="font-medium text-foreground truncate mb-1.5 text-[15px]">
             {request.title}
           </h3>
           
-          <div className="flex items-center gap-3 text-sm text-muted-foreground">
+          <div className="flex items-center gap-3 text-xs text-muted-foreground">
             <div className="flex items-center gap-1">
-              <MapPin size={14} />
+              <MapPin size={12} strokeWidth={2} />
               <span>{request.location.distance}km</span>
             </div>
             <div className="flex items-center gap-1">
-              <Users size={14} />
+              <Users size={12} strokeWidth={2} />
               <span>{seatsLeft} left</span>
             </div>
             <div className="flex items-center gap-1">
-              <Clock size={14} />
+              <Clock size={12} strokeWidth={2} />
               <span>{timeLeft}</span>
             </div>
           </div>
           
-          <div className="flex items-center gap-2 mt-2">
+          <div className="flex items-center gap-2 mt-2.5">
             <img 
               src={request.userAvatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${request.userName}`}
               alt={request.userName}
-              className="w-5 h-5 rounded-full"
+              className="w-5 h-5 rounded-full ring-1 ring-border"
             />
-            <span className="text-sm text-muted-foreground">{request.userName}</span>
+            <span className="text-xs text-muted-foreground font-medium">{request.userName}</span>
           </div>
         </div>
         
@@ -69,8 +69,8 @@ export function RequestCard({ request, onJoin, onView, isJoined, className }: Re
           variant={isJoined ? "secondary" : "default"}
           size="sm"
           className={cn(
-            'tap-scale shrink-0',
-            isJoined ? '' : 'gradient-primary'
+            'tap-scale shrink-0 rounded-xl font-medium text-xs h-8 px-4',
+            isJoined ? 'bg-muted text-muted-foreground' : 'gradient-primary shadow-sm'
           )}
           onClick={(e) => {
             e.stopPropagation();
