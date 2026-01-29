@@ -6,20 +6,18 @@ export function TopBar() {
   const user = useAppStore((s) => s.user);
   
   return (
-    <header className="sticky top-0 z-40 glass-effect border-b border-border">
-      <div className="max-w-md mx-auto flex items-center justify-between py-3 px-4">
+    <header className="sticky top-0 z-40 glass-nav">
+      <div className="max-w-md mx-auto flex items-center justify-between py-4 px-5">
         <div className="flex items-center gap-2">
-          <MapPin size={18} className="text-primary" />
-          <span className="font-semibold text-foreground">
+          <MapPin size={16} className="text-primary" strokeWidth={2} />
+          <span className="font-medium text-foreground text-sm">
             {user?.city || 'Bangalore'}
           </span>
         </div>
         
-        <div className="flex items-center gap-2">
-          <span className="text-2xl font-display font-bold text-gradient-primary">
-            AnyBuddy
-          </span>
-        </div>
+        <span className="text-xl font-semibold text-gradient-primary tracking-tight">
+          AnyBuddy
+        </span>
         
         <LiveIndicator />
       </div>

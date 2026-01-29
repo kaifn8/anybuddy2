@@ -14,8 +14,7 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ['Inter', 'sans-serif'],
-        display: ['Nunito', 'sans-serif'],
+        sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -77,6 +76,12 @@ export default {
         xl: "calc(var(--radius) + 4px)",
         "2xl": "calc(var(--radius) + 8px)",
         "3xl": "calc(var(--radius) + 16px)",
+        "4xl": "2rem",
+      },
+      backdropBlur: {
+        xs: "2px",
+        "2xl": "40px",
+        "3xl": "64px",
       },
       keyframes: {
         "accordion-down": {
@@ -95,16 +100,28 @@ export default {
           "0%": { backgroundPosition: "-200% 0" },
           "100%": { backgroundPosition: "200% 0" },
         },
+        "slide-up": {
+          "0%": { opacity: "0", transform: "translateY(16px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
+        },
+        "scale-in": {
+          "0%": { opacity: "0", transform: "scale(0.95)" },
+          "100%": { opacity: "1", transform: "scale(1)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "pulse-ring": "pulse-ring 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite",
         shimmer: "shimmer 2s linear infinite",
+        "slide-up": "slide-up 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
+        "scale-in": "scale-in 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
       },
       boxShadow: {
-        soft: "0 4px 20px -4px rgba(108, 92, 231, 0.1), 0 2px 8px -2px rgba(45, 52, 54, 0.05)",
-        glow: "0 0 20px rgba(108, 92, 231, 0.3)",
+        soft: "0 4px 20px -4px rgba(108, 92, 231, 0.08), 0 2px 8px -2px rgba(0, 0, 0, 0.04)",
+        glow: "0 0 24px rgba(108, 92, 231, 0.2)",
+        ios: "0 2px 8px -2px rgba(0, 0, 0, 0.08), 0 8px 24px -4px rgba(0, 0, 0, 0.06)",
+        "ios-lg": "0 4px 16px -4px rgba(0, 0, 0, 0.1), 0 12px 40px -8px rgba(0, 0, 0, 0.08)",
       },
     },
   },

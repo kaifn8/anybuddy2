@@ -6,12 +6,12 @@ interface LiveIndicatorProps {
 
 export function LiveIndicator({ className }: LiveIndicatorProps) {
   return (
-    <div className={cn('flex items-center gap-2', className)}>
-      <div className="relative">
-        <div className="h-2.5 w-2.5 rounded-full bg-success" />
-        <div className="absolute inset-0 h-2.5 w-2.5 rounded-full bg-success animate-pulse-ring" />
+    <div className={cn('flex items-center gap-1.5', className)}>
+      <div className="relative flex items-center justify-center">
+        <div className="h-2 w-2 rounded-full bg-success" />
+        <div className="absolute inset-0 h-2 w-2 rounded-full bg-success pulse-live" />
       </div>
-      <span className="text-sm font-semibold text-success">Live Now</span>
+      <span className="text-xs font-medium text-success">Live</span>
     </div>
   );
 }

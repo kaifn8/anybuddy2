@@ -7,26 +7,26 @@ const slides = [
   {
     icon: Users,
     title: 'Find Your People',
-    description: 'Connect with people nearby who are looking for the same things - right now.',
-    gradient: 'gradient-primary',
+    description: 'Connect with people nearby who are looking for the same things — right now.',
+    color: 'primary',
   },
   {
     icon: Zap,
     title: 'Real-Time Requests',
     description: 'Post what you need in seconds. Watch as people nearby respond instantly.',
-    gradient: 'gradient-secondary',
+    color: 'secondary',
   },
   {
     icon: Shield,
     title: 'Safe by Design',
     description: 'Trust levels, group chats, and no random DMs. Safety built into every interaction.',
-    gradient: 'gradient-hero',
+    color: 'primary',
   },
   {
     icon: Heart,
     title: 'Credits & Trust',
     description: 'Earn credits by helping others. Build trust through real connections.',
-    gradient: 'gradient-primary',
+    color: 'accent',
   },
 ];
 
@@ -47,44 +47,62 @@ export default function OnboardingPage() {
   
   return (
     <div className="mobile-container min-h-screen flex flex-col bg-background">
-      <div className="flex-1 flex flex-col items-center justify-center px-6 py-12">
-        <div className={`${slide.gradient} rounded-3xl p-8 mb-8 bounce-in`} key={currentSlide}>
-          <Icon size={80} className="text-white" />
+      {/* Subtle gradient background */}
+      <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-secondary/5 pointer-events-none" />
+      
+      <div className="flex-1 flex flex-col items-center justify-center px-8 py-12 relative">
+        {/* Glass icon container */}
+        <div 
+          className="glass-card p-10 mb-10 bounce-in" 
+          key={currentSlide}
+        >
+          <Icon 
+            size={64} 
+            className={`${
+              slide.color === 'primary' ? 'text-primary' : 
+              slide.color === 'secondary' ? 'text-secondary' : 
+              'text-accent'
+            }`}
+            strokeWidth={1.5}
+          />
         </div>
         
-        <h2 className="text-3xl font-display font-bold text-foreground text-center mb-4 slide-up">
+        <h2 className="text-3xl font-semibold text-foreground text-center mb-4 slide-up tracking-tight">
           {slide.title}
         </h2>
         
-        <p className="text-lg text-muted-foreground text-center max-w-sm fade-in">
+        <p className="text-lg text-muted-foreground text-center max-w-xs fade-in leading-relaxed">
           {slide.description}
         </p>
       </div>
       
-      <div className="px-6 pb-12">
+      <div className="px-8 pb-12 relative">
+        {/* Progress dots */}
         <div className="flex justify-center gap-2 mb-8">
           {slides.map((_, index) => (
             <button
               key={index}
               onClick={() => setCurrentSlide(index)}
-              className={`h-2 rounded-full transition-all ${
-                index === currentSlide ? 'w-8 bg-primary' : 'w-2 bg-muted'
+              className={`h-2 rounded-full transition-all duration-300 ${
+                index === currentSlide 
+                  ? 'w-8 bg-primary' 
+                  : 'w-2 bg-muted-foreground/20 hover:bg-muted-foreground/30'
               }`}
             />
           ))}
         </div>
         
         <Button 
-          className="w-full gradient-primary text-lg py-6 tap-scale" 
+          className="w-full h-14 text-base font-medium rounded-2xl gradient-primary shadow-ios tap-scale" 
           onClick={handleNext}
         >
-          {currentSlide === slides.length - 1 ? 'Get Started' : 'Next'}
-          <ArrowRight className="ml-2" size={20} />
+          {currentSlide === slides.length - 1 ? 'Get Started' : 'Continue'}
+          <ArrowRight className="ml-2" size={18} strokeWidth={2} />
         </Button>
         
         {currentSlide < slides.length - 1 && (
           <button 
-            className="w-full text-muted-foreground mt-4 py-2"
+            className="w-full text-muted-foreground mt-4 py-3 text-sm font-medium tap-scale"
             onClick={() => navigate('/signup')}
           >
             Skip
