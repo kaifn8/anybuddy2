@@ -1,13 +1,17 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Phone, User, MapPin, Heart, ArrowRight, Check } from 'lucide-react';
+import { Phone, User, MapPin, Heart, ArrowRight, Check, Sparkles } from 'lucide-react';
+import gsap from 'gsap';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { ModernInput } from '@/components/ui/ModernInput';
+import { SelectionChip, ChipGroup } from '@/components/ui/SelectionChip';
+import { ProgressDots } from '@/components/ui/ProgressIndicator';
 import { useAppStore } from '@/store/useAppStore';
 import type { Category } from '@/types/anybuddy';
 import { getCategoryLabel, CategoryIcon } from '@/components/icons/CategoryIcon';
 
 type Step = 'phone' | 'otp' | 'name' | 'age' | 'interests';
+const steps: Step[] = ['phone', 'otp', 'name', 'age', 'interests'];
 
 const ageRanges = ['18-24', '25-34', '35-44', '45-54', '55+'];
 const categories: Category[] = ['chai', 'explore', 'shopping', 'work', 'help', 'casual'];
@@ -18,52 +22,112 @@ export default function SignupPage() {
   
   const [step, setStep] = useState<Step>('phone');
   const [phone, setPhone] = useState('');
-  const [otp, setOtp] = useState('');
+  const [otp, setOtp] = useState(['', '', '', '']);
   const [firstName, setFirstName] = useState('');
   const [ageRange, setAgeRange] = useState('');
   const [interests, setInterests] = useState<Category[]>([]);
   
+  const contentRef = useRef<HTMLDivElement>(null);
+  const otpRefs = useRef<(HTMLInputElement | null)[]>([]);
+  
+  // Animate step transitions
+  useEffect(() => {
+    if (contentRef.current) {
+      gsap.fromTo(
+        contentRef.current,
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out' }
+      );
+    }
+  }, [step]);
+  
   const handlePhoneSubmit = () => {
     if (phone.length >= 10) {
-      setStep('otp');
+      gsap.to(contentRef.current, {
+        opacity: 0,
+        y: -20,
+        duration: 0.2,
+        onComplete: () => setStep('otp'),
+      });
     }
   };
   
-  const handleOtpSubmit = () => {
-    if (otp.length === 4) {
-      setStep('name');
+  const handleOtpChange = (index: number, value: string) => {
+    if (value.length > 1) value = value[0];
+    if (!/^\d*$/.test(value)) return;
+    
+    const newOtp = [...otp];
+    newOtp[index] = value;
+    setOtp(newOtp);
+    
+    // Auto-focus next input
+    if (value && index < 3) {
+      otpRefs.current[index + 1]?.focus();
+    }
+    
+    // Auto-submit when complete
+    if (newOtp.every(d => d) && newOtp.join('').length === 4) {
+      gsap.to(contentRef.current, {
+        opacity: 0,
+        y: -20,
+        duration: 0.2,
+        onComplete: () => setStep('name'),
+      });
+    }
+  };
+  
+  const handleOtpKeyDown = (index: number, e: React.KeyboardEvent) => {
+    if (e.key === 'Backspace' && !otp[index] && index > 0) {
+      otpRefs.current[index - 1]?.focus();
     }
   };
   
   const handleNameSubmit = () => {
     if (firstName.trim()) {
-      setStep('age');
+      gsap.to(contentRef.current, {
+        opacity: 0,
+        y: -20,
+        duration: 0.2,
+        onComplete: () => setStep('age'),
+      });
     }
   };
   
   const handleAgeSubmit = () => {
     if (ageRange) {
-      setStep('interests');
+      gsap.to(contentRef.current, {
+        opacity: 0,
+        y: -20,
+        duration: 0.2,
+        onComplete: () => setStep('interests'),
+      });
     }
   };
   
   const handleComplete = () => {
     if (interests.length >= 2) {
-      setUser({
-        id: `user_${Date.now()}`,
-        firstName,
-        phone,
-        ageRange,
-        city: 'Bangalore',
-        interests,
-        trustLevel: 'seed',
-        credits: 3,
-        completedJoins: 0,
-        createdAt: new Date(),
-        avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${firstName}`,
+      gsap.to(contentRef.current, {
+        opacity: 0,
+        scale: 0.95,
+        duration: 0.3,
+        onComplete: () => {
+          setUser({
+            id: `user_${Date.now()}`,
+            firstName,
+            phone,
+            ageRange,
+            city: 'Bangalore',
+            interests,
+            trustLevel: 'seed',
+            credits: 3,
+            completedJoins: 0,
+            createdAt: new Date(),
+            avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${firstName}`,
+          });
+          setOnboarded(true);
+          navigate('/home');
+        },
       });
-      setOnboarded(true);
-      navigate('/home');
     }
   };
   
@@ -75,188 +139,178 @@ export default function SignupPage() {
     );
   };
   
+  const stepIndex = steps.indexOf(step);
+  
   return (
     <div className="mobile-container min-h-screen flex flex-col bg-background">
-      <div className="flex-1 px-6 py-12">
+      {/* Subtle gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-b from-primary/3 via-transparent to-secondary/3 pointer-events-none" />
+      
+      <div className="flex-1 px-6 py-8 relative">
         {/* Progress */}
-        <div className="flex gap-1 mb-8">
-          {['phone', 'otp', 'name', 'age', 'interests'].map((s, i) => (
-            <div
-              key={s}
-              className={`h-1 flex-1 rounded-full transition-colors ${
-                ['phone', 'otp', 'name', 'age', 'interests'].indexOf(step) >= i
-                  ? 'bg-primary'
-                  : 'bg-muted'
-              }`}
-            />
-          ))}
-        </div>
+        <ProgressDots total={5} current={stepIndex} className="mb-10" />
         
-        {step === 'phone' && (
-          <div className="slide-up">
-            <div className="gradient-primary rounded-2xl p-4 w-fit mb-6">
-              <Phone size={32} className="text-white" />
-            </div>
-            <h1 className="text-3xl font-display font-bold mb-2">What's your number?</h1>
-            <p className="text-muted-foreground mb-8">We'll send you a quick verification code</p>
-            
-            <div className="flex gap-2 mb-6">
-              <div className="bg-muted rounded-xl px-4 py-3 text-foreground font-medium">+91</div>
-              <Input
-                type="tel"
-                placeholder="Phone number"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value.replace(/\D/g, '').slice(0, 10))}
-                className="flex-1 text-lg py-6 rounded-xl"
-              />
-            </div>
-            
-            <Button
-              className="w-full gradient-primary py-6 tap-scale"
-              onClick={handlePhoneSubmit}
-              disabled={phone.length < 10}
-            >
-              Send Code <ArrowRight className="ml-2" size={20} />
-            </Button>
-          </div>
-        )}
-        
-        {step === 'otp' && (
-          <div className="slide-up">
-            <div className="gradient-secondary rounded-2xl p-4 w-fit mb-6">
-              <Check size={32} className="text-white" />
-            </div>
-            <h1 className="text-3xl font-display font-bold mb-2">Enter the code</h1>
-            <p className="text-muted-foreground mb-8">Sent to +91 {phone}</p>
-            
-            <div className="flex gap-3 justify-center mb-6">
-              {[0, 1, 2, 3].map((i) => (
-                <Input
-                  key={i}
-                  type="text"
-                  maxLength={1}
-                  value={otp[i] || ''}
-                  onChange={(e) => {
-                    const val = e.target.value.replace(/\D/g, '');
-                    if (val) {
-                      const newOtp = otp.slice(0, i) + val + otp.slice(i + 1);
-                      setOtp(newOtp);
-                      const nextInput = e.target.nextElementSibling as HTMLInputElement;
-                      if (nextInput && val) nextInput.focus();
-                    }
-                  }}
-                  className="w-14 h-14 text-center text-2xl font-bold rounded-xl"
+        <div ref={contentRef}>
+          {step === 'phone' && (
+            <div className="space-y-8">
+              <div className="space-y-3">
+                <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center">
+                  <Phone size={24} className="text-primary" strokeWidth={1.5} />
+                </div>
+                <h1 className="text-2xl font-semibold tracking-tight">What's your number?</h1>
+                <p className="text-muted-foreground text-sm">We'll send you a quick verification code</p>
+              </div>
+              
+              <div className="flex gap-3">
+                <div className="w-16 h-14 flex items-center justify-center bg-muted/50 rounded-2xl text-foreground font-medium text-sm">
+                  +91
+                </div>
+                <ModernInput
+                  type="tel"
+                  placeholder="Phone number"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value.replace(/\D/g, '').slice(0, 10))}
+                  className="flex-1"
                 />
-              ))}
+              </div>
+              
+              <Button
+                className="w-full h-14 text-base font-medium rounded-2xl gradient-primary shadow-ios"
+                onClick={handlePhoneSubmit}
+                disabled={phone.length < 10}
+              >
+                Send Code
+                <ArrowRight size={18} className="ml-2" strokeWidth={2} />
+              </Button>
             </div>
-            
-            <Button
-              className="w-full gradient-primary py-6 tap-scale"
-              onClick={handleOtpSubmit}
-              disabled={otp.length < 4}
-            >
-              Verify <ArrowRight className="ml-2" size={20} />
-            </Button>
-            
-            <button className="w-full text-primary mt-4 py-2 font-medium">
-              Resend code
-            </button>
-          </div>
-        )}
-        
-        {step === 'name' && (
-          <div className="slide-up">
-            <div className="gradient-accent rounded-2xl p-4 w-fit mb-6">
-              <User size={32} className="text-accent-foreground" />
+          )}
+          
+          {step === 'otp' && (
+            <div className="space-y-8">
+              <div className="space-y-3">
+                <div className="w-14 h-14 rounded-2xl bg-secondary/10 flex items-center justify-center">
+                  <Check size={24} className="text-secondary" strokeWidth={1.5} />
+                </div>
+                <h1 className="text-2xl font-semibold tracking-tight">Enter the code</h1>
+                <p className="text-muted-foreground text-sm">Sent to +91 {phone}</p>
+              </div>
+              
+              <div className="flex gap-3 justify-center">
+                {otp.map((digit, i) => (
+                  <input
+                    key={i}
+                    ref={el => otpRefs.current[i] = el}
+                    type="text"
+                    inputMode="numeric"
+                    maxLength={1}
+                    value={digit}
+                    onChange={(e) => handleOtpChange(i, e.target.value)}
+                    onKeyDown={(e) => handleOtpKeyDown(i, e)}
+                    className="w-14 h-16 text-center text-2xl font-semibold rounded-2xl bg-card border-2 border-transparent focus:border-primary/30 focus:outline-none transition-all shadow-sm"
+                  />
+                ))}
+              </div>
+              
+              <button className="w-full text-primary text-sm font-medium py-2">
+                Resend code
+              </button>
             </div>
-            <h1 className="text-3xl font-display font-bold mb-2">What's your name?</h1>
-            <p className="text-muted-foreground mb-8">Just your first name is fine</p>
-            
-            <Input
-              placeholder="First name"
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-              className="text-lg py-6 rounded-xl mb-6"
-            />
-            
-            <Button
-              className="w-full gradient-primary py-6 tap-scale"
-              onClick={handleNameSubmit}
-              disabled={!firstName.trim()}
-            >
-              Continue <ArrowRight className="ml-2" size={20} />
-            </Button>
-          </div>
-        )}
-        
-        {step === 'age' && (
-          <div className="slide-up">
-            <div className="gradient-primary rounded-2xl p-4 w-fit mb-6">
-              <MapPin size={32} className="text-white" />
+          )}
+          
+          {step === 'name' && (
+            <div className="space-y-8">
+              <div className="space-y-3">
+                <div className="w-14 h-14 rounded-2xl bg-accent/20 flex items-center justify-center">
+                  <User size={24} className="text-accent-foreground" strokeWidth={1.5} />
+                </div>
+                <h1 className="text-2xl font-semibold tracking-tight">What's your name?</h1>
+                <p className="text-muted-foreground text-sm">Just your first name is fine</p>
+              </div>
+              
+              <ModernInput
+                placeholder="First name"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+                autoFocus
+              />
+              
+              <Button
+                className="w-full h-14 text-base font-medium rounded-2xl gradient-primary shadow-ios"
+                onClick={handleNameSubmit}
+                disabled={!firstName.trim()}
+              >
+                Continue
+                <ArrowRight size={18} className="ml-2" strokeWidth={2} />
+              </Button>
             </div>
-            <h1 className="text-3xl font-display font-bold mb-2">Your age range?</h1>
-            <p className="text-muted-foreground mb-8">This helps us match you better</p>
-            
-            <div className="grid grid-cols-2 gap-3 mb-6">
-              {ageRanges.map((range) => (
-                <button
-                  key={range}
-                  onClick={() => setAgeRange(range)}
-                  className={`py-4 rounded-xl font-medium transition-all tap-scale ${
-                    ageRange === range
-                      ? 'gradient-primary text-white'
-                      : 'bg-muted text-foreground hover:bg-muted/80'
-                  }`}
-                >
-                  {range}
-                </button>
-              ))}
+          )}
+          
+          {step === 'age' && (
+            <div className="space-y-8">
+              <div className="space-y-3">
+                <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center">
+                  <MapPin size={24} className="text-primary" strokeWidth={1.5} />
+                </div>
+                <h1 className="text-2xl font-semibold tracking-tight">Your age range?</h1>
+                <p className="text-muted-foreground text-sm">This helps us match you better</p>
+              </div>
+              
+              <ChipGroup columns={2}>
+                {ageRanges.map((range) => (
+                  <SelectionChip
+                    key={range}
+                    label={range}
+                    selected={ageRange === range}
+                    onClick={() => setAgeRange(range)}
+                    variant="compact"
+                  />
+                ))}
+              </ChipGroup>
+              
+              <Button
+                className="w-full h-14 text-base font-medium rounded-2xl gradient-primary shadow-ios"
+                onClick={handleAgeSubmit}
+                disabled={!ageRange}
+              >
+                Continue
+                <ArrowRight size={18} className="ml-2" strokeWidth={2} />
+              </Button>
             </div>
-            
-            <Button
-              className="w-full gradient-primary py-6 tap-scale"
-              onClick={handleAgeSubmit}
-              disabled={!ageRange}
-            >
-              Continue <ArrowRight className="ml-2" size={20} />
-            </Button>
-          </div>
-        )}
-        
-        {step === 'interests' && (
-          <div className="slide-up">
-            <div className="gradient-hero rounded-2xl p-4 w-fit mb-6">
-              <Heart size={32} className="text-white" />
+          )}
+          
+          {step === 'interests' && (
+            <div className="space-y-8">
+              <div className="space-y-3">
+                <div className="w-14 h-14 rounded-2xl gradient-hero flex items-center justify-center">
+                  <Heart size={24} className="text-white" strokeWidth={1.5} />
+                </div>
+                <h1 className="text-2xl font-semibold tracking-tight">What interests you?</h1>
+                <p className="text-muted-foreground text-sm">Pick at least 2 categories</p>
+              </div>
+              
+              <ChipGroup columns={2}>
+                {categories.map((category) => (
+                  <SelectionChip
+                    key={category}
+                    icon={<CategoryIcon category={category} />}
+                    label={getCategoryLabel(category)}
+                    selected={interests.includes(category)}
+                    onClick={() => toggleInterest(category)}
+                  />
+                ))}
+              </ChipGroup>
+              
+              <Button
+                className="w-full h-14 text-base font-medium rounded-2xl gradient-primary shadow-ios"
+                onClick={handleComplete}
+                disabled={interests.length < 2}
+              >
+                <Sparkles size={18} className="mr-2" />
+                Let's Go!
+              </Button>
             </div>
-            <h1 className="text-3xl font-display font-bold mb-2">What interests you?</h1>
-            <p className="text-muted-foreground mb-8">Pick at least 2 categories</p>
-            
-            <div className="grid grid-cols-2 gap-3 mb-6">
-              {categories.map((category) => (
-                <button
-                  key={category}
-                  onClick={() => toggleInterest(category)}
-                  className={`flex items-center gap-3 p-4 rounded-xl font-medium transition-all tap-scale ${
-                    interests.includes(category)
-                      ? 'bg-primary/10 border-2 border-primary text-primary'
-                      : 'bg-card border-2 border-transparent text-foreground card-shadow'
-                  }`}
-                >
-                  <CategoryIcon category={category} />
-                  <span className="text-sm">{getCategoryLabel(category)}</span>
-                </button>
-              ))}
-            </div>
-            
-            <Button
-              className="w-full gradient-primary py-6 tap-scale"
-              onClick={handleComplete}
-              disabled={interests.length < 2}
-            >
-              Let's Go! 🚀
-            </Button>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );
