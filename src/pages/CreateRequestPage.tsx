@@ -61,8 +61,8 @@ export default function CreateRequestPage() {
     if (costRef.current) {
       gsap.fromTo(
         costRef.current,
-        { scale: 1.2, color: 'hsl(var(--primary))' },
-        { scale: 1, color: 'hsl(var(--foreground))', duration: 0.3, ease: 'back.out(2)' }
+        { scale: 1.2 },
+        { scale: 1, duration: 0.3, ease: 'back.out(2)' }
       );
     }
   }, [creditCost]);
