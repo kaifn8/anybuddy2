@@ -7,18 +7,21 @@ export function TopBar() {
   
   return (
     <header className="sticky top-0 z-40 glass-nav">
-      <div className="max-w-md mx-auto flex items-center justify-between py-4 px-5">
-        <div className="flex items-center gap-2">
-          <MapPin size={16} className="text-primary" strokeWidth={2} />
+      <div className="max-w-md mx-auto flex items-center justify-between py-3.5 px-5">
+        {/* Location */}
+        <div className="flex items-center gap-1.5">
+          <MapPin size={14} className="text-primary" strokeWidth={2.5} />
           <span className="font-medium text-foreground text-sm">
             {user?.city || 'Bangalore'}
           </span>
         </div>
         
-        <span className="text-xl font-semibold text-gradient-primary tracking-tight">
+        {/* Logo */}
+        <span className="text-lg font-bold text-gradient-primary tracking-tight">
           AnyBuddy
         </span>
         
+        {/* Live Indicator */}
         <LiveIndicator />
       </div>
     </header>

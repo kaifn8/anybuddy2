@@ -1,14 +1,13 @@
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Phone, User, MapPin, Heart, ArrowRight, Check, Sparkles } from 'lucide-react';
+import { Phone, User, Calendar, Heart, ArrowRight, Check, Sparkles } from 'lucide-react';
 import gsap from 'gsap';
 import { Button } from '@/components/ui/button';
-import { ModernInput } from '@/components/ui/ModernInput';
-import { SelectionChip, ChipGroup } from '@/components/ui/SelectionChip';
-import { ProgressDots } from '@/components/ui/ProgressIndicator';
+import { Input } from '@/components/ui/input';
 import { useAppStore } from '@/store/useAppStore';
 import type { Category } from '@/types/anybuddy';
 import { getCategoryLabel, CategoryIcon } from '@/components/icons/CategoryIcon';
+import { cn } from '@/lib/utils';
 
 type Step = 'phone' | 'otp' | 'name' | 'age' | 'interests';
 const steps: Step[] = ['phone', 'otp', 'name', 'age', 'interests'];
@@ -35,8 +34,8 @@ export default function SignupPage() {
     if (contentRef.current) {
       gsap.fromTo(
         contentRef.current,
-        { opacity: 0, y: 20 },
-        { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out' }
+        { opacity: 0, y: 15 },
+        { opacity: 1, y: 0, duration: 0.35, ease: 'power2.out' }
       );
     }
   }, [step]);
@@ -45,7 +44,7 @@ export default function SignupPage() {
     if (phone.length >= 10) {
       gsap.to(contentRef.current, {
         opacity: 0,
-        y: -20,
+        y: -15,
         duration: 0.2,
         onComplete: () => setStep('otp'),
       });
@@ -57,7 +56,7 @@ export default function SignupPage() {
     if (step === 'otp' && otp.every(d => d) && otp.join('').length === 4) {
       gsap.to(contentRef.current, {
         opacity: 0,
-        y: -20,
+        y: -15,
         duration: 0.2,
         onComplete: () => setStep('name'),
       });
@@ -65,14 +64,13 @@ export default function SignupPage() {
   }, [otp, step]);
   
   const handleOtpChange = (index: number, value: string) => {
-    if (value.length > 1) value = value[value.length - 1]; // Take the last character for paste
+    if (value.length > 1) value = value[value.length - 1];
     if (!/^\d*$/.test(value)) return;
     
     const newOtp = [...otp];
     newOtp[index] = value;
     setOtp(newOtp);
     
-    // Auto-focus next input
     if (value && index < 3) {
       otpRefs.current[index + 1]?.focus();
     }
@@ -88,7 +86,7 @@ export default function SignupPage() {
     if (firstName.trim()) {
       gsap.to(contentRef.current, {
         opacity: 0,
-        y: -20,
+        y: -15,
         duration: 0.2,
         onComplete: () => setStep('age'),
       });
@@ -99,7 +97,7 @@ export default function SignupPage() {
     if (ageRange) {
       gsap.to(contentRef.current, {
         opacity: 0,
-        y: -20,
+        y: -15,
         duration: 0.2,
         onComplete: () => setStep('interests'),
       });
@@ -110,8 +108,8 @@ export default function SignupPage() {
     if (interests.length >= 2) {
       gsap.to(contentRef.current, {
         opacity: 0,
-        scale: 0.95,
-        duration: 0.3,
+        scale: 0.98,
+        duration: 0.25,
         onComplete: () => {
           setUser({
             id: `user_${Date.now()}`,
@@ -145,56 +143,67 @@ export default function SignupPage() {
   
   return (
     <div className="mobile-container min-h-screen flex flex-col bg-background">
-      {/* Subtle gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-primary/3 via-transparent to-secondary/3 pointer-events-none" />
-      
-      <div className="flex-1 px-6 py-8 relative">
+      <div className="flex-1 px-6 py-8">
         {/* Progress */}
-        <ProgressDots total={5} current={stepIndex} className="mb-10" />
+        <div className="flex justify-center gap-1.5 mb-12">
+          {steps.map((_, index) => (
+            <div
+              key={index}
+              className={cn(
+                'h-1 rounded-full transition-all duration-300',
+                index <= stepIndex ? 'w-8 bg-primary' : 'w-1.5 bg-border'
+              )}
+            />
+          ))}
+        </div>
         
         <div ref={contentRef}>
           {step === 'phone' && (
             <div className="space-y-8">
-              <div className="space-y-3">
-                <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center">
-                  <Phone size={24} className="text-primary" strokeWidth={1.5} />
+              <div className="space-y-4">
+                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+                  <Phone size={22} className="text-primary" strokeWidth={1.5} />
                 </div>
-                <h1 className="text-2xl font-semibold tracking-tight">What's your number?</h1>
-                <p className="text-muted-foreground text-sm">We'll send you a quick verification code</p>
+                <div>
+                  <h1 className="text-xl font-bold tracking-tight">What's your number?</h1>
+                  <p className="text-muted-foreground text-sm mt-1">We'll send you a verification code</p>
+                </div>
               </div>
               
               <div className="flex gap-3">
-                <div className="w-16 h-14 flex items-center justify-center bg-muted/50 rounded-2xl text-foreground font-medium text-sm">
+                <div className="w-14 h-12 flex items-center justify-center bg-muted rounded-xl text-foreground font-medium text-sm">
                   +91
                 </div>
-                <ModernInput
+                <Input
                   type="tel"
                   placeholder="Phone number"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value.replace(/\D/g, '').slice(0, 10))}
-                  className="flex-1"
+                  className="flex-1 h-12 rounded-xl border-border/50 bg-muted/30 focus:bg-background text-base"
                 />
               </div>
               
               <Button
-                className="w-full h-14 text-base font-medium rounded-2xl gradient-primary shadow-ios"
+                className="w-full h-12 text-sm font-semibold rounded-xl gradient-primary shadow-soft text-white"
                 onClick={handlePhoneSubmit}
                 disabled={phone.length < 10}
               >
                 Send Code
-                <ArrowRight size={18} className="ml-2" strokeWidth={2} />
+                <ArrowRight size={16} className="ml-2" strokeWidth={2.5} />
               </Button>
             </div>
           )}
           
           {step === 'otp' && (
             <div className="space-y-8">
-              <div className="space-y-3">
-                <div className="w-14 h-14 rounded-2xl bg-secondary/10 flex items-center justify-center">
-                  <Check size={24} className="text-secondary" strokeWidth={1.5} />
+              <div className="space-y-4">
+                <div className="w-12 h-12 rounded-xl bg-success/10 flex items-center justify-center">
+                  <Check size={22} className="text-success" strokeWidth={2} />
                 </div>
-                <h1 className="text-2xl font-semibold tracking-tight">Enter the code</h1>
-                <p className="text-muted-foreground text-sm">Sent to +91 {phone}</p>
+                <div>
+                  <h1 className="text-xl font-bold tracking-tight">Enter the code</h1>
+                  <p className="text-muted-foreground text-sm mt-1">Sent to +91 {phone}</p>
+                </div>
               </div>
               
               <div className="flex gap-3 justify-center">
@@ -208,12 +217,12 @@ export default function SignupPage() {
                     value={digit}
                     onChange={(e) => handleOtpChange(i, e.target.value)}
                     onKeyDown={(e) => handleOtpKeyDown(i, e)}
-                    className="w-14 h-16 text-center text-2xl font-semibold rounded-2xl bg-card border-2 border-transparent focus:border-primary/30 focus:outline-none transition-all shadow-sm"
+                    className="w-14 h-14 text-center text-xl font-semibold rounded-xl neo-card focus:ring-2 focus:ring-primary/30 focus:outline-none transition-all"
                   />
                 ))}
               </div>
               
-              <button className="w-full text-primary text-sm font-medium py-2">
+              <button className="w-full text-primary text-sm font-medium py-2 tap-scale">
                 Resend code
               </button>
             </div>
@@ -221,93 +230,114 @@ export default function SignupPage() {
           
           {step === 'name' && (
             <div className="space-y-8">
-              <div className="space-y-3">
-                <div className="w-14 h-14 rounded-2xl bg-accent/20 flex items-center justify-center">
-                  <User size={24} className="text-accent-foreground" strokeWidth={1.5} />
+              <div className="space-y-4">
+                <div className="w-12 h-12 rounded-xl bg-secondary/10 flex items-center justify-center">
+                  <User size={22} className="text-secondary" strokeWidth={1.5} />
                 </div>
-                <h1 className="text-2xl font-semibold tracking-tight">What's your name?</h1>
-                <p className="text-muted-foreground text-sm">Just your first name is fine</p>
+                <div>
+                  <h1 className="text-xl font-bold tracking-tight">What's your name?</h1>
+                  <p className="text-muted-foreground text-sm mt-1">Just your first name is fine</p>
+                </div>
               </div>
               
-              <ModernInput
+              <Input
                 placeholder="First name"
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
                 autoFocus
+                className="h-12 rounded-xl border-border/50 bg-muted/30 focus:bg-background text-base"
               />
               
               <Button
-                className="w-full h-14 text-base font-medium rounded-2xl gradient-primary shadow-ios"
+                className="w-full h-12 text-sm font-semibold rounded-xl gradient-primary shadow-soft text-white"
                 onClick={handleNameSubmit}
                 disabled={!firstName.trim()}
               >
                 Continue
-                <ArrowRight size={18} className="ml-2" strokeWidth={2} />
+                <ArrowRight size={16} className="ml-2" strokeWidth={2.5} />
               </Button>
             </div>
           )}
           
           {step === 'age' && (
             <div className="space-y-8">
-              <div className="space-y-3">
-                <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center">
-                  <MapPin size={24} className="text-primary" strokeWidth={1.5} />
+              <div className="space-y-4">
+                <div className="w-12 h-12 rounded-xl bg-accent/20 flex items-center justify-center">
+                  <Calendar size={22} className="text-accent-foreground" strokeWidth={1.5} />
                 </div>
-                <h1 className="text-2xl font-semibold tracking-tight">Your age range?</h1>
-                <p className="text-muted-foreground text-sm">This helps us match you better</p>
+                <div>
+                  <h1 className="text-xl font-bold tracking-tight">Your age range?</h1>
+                  <p className="text-muted-foreground text-sm mt-1">This helps us match you better</p>
+                </div>
               </div>
               
-              <ChipGroup columns={2}>
+              <div className="grid grid-cols-2 gap-3">
                 {ageRanges.map((range) => (
-                  <SelectionChip
+                  <button
                     key={range}
-                    label={range}
-                    selected={ageRange === range}
                     onClick={() => setAgeRange(range)}
-                    variant="compact"
-                  />
+                    className={cn(
+                      'py-3 px-4 rounded-xl text-sm font-medium transition-all tap-scale',
+                      ageRange === range
+                        ? 'bg-primary text-white shadow-soft'
+                        : 'neo-card text-foreground hover:bg-muted/50'
+                    )}
+                  >
+                    {range}
+                  </button>
                 ))}
-              </ChipGroup>
+              </div>
               
               <Button
-                className="w-full h-14 text-base font-medium rounded-2xl gradient-primary shadow-ios"
+                className="w-full h-12 text-sm font-semibold rounded-xl gradient-primary shadow-soft text-white"
                 onClick={handleAgeSubmit}
                 disabled={!ageRange}
               >
                 Continue
-                <ArrowRight size={18} className="ml-2" strokeWidth={2} />
+                <ArrowRight size={16} className="ml-2" strokeWidth={2.5} />
               </Button>
             </div>
           )}
           
           {step === 'interests' && (
             <div className="space-y-8">
-              <div className="space-y-3">
-                <div className="w-14 h-14 rounded-2xl gradient-hero flex items-center justify-center">
-                  <Heart size={24} className="text-white" strokeWidth={1.5} />
+              <div className="space-y-4">
+                <div className="w-12 h-12 rounded-xl gradient-primary flex items-center justify-center shadow-soft">
+                  <Heart size={22} className="text-white" strokeWidth={1.5} />
                 </div>
-                <h1 className="text-2xl font-semibold tracking-tight">What interests you?</h1>
-                <p className="text-muted-foreground text-sm">Pick at least 2 categories</p>
+                <div>
+                  <h1 className="text-xl font-bold tracking-tight">What interests you?</h1>
+                  <p className="text-muted-foreground text-sm mt-1">Pick at least 2 categories</p>
+                </div>
               </div>
               
-              <ChipGroup columns={2}>
+              <div className="grid grid-cols-2 gap-3">
                 {categories.map((category) => (
-                  <SelectionChip
+                  <button
                     key={category}
-                    icon={<CategoryIcon category={category} />}
-                    label={getCategoryLabel(category)}
-                    selected={interests.includes(category)}
                     onClick={() => toggleInterest(category)}
-                  />
+                    className={cn(
+                      'flex items-center gap-3 py-3.5 px-4 rounded-xl text-sm font-medium transition-all tap-scale text-left',
+                      interests.includes(category)
+                        ? 'bg-primary text-white shadow-soft'
+                        : 'neo-card text-foreground hover:bg-muted/50'
+                    )}
+                  >
+                    <CategoryIcon 
+                      category={category} 
+                      className={interests.includes(category) ? 'opacity-90' : ''} 
+                    />
+                    <span>{getCategoryLabel(category)}</span>
+                  </button>
                 ))}
-              </ChipGroup>
+              </div>
               
               <Button
-                className="w-full h-14 text-base font-medium rounded-2xl gradient-primary shadow-ios"
+                className="w-full h-12 text-sm font-semibold rounded-xl gradient-primary shadow-soft text-white"
                 onClick={handleComplete}
                 disabled={interests.length < 2}
               >
-                <Sparkles size={18} className="mr-2" />
+                <Sparkles size={16} className="mr-2" />
                 Let's Go!
               </Button>
             </div>

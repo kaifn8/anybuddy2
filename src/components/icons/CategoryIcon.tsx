@@ -32,30 +32,30 @@ const bgMap = {
   shopping: 'bg-primary/10',
   work: 'bg-muted',
   help: 'bg-success/10',
-  casual: 'bg-accent/20',
+  casual: 'bg-accent/15',
 };
 
-export function CategoryIcon({ category, className, size = 20 }: CategoryIconProps) {
+export function CategoryIcon({ category, className, size = 18 }: CategoryIconProps) {
   const Icon = iconMap[category];
   
   return (
     <div className={cn(
-      'inline-flex items-center justify-center rounded-xl p-2',
+      'inline-flex items-center justify-center rounded-xl p-2.5',
       bgMap[category],
       className
     )}>
-      <Icon size={size} className={colorMap[category]} />
+      <Icon size={size} className={colorMap[category]} strokeWidth={1.5} />
     </div>
   );
 }
 
 export function getCategoryLabel(category: Category): string {
   const labels: Record<Category, string> = {
-    chai: 'Chai / Food',
+    chai: 'Chai & Food',
     explore: 'Explore',
     shopping: 'Shopping',
     work: 'Work-along',
-    help: 'Help / Errands',
+    help: 'Help',
     casual: 'Casual',
   };
   return labels[category];
