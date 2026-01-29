@@ -1,5 +1,7 @@
+import { useRef } from 'react';
 import { MapPin, Users, Clock } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
+import gsap from 'gsap';
 import type { Request } from '@/types/anybuddy';
 import { CategoryIcon } from '@/components/icons/CategoryIcon';
 import { TrustBadge } from '@/components/ui/TrustBadge';
@@ -16,16 +18,61 @@ interface RequestCardProps {
 }
 
 export function RequestCard({ request, onJoin, onView, isJoined, className }: RequestCardProps) {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  
   const seatsLeft = request.seatsTotal - request.seatsTaken;
   const timeLeft = formatDistanceToNow(new Date(request.expiresAt), { addSuffix: false });
   
+  const handleMouseEnter = () => {
+    gsap.to(cardRef.current, {
+      y: -4,
+      boxShadow: '0 12px 40px -8px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(255, 255, 255, 0.6) inset',
+      duration: 0.3,
+      ease: 'power2.out',
+    });
+  };
+  
+  const handleMouseLeave = () => {
+    gsap.to(cardRef.current, {
+      y: 0,
+      boxShadow: '0 4px 24px -4px rgba(0, 0, 0, 0.06), 0 0 0 1px rgba(255, 255, 255, 0.5) inset',
+      duration: 0.3,
+      ease: 'power2.out',
+    });
+  };
+  
+  const handleJoinClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    
+    if (buttonRef.current) {
+      gsap.to(buttonRef.current, {
+        scale: 0.9,
+        duration: 0.1,
+        ease: 'power2.out',
+        onComplete: () => {
+          gsap.to(buttonRef.current, {
+            scale: 1,
+            duration: 0.3,
+            ease: 'elastic.out(1, 0.5)',
+          });
+        },
+      });
+    }
+    
+    onJoin?.();
+  };
+  
   return (
     <div 
+      ref={cardRef}
       className={cn(
-        'glass-card p-4 cursor-pointer hover-lift slide-up',
+        'glass-card p-4 cursor-pointer',
         className
       )}
       onClick={onView}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       <div className="flex items-start gap-3">
         <CategoryIcon category={request.category} />
@@ -66,16 +113,14 @@ export function RequestCard({ request, onJoin, onView, isJoined, className }: Re
         </div>
         
         <Button
+          ref={buttonRef}
           variant={isJoined ? "secondary" : "default"}
           size="sm"
           className={cn(
-            'tap-scale shrink-0 rounded-xl font-medium text-xs h-8 px-4',
+            'shrink-0 rounded-xl font-medium text-xs h-8 px-4',
             isJoined ? 'bg-muted text-muted-foreground' : 'gradient-primary shadow-sm'
           )}
-          onClick={(e) => {
-            e.stopPropagation();
-            onJoin?.();
-          }}
+          onClick={handleJoinClick}
           disabled={seatsLeft === 0 && !isJoined}
         >
           {isJoined ? 'Joined ✓' : seatsLeft === 0 ? 'Full' : 'Join'}
