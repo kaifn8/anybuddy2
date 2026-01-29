@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils';
 interface UrgencyBadgeProps {
   urgency: Urgency;
   className?: string;
+  size?: 'sm' | 'md';
 }
 
 const iconMap = {
@@ -25,16 +26,17 @@ const labelMap: Record<Urgency, string> = {
   week: 'This Week',
 };
 
-export function UrgencyBadge({ urgency, className }: UrgencyBadgeProps) {
+export function UrgencyBadge({ urgency, className, size = 'sm' }: UrgencyBadgeProps) {
   const Icon = iconMap[urgency];
   
   return (
     <div className={cn(
-      'inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-semibold',
+      'inline-flex items-center gap-1 rounded-full font-medium',
+      size === 'sm' ? 'px-2 py-0.5 text-2xs' : 'px-2.5 py-1 text-xs',
       styleMap[urgency],
       className
     )}>
-      <Icon size={12} />
+      <Icon size={size === 'sm' ? 10 : 12} strokeWidth={2.5} />
       <span>{labelMap[urgency]}</span>
     </div>
   );

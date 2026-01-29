@@ -2,70 +2,72 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap');
 
 @layer base {
   :root {
-    /* AnyBuddy Brand Colors - Clubhouse/iOS Inspired */
-    --primary: 250 76% 66%;
+    /* Neo-Minimal Palette - Soft & Approachable */
+    --primary: 245 58% 51%;
     --primary-foreground: 0 0% 100%;
     
-    --secondary: 180 100% 41%;
+    --secondary: 168 76% 42%;
     --secondary-foreground: 0 0% 100%;
     
-    --accent: 43 100% 70%;
-    --accent-foreground: 200 10% 20%;
+    --accent: 32 95% 65%;
+    --accent-foreground: 220 15% 20%;
     
-    /* Warm cream background like Clubhouse */
-    --background: 40 33% 97%;
-    --foreground: 220 15% 20%;
+    /* Clean, airy background */
+    --background: 220 20% 98%;
+    --foreground: 220 25% 14%;
     
-    --success: 145 63% 49%;
+    --success: 158 64% 42%;
     --success-foreground: 0 0% 100%;
     
-    --warning: 14 71% 61%;
+    --warning: 25 95% 60%;
     --warning-foreground: 0 0% 100%;
 
-    /* Glassmorphism cards */
+    /* Pure white cards with subtle depth */
     --card: 0 0% 100%;
-    --card-foreground: 220 15% 20%;
+    --card-foreground: 220 25% 14%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 220 15% 20%;
+    --popover-foreground: 220 25% 14%;
 
-    --muted: 40 20% 94%;
-    --muted-foreground: 220 10% 50%;
+    --muted: 220 14% 96%;
+    --muted-foreground: 220 10% 46%;
 
-    --destructive: 0 84% 60%;
+    --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 40 15% 90%;
-    --input: 40 15% 92%;
-    --ring: 250 76% 66%;
+    --border: 220 13% 91%;
+    --input: 220 13% 93%;
+    --ring: 245 58% 51%;
 
-    --radius: 1.25rem;
+    --radius: 0.875rem;
 
-    --sidebar-background: 40 33% 97%;
-    --sidebar-foreground: 220 15% 20%;
-    --sidebar-primary: 250 76% 66%;
+    --sidebar-background: 220 20% 98%;
+    --sidebar-foreground: 220 25% 14%;
+    --sidebar-primary: 245 58% 51%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 40 20% 94%;
-    --sidebar-accent-foreground: 220 15% 20%;
-    --sidebar-border: 40 15% 90%;
-    --sidebar-ring: 250 76% 66%;
+    --sidebar-accent: 220 14% 96%;
+    --sidebar-accent-foreground: 220 25% 14%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 245 58% 51%;
   }
 
   .dark {
-    --background: 220 20% 10%;
-    --foreground: 0 0% 98%;
-    --card: 220 20% 14%;
-    --card-foreground: 0 0% 98%;
-    --popover: 220 20% 14%;
-    --popover-foreground: 0 0% 98%;
-    --muted: 220 15% 20%;
-    --muted-foreground: 220 10% 60%;
-    --border: 220 15% 25%;
-    --input: 220 15% 25%;
+    --background: 224 28% 8%;
+    --foreground: 210 20% 96%;
+    --card: 224 25% 12%;
+    --card-foreground: 210 20% 96%;
+    --popover: 224 25% 12%;
+    --popover-foreground: 210 20% 96%;
+    --muted: 224 20% 18%;
+    --muted-foreground: 220 15% 55%;
+    --border: 224 20% 20%;
+    --input: 224 20% 20%;
+    --primary: 245 58% 60%;
+    --secondary: 168 65% 48%;
   }
 }
 
@@ -76,75 +78,117 @@
 
   body {
     @apply bg-background text-foreground antialiased;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: 'DM Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    letter-spacing: -0.01em;
   }
 
   h1, h2, h3, h4, h5, h6 {
     @apply font-semibold tracking-tight;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: 'DM Sans', 'Inter', -apple-system, sans-serif;
+    letter-spacing: -0.02em;
   }
 }
 
 @layer components {
-  /* Glassmorphism */
+  /* Neo-minimal cards - clean with subtle shadows */
+  .neo-card {
+    @apply bg-card rounded-2xl;
+    box-shadow: 
+      0 1px 2px rgba(0, 0, 0, 0.04),
+      0 4px 12px rgba(0, 0, 0, 0.03);
+    border: 1px solid hsl(var(--border) / 0.5);
+  }
+
+  .neo-card-elevated {
+    @apply bg-card rounded-2xl;
+    box-shadow: 
+      0 2px 4px rgba(0, 0, 0, 0.04),
+      0 8px 24px rgba(0, 0, 0, 0.06);
+    border: 1px solid hsl(var(--border) / 0.3);
+  }
+
+  .neo-card-interactive {
+    @apply neo-card transition-all duration-200;
+  }
+
+  .neo-card-interactive:hover {
+    box-shadow: 
+      0 2px 4px rgba(0, 0, 0, 0.05),
+      0 12px 32px rgba(0, 0, 0, 0.08);
+    transform: translateY(-2px);
+  }
+
+  /* Soft glass effect */
   .glass {
-    @apply backdrop-blur-xl border border-white/20;
-    background: rgba(255, 255, 255, 0.7);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+    @apply backdrop-blur-xl;
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.5);
   }
 
   .glass-subtle {
-    @apply backdrop-blur-md border border-white/30;
-    background: rgba(255, 255, 255, 0.5);
+    @apply backdrop-blur-md;
+    background: rgba(255, 255, 255, 0.6);
   }
 
   .glass-card {
-    @apply backdrop-blur-xl border border-white/40 rounded-3xl;
-    background: rgba(255, 255, 255, 0.8);
+    @apply backdrop-blur-xl rounded-2xl;
+    background: rgba(255, 255, 255, 0.9);
     box-shadow: 
-      0 4px 24px -4px rgba(0, 0, 0, 0.06),
-      0 0 0 1px rgba(255, 255, 255, 0.5) inset;
+      0 2px 8px rgba(0, 0, 0, 0.04),
+      0 8px 24px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.7);
   }
 
   .glass-nav {
-    @apply backdrop-blur-2xl border-t border-white/30;
-    background: rgba(255, 255, 255, 0.85);
+    @apply backdrop-blur-2xl;
+    background: rgba(255, 255, 255, 0.92);
+    border-bottom: 1px solid hsl(var(--border) / 0.5);
   }
 
-  /* iOS-style shadows */
-  .shadow-ios {
+  /* Minimal shadows */
+  .shadow-soft {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  }
+
+  .shadow-soft-lg {
     box-shadow: 
-      0 2px 8px -2px rgba(0, 0, 0, 0.08),
-      0 8px 24px -4px rgba(0, 0, 0, 0.06);
+      0 4px 12px rgba(0, 0, 0, 0.05),
+      0 12px 32px rgba(0, 0, 0, 0.06);
   }
 
-  .shadow-ios-lg {
-    box-shadow: 
-      0 4px 16px -4px rgba(0, 0, 0, 0.1),
-      0 12px 40px -8px rgba(0, 0, 0, 0.08);
+  /* Neo-minimal buttons */
+  .neo-button {
+    @apply inline-flex items-center justify-center rounded-xl font-medium transition-all duration-200;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2;
   }
 
-  /* Gradients - softer versions */
+  .neo-button-primary {
+    @apply neo-button bg-primary text-primary-foreground;
+    box-shadow: 0 2px 8px hsl(var(--primary) / 0.25);
+  }
+
+  .neo-button-primary:hover {
+    @apply opacity-90;
+    box-shadow: 0 4px 16px hsl(var(--primary) / 0.3);
+  }
+
+  .neo-button-soft {
+    @apply neo-button bg-primary/10 text-primary;
+  }
+
+  .neo-button-soft:hover {
+    @apply bg-primary/15;
+  }
+
+  /* Gradient accent */
   .gradient-primary {
-    background: linear-gradient(135deg, hsl(var(--primary)), hsl(250 76% 60%));
+    background: linear-gradient(135deg, hsl(var(--primary)), hsl(245 58% 58%));
   }
 
-  .gradient-secondary {
-    background: linear-gradient(135deg, hsl(var(--secondary)), hsl(180 80% 48%));
-  }
-
-  .gradient-accent {
-    background: linear-gradient(135deg, hsl(var(--accent)), hsl(35 100% 65%));
-  }
-
-  .gradient-hero {
-    background: linear-gradient(160deg, hsl(var(--primary) / 0.9), hsl(var(--secondary) / 0.8));
-  }
-
-  .gradient-warm {
-    background: linear-gradient(135deg, hsl(40 40% 96%), hsl(40 30% 94%));
+  .gradient-soft {
+    background: linear-gradient(135deg, hsl(var(--primary) / 0.1), hsl(var(--secondary) / 0.1));
   }
 
   .text-gradient-primary {
@@ -152,22 +196,18 @@
     background-image: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--secondary)));
   }
 
-  /* Clubhouse-style avatar ring */
+  /* Clean avatar styles */
   .avatar-ring {
-    @apply ring-2 ring-offset-2 ring-offset-background;
+    @apply ring-2 ring-offset-2 ring-offset-background ring-border;
   }
 
   .avatar-ring-primary {
-    @apply avatar-ring ring-primary;
+    @apply ring-2 ring-offset-2 ring-offset-background ring-primary/50;
   }
 
-  .avatar-ring-secondary {
-    @apply avatar-ring ring-secondary;
-  }
-
-  /* iOS-style interactions */
+  /* Refined interactions */
   .tap-scale {
-    @apply transition-all duration-150 active:scale-[0.97] active:opacity-90;
+    @apply transition-transform duration-150 active:scale-[0.98];
   }
 
   .hover-lift {
@@ -176,36 +216,29 @@
 
   .hover-lift:hover {
     transform: translateY(-2px);
-    box-shadow: 
-      0 8px 32px -8px rgba(0, 0, 0, 0.12),
-      0 4px 16px -4px rgba(0, 0, 0, 0.08);
   }
 
-  /* Live indicator */
+  /* Minimal pulse for live indicator */
   .pulse-live {
-    animation: pulse-live 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    animation: pulse-live 2.5s ease-in-out infinite;
   }
 
-  /* Subtle float animation */
+  /* Gentle float */
   .float-animation {
-    animation: float 4s ease-in-out infinite;
+    animation: float 5s ease-in-out infinite;
   }
 
-  /* iOS-style slide animations */
+  /* Clean slide animations */
   .slide-up {
-    animation: slide-up 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    animation: slide-up 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .fade-in {
-    animation: fade-in 0.3s ease-out;
-  }
-
-  .bounce-in {
-    animation: bounce-in 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    animation: fade-in 0.25s ease-out;
   }
 
   .scale-in {
-    animation: scale-in 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    animation: scale-in 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   }
 }
 
@@ -215,8 +248,8 @@
     transform: scale(1);
   }
   50% {
-    opacity: 0.6;
-    transform: scale(1.15);
+    opacity: 0.7;
+    transform: scale(1.1);
   }
 }
 
@@ -225,14 +258,14 @@
     transform: translateY(0);
   }
   50% {
-    transform: translateY(-8px);
+    transform: translateY(-6px);
   }
 }
 
 @keyframes slide-up {
   from {
     opacity: 0;
-    transform: translateY(16px);
+    transform: translateY(12px);
   }
   to {
     opacity: 1;
@@ -241,29 +274,14 @@
 }
 
 @keyframes fade-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes bounce-in {
-  0% {
-    opacity: 0;
-    transform: scale(0.8);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 @keyframes scale-in {
   from {
     opacity: 0;
-    transform: scale(0.95);
+    transform: scale(0.96);
   }
   to {
     opacity: 1;
@@ -271,14 +289,14 @@
   }
 }
 
-/* Mobile viewport fix */
+/* Mobile container */
 .mobile-container {
   @apply max-w-md mx-auto min-h-screen;
 }
 
-/* Custom scrollbar - minimal */
+/* Minimal scrollbar */
 ::-webkit-scrollbar {
-  width: 3px;
+  width: 4px;
 }
 
 ::-webkit-scrollbar-track {
@@ -286,25 +304,32 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-muted-foreground/15 rounded-full;
+  @apply bg-muted-foreground/10 rounded-full;
 }
 
-/* Badge variants - softer */
+/* Neo-minimal badge variants */
 .badge-now {
-  @apply bg-warning/15 text-warning font-medium;
+  @apply font-medium;
+  background-color: hsl(var(--warning) / 0.12);
+  color: hsl(var(--warning));
 }
 
 .badge-today {
-  @apply bg-primary/15 text-primary font-medium;
+  @apply font-medium;
+  background-color: hsl(var(--primary) / 0.12);
+  color: hsl(var(--primary));
 }
 
 .badge-week {
-  @apply bg-secondary/15 text-secondary font-medium;
+  @apply font-medium;
+  background-color: hsl(var(--secondary) / 0.12);
+  color: hsl(var(--secondary));
 }
 
-/* Trust level colors - softer */
+/* Trust level styles - subtle */
 .trust-seed {
-  @apply text-muted-foreground bg-muted/80;
+  @apply text-muted-foreground;
+  background-color: hsl(var(--muted));
 }
 
 .trust-solid {
@@ -316,5 +341,20 @@
 }
 
 .trust-anchor {
-  @apply text-accent-foreground bg-accent/80;
+  @apply text-accent-foreground bg-accent/20;
+}
+
+/* Focus styles */
+.focus-ring {
+  @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 focus-visible:ring-offset-2;
+}
+
+/* Section spacing */
+.section-spacing {
+  @apply py-6 px-5;
+}
+
+/* Typography utilities */
+.text-balance {
+  text-wrap: balance;
 }
