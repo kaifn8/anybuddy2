@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Users, Zap, Shield, Heart, ArrowRight } from 'lucide-react';
+import gsap from 'gsap';
 import { Button } from '@/components/ui/button';
 
 const slides = [
@@ -34,30 +35,142 @@ export default function OnboardingPage() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const navigate = useNavigate();
   
-  const handleNext = () => {
-    if (currentSlide < slides.length - 1) {
-      setCurrentSlide(currentSlide + 1);
-    } else {
-      navigate('/signup');
-    }
-  };
+  const containerRef = useRef<HTMLDivElement>(null);
+  const iconRef = useRef<HTMLDivElement>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const descRef = useRef<HTMLParagraphElement>(null);
+  const dotsRef = useRef<HTMLDivElement>(null);
+  const buttonsRef = useRef<HTMLDivElement>(null);
   
   const slide = slides[currentSlide];
   const Icon = slide.icon;
   
+  // Initial page animation
+  useEffect(() => {
+    const tl = gsap.timeline();
+    
+    tl.fromTo(
+      iconRef.current,
+      { opacity: 0, scale: 0.5, y: 30 },
+      { opacity: 1, scale: 1, y: 0, duration: 0.6, ease: 'back.out(1.7)' }
+    )
+    .fromTo(
+      titleRef.current,
+      { opacity: 0, y: 20 },
+      { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out' },
+      '-=0.3'
+    )
+    .fromTo(
+      descRef.current,
+      { opacity: 0, y: 15 },
+      { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out' },
+      '-=0.2'
+    )
+    .fromTo(
+      dotsRef.current?.children || [],
+      { opacity: 0, scale: 0 },
+      { opacity: 1, scale: 1, duration: 0.3, stagger: 0.05, ease: 'back.out(2)' },
+      '-=0.2'
+    )
+    .fromTo(
+      buttonsRef.current,
+      { opacity: 0, y: 20 },
+      { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out' },
+      '-=0.2'
+    );
+    
+    // Floating icon animation
+    gsap.to(iconRef.current, {
+      y: -8,
+      duration: 2,
+      repeat: -1,
+      yoyo: true,
+      ease: 'power1.inOut',
+      delay: 0.6,
+    });
+  }, []);
+  
+  // Slide change animation
+  const animateSlideChange = (newSlide: number) => {
+    const tl = gsap.timeline({
+      onComplete: () => setCurrentSlide(newSlide),
+    });
+    
+    tl.to([iconRef.current, titleRef.current, descRef.current], {
+      opacity: 0,
+      y: -20,
+      scale: 0.95,
+      duration: 0.25,
+      stagger: 0.03,
+      ease: 'power2.in',
+    });
+  };
+  
+  useEffect(() => {
+    if (currentSlide > 0 || iconRef.current) {
+      gsap.fromTo(
+        iconRef.current,
+        { opacity: 0, scale: 0.8, y: 20 },
+        { opacity: 1, scale: 1, y: 0, duration: 0.5, ease: 'back.out(1.7)' }
+      );
+      gsap.fromTo(
+        titleRef.current,
+        { opacity: 0, y: 15 },
+        { opacity: 1, y: 0, duration: 0.4, delay: 0.1, ease: 'power2.out' }
+      );
+      gsap.fromTo(
+        descRef.current,
+        { opacity: 0, y: 10 },
+        { opacity: 1, y: 0, duration: 0.4, delay: 0.15, ease: 'power2.out' }
+      );
+    }
+  }, [currentSlide]);
+  
+  const handleNext = () => {
+    if (currentSlide < slides.length - 1) {
+      animateSlideChange(currentSlide + 1);
+    } else {
+      // Exit animation
+      gsap.to(containerRef.current, {
+        opacity: 0,
+        y: -30,
+        duration: 0.3,
+        ease: 'power2.in',
+        onComplete: () => navigate('/signup'),
+      });
+    }
+  };
+  
+  const handleSkip = () => {
+    gsap.to(containerRef.current, {
+      opacity: 0,
+      duration: 0.2,
+      onComplete: () => navigate('/signup'),
+    });
+  };
+  
+  const handleDotClick = (index: number) => {
+    if (index !== currentSlide) {
+      animateSlideChange(index);
+    }
+  };
+  
   return (
-    <div className="mobile-container min-h-screen flex flex-col bg-background">
+    <div 
+      ref={containerRef}
+      className="mobile-container min-h-screen flex flex-col bg-background"
+    >
       {/* Subtle gradient background */}
       <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-secondary/5 pointer-events-none" />
       
       <div className="flex-1 flex flex-col items-center justify-center px-8 py-12 relative">
         {/* Glass icon container */}
         <div 
-          className="glass-card p-10 mb-10 bounce-in" 
-          key={currentSlide}
+          ref={iconRef}
+          className="glass-card p-10 mb-10"
         >
           <Icon 
-            size={64} 
+            size={56} 
             className={`${
               slide.color === 'primary' ? 'text-primary' : 
               slide.color === 'secondary' ? 'text-secondary' : 
@@ -67,22 +180,28 @@ export default function OnboardingPage() {
           />
         </div>
         
-        <h2 className="text-3xl font-semibold text-foreground text-center mb-4 slide-up tracking-tight">
+        <h2 
+          ref={titleRef}
+          className="text-2xl font-semibold text-foreground text-center mb-4 tracking-tight"
+        >
           {slide.title}
         </h2>
         
-        <p className="text-lg text-muted-foreground text-center max-w-xs fade-in leading-relaxed">
+        <p 
+          ref={descRef}
+          className="text-base text-muted-foreground text-center max-w-xs leading-relaxed"
+        >
           {slide.description}
         </p>
       </div>
       
-      <div className="px-8 pb-12 relative">
+      <div ref={buttonsRef} className="px-8 pb-12 relative">
         {/* Progress dots */}
-        <div className="flex justify-center gap-2 mb-8">
+        <div ref={dotsRef} className="flex justify-center gap-2 mb-8">
           {slides.map((_, index) => (
             <button
               key={index}
-              onClick={() => setCurrentSlide(index)}
+              onClick={() => handleDotClick(index)}
               className={`h-2 rounded-full transition-all duration-300 ${
                 index === currentSlide 
                   ? 'w-8 bg-primary' 
@@ -93,7 +212,7 @@ export default function OnboardingPage() {
         </div>
         
         <Button 
-          className="w-full h-14 text-base font-medium rounded-2xl gradient-primary shadow-ios tap-scale" 
+          className="w-full h-14 text-base font-medium rounded-2xl gradient-primary shadow-ios" 
           onClick={handleNext}
         >
           {currentSlide === slides.length - 1 ? 'Get Started' : 'Continue'}
@@ -102,8 +221,8 @@ export default function OnboardingPage() {
         
         {currentSlide < slides.length - 1 && (
           <button 
-            className="w-full text-muted-foreground mt-4 py-3 text-sm font-medium tap-scale"
-            onClick={() => navigate('/signup')}
+            className="w-full text-muted-foreground mt-4 py-3 text-sm font-medium"
+            onClick={handleSkip}
           >
             Skip
           </button>
