@@ -20,11 +20,7 @@ export default function AdminPage() {
   
   return (
     <div className="mobile-container min-h-screen bg-ambient">
-      <header className="sticky top-0 z-40 liquid-glass-nav">
-        <div className="flex items-center gap-3 h-12 px-5 max-w-md mx-auto">
-          <button onClick={() => navigate('/home')} className="tahoe-btn-ghost w-8 h-8 rounded-lg tap-scale text-sm">←</button>
-          <h1 className="text-title-sm font-semibold">🛡️ Admin</h1>
-        </div>
+      <TopBar showBack title="🛡️ Admin" />
         <div className="flex max-w-md mx-auto">
           {(['overview', 'moderation', 'pricing'] as const).map((tab) => (
             <button key={tab} onClick={() => setActiveTab(tab)}
