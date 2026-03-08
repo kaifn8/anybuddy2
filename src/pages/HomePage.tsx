@@ -37,7 +37,7 @@ const QUICK_CREATE: { emoji: string; title: string; category: Category }[] = [
 
 export default function HomePage() {
   const navigate = useNavigate();
-  const { requests, joinedRequests, joinRequest, updateCredits, refreshFeed, user, chatMessages } = useAppStore();
+  const { requests, joinedRequests, joinRequest, updateCredits, refreshFeed, user } = useAppStore();
   const [activeFilter, setActiveFilter] = useState<Category | 'all'>('all');
   const [quickFilter, setQuickFilter] = useState<string | null>(null);
   const [confirmRequest, setConfirmRequest] = useState<Request | null>(null);
