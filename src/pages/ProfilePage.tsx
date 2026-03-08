@@ -16,7 +16,15 @@ const badgeLabels: Record<Badge, { emoji: string; label: string }> = {
 
 export default function ProfilePage() {
   const navigate = useNavigate();
-  const { user, myRequests, reset } = useAppStore();
+  const { user: rawUser, myRequests, reset } = useAppStore();
+  
+  // Ensure arrays exist for persisted users missing new fields
+  const user = rawUser ? {
+    ...rawUser,
+    badges: rawUser.badges || [],
+    interests: rawUser.interests || [],
+    savedPlans: rawUser.savedPlans || [],
+  } : null;
   
   if (!user) {
     return (
