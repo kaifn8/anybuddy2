@@ -151,7 +151,7 @@ export default function ProfilePage() {
             <div className="space-y-1.5">
               {myRequests.slice(0, 3).map((req) => (
                 <button key={req.id} onClick={() => navigate(`/request/${req.id}`)}
-                  className="w-full flex items-center gap-3 liquid-glass p-3 text-left tap-scale" style={{ borderRadius: '0.875rem' }}>
+                  className="w-full flex items-center gap-3 liquid-glass p-3 text-left tap-scale">
                   <span className="text-lg">{getCategoryEmoji(req.category)}</span>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-semibold truncate">{req.title}</p>

@@ -94,7 +94,7 @@ export default function HostProfilePage() {
 
         {/* Past/Active meetups */}
         {hostRequests.length > 0 && (
-          <div className="liquid-glass p-4 specular-highlight" style={{ borderRadius: '1rem' }}>
+          <div className="liquid-glass p-4">
             <h3 className="text-xs font-semibold text-muted-foreground mb-2.5">MEETUPS</h3>
             <div className="space-y-2">
               {hostRequests.slice(0, 5).map((req) => (
