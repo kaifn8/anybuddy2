@@ -15,6 +15,7 @@ import RequestDetailPage from "./pages/RequestDetailPage";
 import HostProfilePage from "./pages/HostProfilePage";
 import ReviewPage from "./pages/ReviewPage";
 import CreditsPage from "./pages/CreditsPage";
+import ChatsPage from "./pages/ChatsPage";
 import NotificationsPage from "./pages/NotificationsPage";
 import ProfilePage from "./pages/ProfilePage";
 import AdminPage from "./pages/AdminPage";
