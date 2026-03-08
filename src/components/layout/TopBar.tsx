@@ -1,51 +1,15 @@
-import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ChevronDown } from 'lucide-react';
 import { useAppStore } from '@/store/useAppStore';
-import { cn } from '@/lib/utils';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-} from '@/components/ui/dropdown-menu';
-
-const CITIES: Record<string, string[]> = {
-  'Mumbai': ['Bandra', 'Andheri', 'Powai', 'Colaba', 'Juhu', 'Worli', 'Versova', 'Lower Parel', 'Dadar', 'Malad', 'Goregaon', 'Borivali'],
-  'Navi Mumbai': ['Vashi', 'Nerul', 'Belapur', 'Kharghar', 'Panvel', 'Airoli', 'Kopar Khairane'],
-  'Thane': ['Thane West', 'Thane East', 'Ghodbunder', 'Majiwada', 'Hiranandani Estate', 'Kalwa'],
-};
 
 export function TopBar() {
   const navigate = useNavigate();
-  const user = useAppStore((s) => s.user);
-  const updateUser = useAppStore((s) => s.updateUser);
   const chatMessages = useAppStore((s) => s.chatMessages);
   const joinedRequests = useAppStore((s) => s.joinedRequests);
-
-  const [zone, setZone] = useState<string>(user?.zone || 'Bandra');
-  const [city, setCity] = useState<string>(user?.city || 'Mumbai');
-
-  // Sync from user store when it changes
-  useEffect(() => {
-    if (user?.zone) setZone(user.zone);
-    if (user?.city) setCity(user.city);
-  }, [user?.zone, user?.city]);
 
   const unreadChats = joinedRequests.reduce((count, id) => {
     const msgs = chatMessages[id] || [];
     return count + (msgs.length > 0 ? 1 : 0);
   }, 0);
-
-  const handleZoneChange = (newCity: string, newZone: string) => {
-    setCity(newCity);
-    setZone(newZone);
-    if (user) {
-      updateUser({ city: newCity, zone: newZone });
-    }
-  };
 
   return (
     <header
@@ -59,46 +23,17 @@ export function TopBar() {
       }}
     >
       <div className="max-w-md mx-auto flex items-center justify-between h-full px-4">
-        {/* Left: Zone selector */}
-        <DropdownMenu>
-          <DropdownMenuTrigger className="flex items-center gap-1 tap-scale outline-none">
-            <span className="text-xs">📍</span>
-            <span className="text-sm font-semibold text-foreground">{zone}</span>
-            <ChevronDown className="w-3.5 h-3.5 text-muted-foreground" />
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="start" className="min-w-[180px] max-h-[320px] overflow-y-auto">
-            {Object.entries(CITIES).map(([cityName, zones]) => (
-              <div key={cityName}>
-                <DropdownMenuLabel className="text-[11px] text-muted-foreground uppercase tracking-wide">
-                  {cityName} {cityName === city && '📍'}
-                </DropdownMenuLabel>
-                {zones.map((z) => (
-                  <DropdownMenuItem
-                    key={z}
-                    onClick={() => handleZoneChange(cityName, z)}
-                    className={cn(
-                      'text-sm cursor-pointer',
-                      z === zone && 'font-bold text-primary'
-                    )}
-                  >
-                    {z}
-                  </DropdownMenuItem>
-                ))}
-                <DropdownMenuSeparator />
-              </div>
-            ))}
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <div className="w-8" />
 
         {/* Center: Logo */}
-        <span className="text-[20px] absolute left-1/2 -translate-x-1/2" style={{ fontFamily: "'Pacifico', cursive" }}>
+        <span className="text-[20px]" style={{ fontFamily: "'Pacifico', cursive" }}>
           any<span className="text-primary">buddy</span>
         </span>
 
         {/* Right: Chat emoji with badge */}
         <button
           onClick={() => navigate('/chats')}
-          className="relative tap-scale text-lg"
+          className="relative tap-scale text-lg w-8 flex items-center justify-center"
         >
           💬
           {unreadChats > 0 && (
