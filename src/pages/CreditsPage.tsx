@@ -18,59 +18,46 @@ const trustRequirements = {
 
 export default function CreditsPage() {
   const { user, creditHistory } = useAppStore();
-  
   const contentRef = useRef<HTMLDivElement>(null);
   const creditsRef = useRef<HTMLParagraphElement>(null);
   
   const currentTrustIndex = trustProgression.indexOf(user?.trustLevel || 'seed');
   const nextTrust = trustProgression[currentTrustIndex + 1];
   const nextRequirement = nextTrust ? trustRequirements[nextTrust].joins : null;
-  const progress = nextRequirement 
-    ? Math.min(100, ((user?.completedJoins || 0) / nextRequirement) * 100)
-    : 100;
   
   useEffect(() => {
     if (contentRef.current?.children) {
-      gsap.fromTo(contentRef.current.children,
-        { opacity: 0, y: 30 },
-        { opacity: 1, y: 0, duration: 0.5, stagger: 0.1, ease: 'power3.out' }
-      );
+      gsap.fromTo(contentRef.current.children, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.5, stagger: 0.1, ease: 'power3.out' });
     }
     if (creditsRef.current && user?.credits) {
       const obj = { value: 0 };
-      gsap.to(obj, {
-        value: user.credits, duration: 1, ease: 'power2.out',
-        onUpdate: () => {
-          if (creditsRef.current) creditsRef.current.textContent = Math.round(obj.value).toString();
-        },
-      });
+      gsap.to(obj, { value: user.credits, duration: 1, ease: 'power2.out', onUpdate: () => { if (creditsRef.current) creditsRef.current.textContent = Math.round(obj.value).toString(); } });
     }
   }, [user?.credits]);
   
   return (
-    <div className="mobile-container min-h-screen bg-background pb-24">
+    <div className="mobile-container min-h-screen bg-ambient pb-28">
       <PageHeader title="Credits & Trust 💰" />
       
-      <div ref={contentRef} className="px-5 space-y-5">
+      <div ref={contentRef} className="px-5 space-y-4">
         {/* Balance Card */}
-        <div className="bg-foreground rounded-3xl p-6 text-background overflow-hidden relative">
-          <div className="absolute -right-8 -top-8 w-32 h-32 rounded-full blur-2xl opacity-10 bg-background" />
+        <div className="relative rounded-3xl p-6 text-white overflow-hidden specular-highlight"
+          style={{ background: 'linear-gradient(135deg, hsl(211 100% 50%), hsl(240 75% 55%), hsl(280 65% 55%))' }}>
+          <div className="absolute -right-8 -top-8 w-32 h-32 rounded-full blur-3xl bg-white/10" />
           <div className="relative">
             <div className="flex items-center gap-4 mb-4">
               <span className="text-4xl">💰</span>
               <div>
-                <p className="text-background/60 text-xs font-semibold uppercase tracking-wider">Your Balance</p>
-                <p ref={creditsRef} className="text-4xl font-extrabold">0</p>
+                <p className="text-white/60 text-xs font-semibold uppercase tracking-wider">Your Balance</p>
+                <p ref={creditsRef} className="text-4xl font-bold">0</p>
               </div>
             </div>
-            <p className="text-background/50 text-sm">
-              Earn credits by joining others. Spend them to post requests ✨
-            </p>
+            <p className="text-white/50 text-sm">Earn credits by joining. Spend them to post ✨</p>
           </div>
         </div>
         
         {/* Trust Level */}
-        <div className="uber-card-elevated p-5 space-y-4">
+        <div className="liquid-glass-heavy p-5 space-y-4 specular-highlight" style={{ borderRadius: '1.25rem' }}>
           <div className="flex items-center gap-4">
             <span className="text-3xl">🛡️</span>
             <div className="flex-1">
@@ -90,24 +77,21 @@ export default function CreditsPage() {
           )}
           
           {!nextTrust && (
-            <div className="flex items-center gap-2 bg-success/10 rounded-2xl px-4 py-3">
+            <div className="liquid-glass-subtle px-4 py-3 flex items-center gap-2">
               <span>🏆</span>
-              <span className="text-sm font-semibold text-success">Max trust level reached!</span>
+              <span className="text-sm font-semibold text-success">Max trust level!</span>
             </div>
           )}
           
-          <div className="pt-4 border-t border-border/40 space-y-3">
-            <p className="text-xs text-muted-foreground font-semibold uppercase tracking-wider">Stats</p>
+          <div className="pt-4 border-t border-border/30">
             <div className="grid grid-cols-2 gap-3">
-              <div className="bg-muted/40 rounded-2xl p-3 text-center">
-                <p className="text-xl font-extrabold">{user?.completedJoins || 0}</p>
+              <div className="liquid-glass rounded-2xl p-3 text-center">
+                <p className="text-xl font-bold">{user?.completedJoins || 0}</p>
                 <p className="text-xs text-muted-foreground font-medium">Joins</p>
               </div>
-              <div className="bg-muted/40 rounded-2xl p-3 text-center">
-                <p className="text-xl font-extrabold text-success">
-                  {user?.trustLevel === 'anchor' ? '-25%' : 
-                   user?.trustLevel === 'trusted' ? '-15%' : 
-                   user?.trustLevel === 'solid' ? '-5%' : '0%'}
+              <div className="liquid-glass rounded-2xl p-3 text-center">
+                <p className="text-xl font-bold text-success">
+                  {user?.trustLevel === 'anchor' ? '-25%' : user?.trustLevel === 'trusted' ? '-15%' : user?.trustLevel === 'solid' ? '-5%' : '0%'}
                 </p>
                 <p className="text-xs text-muted-foreground font-medium">Discount</p>
               </div>
@@ -116,8 +100,8 @@ export default function CreditsPage() {
         </div>
         
         {/* How to Earn */}
-        <div className="uber-card p-5">
-          <h3 className="font-bold text-sm mb-4">How to earn credits 🎯</h3>
+        <div className="liquid-glass p-5 specular-highlight" style={{ borderRadius: '1.25rem' }}>
+          <h3 className="font-semibold text-sm mb-4">How to earn credits 🎯</h3>
           <div className="space-y-3">
             {[
               { emoji: '🤝', amount: '+0.5', action: "Join someone's request" },
@@ -136,18 +120,16 @@ export default function CreditsPage() {
         
         {/* History */}
         <div className="space-y-3">
-          <h3 className="font-bold text-sm px-1">Recent Activity 📋</h3>
+          <h3 className="font-semibold text-sm px-1">Recent Activity 📋</h3>
           {creditHistory.length > 0 ? (
             <div className="space-y-2">
               {creditHistory.slice(0, 10).map((txn) => (
-                <div key={txn.id} className="flex items-center justify-between uber-card p-4">
+                <div key={txn.id} className="flex items-center justify-between liquid-glass p-4" style={{ borderRadius: '1rem' }}>
                   <div className="flex items-center gap-3">
                     <span className="text-xl">{txn.type === 'earn' ? '📈' : '📉'}</span>
                     <div>
                       <p className="text-sm font-semibold">{txn.reason}</p>
-                      <p className="text-xs text-muted-foreground">
-                        {formatDistanceToNow(new Date(txn.timestamp), { addSuffix: true })}
-                      </p>
+                      <p className="text-xs text-muted-foreground">{formatDistanceToNow(new Date(txn.timestamp), { addSuffix: true })}</p>
                     </div>
                   </div>
                   <span className={`font-bold ${txn.type === 'earn' ? 'text-success' : 'text-warning'}`}>
@@ -157,11 +139,9 @@ export default function CreditsPage() {
               ))}
             </div>
           ) : (
-            <div className="text-center py-12 uber-card">
+            <div className="text-center py-12 liquid-glass" style={{ borderRadius: '1.25rem' }}>
               <span className="text-4xl block mb-3">🏁</span>
-              <p className="text-sm text-muted-foreground font-medium">
-                No activity yet. Start joining requests!
-              </p>
+              <p className="text-sm text-muted-foreground font-medium">No activity yet. Start joining!</p>
             </div>
           )}
         </div>

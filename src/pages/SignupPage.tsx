@@ -10,18 +10,10 @@ import { cn } from '@/lib/utils';
 
 type Step = 'phone' | 'otp' | 'name' | 'age' | 'interests';
 const steps: Step[] = ['phone', 'otp', 'name', 'age', 'interests'];
-
 const ageRanges = ['18-24', '25-34', '35-44', '45-54', '55+'];
 const categories: Category[] = ['chai', 'explore', 'shopping', 'work', 'help', 'casual'];
 
-const stepEmojis: Record<Step, string> = {
-  phone: '📱',
-  otp: '🔐',
-  name: '😊',
-  age: '🎂',
-  interests: '🎯',
-};
-
+const stepEmojis: Record<Step, string> = { phone: '📱', otp: '🔐', name: '😊', age: '🎂', interests: '🎯' };
 const stepTitles: Record<Step, { title: string; subtitle: string }> = {
   phone: { title: "What's your number?", subtitle: "We'll text you a magic code ✨" },
   otp: { title: 'Enter the code', subtitle: '' },
@@ -46,28 +38,18 @@ export default function SignupPage() {
   
   useEffect(() => {
     if (contentRef.current) {
-      gsap.fromTo(contentRef.current,
-        { opacity: 0, y: 20 },
-        { opacity: 1, y: 0, duration: 0.4, ease: 'power3.out' }
-      );
+      gsap.fromTo(contentRef.current, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.4, ease: 'power3.out' });
     }
   }, [step]);
   
   const goToStep = (nextStep: Step) => {
-    gsap.to(contentRef.current, {
-      opacity: 0, y: -15, duration: 0.2,
-      onComplete: () => setStep(nextStep),
-    });
+    gsap.to(contentRef.current, { opacity: 0, y: -15, duration: 0.2, onComplete: () => setStep(nextStep) });
   };
   
-  const handlePhoneSubmit = () => {
-    if (phone.length >= 10) goToStep('otp');
-  };
+  const handlePhoneSubmit = () => { if (phone.length >= 10) goToStep('otp'); };
   
   useEffect(() => {
-    if (step === 'otp' && otp.every(d => d) && otp.join('').length === 4) {
-      goToStep('name');
-    }
+    if (step === 'otp' && otp.every(d => d) && otp.join('').length === 4) goToStep('name');
   }, [otp, step]);
   
   const handleOtpChange = (index: number, value: string) => {
@@ -80,9 +62,7 @@ export default function SignupPage() {
   };
   
   const handleOtpKeyDown = (index: number, e: React.KeyboardEvent) => {
-    if (e.key === 'Backspace' && !otp[index] && index > 0) {
-      otpRefs.current[index - 1]?.focus();
-    }
+    if (e.key === 'Backspace' && !otp[index] && index > 0) otpRefs.current[index - 1]?.focus();
   };
   
   const handleNameSubmit = () => { if (firstName.trim()) goToStep('age'); };
@@ -90,85 +70,57 @@ export default function SignupPage() {
   
   const handleComplete = () => {
     if (interests.length >= 2) {
-      gsap.to(contentRef.current, {
-        opacity: 0, scale: 0.98, duration: 0.25,
-        onComplete: () => {
-          setUser({
-            id: `user_${Date.now()}`,
-            firstName,
-            phone,
-            ageRange,
-            city: 'Bangalore',
-            interests,
-            trustLevel: 'seed',
-            credits: 3,
-            completedJoins: 0,
-            createdAt: new Date(),
-            avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${firstName}`,
-          });
-          setOnboarded(true);
-          navigate('/home');
-        },
-      });
+      gsap.to(contentRef.current, { opacity: 0, scale: 0.98, duration: 0.25, onComplete: () => {
+        setUser({
+          id: `user_${Date.now()}`, firstName, phone, ageRange, city: 'Bangalore',
+          interests, trustLevel: 'seed', credits: 3, completedJoins: 0, createdAt: new Date(),
+          avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${firstName}`,
+        });
+        setOnboarded(true);
+        navigate('/home');
+      }});
     }
   };
   
   const toggleInterest = (category: Category) => {
-    setInterests((prev) =>
-      prev.includes(category) ? prev.filter((c) => c !== category) : [...prev, category]
-    );
+    setInterests((prev) => prev.includes(category) ? prev.filter((c) => c !== category) : [...prev, category]);
   };
   
   const stepIndex = steps.indexOf(step);
   const { title, subtitle } = stepTitles[step];
   
   return (
-    <div className="mobile-container min-h-screen flex flex-col bg-background">
+    <div className="mobile-container min-h-screen flex flex-col bg-ambient">
       <div className="flex-1 px-6 py-8">
         {/* Progress */}
         <div className="flex justify-center gap-1.5 mb-10">
           {steps.map((_, index) => (
-            <div
-              key={index}
-              className={cn(
-                'h-1 rounded-full transition-all duration-300',
-                index <= stepIndex ? 'w-10 bg-foreground' : 'w-2 bg-border'
-              )}
-            />
+            <div key={index} className={cn(
+              'h-1 rounded-full transition-all duration-300',
+              index <= stepIndex ? 'w-10 bg-primary' : 'w-2 bg-muted-foreground/15'
+            )} />
           ))}
         </div>
         
         <div ref={contentRef}>
-          {/* Common Header */}
           <div className="mb-8">
             <span className="text-4xl mb-4 block">{stepEmojis[step]}</span>
-            <h1 className="text-2xl font-extrabold tracking-tight text-foreground">{title}</h1>
-            {subtitle && (
-              <p className="text-muted-foreground text-sm mt-2">{subtitle}</p>
-            )}
+            <h1 className="text-title font-bold tracking-tight text-foreground">{title}</h1>
+            {subtitle && <p className="text-muted-foreground text-sm mt-2">{subtitle}</p>}
           </div>
           
           {step === 'phone' && (
             <div className="space-y-6">
               <div className="flex gap-3">
-                <div className="w-16 h-13 flex items-center justify-center bg-muted rounded-2xl text-foreground font-bold text-sm">
+                <div className="w-16 h-12 flex items-center justify-center liquid-glass text-foreground font-semibold text-sm" style={{ borderRadius: '0.875rem' }}>
                   🇮🇳 +91
                 </div>
-                <Input
-                  type="tel"
-                  placeholder="Phone number"
-                  value={phone}
+                <Input type="tel" placeholder="Phone number" value={phone}
                   onChange={(e) => setPhone(e.target.value.replace(/\D/g, '').slice(0, 10))}
-                  className="flex-1 h-13 rounded-2xl border-border/50 bg-card text-base font-medium"
-                  autoFocus
+                  className="flex-1 h-12 rounded-xl liquid-glass border-0 text-base font-medium" autoFocus
                 />
               </div>
-              
-              <Button
-                className="w-full h-13 text-sm font-bold rounded-2xl bg-foreground text-background hover:opacity-90"
-                onClick={handlePhoneSubmit}
-                disabled={phone.length < 10}
-              >
+              <Button className="w-full h-12 text-sm font-semibold rounded-xl glass-button-primary" onClick={handlePhoneSubmit} disabled={phone.length < 10}>
                 Send Code →
               </Button>
             </div>
@@ -177,45 +129,25 @@ export default function SignupPage() {
           {step === 'otp' && (
             <div className="space-y-6">
               <p className="text-sm text-muted-foreground -mt-4">Sent to +91 {phone} 📩</p>
-              
               <div className="flex gap-3 justify-center">
                 {otp.map((digit, i) => (
-                  <input
-                    key={i}
-                    ref={el => otpRefs.current[i] = el}
-                    type="text"
-                    inputMode="numeric"
-                    maxLength={1}
-                    value={digit}
-                    onChange={(e) => handleOtpChange(i, e.target.value)}
-                    onKeyDown={(e) => handleOtpKeyDown(i, e)}
-                    className="w-16 h-16 text-center text-2xl font-bold rounded-2xl uber-card focus:ring-2 focus:ring-primary/30 focus:outline-none transition-all"
+                  <input key={i} ref={el => otpRefs.current[i] = el} type="text" inputMode="numeric" maxLength={1}
+                    value={digit} onChange={(e) => handleOtpChange(i, e.target.value)} onKeyDown={(e) => handleOtpKeyDown(i, e)}
+                    className="w-15 h-15 text-center text-2xl font-bold rounded-2xl liquid-glass focus:ring-2 focus:ring-primary/30 focus:outline-none transition-all"
                     autoFocus={i === 0}
                   />
                 ))}
               </div>
-              
-              <button className="w-full text-primary text-sm font-semibold py-2 tap-scale">
-                Didn't get it? Resend 🔄
-              </button>
+              <button className="w-full text-primary text-sm font-semibold py-2 tap-scale">Didn't get it? Resend 🔄</button>
             </div>
           )}
           
           {step === 'name' && (
             <div className="space-y-6">
-              <Input
-                placeholder="Your first name"
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
-                autoFocus
-                className="h-13 rounded-2xl border-border/50 bg-card text-lg font-medium"
+              <Input placeholder="Your first name" value={firstName} onChange={(e) => setFirstName(e.target.value)} autoFocus
+                className="h-12 rounded-xl liquid-glass border-0 text-lg font-medium"
               />
-              
-              <Button
-                className="w-full h-13 text-sm font-bold rounded-2xl bg-foreground text-background hover:opacity-90"
-                onClick={handleNameSubmit}
-                disabled={!firstName.trim()}
-              >
+              <Button className="w-full h-12 text-sm font-semibold rounded-xl glass-button-primary" onClick={handleNameSubmit} disabled={!firstName.trim()}>
                 Continue →
               </Button>
             </div>
@@ -225,26 +157,15 @@ export default function SignupPage() {
             <div className="space-y-6">
               <div className="grid grid-cols-2 gap-3">
                 {ageRanges.map((range) => (
-                  <button
-                    key={range}
-                    onClick={() => setAgeRange(range)}
-                    className={cn(
-                      'py-4 px-4 rounded-2xl text-sm font-semibold transition-all tap-scale',
-                      ageRange === range
-                        ? 'bg-foreground text-background shadow-warm'
-                        : 'uber-card text-foreground'
-                    )}
-                  >
+                  <button key={range} onClick={() => setAgeRange(range)}
+                    className={cn('py-4 px-4 rounded-2xl text-sm font-semibold transition-all tap-scale',
+                      ageRange === range ? 'glass-button-primary' : 'liquid-glass text-foreground'
+                    )}>
                     {range}
                   </button>
                 ))}
               </div>
-              
-              <Button
-                className="w-full h-13 text-sm font-bold rounded-2xl bg-foreground text-background hover:opacity-90"
-                onClick={handleAgeSubmit}
-                disabled={!ageRange}
-              >
+              <Button className="w-full h-12 text-sm font-semibold rounded-xl glass-button-primary" onClick={handleAgeSubmit} disabled={!ageRange}>
                 Continue →
               </Button>
             </div>
@@ -256,35 +177,21 @@ export default function SignupPage() {
                 {categories.map((category) => {
                   const selected = interests.includes(category);
                   return (
-                    <button
-                      key={category}
-                      onClick={() => toggleInterest(category)}
-                      className={cn(
-                        'flex items-center gap-3 py-4 px-4 rounded-2xl text-sm font-semibold transition-all tap-scale text-left',
-                        selected
-                          ? 'bg-foreground text-background shadow-warm'
-                          : 'uber-card text-foreground'
-                      )}
-                    >
+                    <button key={category} onClick={() => toggleInterest(category)}
+                      className={cn('flex items-center gap-3 py-4 px-4 rounded-2xl text-sm font-semibold transition-all tap-scale text-left',
+                        selected ? 'glass-button-primary' : 'liquid-glass text-foreground'
+                      )}>
                       <span className="text-xl">{getCategoryEmoji(category)}</span>
                       <span>{getCategoryLabel(category)}</span>
                     </button>
                   );
                 })}
               </div>
-              
-              <Button
-                className="w-full h-13 text-sm font-bold rounded-2xl bg-foreground text-background hover:opacity-90"
-                onClick={handleComplete}
-                disabled={interests.length < 2}
-              >
+              <Button className="w-full h-12 text-sm font-semibold rounded-xl glass-button-primary" onClick={handleComplete} disabled={interests.length < 2}>
                 Let's Go! 🚀
               </Button>
-              
               {interests.length > 0 && interests.length < 2 && (
-                <p className="text-center text-xs text-muted-foreground">
-                  Pick {2 - interests.length} more to continue
-                </p>
+                <p className="text-center text-xs text-muted-foreground">Pick {2 - interests.length} more to continue</p>
               )}
             </div>
           )}

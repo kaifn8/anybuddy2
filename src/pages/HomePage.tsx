@@ -6,7 +6,6 @@ import { BottomNav } from '@/components/layout/BottomNav';
 import { RequestCard } from '@/components/cards/RequestCard';
 import { useAppStore } from '@/store/useAppStore';
 import { cn } from '@/lib/utils';
-import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
 import type { Category } from '@/types/anybuddy';
 
 const FILTER_CATEGORIES: { id: Category | 'all'; label: string; emoji: string }[] = [
@@ -29,12 +28,12 @@ export default function HomePage() {
   
   useEffect(() => {
     const tl = gsap.timeline();
-    tl.fromTo(headerRef.current, { opacity: 0, y: -10 }, { opacity: 1, y: 0, duration: 0.3 });
+    tl.fromTo(headerRef.current, { opacity: 0, y: -10 }, { opacity: 1, y: 0, duration: 0.35 });
     if (cardsContainerRef.current?.children) {
       tl.fromTo(cardsContainerRef.current.children,
-        { opacity: 0, y: 20 },
-        { opacity: 1, y: 0, duration: 0.4, stagger: 0.06, ease: 'power2.out' },
-        '-=0.1'
+        { opacity: 0, y: 24 },
+        { opacity: 1, y: 0, duration: 0.45, stagger: 0.07, ease: 'power2.out' },
+        '-=0.15'
       );
     }
   }, []);
@@ -48,48 +47,37 @@ export default function HomePage() {
     setIsRefreshing(true);
     if (cardsContainerRef.current?.children) {
       gsap.to(cardsContainerRef.current.children, {
-        opacity: 0.5, y: -5, duration: 0.15, stagger: 0.02,
+        opacity: 0.4, y: -5, duration: 0.15, stagger: 0.02,
         onComplete: () => {
           refreshFeed();
-          gsap.to(cardsContainerRef.current?.children || [], {
-            opacity: 1, y: 0, duration: 0.3, stagger: 0.04, ease: 'power2.out',
-          });
+          gsap.to(cardsContainerRef.current?.children || [], { opacity: 1, y: 0, duration: 0.35, stagger: 0.04, ease: 'power2.out' });
           setIsRefreshing(false);
         },
       });
-    } else {
-      refreshFeed();
-      setIsRefreshing(false);
-    }
+    } else { refreshFeed(); setIsRefreshing(false); }
   };
   
   const handleJoin = (requestId: string) => {
     if (!user) { navigate('/signup'); return; }
-    if (joinedRequests.includes(requestId)) {
-      navigate(`/request/${requestId}`);
-    } else {
-      navigate(`/join/${requestId}`);
-    }
+    navigate(joinedRequests.includes(requestId) ? `/request/${requestId}` : `/join/${requestId}`);
   };
   
   const filteredRequests = [...requests]
     .filter(r => activeFilter === 'all' || r.category === activeFilter)
     .sort((a, b) => {
       const urgencyOrder = { now: 0, today: 1, week: 2 };
-      if (urgencyOrder[a.urgency] !== urgencyOrder[b.urgency]) {
-        return urgencyOrder[a.urgency] - urgencyOrder[b.urgency];
-      }
-      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+      return urgencyOrder[a.urgency] !== urgencyOrder[b.urgency]
+        ? urgencyOrder[a.urgency] - urgencyOrder[b.urgency]
+        : new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
     });
   
   return (
-    <div className="mobile-container min-h-screen bg-background pb-28">
+    <div className="mobile-container min-h-screen bg-ambient pb-28">
       <TopBar />
       
       <div className="px-5 pt-4 pb-2">
-        {/* Welcome Header */}
         <div ref={headerRef} className="mb-5">
-          <h2 className="text-hero font-extrabold text-foreground">
+          <h2 className="text-hero font-bold text-foreground">
             {user ? `Hey ${user.firstName} 👋` : 'Hey there 👋'}
           </h2>
           <p className="text-sm text-muted-foreground mt-1">
@@ -97,15 +85,14 @@ export default function HomePage() {
           </p>
         </div>
         
-        {/* Category Pills */}
+        {/* Glass filter pills */}
         <div className="flex gap-2 overflow-x-auto pb-3 -mx-5 px-5 scrollbar-hide">
           {FILTER_CATEGORIES.map((cat) => (
             <button
               key={cat.id}
               onClick={() => setActiveFilter(cat.id)}
-              className={cn(
-                'shrink-0 pill-chip tap-scale',
-                activeFilter === cat.id ? 'pill-chip-active' : 'pill-chip-inactive'
+              className={cn('shrink-0 glass-pill tap-scale',
+                activeFilter === cat.id ? 'glass-pill-active' : 'glass-pill-inactive'
               )}
             >
               <span>{cat.emoji}</span>
@@ -115,7 +102,6 @@ export default function HomePage() {
         </div>
       </div>
       
-      {/* Request Cards */}
       <div ref={cardsContainerRef} className="px-5 space-y-3">
         {filteredRequests.map((request) => (
           <RequestCard
@@ -133,10 +119,7 @@ export default function HomePage() {
             <p className="text-muted-foreground text-sm mb-3 font-medium">
               No requests {activeFilter !== 'all' ? `for ${activeFilter}` : 'nearby'}
             </p>
-            <button 
-              onClick={() => navigate('/create')}
-              className="text-primary font-semibold text-sm"
-            >
+            <button onClick={() => navigate('/create')} className="text-primary font-semibold text-sm">
               Be the first to post ✨
             </button>
           </div>

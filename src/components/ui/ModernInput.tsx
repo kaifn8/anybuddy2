@@ -14,9 +14,7 @@ export const ModernInput = forwardRef<HTMLInputElement, ModernInputProps>(
     return (
       <div className="space-y-2">
         {label && (
-          <label className="text-sm font-medium text-foreground">
-            {label}
-          </label>
+          <label className="text-sm font-medium text-foreground">{label}</label>
         )}
         <div className="relative">
           {icon && (
@@ -27,14 +25,14 @@ export const ModernInput = forwardRef<HTMLInputElement, ModernInputProps>(
           <input
             ref={ref}
             className={cn(
-              'w-full h-14 px-4 bg-card border-2 border-transparent rounded-2xl',
-              'text-base text-foreground placeholder:text-muted-foreground/60',
-              'focus:outline-none focus:border-primary/30 focus:bg-background',
-              'transition-all duration-200',
-              'shadow-sm hover:shadow-md',
+              'w-full h-13 px-4 rounded-2xl',
+              'text-base text-foreground placeholder:text-muted-foreground/50',
+              'focus:outline-none transition-all duration-200',
+              'liquid-glass border-0',
+              'focus:ring-2 focus:ring-primary/20',
               icon && 'pl-12',
               suffix && 'pr-12',
-              error && 'border-destructive/50 focus:border-destructive',
+              error && 'ring-2 ring-destructive/30',
               className
             )}
             {...props}
@@ -46,10 +44,7 @@ export const ModernInput = forwardRef<HTMLInputElement, ModernInputProps>(
           )}
         </div>
         {(hint || error) && (
-          <p className={cn(
-            'text-xs',
-            error ? 'text-destructive' : 'text-muted-foreground'
-          )}>
+          <p className={cn('text-xs', error ? 'text-destructive' : 'text-muted-foreground')}>
             {error || hint}
           </p>
         )}

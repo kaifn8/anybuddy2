@@ -2,72 +2,86 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
 
 @layer base {
   :root {
-    /* Warm Social Utility — Uber meets Headspace */
-    --primary: 15 90% 55%;
+    /* macOS Tahoe — Liquid Glass palette */
+    --primary: 211 100% 50%;
     --primary-foreground: 0 0% 100%;
     
-    --secondary: 260 65% 58%;
+    --secondary: 280 65% 55%;
     --secondary-foreground: 0 0% 100%;
     
-    --accent: 45 100% 58%;
-    --accent-foreground: 30 50% 18%;
+    --accent: 36 100% 60%;
+    --accent-foreground: 30 50% 15%;
     
-    /* Warm, inviting background */
-    --background: 30 40% 97%;
-    --foreground: 25 30% 12%;
+    /* Light, airy, slightly cool background like macOS desktop */
+    --background: 220 30% 96%;
+    --foreground: 220 20% 10%;
     
-    --success: 155 72% 40%;
+    --success: 142 71% 42%;
     --success-foreground: 0 0% 100%;
     
-    --warning: 25 95% 55%;
+    --warning: 32 95% 55%;
     --warning-foreground: 0 0% 100%;
 
-    /* Warm white cards */
-    --card: 30 30% 99%;
-    --card-foreground: 25 30% 12%;
+    /* Glass-tinted cards */
+    --card: 0 0% 100%;
+    --card-foreground: 220 20% 10%;
 
-    --popover: 30 30% 99%;
-    --popover-foreground: 25 30% 12%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 20% 10%;
 
-    --muted: 30 20% 94%;
-    --muted-foreground: 25 15% 48%;
+    --muted: 220 16% 93%;
+    --muted-foreground: 220 10% 42%;
 
-    --destructive: 0 72% 51%;
+    --destructive: 0 80% 55%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 30 18% 89%;
-    --input: 30 15% 91%;
-    --ring: 15 90% 55%;
+    --border: 220 20% 90%;
+    --input: 220 16% 92%;
+    --ring: 211 100% 50%;
 
     --radius: 1rem;
 
-    --sidebar-background: 30 40% 97%;
-    --sidebar-foreground: 25 30% 12%;
-    --sidebar-primary: 15 90% 55%;
+    /* Liquid glass specific tokens */
+    --glass-bg: 0 0% 100% / 0.55;
+    --glass-bg-heavy: 0 0% 100% / 0.72;
+    --glass-border: 0 0% 100% / 0.45;
+    --glass-highlight: 0 0% 100% / 0.8;
+    --glass-shadow: 220 40% 30% / 0.08;
+    --glass-blur: 24px;
+    --glass-blur-heavy: 40px;
+
+    --sidebar-background: 220 30% 96%;
+    --sidebar-foreground: 220 20% 10%;
+    --sidebar-primary: 211 100% 50%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 30 20% 94%;
-    --sidebar-accent-foreground: 25 30% 12%;
-    --sidebar-border: 30 18% 89%;
-    --sidebar-ring: 15 90% 55%;
+    --sidebar-accent: 220 16% 93%;
+    --sidebar-accent-foreground: 220 20% 10%;
+    --sidebar-border: 220 20% 90%;
+    --sidebar-ring: 211 100% 50%;
   }
 
   .dark {
-    --background: 25 20% 7%;
-    --foreground: 30 15% 93%;
-    --card: 25 18% 11%;
-    --card-foreground: 30 15% 93%;
-    --popover: 25 18% 11%;
-    --popover-foreground: 30 15% 93%;
-    --muted: 25 15% 16%;
-    --muted-foreground: 30 12% 55%;
-    --border: 25 15% 18%;
-    --input: 25 15% 18%;
-    --primary: 15 90% 60%;
-    --secondary: 260 55% 62%;
+    --background: 225 25% 6%;
+    --foreground: 210 20% 95%;
+    --card: 225 20% 10%;
+    --card-foreground: 210 20% 95%;
+    --popover: 225 20% 10%;
+    --popover-foreground: 210 20% 95%;
+    --muted: 225 18% 14%;
+    --muted-foreground: 220 12% 50%;
+    --border: 225 18% 16%;
+    --input: 225 18% 16%;
+    --primary: 211 100% 55%;
+    --secondary: 280 55% 60%;
+    --glass-bg: 225 25% 12% / 0.6;
+    --glass-bg-heavy: 225 25% 14% / 0.75;
+    --glass-border: 0 0% 100% / 0.08;
+    --glass-highlight: 0 0% 100% / 0.06;
+    --glass-shadow: 0 0% 0% / 0.3;
   }
 }
 
@@ -78,154 +92,233 @@
 
   body {
     @apply bg-background text-foreground antialiased;
-    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: -apple-system, 'SF Pro Display', 'Inter', BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    letter-spacing: -0.01em;
+    letter-spacing: -0.011em;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-bold tracking-tight;
-    font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
-    letter-spacing: -0.025em;
+    @apply font-semibold tracking-tight;
+    font-family: -apple-system, 'SF Pro Display', 'Inter', BlinkMacSystemFont, sans-serif;
+    letter-spacing: -0.022em;
   }
 }
 
 @layer components {
-  /* Uber-style clean cards */
-  .uber-card {
-    @apply bg-card rounded-2xl;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 6px 16px rgba(0, 0, 0, 0.04);
+  /* ═══════════════════════════════════
+     LIQUID GLASS — Core Components
+     ═══════════════════════════════════ */
+
+  /* Primary liquid glass surface */
+  .liquid-glass {
+    position: relative;
+    background: hsla(var(--glass-bg));
+    backdrop-filter: blur(var(--glass-blur)) saturate(180%) brightness(110%);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(180%) brightness(110%);
+    border: 1px solid hsla(var(--glass-border));
+    border-radius: 1.25rem;
+    box-shadow:
+      inset 0 0.5px 0 hsla(var(--glass-highlight)),
+      0 1px 3px hsla(var(--glass-shadow)),
+      0 8px 24px hsla(var(--glass-shadow));
   }
 
-  .uber-card-elevated {
-    @apply bg-card rounded-3xl;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05), 0 10px 28px rgba(0, 0, 0, 0.07);
+  /* Heavy glass — more opaque, for primary containers */
+  .liquid-glass-heavy {
+    position: relative;
+    background: hsla(var(--glass-bg-heavy));
+    backdrop-filter: blur(var(--glass-blur-heavy)) saturate(200%) brightness(105%);
+    -webkit-backdrop-filter: blur(var(--glass-blur-heavy)) saturate(200%) brightness(105%);
+    border: 1px solid hsla(var(--glass-border));
+    border-radius: 1.25rem;
+    box-shadow:
+      inset 0 0.5px 0 hsla(var(--glass-highlight)),
+      0 2px 6px hsla(var(--glass-shadow)),
+      0 12px 32px hsla(var(--glass-shadow));
   }
 
-  .uber-card-interactive {
-    @apply uber-card transition-all duration-200;
+  /* Subtle glass — pills, chips, badges */
+  .liquid-glass-subtle {
+    background: hsla(var(--glass-bg));
+    backdrop-filter: blur(12px) saturate(150%);
+    -webkit-backdrop-filter: blur(12px) saturate(150%);
+    border: 1px solid hsla(var(--glass-border));
+    border-radius: 999px;
+    box-shadow: inset 0 0.5px 0 hsla(var(--glass-highlight));
   }
 
-  .uber-card-interactive:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06), 0 16px 40px rgba(0, 0, 0, 0.08);
-    transform: translateY(-2px);
+  /* Navigation bar glass */
+  .liquid-glass-nav {
+    background: hsla(var(--glass-bg-heavy));
+    backdrop-filter: blur(var(--glass-blur-heavy)) saturate(200%) brightness(108%);
+    -webkit-backdrop-filter: blur(var(--glass-blur-heavy)) saturate(200%) brightness(108%);
+    border-bottom: 0.5px solid hsla(var(--glass-border));
+    box-shadow:
+      inset 0 -0.5px 0 hsla(220 40% 30% / 0.04),
+      0 1px 3px hsla(var(--glass-shadow));
   }
 
-  /* Warm glass effect */
-  .glass-warm {
-    @apply backdrop-blur-xl;
-    background: rgba(255, 252, 248, 0.88);
-    border: 1px solid rgba(255, 248, 240, 0.6);
+  /* Interactive glass card with hover */
+  .liquid-glass-interactive {
+    @apply liquid-glass transition-all duration-300;
+    cursor: pointer;
   }
 
-  .glass-nav {
-    @apply backdrop-blur-2xl;
-    background: rgba(255, 252, 248, 0.92);
-    border-bottom: 1px solid hsl(var(--border) / 0.5);
+  .liquid-glass-interactive:hover {
+    background: hsla(0 0% 100% / 0.65);
+    box-shadow:
+      inset 0 0.5px 0 hsla(var(--glass-highlight)),
+      0 2px 8px hsla(var(--glass-shadow)),
+      0 16px 40px hsla(220 40% 30% / 0.1);
+    transform: translateY(-1px);
   }
 
-  /* Warm gradient backgrounds */
-  .bg-warm-gradient {
-    background: linear-gradient(170deg, hsl(30 50% 97%) 0%, hsl(25 45% 95%) 50%, hsl(35 40% 96%) 100%);
-  }
-
-  .bg-warm-hero {
-    background: linear-gradient(160deg, hsl(15 85% 55%) 0%, hsl(30 90% 58%) 50%, hsl(45 95% 60%) 100%);
-  }
-
-  .bg-warm-sunset {
-    background: linear-gradient(135deg, hsl(350 70% 55%) 0%, hsl(15 90% 58%) 40%, hsl(45 95% 62%) 100%);
-  }
-
-  /* Emoji containers */
-  .emoji-bubble {
-    @apply inline-flex items-center justify-center rounded-2xl;
-    font-size: 1.5rem;
-  }
-
-  .emoji-bubble-lg {
-    @apply inline-flex items-center justify-center rounded-3xl;
-    font-size: 2rem;
-  }
-
-  .emoji-bubble-sm {
-    @apply inline-flex items-center justify-center rounded-xl;
-    font-size: 1.125rem;
-  }
-
-  /* Uber-style buttons */
-  .uber-button {
-    @apply inline-flex items-center justify-center rounded-2xl font-semibold transition-all duration-150;
-    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2;
-  }
-
-  .uber-button-primary {
-    @apply uber-button bg-foreground text-background;
-  }
-
-  .uber-button-primary:hover {
-    @apply opacity-90;
-  }
-
-  .uber-button-primary:active {
+  .liquid-glass-interactive:active {
     transform: scale(0.98);
   }
 
-  .uber-button-warm {
-    @apply uber-button;
-    background: linear-gradient(135deg, hsl(var(--primary)), hsl(30 90% 58%));
+  /* Specular highlight strip — inner top glow like real glass */
+  .specular-highlight {
+    position: relative;
+  }
+
+  .specular-highlight::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 10%;
+    right: 10%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, hsla(0 0% 100% / 0.6), transparent);
+    border-radius: 999px;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  /* ═══════════════════════════════════
+     LIQUID GLASS — Buttons
+     ═══════════════════════════════════ */
+
+  .glass-button {
+    @apply inline-flex items-center justify-center font-medium transition-all duration-200;
+    background: hsla(var(--glass-bg));
+    backdrop-filter: blur(16px) saturate(150%);
+    -webkit-backdrop-filter: blur(16px) saturate(150%);
+    border: 1px solid hsla(var(--glass-border));
+    border-radius: 0.875rem;
+    box-shadow: inset 0 0.5px 0 hsla(var(--glass-highlight));
+  }
+
+  .glass-button:hover {
+    background: hsla(0 0% 100% / 0.7);
+  }
+
+  .glass-button:active {
+    transform: scale(0.97);
+  }
+
+  .glass-button-primary {
+    @apply inline-flex items-center justify-center font-semibold transition-all duration-200;
+    background: linear-gradient(180deg, hsl(211 100% 55%), hsl(211 100% 45%));
+    border: 1px solid hsla(211 100% 60% / 0.4);
+    border-radius: 0.875rem;
     color: white;
-    box-shadow: 0 4px 14px hsl(var(--primary) / 0.3);
+    box-shadow:
+      inset 0 1px 0 hsla(0 0% 100% / 0.25),
+      0 2px 8px hsla(211 100% 40% / 0.3);
   }
 
-  .uber-button-warm:hover {
-    box-shadow: 0 6px 20px hsl(var(--primary) / 0.4);
+  .glass-button-primary:hover {
+    box-shadow:
+      inset 0 1px 0 hsla(0 0% 100% / 0.3),
+      0 4px 16px hsla(211 100% 40% / 0.4);
   }
 
-  /* Soft pill chips */
-  .pill-chip {
-    @apply inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full text-sm font-medium transition-all;
+  .glass-button-primary:active {
+    transform: scale(0.97);
   }
 
-  .pill-chip-active {
-    @apply bg-foreground text-background;
+  /* ═══════════════════════════════════
+     PILL CHIPS
+     ═══════════════════════════════════ */
+
+  .glass-pill {
+    @apply inline-flex items-center gap-1.5 px-3.5 py-2 text-sm font-medium transition-all duration-200;
+    border-radius: 999px;
   }
 
-  .pill-chip-inactive {
-    @apply bg-card text-muted-foreground;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  .glass-pill-active {
+    background: hsl(var(--foreground));
+    color: hsl(var(--background));
   }
 
-  /* Gradient text */
-  .text-gradient-warm {
-    @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--secondary)));
+  .glass-pill-inactive {
+    @apply liquid-glass-subtle text-muted-foreground;
   }
 
-  /* Shadows - warm tone */
-  .shadow-warm {
-    box-shadow: 0 4px 16px rgba(180, 100, 50, 0.08);
+  /* ═══════════════════════════════════
+     BADGE VARIANTS
+     ═══════════════════════════════════ */
+
+  .badge-now {
+    @apply font-semibold;
+    background: hsla(var(--primary) / 0.12);
+    color: hsl(var(--primary));
+    backdrop-filter: blur(8px);
   }
 
-  .shadow-warm-lg {
-    box-shadow: 0 8px 28px rgba(180, 100, 50, 0.12);
+  .badge-today {
+    @apply font-semibold;
+    background: hsla(var(--secondary) / 0.12);
+    color: hsl(var(--secondary));
+    backdrop-filter: blur(8px);
   }
 
-  /* Interactions */
+  .badge-week {
+    @apply font-semibold;
+    background: hsla(var(--success) / 0.12);
+    color: hsl(var(--success));
+    backdrop-filter: blur(8px);
+  }
+
+  /* Trust levels */
+  .trust-seed {
+    @apply text-muted-foreground;
+    background: hsla(var(--muted));
+  }
+
+  .trust-solid {
+    @apply text-secondary;
+    background: hsla(var(--secondary) / 0.1);
+  }
+
+  .trust-trusted {
+    @apply text-primary;
+    background: hsla(var(--primary) / 0.1);
+  }
+
+  .trust-anchor {
+    background: linear-gradient(135deg, hsla(var(--primary) / 0.12), hsla(var(--accent) / 0.15));
+    color: hsl(var(--primary));
+  }
+
+  /* ═══════════════════════════════════
+     ANIMATIONS
+     ═══════════════════════════════════ */
+
   .tap-scale {
     @apply transition-transform duration-150 active:scale-[0.97];
   }
 
   .hover-lift {
-    @apply transition-all duration-200;
+    @apply transition-all duration-300;
   }
 
   .hover-lift:hover {
-    transform: translateY(-3px);
+    transform: translateY(-2px);
   }
 
-  /* Pulse for live */
   .pulse-live {
     animation: pulse-live 2.5s ease-in-out infinite;
   }
@@ -235,21 +328,21 @@
   }
 
   .slide-up {
-    animation: slide-up 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    animation: slide-up 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .fade-in {
-    animation: fade-in 0.25s ease-out;
+    animation: fade-in 0.3s ease-out;
   }
 
   .scale-in {
-    animation: scale-in 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    animation: scale-in 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   }
 }
 
 @keyframes pulse-live {
   0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.6; transform: scale(1.15); }
+  50% { opacity: 0.5; transform: scale(1.2); }
 }
 
 @keyframes float {
@@ -258,7 +351,7 @@
 }
 
 @keyframes slide-up {
-  from { opacity: 0; transform: translateY(16px); }
+  from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
@@ -268,18 +361,13 @@
 }
 
 @keyframes scale-in {
-  from { opacity: 0; transform: scale(0.95); }
+  from { opacity: 0; transform: scale(0.94); }
   to { opacity: 1; transform: scale(1); }
 }
 
-@keyframes wiggle {
-  0%, 100% { transform: rotate(0deg); }
-  25% { transform: rotate(-3deg); }
-  75% { transform: rotate(3deg); }
-}
-
-.wiggle {
-  animation: wiggle 0.5s ease-in-out;
+@keyframes shimmer-glass {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
 }
 
 /* Mobile container */
@@ -287,9 +375,9 @@
   @apply max-w-md mx-auto min-h-screen;
 }
 
-/* Minimal scrollbar */
+/* Minimal scrollbar — macOS style */
 ::-webkit-scrollbar {
-  width: 3px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -297,49 +385,17 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-muted-foreground/10 rounded-full;
+  @apply rounded-full;
+  background: hsla(220 15% 40% / 0.15);
 }
 
-/* Badge variants */
-.badge-now {
-  @apply font-semibold;
-  background-color: hsl(var(--primary) / 0.12);
-  color: hsl(var(--primary));
+::-webkit-scrollbar-thumb:hover {
+  background: hsla(220 15% 40% / 0.25);
 }
 
-.badge-today {
-  @apply font-semibold;
-  background-color: hsl(var(--secondary) / 0.12);
-  color: hsl(var(--secondary));
-}
-
-.badge-week {
-  @apply font-semibold;
-  background-color: hsl(var(--success) / 0.12);
-  color: hsl(var(--success));
-}
-
-/* Trust level styles */
-.trust-seed {
-  @apply text-muted-foreground bg-muted;
-}
-
-.trust-solid {
-  @apply text-secondary bg-secondary/10;
-}
-
-.trust-trusted {
-  @apply text-primary bg-primary/10;
-}
-
-.trust-anchor {
-  background: linear-gradient(135deg, hsl(var(--primary) / 0.15), hsl(var(--accent) / 0.2));
-  color: hsl(var(--primary));
-}
-
-/* Focus styles */
+/* Focus ring — macOS style */
 .focus-ring {
-  @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 focus-visible:ring-offset-2;
+  @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2;
 }
 
 .section-spacing {
@@ -348,4 +404,13 @@
 
 .text-balance {
   text-wrap: balance;
+}
+
+/* Ambient gradient background — like macOS wallpaper bleed */
+.bg-ambient {
+  background: 
+    radial-gradient(ellipse at 20% 0%, hsla(211 100% 60% / 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 100%, hsla(280 60% 55% / 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, hsla(36 100% 60% / 0.04) 0%, transparent 60%),
+    hsl(var(--background));
 }

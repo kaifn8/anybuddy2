@@ -33,11 +33,7 @@ interface ProgressBarProps {
 }
 
 export function ProgressBar({ 
-  value, 
-  max = 100, 
-  className, 
-  showLabel = false,
-  size = 'md' 
+  value, max = 100, className, showLabel = false, size = 'md' 
 }: ProgressBarProps) {
   const percentage = Math.min(100, (value / max) * 100);
   
@@ -50,14 +46,18 @@ export function ProgressBar({
         </div>
       )}
       <div className={cn(
-        'w-full bg-muted/60 rounded-full overflow-hidden',
+        'w-full rounded-full overflow-hidden',
+        'bg-muted/50',
         size === 'sm' && 'h-1',
         size === 'md' && 'h-2',
         size === 'lg' && 'h-3'
       )}>
         <div 
-          className="h-full gradient-secondary rounded-full transition-all duration-500 ease-out"
-          style={{ width: `${percentage}%` }}
+          className="h-full rounded-full transition-all duration-500 ease-out"
+          style={{ 
+            width: `${percentage}%`,
+            background: 'linear-gradient(90deg, hsl(var(--primary)), hsl(var(--secondary)))'
+          }}
         />
       </div>
     </div>
