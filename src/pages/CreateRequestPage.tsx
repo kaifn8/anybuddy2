@@ -136,7 +136,7 @@ export default function CreateRequestPage() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2.5">
               <span className="text-xl">📍</span>
-              <div><p className="text-sm font-semibold">{user?.zone || user?.city || 'Koramangala'}</p><p className="text-2xs text-muted-foreground">Auto-detected</p></div>
+              <div><p className="text-sm font-semibold">{user?.zone || user?.city || 'Bandra'}</p><p className="text-2xs text-muted-foreground">Auto-detected</p></div>
             </div>
             <span className="text-base">✅</span>
           </div>
