@@ -37,7 +37,7 @@ export default function CreditsPage() {
   
   return (
     <div className="mobile-container min-h-screen bg-ambient pb-24">
-      <PageHeader title="Credits & Trust" />
+      <TopBar showBack title="Credits & Trust" />
       
       <div ref={contentRef} className="px-5 pt-2 space-y-4">
         {/* Balance card */}

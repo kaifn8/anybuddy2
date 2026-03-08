@@ -74,7 +74,7 @@ export default function CreateRequestPage() {
   
   return (
     <div className="mobile-container min-h-screen bg-ambient">
-      <PageHeader title="New Request" />
+      <TopBar showBack title="New Request" />
       
       <div ref={contentRef} className="px-5 pb-28 space-y-6 pt-2">
         <div>
