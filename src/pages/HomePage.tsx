@@ -121,9 +121,9 @@ export default function HomePage() {
               const seatsLeft = req.seatsTotal - req.seatsTaken;
               const fillPercent = Math.round((req.seatsTaken / req.seatsTotal) * 100);
               const tints = [
-                'linear-gradient(135deg, rgba(255,140,50,0.08) 0%, rgba(255,90,90,0.06) 100%)',
-                'linear-gradient(135deg, rgba(80,160,255,0.08) 0%, rgba(130,100,255,0.06) 100%)',
-                'linear-gradient(135deg, rgba(60,200,140,0.08) 0%, rgba(40,180,200,0.06) 100%)',
+                'linear-gradient(135deg, rgba(255,120,30,0.18) 0%, rgba(255,70,70,0.12) 100%)',
+                'linear-gradient(135deg, rgba(50,130,255,0.18) 0%, rgba(110,70,255,0.12) 100%)',
+                'linear-gradient(135deg, rgba(30,190,120,0.18) 0%, rgba(20,160,200,0.12) 100%)',
               ];
               return (
                 <button key={req.id} onClick={() => navigate(`/request/${req.id}`)}
@@ -194,7 +194,7 @@ export default function HomePage() {
         <h3 className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">All plans</h3>
       </div>
       
-      <div ref={cardsRef} className="px-5 space-y-3">
+      <div ref={cardsRef} className="px-5 space-y-2.5">
         {filtered.map((request) => (
           <RequestCard
             key={request.id}

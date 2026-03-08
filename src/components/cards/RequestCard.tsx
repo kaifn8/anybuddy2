@@ -86,7 +86,7 @@ export function RequestCard({ request, onJoin, onView, isJoined, className }: Re
   return (
     <>
       <div
-        className={cn('p-4 cursor-pointer tap-scale rounded-2xl', className)}
+        className={cn('p-3 cursor-pointer tap-scale rounded-xl', className)}
         onClick={onView}
         style={{
           background: 'rgba(255,255,255,0.55)',
@@ -98,30 +98,30 @@ export function RequestCard({ request, onJoin, onView, isJoined, className }: Re
       >
         {/* Status badge */}
         {status && (
-          <div className={cn('inline-flex items-center px-2 py-0.5 rounded-full text-2xs font-bold mb-2.5', status.color)}>
+          <div className={cn('inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-bold mb-2', status.color)}>
             {status.label}
           </div>
         )}
 
-        <div className="flex items-start gap-3">
+        <div className="flex items-start gap-2.5">
           {/* Category icon with color */}
-          <div className={cn('w-10 h-10 rounded-xl border flex items-center justify-center text-lg shrink-0', CATEGORY_COLORS[request.category])}>
+          <div className={cn('w-9 h-9 rounded-lg border flex items-center justify-center text-base shrink-0', CATEGORY_COLORS[request.category])}>
             {getCategoryEmoji(request.category)}
           </div>
           
           <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-1.5 mb-1">
+            <div className="flex items-center gap-1.5 mb-0.5">
               <UrgencyBadge urgency={request.urgency} />
-              {request.liveShare && <span className="text-2xs text-success font-semibold">📡</span>}
+              {request.liveShare && <span className="text-[10px] text-success font-semibold">📡</span>}
             </div>
-            <h3 className="font-semibold text-body text-foreground leading-snug line-clamp-2">{request.title}</h3>
-            <p className="text-2xs text-muted-foreground mt-0.5">📍 {request.location.name}</p>
+            <h3 className="font-semibold text-[13px] text-foreground leading-snug line-clamp-2">{request.title}</h3>
+            <p className="text-[11px] text-muted-foreground mt-0.5">📍 {request.location.name}</p>
           </div>
           
-          <div className="flex flex-col items-end gap-1.5 shrink-0">
+          <div className="flex flex-col items-end gap-1 shrink-0">
             <button
               className={cn(
-                'tap-scale h-8 px-3.5 rounded-lg text-xs font-semibold',
+                'tap-scale h-7 px-3 rounded-lg text-[11px] font-semibold',
                 isJoined ? 'tahoe-btn-secondary text-muted-foreground' : 'tahoe-btn-primary'
               )}
               onClick={handleJoinClick}
@@ -129,14 +129,14 @@ export function RequestCard({ request, onJoin, onView, isJoined, className }: Re
             >
               {isJoined ? '✓ In' : seatsLeft === 0 ? 'Full' : 'Join'}
             </button>
-            <button onClick={handleSaveClick} className="tap-scale p-1">
-              <Heart size={14} className={cn(isSaved ? 'fill-destructive text-destructive' : 'text-muted-foreground/50')} />
+            <button onClick={handleSaveClick} className="tap-scale p-0.5">
+              <Heart size={13} className={cn(isSaved ? 'fill-destructive text-destructive' : 'text-muted-foreground/50')} />
             </button>
           </div>
         </div>
 
         {/* Seats progress + attendee avatars */}
-        <div className="flex items-center justify-between mt-3 pt-3 border-t border-border/20">
+        <div className="flex items-center justify-between mt-2 pt-2 border-t border-border/15">
           <div className="flex items-center gap-2">
             {/* Attendee avatars */}
             <div className="flex -space-x-1.5">
