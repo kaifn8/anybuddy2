@@ -110,24 +110,30 @@ export default function HomePage() {
 
 
 
-      {/* Trending section - ABOVE categories */}
+      {/* Trending section */}
       {trending.length > 0 && (
-        <div className="px-5 mb-4">
-          <h3 className="text-xs font-bold text-foreground mb-2.5 flex items-center gap-1.5">
+        <div className="px-5 pt-3 mb-4">
+          <h3 className="text-sm font-bold text-foreground mb-3 flex items-center gap-1.5">
             <span>🔥</span> Popular nearby
           </h3>
-          <div className="flex gap-2.5 overflow-x-auto scrollbar-hide -mx-5 px-5 pb-1">
-            {trending.map((req) => {
+          <div className="flex gap-3 overflow-x-auto scrollbar-hide -mx-5 px-5 pb-1">
+            {trending.map((req, i) => {
               const seatsLeft = req.seatsTotal - req.seatsTaken;
               const fillPercent = Math.round((req.seatsTaken / req.seatsTotal) * 100);
+              const tints = [
+                'linear-gradient(135deg, rgba(255,140,50,0.08) 0%, rgba(255,90,90,0.06) 100%)',
+                'linear-gradient(135deg, rgba(80,160,255,0.08) 0%, rgba(130,100,255,0.06) 100%)',
+                'linear-gradient(135deg, rgba(60,200,140,0.08) 0%, rgba(40,180,200,0.06) 100%)',
+              ];
               return (
                 <button key={req.id} onClick={() => navigate(`/request/${req.id}`)}
-                  className="shrink-0 tap-scale min-w-[200px] max-w-[220px] rounded-2xl overflow-hidden"
+                  className="shrink-0 tap-scale min-w-[180px] max-w-[200px] rounded-2xl overflow-hidden text-left"
                   style={{
-                    background: 'rgba(255,255,255,0.85)',
-                    backdropFilter: 'blur(12px)',
-                    border: '1px solid rgba(0,0,0,0.06)',
-                    boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
+                    background: tints[i % tints.length],
+                    backdropFilter: 'blur(20px)',
+                    WebkitBackdropFilter: 'blur(20px)',
+                    border: '1px solid rgba(255,255,255,0.5)',
+                    boxShadow: '0 4px 20px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.6)',
                   }}>
                   <div className="p-3.5">
                     <div className="flex items-center justify-between mb-2">
@@ -136,14 +142,10 @@ export default function HomePage() {
                         {req.seatsTaken}/{req.seatsTotal} joined
                       </span>
                     </div>
-                    <p className="text-sm font-semibold text-foreground truncate mb-1">{req.title}</p>
-                    <p className="text-[11px] text-muted-foreground mb-2.5">📍 {req.location.name}</p>
-                    {/* Fill bar */}
-                    <div className="w-full h-1.5 rounded-full bg-muted overflow-hidden">
-                      <div
-                        className="h-full rounded-full bg-primary transition-all"
-                        style={{ width: `${fillPercent}%` }}
-                      />
+                    <p className="text-[13px] font-semibold text-foreground truncate mb-0.5">{req.title}</p>
+                    <p className="text-[11px] text-muted-foreground mb-2">📍 {req.location.name}</p>
+                    <div className="w-full h-1 rounded-full bg-foreground/5 overflow-hidden">
+                      <div className="h-full rounded-full bg-primary/70 transition-all" style={{ width: `${fillPercent}%` }} />
                     </div>
                     <p className="text-[10px] text-muted-foreground mt-1">
                       {seatsLeft === 0 ? '🔴 Full' : seatsLeft === 1 ? '🟡 1 spot left' : `${seatsLeft} spots left`}
