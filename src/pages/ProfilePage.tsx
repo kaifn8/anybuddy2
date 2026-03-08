@@ -73,7 +73,7 @@ export default function ProfilePage() {
             { value: `${user.joinRate}%`, label: 'Join Rate' },
             { value: user.hostRating > 0 ? `${user.hostRating}★` : '—', label: 'Host' },
           ].map((stat, i) => (
-            <div key={i} className="liquid-glass p-2.5 text-center specular-highlight" style={{ borderRadius: '0.75rem' }}>
+            <div key={i} className="liquid-glass p-2.5 text-center">
               <p className="text-sm font-bold text-foreground">{stat.value}</p>
               <p className="text-2xs text-muted-foreground mt-0.5">{stat.label}</p>
             </div>
