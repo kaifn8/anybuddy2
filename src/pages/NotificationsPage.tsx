@@ -57,10 +57,18 @@ export default function NotificationsPage() {
             ))}
           </div>
         ) : (
-          <div className="text-center py-20">
+          <div className="text-center py-16">
             <span className="text-4xl block mb-3">🔔</span>
-            <p className="text-sm font-medium text-foreground mb-1">All quiet here</p>
-            <p className="text-xs text-muted-foreground">We'll notify you when there's action nearby</p>
+            <p className="text-sm font-medium text-foreground mb-2">No updates yet</p>
+            <div className="text-xs text-muted-foreground space-y-1.5 mb-6">
+              <p>You'll get notified when:</p>
+              <p>• Someone joins your plan</p>
+              <p>• A plan starts soon nearby</p>
+              <p>• New plans appear in your area</p>
+            </div>
+            <button onClick={() => navigate('/home')} className="tahoe-btn-primary h-9 px-5 tap-scale text-xs font-semibold">
+              Browse Plans
+            </button>
           </div>
         )}
       </div>

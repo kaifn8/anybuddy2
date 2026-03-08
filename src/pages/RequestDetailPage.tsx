@@ -15,13 +15,14 @@ export default function RequestDetailPage() {
   
   const [message, setMessage] = useState('');
   const [showShare, setShowShare] = useState(false);
+  const [showParticipants, setShowParticipants] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   
   const request = requests.find(r => r.id === id);
   const isJoined = joinedRequests.includes(id || '');
-  const messages = chatMessages[id || ''] || [];
+  const msgs = chatMessages[id || ''] || [];
   
-  useEffect(() => { messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' }); }, [messages]);
+  useEffect(() => { messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' }); }, [msgs]);
   
   if (!request) {
     return (
@@ -35,6 +36,7 @@ export default function RequestDetailPage() {
   const handleLeave = () => { if (!id) return; leaveRequest(id); navigate('/home'); };
   
   const seatsLeft = request.seatsTotal - request.seatsTaken;
+  const timeLeft = formatDistanceToNow(new Date(request.expiresAt), { addSuffix: false });
   
   return (
     <div className="mobile-container min-h-screen bg-ambient flex flex-col">
@@ -57,41 +59,69 @@ export default function RequestDetailPage() {
         </div>
       </header>
       
-      {/* Info bar */}
+      {/* Meetup summary card */}
       <div className="px-5 py-3 border-b border-border/15">
-        <div className="flex items-center gap-2.5">
-          <span className="text-xl">{getCategoryEmoji(request.category)}</span>
-          <div className="flex items-center gap-2 flex-wrap flex-1">
-            <UrgencyBadge urgency={request.urgency} />
-            <TrustBadge level={request.userTrust} />
+        <div className="liquid-glass p-3.5 rounded-xl">
+          <div className="flex items-start gap-3">
+            <span className="text-2xl">{getCategoryEmoji(request.category)}</span>
+            <div className="flex-1">
+              <div className="flex items-center gap-2 flex-wrap">
+                <UrgencyBadge urgency={request.urgency} />
+                <TrustBadge level={request.userTrust} />
+              </div>
+              <h2 className="text-sm font-bold mt-1.5">{request.title}</h2>
+              <div className="space-y-1 mt-2 text-2xs text-muted-foreground">
+                <p>📍 {request.location.name} · {request.location.distance}km</p>
+                <p>⏱ Starts in {timeLeft}</p>
+                <p>👥 {request.seatsTaken}/{request.seatsTotal} people · {seatsLeft} spots left</p>
+              </div>
+            </div>
           </div>
-          <div className="text-2xs text-muted-foreground">
-            📍 {request.location.name} · 👥 {seatsLeft} left
+
+          {/* Action row */}
+          <div className="flex items-center gap-3 mt-3 pt-2.5 border-t border-border/15">
+            <button onClick={() => navigate('/map')} className="flex items-center gap-1 text-2xs text-primary font-semibold tap-scale">
+              📍 View on map
+            </button>
+            <span className="text-[10px] text-muted-foreground/60">🛡️ Public meetup</span>
+            {(request.userTrust === 'trusted' || request.userTrust === 'anchor') && (
+              <span className="text-[10px] text-muted-foreground/60">✅ Verified host</span>
+            )}
           </div>
         </div>
 
-        {/* Action row: map shortcut + safety */}
-        <div className="flex items-center gap-3 mt-2.5">
-          <button onClick={() => navigate('/map')} className="flex items-center gap-1 text-2xs text-primary font-semibold tap-scale">
-            📍 View on map
-          </button>
-          <span className="text-2xs text-muted-foreground/70">🛡️ Public meetup</span>
-          {(request.userTrust === 'trusted' || request.userTrust === 'anchor') && (
-            <span className="text-2xs text-muted-foreground/70">✅ Verified host</span>
-          )}
-        </div>
-        
-        {request.participants.length > 0 && (
-          <div className="flex items-center gap-2 mt-2.5 pt-2.5 border-t border-border/15">
+        {/* Participants list */}
+        <button onClick={() => setShowParticipants(!showParticipants)} className="w-full tap-scale">
+          <div className="flex items-center gap-2 mt-3">
             <div className="flex -space-x-1.5">
+              <img src={request.userAvatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${request.userName}`}
+                alt={request.userName} className="w-6 h-6 rounded-full border-2 border-background" />
               {request.participants.map((p) => (
                 <img key={p.id} src={p.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${p.name}`}
                   alt={p.name} className="w-6 h-6 rounded-full border-2 border-background" />
               ))}
-              <img src={request.userAvatar} alt={request.userName}
-                className="w-6 h-6 rounded-full border-2 border-background" />
             </div>
-            <span className="text-2xs text-muted-foreground">{request.participants.length + 1} people</span>
+            <span className="text-2xs text-muted-foreground">{request.participants.length + 1} people · tap to see</span>
+          </div>
+        </button>
+
+        {showParticipants && (
+          <div className="mt-2 liquid-glass-subtle p-3 rounded-lg space-y-2">
+            <h4 className="text-[10px] font-semibold text-muted-foreground uppercase">Participants</h4>
+            <div className="flex items-center gap-2">
+              <img src={request.userAvatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${request.userName}`}
+                alt={request.userName} className="w-6 h-6 rounded-full" />
+              <span className="text-xs font-medium">{request.userName}</span>
+              <span className="text-[10px] bg-primary/10 text-primary px-1.5 py-0.5 rounded-full font-semibold">Host</span>
+            </div>
+            {request.participants.map((p) => (
+              <div key={p.id} className="flex items-center gap-2">
+                <img src={p.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${p.name}`}
+                  alt={p.name} className="w-6 h-6 rounded-full" />
+                <span className="text-xs font-medium">{p.name}</span>
+                {p.note && <span className="text-[10px] text-muted-foreground">"{p.note}"</span>}
+              </div>
+            ))}
           </div>
         )}
       </div>
@@ -100,7 +130,7 @@ export default function RequestDetailPage() {
         <>
           {/* Chat */}
           <div className="flex-1 overflow-y-auto px-5 py-3 space-y-2">
-            {messages.map((msg) => (
+            {msgs.map((msg) => (
               <div key={msg.id} className={`flex ${msg.senderId === user?.id ? 'justify-end' : 'justify-start'}`}>
                 <div className={`max-w-[75%] rounded-2xl px-3.5 py-2 ${
                   msg.senderId === 'system'
@@ -146,7 +176,8 @@ export default function RequestDetailPage() {
         </div>
       )}
 
-      <ShareSheet open={showShare} onClose={() => setShowShare(false)} title={request.title} />
+      <ShareSheet open={showShare} onClose={() => setShowShare(false)} title={request.title}
+        text={`${request.title}\n📍 ${request.location.name}\nStarts in ${timeLeft}\nJoin here 👇`} />
     </div>
   );
 }
