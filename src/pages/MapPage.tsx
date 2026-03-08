@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import L from 'leaflet';
-import 'leaflet/dist/leaflet.css';
+// leaflet CSS loaded via index.html
 import { BottomNav } from '@/components/layout/BottomNav';
 import { useAppStore } from '@/store/useAppStore';
 import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
@@ -102,7 +102,7 @@ export default function MapPage() {
       </div>
 
       {/* Map */}
-      <div className="flex-1 relative mx-5 rounded-2xl overflow-hidden" style={{ minHeight: 480 }}>
+      <div className="relative mx-5 rounded-2xl overflow-hidden" style={{ height: '480px' }}>
         <MapContainer
           center={BANGALORE_CENTER}
           zoom={13}
