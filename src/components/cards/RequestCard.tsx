@@ -48,8 +48,7 @@ export function RequestCard({ request, onJoin, onView, isJoined, className }: Re
   const { user, savePlan, unsavePlan } = useAppStore();
   
   const seatsLeft = request.seatsTotal - request.seatsTaken;
-  const timeLeft = formatDistanceToNow(new Date(request.expiresAt), { addSuffix: false });
-  const status = getStatusIndicator(request);
+  const timeIndicator = getTimeIndicator(request);
   const isSaved = user?.savedPlans?.includes(request.id);
   
   const handleJoinClick = (e: React.MouseEvent) => {
