@@ -99,7 +99,7 @@ export default function CreditsPage() {
           {creditHistory.length > 0 ? (
             <div className="space-y-1.5">
               {creditHistory.slice(0, 10).map((txn) => (
-                <div key={txn.id} className="flex items-center justify-between liquid-glass p-3" style={{ borderRadius: '0.875rem' }}>
+                <div key={txn.id} className="flex items-center justify-between liquid-glass p-3">
                   <div className="flex items-center gap-2.5">
                     <span className="text-base">{txn.type === 'earn' ? '📈' : '📉'}</span>
                     <div>
