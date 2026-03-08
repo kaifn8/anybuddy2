@@ -86,7 +86,7 @@ export default function AdminPage() {
         )}
         
         {activeTab === 'pricing' && (
-          <div className="liquid-glass-heavy p-4 specular-highlight" style={{ borderRadius: '1rem' }}>
+          <div className="liquid-glass-heavy p-4">
             <h3 className="text-xs font-semibold text-muted-foreground mb-3">CREDIT PRICING</h3>
             <div className="space-y-2 text-xs">
               <div className="flex justify-between py-1"><span>Base cost</span><span className="font-semibold">1 credit</span></div>
