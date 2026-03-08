@@ -104,7 +104,7 @@ export default function MapPage() {
       {/* Map */}
       <div className="relative mx-5 rounded-2xl overflow-hidden" style={{ height: '480px' }}>
         <MapContainer
-          center={BANGALORE_CENTER}
+          center={MUMBAI_CENTER}
           zoom={13}
           style={{ height: '100%', width: '100%', borderRadius: '1rem' }}
           zoomControl={false}
