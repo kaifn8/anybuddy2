@@ -15,6 +15,12 @@ export function JoinConfirmDialog({ open, onClose, onConfirm, request }: JoinCon
   const seatsLeft = request.seatsTotal - request.seatsTaken;
   const timeLeft = formatDistanceToNow(new Date(request.expiresAt), { addSuffix: false });
 
+  // Attendee avatars
+  const avatars = [
+    request.userAvatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${request.userName}`,
+    ...request.participants.map(p => p.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${p.name}`),
+  ];
+
   return (
     <Dialog open={open} onOpenChange={(v) => !v && onClose()}>
       <DialogContent className="liquid-glass-heavy border-border/20 max-w-[340px] rounded-2xl p-5">
@@ -30,16 +36,40 @@ export function JoinConfirmDialog({ open, onClose, onConfirm, request }: JoinCon
             <UrgencyBadge urgency={request.urgency} />
           </div>
           <h3 className="text-sm font-semibold leading-snug">{request.title}</h3>
-          <div className="flex items-center gap-3 mt-2.5 text-2xs text-muted-foreground">
+          
+          {/* Location */}
+          <p className="text-2xs text-muted-foreground mt-1.5">📍 {request.location.name} · {request.location.distance}km away</p>
+          
+          <div className="flex items-center gap-3 mt-2 text-2xs text-muted-foreground">
             <span>⏱ Starts in {timeLeft}</span>
             <span>👥 {seatsLeft} seat{seatsLeft !== 1 ? 's' : ''} left</span>
           </div>
+
+          {/* Attendees */}
+          <div className="flex items-center gap-2 mt-3 pt-2.5 border-t border-border/15">
+            <div className="flex -space-x-1.5">
+              {avatars.slice(0, 4).map((a, i) => (
+                <img key={i} src={a} alt="" className="w-5 h-5 rounded-full border-2 border-background" />
+              ))}
+            </div>
+            <span className="text-2xs text-muted-foreground">{request.seatsTaken} {request.seatsTaken === 1 ? 'person' : 'people'} going</span>
+          </div>
+
+          {/* Host */}
           <div className="flex items-center gap-2 mt-2.5">
             <img src={request.userAvatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${request.userName}`}
               alt={request.userName} className="w-5 h-5 rounded-full" />
             <span className="text-xs font-medium">{request.userName}</span>
             {request.userReliability && (
               <span className="text-2xs text-success font-semibold">{request.userReliability}% reliable</span>
+            )}
+          </div>
+
+          {/* Safety */}
+          <div className="flex items-center gap-2 mt-2 text-[10px] text-muted-foreground/60">
+            <span>🛡️ Public meetup</span>
+            {(request.userTrust === 'trusted' || request.userTrust === 'anchor') && (
+              <span>· ✅ Verified host</span>
             )}
           </div>
         </div>

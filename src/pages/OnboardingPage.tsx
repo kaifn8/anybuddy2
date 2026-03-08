@@ -9,6 +9,12 @@ const slides = [
   { emoji: '✨', title: 'Credits & Trust', description: 'Earn credits by helping others. Build trust through real connections.' },
 ];
 
+const EXAMPLE_PLANS = [
+  { emoji: '☕', title: 'Coffee in 20 min', time: '20 min' },
+  { emoji: '🏸', title: 'Badminton tonight', time: 'Today 7 PM' },
+  { emoji: '🚶', title: 'Walk at Marine Drive', time: '30 min' },
+];
+
 export default function OnboardingPage() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const navigate = useNavigate();
@@ -18,6 +24,7 @@ export default function OnboardingPage() {
   const textRef = useRef<HTMLDivElement>(null);
   
   const slide = slides[currentSlide];
+  const isLastSlide = currentSlide === slides.length - 1;
   
   useEffect(() => {
     gsap.fromTo(emojiRef.current, { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.4, ease: 'back.out(1.7)' });
@@ -52,6 +59,25 @@ export default function OnboardingPage() {
         <div ref={textRef} className="text-center max-w-[280px]">
           <h2 className="text-heading font-bold text-foreground mb-2">{slide.title}</h2>
           <p className="text-sm text-muted-foreground leading-relaxed">{slide.description}</p>
+          
+          {/* Example plans on last slide */}
+          {isLastSlide && (
+            <div className="mt-6">
+              <p className="text-2xs text-muted-foreground font-semibold mb-3 uppercase">People nearby are doing</p>
+              <div className="space-y-2">
+                {EXAMPLE_PLANS.map((plan, i) => (
+                  <div key={i} className="liquid-glass flex items-center gap-2.5 px-3 py-2.5 text-left" style={{ borderRadius: '0.75rem' }}>
+                    <span className="text-lg">{plan.emoji}</span>
+                    <div className="flex-1">
+                      <p className="text-xs font-semibold">{plan.title}</p>
+                      <p className="text-[10px] text-muted-foreground">{plan.time}</p>
+                    </div>
+                    <span className="text-[10px] text-success font-semibold">Live</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
       
@@ -71,7 +97,7 @@ export default function OnboardingPage() {
         </div>
         
         <button className="w-full h-12 tahoe-btn-primary tap-scale" onClick={handleNext}>
-          {currentSlide === slides.length - 1 ? 'Get Started' : 'Continue'}
+          {isLastSlide ? 'Get Started' : 'Continue'}
         </button>
         
         {currentSlide < slides.length - 1 && (

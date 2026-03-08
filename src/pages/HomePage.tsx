@@ -7,6 +7,7 @@ import { RequestCard } from '@/components/cards/RequestCard';
 import { JoinConfirmDialog } from '@/components/JoinConfirmDialog';
 import { useAppStore } from '@/store/useAppStore';
 import { cn } from '@/lib/utils';
+import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
 import type { Category, Request } from '@/types/anybuddy';
 
 const FILTERS: { id: Category | 'all'; label: string; emoji: string }[] = [
@@ -27,16 +28,16 @@ const QUICK_FILTERS = [
   { id: 'popular', label: '🔥 Popular', sort: (a: Request, b: Request) => b.seatsTaken - a.seatsTaken },
 ];
 
-const SUGGESTIONS: { emoji: string; title: string; category: Category }[] = [
+const QUICK_CREATE: { emoji: string; title: string; category: Category }[] = [
   { emoji: '☕', title: 'Coffee nearby', category: 'chai' },
-  { emoji: '🚶', title: 'Evening walk', category: 'walk' },
-  { emoji: '🏸', title: 'Badminton match', category: 'sports' },
-  { emoji: '🍜', title: 'Street food crawl', category: 'food' },
+  { emoji: '🚶', title: 'Walk', category: 'walk' },
+  { emoji: '🍜', title: 'Dinner', category: 'food' },
+  { emoji: '🏸', title: 'Badminton', category: 'sports' },
 ];
 
 export default function HomePage() {
   const navigate = useNavigate();
-  const { requests, joinedRequests, joinRequest, updateCredits, refreshFeed, user } = useAppStore();
+  const { requests, joinedRequests, joinRequest, updateCredits, refreshFeed, user, chatMessages } = useAppStore();
   const [activeFilter, setActiveFilter] = useState<Category | 'all'>('all');
   const [quickFilter, setQuickFilter] = useState<string | null>(null);
   const [confirmRequest, setConfirmRequest] = useState<Request | null>(null);
@@ -87,13 +88,24 @@ export default function HomePage() {
         : new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
     });
 
-  // Apply quick filter sorting
   if (quickFilter) {
     const qf = QUICK_FILTERS.find(f => f.id === quickFilter);
     if (qf) filtered = [...filtered].sort(qf.sort);
   }
 
   const activeCount = requests.filter(r => r.status === 'active').length;
+
+  // Trending: most joined plans
+  const trending = [...requests]
+    .filter(r => r.status === 'active')
+    .sort((a, b) => b.seatsTaken - a.seatsTaken)
+    .slice(0, 3);
+
+  // Previous chats: joined requests with messages
+  const previousChats = joinedRequests
+    .map(id => requests.find(r => r.id === id))
+    .filter((r): r is Request => !!r)
+    .slice(0, 3);
   
   return (
     <div className="mobile-container min-h-screen bg-ambient pb-24">
@@ -137,6 +149,48 @@ export default function HomePage() {
           ))}
         </div>
       </div>
+
+      {/* Previous chats */}
+      {previousChats.length > 0 && (
+        <div className="px-5 mb-4">
+          <h3 className="text-xs font-semibold text-muted-foreground mb-2 uppercase">Previous Chats</h3>
+          <div className="flex gap-2 overflow-x-auto scrollbar-hide -mx-5 px-5">
+            {previousChats.map((req) => {
+              const lastMsg = (chatMessages[req.id] || []).slice(-1)[0];
+              return (
+                <button key={req.id} onClick={() => navigate(`/request/${req.id}`)}
+                  className="shrink-0 liquid-glass p-2.5 flex items-center gap-2 tap-scale min-w-[200px]" style={{ borderRadius: '0.75rem' }}>
+                  <span className="text-lg">{getCategoryEmoji(req.category)}</span>
+                  <div className="text-left flex-1 min-w-0">
+                    <p className="text-2xs font-semibold truncate">{req.title}</p>
+                    {lastMsg && <p className="text-[10px] text-muted-foreground truncate">{lastMsg.senderName}: {lastMsg.message}</p>}
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {/* Trending section */}
+      {trending.length > 0 && activeFilter === 'all' && !quickFilter && (
+        <div className="px-5 mb-4">
+          <h3 className="text-xs font-semibold text-muted-foreground mb-2 uppercase">🔥 Popular nearby</h3>
+          <div className="flex gap-2 overflow-x-auto scrollbar-hide -mx-5 px-5">
+            {trending.map((req) => (
+              <button key={req.id} onClick={() => navigate(`/request/${req.id}`)}
+                className="shrink-0 liquid-glass-heavy p-3 tap-scale specular-highlight min-w-[170px]" style={{ borderRadius: '0.875rem' }}>
+                <div className="flex items-center gap-2 mb-1.5">
+                  <span className="text-lg">{getCategoryEmoji(req.category)}</span>
+                  <span className="text-2xs text-muted-foreground">{req.seatsTaken}/{req.seatsTotal} joined</span>
+                </div>
+                <p className="text-xs font-semibold truncate">{req.title}</p>
+                <p className="text-[10px] text-muted-foreground mt-0.5">📍 {req.location.name}</p>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
       
       <div ref={cardsRef} className="px-5 space-y-3">
         {filtered.map((request) => (
@@ -160,7 +214,7 @@ export default function HomePage() {
             <div>
               <h3 className="text-xs font-semibold text-muted-foreground mb-2 px-1">START A PLAN</h3>
               <div className="grid grid-cols-2 gap-2">
-                {SUGGESTIONS.map((s, i) => (
+                {QUICK_CREATE.map((s, i) => (
                   <button key={i} onClick={() => navigate('/create')}
                     className="liquid-glass p-3 text-left tap-scale flex items-center gap-2" style={{ borderRadius: '0.875rem' }}>
                     <span className="text-xl">{s.emoji}</span>
@@ -172,6 +226,22 @@ export default function HomePage() {
           </div>
         )}
       </div>
+
+      {/* Quick create bar at bottom of feed */}
+      {filtered.length > 0 && (
+        <div className="px-5 mt-5 mb-2">
+          <h3 className="text-xs font-semibold text-muted-foreground mb-2 uppercase">Start a plan</h3>
+          <div className="flex gap-2 overflow-x-auto scrollbar-hide -mx-5 px-5">
+            {QUICK_CREATE.map((s, i) => (
+              <button key={i} onClick={() => navigate('/create')}
+                className="shrink-0 liquid-glass px-3.5 py-2 tap-scale flex items-center gap-1.5" style={{ borderRadius: '0.75rem' }}>
+                <span className="text-sm">{s.emoji}</span>
+                <span className="text-2xs font-semibold">{s.title}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
 
       {confirmRequest && (
         <JoinConfirmDialog

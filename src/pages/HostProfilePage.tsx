@@ -3,12 +3,17 @@ import { useAppStore } from '@/store/useAppStore';
 import { TrustBadge } from '@/components/ui/TrustBadge';
 import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
 
+const FAKE_REVIEWS = [
+  { name: 'Priya', rating: 5, comment: 'Great host — very chill meetup!', ago: '2 days ago' },
+  { name: 'Arjun', rating: 4, comment: 'Really fun, would do it again.', ago: '1 week ago' },
+  { name: 'Maya', rating: 5, comment: 'Super organized and on time 👍', ago: '2 weeks ago' },
+];
+
 export default function HostProfilePage() {
   const { userId } = useParams<{ userId: string }>();
   const navigate = useNavigate();
   const { requests } = useAppStore();
 
-  // Find host data from requests
   const hostRequests = requests.filter(r => r.userId === userId);
   const host = hostRequests[0];
 
@@ -26,9 +31,11 @@ export default function HostProfilePage() {
 
   const completedMeetups = hostRequests.filter(r => r.status === 'completed').length;
   const activeMeetups = hostRequests.filter(r => r.status === 'active').length;
+  const totalMeetups = completedMeetups + activeMeetups;
+  const successRate = totalMeetups > 0 ? Math.round((completedMeetups / Math.max(totalMeetups, 1)) * 100) : 92; // fake fallback
 
   return (
-    <div className="mobile-container min-h-screen bg-ambient">
+    <div className="mobile-container min-h-screen bg-ambient pb-8">
       <header className="sticky top-0 z-40 liquid-glass-nav">
         <div className="flex items-center gap-3 h-12 px-5 max-w-md mx-auto">
           <button onClick={() => navigate(-1)} className="tahoe-btn-ghost w-8 h-8 rounded-lg tap-scale text-sm">←</button>
@@ -52,11 +59,12 @@ export default function HostProfilePage() {
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-3 gap-2">
+        <div className="grid grid-cols-4 gap-2">
           {[
             { value: `${host.userReliability || 0}%`, label: 'Reliable' },
             { value: host.userHostRating ? `${host.userHostRating}★` : '—', label: 'Rating' },
-            { value: completedMeetups + activeMeetups, label: 'Meetups' },
+            { value: totalMeetups || 12, label: 'Meetups' },
+            { value: `${successRate}%`, label: 'Success' },
           ].map((stat, i) => (
             <div key={i} className="liquid-glass p-2.5 text-center specular-highlight" style={{ borderRadius: '0.75rem' }}>
               <p className="text-sm font-bold text-foreground">{stat.value}</p>
@@ -65,10 +73,33 @@ export default function HostProfilePage() {
           ))}
         </div>
 
+        {/* Reviews */}
+        <div className="liquid-glass p-4 specular-highlight" style={{ borderRadius: '1rem' }}>
+          <h3 className="text-xs font-semibold text-muted-foreground mb-3">REVIEWS</h3>
+          <div className="space-y-3">
+            {FAKE_REVIEWS.map((review, i) => (
+              <div key={i} className="liquid-glass-subtle p-3 rounded-lg">
+                <div className="flex items-center justify-between mb-1">
+                  <div className="flex items-center gap-1.5">
+                    <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${review.name}`}
+                      alt={review.name} className="w-5 h-5 rounded-full" />
+                    <span className="text-xs font-semibold">{review.name}</span>
+                  </div>
+                  <span className="text-[10px] text-muted-foreground">{review.ago}</span>
+                </div>
+                <div className="text-xs text-warning mb-1">
+                  {'⭐'.repeat(review.rating)}{'☆'.repeat(5 - review.rating)}
+                </div>
+                <p className="text-xs text-muted-foreground">{review.comment}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* Past/Active meetups */}
         {hostRequests.length > 0 && (
           <div className="liquid-glass p-4 specular-highlight" style={{ borderRadius: '1rem' }}>
-            <h3 className="text-xs font-semibold text-muted-foreground mb-2.5">PAST MEETUPS</h3>
+            <h3 className="text-xs font-semibold text-muted-foreground mb-2.5">MEETUPS</h3>
             <div className="space-y-2">
               {hostRequests.slice(0, 5).map((req) => (
                 <button key={req.id} onClick={() => navigate(`/request/${req.id}`)}

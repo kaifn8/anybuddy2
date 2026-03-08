@@ -16,9 +16,8 @@ const badgeLabels: Record<Badge, { emoji: string; label: string }> = {
 
 export default function ProfilePage() {
   const navigate = useNavigate();
-  const { user: rawUser, myRequests, reset } = useAppStore();
+  const { user: rawUser, myRequests, requests, reset } = useAppStore();
   
-  // Ensure arrays exist for persisted users missing new fields
   const user = rawUser ? {
     ...rawUser,
     badges: rawUser.badges || [],
@@ -37,6 +36,11 @@ export default function ProfilePage() {
       </div>
     );
   }
+
+  // Saved plans
+  const savedPlansList = user.savedPlans
+    .map(id => requests.find(r => r.id === id))
+    .filter(Boolean);
   
   return (
     <div className="mobile-container min-h-screen bg-ambient pb-24">
@@ -62,7 +66,7 @@ export default function ProfilePage() {
           {user.bio && <p className="text-xs text-muted-foreground mt-1">{user.bio}</p>}
           <div className="flex items-center justify-center mt-1.5"><TrustBadge level={user.trustLevel} size="md" /></div>
           <p className="text-2xs text-muted-foreground mt-2">
-            📍 {user.zone || user.city} · Joined {formatDistanceToNow(new Date(user.createdAt), { addSuffix: true })}
+            📍 {user.zone ? `${user.zone}, ${user.city}` : user.city} · Joined {formatDistanceToNow(new Date(user.createdAt), { addSuffix: true })}
           </p>
         </div>
         
@@ -107,6 +111,25 @@ export default function ProfilePage() {
             ))}
           </div>
         </div>
+
+        {/* Saved Plans */}
+        {savedPlansList.length > 0 && (
+          <div>
+            <h3 className="text-xs font-semibold text-muted-foreground mb-2 uppercase">♡ Saved Plans</h3>
+            <div className="space-y-1.5">
+              {savedPlansList.map((req) => req && (
+                <button key={req.id} onClick={() => navigate(`/request/${req.id}`)}
+                  className="w-full flex items-center gap-3 liquid-glass p-3 text-left tap-scale" style={{ borderRadius: '0.875rem' }}>
+                  <span className="text-lg">{getCategoryEmoji(req.category)}</span>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-semibold truncate">{req.title}</p>
+                    <p className="text-2xs text-muted-foreground">📍 {req.location.name} · {req.seatsTaken}/{req.seatsTotal} joined</p>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
         
         {/* Host stats */}
         <div className="liquid-glass p-4 specular-highlight" style={{ borderRadius: '1rem' }}>

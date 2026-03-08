@@ -8,7 +8,9 @@ export function TopBar() {
       <div className="max-w-md mx-auto flex items-center justify-between h-12 px-5">
         <div className="flex items-center gap-1.5">
           <span className="text-xs">📍</span>
-          <span className="text-sm font-semibold text-foreground">{user?.city || 'Mumbai'}</span>
+          <span className="text-sm font-semibold text-foreground">
+            {user?.zone ? `${user.zone}, ${user.city || 'Mumbai'}` : user?.city || 'Mumbai'}
+          </span>
         </div>
         
         <span className="text-body font-bold tracking-tight text-foreground">
