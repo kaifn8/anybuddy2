@@ -89,7 +89,7 @@ export function RequestCard({ request, onJoin, onView, isJoined, className }: Re
         className={cn('p-3 cursor-pointer tap-scale rounded-xl', className)}
         onClick={onView}
         style={{
-          background: 'rgba(255,255,255,0.55)',
+          background: 'rgba(255,255,255,0.35)',
           backdropFilter: 'blur(24px)',
           WebkitBackdropFilter: 'blur(24px)',
           border: '1px solid rgba(255,255,255,0.6)',
