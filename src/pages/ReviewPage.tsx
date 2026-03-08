@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { TopBar } from '@/components/layout/TopBar';
 import gsap from 'gsap';
 import { useAppStore } from '@/store/useAppStore';
 

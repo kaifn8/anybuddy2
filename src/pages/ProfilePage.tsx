@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import { TopBar } from '@/components/layout/TopBar';
 import { formatDistanceToNow } from 'date-fns';
 import { BottomNav } from '@/components/layout/BottomNav';
 import { TrustBadge } from '@/components/ui/TrustBadge';
