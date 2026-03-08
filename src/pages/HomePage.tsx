@@ -6,15 +6,27 @@ import { BottomNav } from '@/components/layout/BottomNav';
 import { RequestCard } from '@/components/cards/RequestCard';
 import { useAppStore } from '@/store/useAppStore';
 import { cn } from '@/lib/utils';
+import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
 import type { Category } from '@/types/anybuddy';
 
 const FILTERS: { id: Category | 'all'; label: string; emoji: string }[] = [
   { id: 'all', label: 'All', emoji: '🔥' },
   { id: 'chai', label: 'Chai', emoji: '☕' },
+  { id: 'sports', label: 'Sports', emoji: '🏸' },
+  { id: 'food', label: 'Food', emoji: '🍜' },
   { id: 'explore', label: 'Explore', emoji: '🧭' },
   { id: 'work', label: 'Work', emoji: '💻' },
+  { id: 'walk', label: 'Walk', emoji: '🚶' },
   { id: 'help', label: 'Help', emoji: '🤝' },
   { id: 'casual', label: 'Chill', emoji: '✨' },
+];
+
+// Suggested plans when feed is empty
+const SUGGESTIONS: { emoji: string; title: string; category: Category }[] = [
+  { emoji: '☕', title: 'Coffee nearby', category: 'chai' },
+  { emoji: '🚶', title: 'Evening walk', category: 'walk' },
+  { emoji: '🏸', title: 'Badminton match', category: 'sports' },
+  { emoji: '🍜', title: 'Street food crawl', category: 'food' },
 ];
 
 export default function HomePage() {
@@ -48,7 +60,7 @@ export default function HomePage() {
   };
   
   const filtered = [...requests]
-    .filter(r => activeFilter === 'all' || r.category === activeFilter)
+    .filter(r => r.status === 'active' && (activeFilter === 'all' || r.category === activeFilter))
     .sort((a, b) => {
       const order = { now: 0, today: 1, week: 2 };
       return order[a.urgency] !== order[b.urgency]
@@ -66,20 +78,16 @@ export default function HomePage() {
             {user ? `Hey ${user.firstName} 👋` : 'Hey there 👋'}
           </h2>
           <p className="text-sm text-muted-foreground mt-0.5">
-            {filtered.length} people nearby need a buddy
+            {filtered.length} plans nearby
           </p>
         </div>
         
-        {/* Filter pills */}
         <div className="flex gap-2 overflow-x-auto pb-4 -mx-5 px-5 scrollbar-hide">
           {FILTERS.map((cat) => (
-            <button
-              key={cat.id}
-              onClick={() => setActiveFilter(cat.id)}
+            <button key={cat.id} onClick={() => setActiveFilter(cat.id)}
               className={cn('shrink-0 glass-pill tap-scale',
                 activeFilter === cat.id ? 'glass-pill-active' : 'glass-pill-inactive'
-              )}
-            >
+              )}>
               <span className="text-xs">{cat.emoji}</span>
               <span>{cat.label}</span>
             </button>
@@ -87,7 +95,6 @@ export default function HomePage() {
         </div>
       </div>
       
-      {/* Feed */}
       <div ref={cardsRef} className="px-5 space-y-3">
         {filtered.map((request) => (
           <RequestCard
@@ -100,14 +107,26 @@ export default function HomePage() {
         ))}
         
         {filtered.length === 0 && (
-          <div className="text-center py-20">
-            <span className="text-4xl block mb-3">🔍</span>
-            <p className="text-sm text-muted-foreground mb-2 font-medium">
-              No requests {activeFilter !== 'all' ? `for ${activeFilter}` : 'nearby'}
-            </p>
-            <button onClick={() => navigate('/create')} className="text-primary font-semibold text-sm tap-scale">
-              Be the first to post
-            </button>
+          <div className="pt-8">
+            <div className="text-center mb-6">
+              <span className="text-3xl block mb-2">🔍</span>
+              <p className="text-sm text-muted-foreground font-medium">
+                No plans {activeFilter !== 'all' ? `for ${activeFilter}` : 'nearby'}
+              </p>
+            </div>
+            
+            <div>
+              <h3 className="text-xs font-semibold text-muted-foreground mb-2 px-1">START A PLAN</h3>
+              <div className="grid grid-cols-2 gap-2">
+                {SUGGESTIONS.map((s, i) => (
+                  <button key={i} onClick={() => navigate('/create')}
+                    className="liquid-glass p-3 text-left tap-scale flex items-center gap-2" style={{ borderRadius: '0.875rem' }}>
+                    <span className="text-xl">{s.emoji}</span>
+                    <span className="text-xs font-semibold">{s.title}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>

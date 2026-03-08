@@ -10,7 +10,7 @@ import { getCategoryLabel, getCategoryEmoji } from '@/components/icons/CategoryI
 import type { Category, Urgency } from '@/types/anybuddy';
 import { cn } from '@/lib/utils';
 
-const categories: Category[] = ['chai', 'explore', 'shopping', 'work', 'help', 'casual'];
+const categories: Category[] = ['chai', 'explore', 'shopping', 'work', 'help', 'casual', 'sports', 'food', 'walk'];
 const timers = [
   { value: null, label: '♾️ None' },
   { value: 5, label: '5 min' },
@@ -23,6 +23,7 @@ export default function CreateRequestPage() {
   const { user, createRequest, updateCredits } = useAppStore();
   
   const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
   const [category, setCategory] = useState<Category | null>(null);
   const [urgency, setUrgency] = useState<Urgency>('now');
   const [timer, setTimer] = useState<number | null>(null);
@@ -58,7 +59,15 @@ export default function CreateRequestPage() {
     else if (urgency === 'today') { when = new Date(now.getTime() + 2 * 3600000); expiresAt = new Date(when.getTime() + 4 * 3600000); }
     else { when = new Date(now.getTime() + 3 * 24 * 3600000); expiresAt = new Date(when.getTime() + 24 * 3600000); }
     
-    createRequest({ userId: user.id, userName: user.firstName, userTrust: user.trustLevel, userAvatar: user.avatar, title: title.trim(), category: category!, urgency, when, location: { name: user.city || 'Koramangala', distance: 0 }, seatsTotal: seats[0], seatsTaken: 0, expiresAt, timer: timer ?? undefined, liveShare });
+    createRequest({
+      userId: user.id, userName: user.firstName, userTrust: user.trustLevel,
+      userAvatar: user.avatar, userReliability: user.reliabilityScore,
+      userHostRating: user.hostRating, title: title.trim(), description: description.trim() || undefined,
+      category: category!, urgency, when,
+      location: { name: user.zone || user.city || 'Koramangala', distance: 0, coords: { lat: 12.9352, lng: 77.6245 } },
+      seatsTotal: seats[0], seatsTaken: 0, expiresAt, timer: timer ?? undefined,
+      liveShare, status: 'active',
+    });
     updateCredits(-creditCost, 'Posted a request');
     gsap.to(contentRef.current, { opacity: 0, y: -16, duration: 0.25, onComplete: () => navigate('/home') });
   };
@@ -68,22 +77,26 @@ export default function CreateRequestPage() {
       <PageHeader title="New Request" />
       
       <div ref={contentRef} className="px-5 pb-28 space-y-6 pt-2">
-        {/* Title */}
         <div>
           <label className="text-xs font-medium text-muted-foreground mb-1.5 block">What do you need?</label>
-          <ModernInput placeholder="e.g., Anyone for chai?" value={title}
+          <ModernInput placeholder="e.g., Coffee at Carter Road" value={title}
             onChange={(e) => setTitle(e.target.value.slice(0, 120))}
-            suffix={<span className="text-2xs text-muted-foreground">{title.length}/120</span>}
-          />
+            suffix={<span className="text-2xs text-muted-foreground">{title.length}/120</span>} />
         </div>
         
-        {/* Category */}
+        <div>
+          <label className="text-xs font-medium text-muted-foreground mb-1.5 block">Description (optional)</label>
+          <textarea placeholder="Add details..." value={description}
+            onChange={(e) => setDescription(e.target.value.slice(0, 200))}
+            className="w-full h-16 px-4 py-2.5 rounded-xl liquid-glass text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 resize-none" />
+        </div>
+        
         <div>
           <label className="text-xs font-medium text-muted-foreground mb-2 block">Category</label>
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-3 gap-2">
             {categories.map((cat) => (
               <button key={cat} onClick={() => setCategory(cat)}
-                className={cn('flex items-center gap-2 py-3 px-3.5 rounded-xl text-sm font-semibold transition-all tap-scale text-left',
+                className={cn('flex flex-col items-center gap-1 py-2.5 px-2 rounded-xl text-xs font-semibold transition-all tap-scale',
                   category === cat ? 'tahoe-btn-primary' : 'liquid-glass text-foreground'
                 )}>
                 <span>{getCategoryEmoji(cat)}</span>
@@ -93,7 +106,6 @@ export default function CreateRequestPage() {
           </div>
         </div>
         
-        {/* When */}
         <div>
           <label className="text-xs font-medium text-muted-foreground mb-2 block">When?</label>
           <div className="flex gap-2">
@@ -101,14 +113,11 @@ export default function CreateRequestPage() {
               <button key={u.v} onClick={() => setUrgency(u.v)}
                 className={cn('flex-1 py-3 rounded-xl text-sm font-semibold transition-all tap-scale',
                   urgency === u.v ? 'tahoe-btn-primary' : 'liquid-glass text-foreground'
-                )}>
-                {u.l}
-              </button>
+                )}>{u.l}</button>
             ))}
           </div>
         </div>
         
-        {/* Timer */}
         {urgency === 'now' && (
           <div>
             <label className="text-xs font-medium text-muted-foreground mb-2 block">Auto-expire</label>
@@ -117,23 +126,17 @@ export default function CreateRequestPage() {
                 <button key={t.label} onClick={() => setTimer(t.value)}
                   className={cn('flex-1 py-2.5 rounded-xl text-xs font-semibold transition-all tap-scale',
                     timer === t.value ? 'tahoe-btn-primary' : 'liquid-glass text-foreground'
-                  )}>
-                  {t.label}
-                </button>
+                  )}>{t.label}</button>
               ))}
             </div>
           </div>
         )}
         
-        {/* Location + Live */}
         <div className="liquid-glass-heavy p-4 specular-highlight" style={{ borderRadius: '1rem' }}>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2.5">
               <span className="text-xl">📍</span>
-              <div>
-                <p className="text-sm font-semibold">{user?.city || 'Koramangala'}</p>
-                <p className="text-2xs text-muted-foreground">Auto-detected</p>
-              </div>
+              <div><p className="text-sm font-semibold">{user?.zone || user?.city || 'Koramangala'}</p><p className="text-2xs text-muted-foreground">Auto-detected</p></div>
             </div>
             <span className="text-base">✅</span>
           </div>
@@ -143,10 +146,9 @@ export default function CreateRequestPage() {
           </div>
         </div>
         
-        {/* Seats */}
         <div>
           <div className="flex items-center justify-between mb-2">
-            <label className="text-xs font-medium text-muted-foreground">How many can join?</label>
+            <label className="text-xs font-medium text-muted-foreground">Seats available</label>
             <span className="text-title font-bold text-foreground">{seats[0]}</span>
           </div>
           <Slider value={seats} onValueChange={setSeats} min={1} max={10} step={1} />
@@ -155,22 +157,17 @@ export default function CreateRequestPage() {
           </div>
         </div>
         
-        {/* Cost */}
         <div className="liquid-glass-heavy p-4 specular-highlight" style={{ borderRadius: '1rem' }}>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2.5">
               <span className="text-xl">💰</span>
-              <div>
-                <p className="text-sm font-semibold">Cost to post</p>
-                <p className="text-2xs text-muted-foreground">Balance: {user?.credits ?? 0}</p>
-              </div>
+              <div><p className="text-sm font-semibold">Cost to post</p><p className="text-2xs text-muted-foreground">Balance: {user?.credits ?? 0}</p></div>
             </div>
             <span className="text-heading font-bold">{creditCost}</span>
           </div>
         </div>
       </div>
       
-      {/* Fixed bottom CTA */}
       <div className="fixed bottom-0 left-0 right-0 p-4 liquid-glass-nav">
         <div className="max-w-md mx-auto">
           <button className="w-full h-12 tahoe-btn-primary tap-scale disabled:opacity-40"

@@ -7,6 +7,9 @@ const emojiMap: Record<Category, string> = {
   work: '💻',
   help: '🤝',
   casual: '✨',
+  sports: '🏸',
+  food: '🍜',
+  walk: '🚶',
 };
 
 const bgMap: Record<Category, string> = {
@@ -16,6 +19,9 @@ const bgMap: Record<Category, string> = {
   work: 'bg-muted',
   help: 'bg-success/10',
   casual: 'bg-accent/15',
+  sports: 'bg-primary/10',
+  food: 'bg-warning/10',
+  walk: 'bg-success/10',
 };
 
 interface CategoryEmojiProps {
@@ -39,17 +45,20 @@ export function CategoryIcon({ category, size = 'md', className }: CategoryEmoji
 }
 
 export function getCategoryEmoji(category: Category): string {
-  return emojiMap[category];
+  return emojiMap[category] || '✨';
 }
 
 export function getCategoryLabel(category: Category): string {
   const labels: Record<Category, string> = {
-    chai: 'Chai & Food',
+    chai: 'Chai & Coffee',
     explore: 'Explore',
     shopping: 'Shopping',
     work: 'Work-along',
     help: 'Help',
     casual: 'Casual',
+    sports: 'Sports',
+    food: 'Food',
+    walk: 'Walk',
   };
-  return labels[category];
+  return labels[category] || category;
 }
