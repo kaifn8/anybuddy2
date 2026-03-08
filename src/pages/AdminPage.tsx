@@ -46,7 +46,7 @@ export default function AdminPage() {
               </div>
             </div>
             
-            <div className="liquid-glass-heavy p-4 specular-highlight" style={{ borderRadius: '1rem' }}>
+            <div className="liquid-glass-heavy p-4">
               <h3 className="text-xs font-semibold text-muted-foreground mb-3">CATEGORY DEMAND</h3>
               <div className="space-y-2.5">
                 {(Object.entries(categoryDemand) as [Category, number][]).map(([cat, demand]) => (
