@@ -41,7 +41,7 @@ export default function HostProfilePage() {
 
       <div className="px-5 pt-5 space-y-4">
         {/* Profile card */}
-        <div className="liquid-glass-heavy p-5 text-center specular-highlight" style={{ borderRadius: '1.25rem' }}>
+        <div className="liquid-glass-heavy p-5 text-center">
           <img src={host.userAvatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${host.userName}`}
             alt={host.userName} className="w-20 h-20 rounded-full mx-auto border-3 border-white/40" />
           <h2 className="text-title font-bold mt-3">{host.userName}</h2>
