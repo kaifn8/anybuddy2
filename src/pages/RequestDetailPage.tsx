@@ -42,10 +42,6 @@ export default function RequestDetailPage() {
     <div className="mobile-container min-h-screen bg-ambient flex flex-col">
       {/* Header */}
       <TopBar showBack title={request.title} />
-            </button>
-          )}
-        </div>
-      </header>
       
       {/* Meetup summary card */}
       <div className="px-5 py-3 border-b border-border/15">
