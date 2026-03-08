@@ -48,13 +48,45 @@ const userIcon = L.divIcon({
   iconAnchor: [12, 12],
 });
 
-function FlyToSelected({ selected }: { selected: Request | undefined }) {
+function FitBounds({ requests, selectedId }: { requests: Request[]; selectedId: string | null }) {
   const map = useMap();
+  
   useEffect(() => {
-    if (selected?.location.coords) {
-      map.flyTo([selected.location.coords.lat, selected.location.coords.lng], 15, { duration: 0.5 });
+    // If a specific item is selected, fly to it
+    if (selectedId) {
+      const selected = requests.find(r => r.id === selectedId);
+      if (selected?.location.coords) {
+        map.flyTo([selected.location.coords.lat, selected.location.coords.lng], 15, { duration: 0.5 });
+      }
+      return;
     }
-  }, [selected, map]);
+
+    // Otherwise fit bounds to all markers
+    const validRequests = requests.filter(r => r.location.coords);
+    if (validRequests.length === 0) {
+      map.setView(MUMBAI_CENTER, 13);
+      return;
+    }
+
+    if (validRequests.length === 1) {
+      const coords = validRequests[0].location.coords!;
+      map.flyTo([coords.lat, coords.lng], 14, { duration: 0.5 });
+      return;
+    }
+
+    const bounds = L.latLngBounds(
+      validRequests.map(r => [r.location.coords!.lat, r.location.coords!.lng] as [number, number])
+    );
+    // Add user location to bounds
+    bounds.extend(MUMBAI_CENTER);
+    
+    map.flyToBounds(bounds, { 
+      padding: [40, 40], 
+      duration: 0.5,
+      maxZoom: 14 
+    });
+  }, [requests, selectedId, map]);
+
   return null;
 }
 
@@ -65,6 +97,7 @@ export default function MapPage() {
   const [filter, setFilter] = useState<Category | 'all'>('all');
   const [confirmRequest, setConfirmRequest] = useState<Request | null>(null);
   const [showShare, setShowShare] = useState(false);
+  const [shareRequest, setShareRequest] = useState<Request | null>(null);
 
   const activeRequests = requests
     .filter(r => r.status === 'active' && new Date(r.expiresAt) > new Date())
@@ -73,13 +106,13 @@ export default function MapPage() {
 
   const selected = activeRequests.find(r => r.id === selectedId);
 
-  const filters: { id: Category | 'all'; emoji: string }[] = [
-    { id: 'all', emoji: '🔥' },
-    { id: 'chai', emoji: '☕' },
-    { id: 'sports', emoji: '🏸' },
-    { id: 'food', emoji: '🍜' },
-    { id: 'explore', emoji: '🧭' },
-    { id: 'walk', emoji: '🚶' },
+  const filters: { id: Category | 'all'; emoji: string; label: string }[] = [
+    { id: 'all', emoji: '🔥', label: 'All' },
+    { id: 'chai', emoji: '☕', label: 'Chai' },
+    { id: 'sports', emoji: '🏸', label: 'Sports' },
+    { id: 'food', emoji: '🍜', label: 'Food' },
+    { id: 'explore', emoji: '🧭', label: 'Explore' },
+    { id: 'walk', emoji: '🚶', label: 'Walk' },
   ];
 
   const handleJoinFromMap = (req: Request) => {
@@ -94,22 +127,32 @@ export default function MapPage() {
     navigate(`/request/${confirmRequest.id}`);
   };
 
+  const handleShare = (req: Request) => {
+    setShareRequest(req);
+    setShowShare(true);
+  };
+
+  const currentFilter = filters.find(f => f.id === filter);
+
   return (
     <div className="mobile-container min-h-screen bg-ambient pb-24 flex flex-col">
       <TopBar showBack title="Nearby Plans" />
 
+      {/* Category filters */}
       <div className="flex gap-2 px-5 py-2.5 overflow-x-auto scrollbar-hide z-[1000] relative">
         {filters.map((f) => (
           <button key={f.id} onClick={() => { setFilter(f.id); setSelectedId(null); }}
-            className={cn('w-9 h-9 rounded-full flex items-center justify-center tap-scale text-sm transition-all',
+            className={cn('h-9 px-3 rounded-full flex items-center gap-1.5 tap-scale text-sm transition-all whitespace-nowrap',
               filter === f.id ? 'tahoe-btn-primary' : 'liquid-glass'
             )}>
-            {f.emoji}
+            <span>{f.emoji}</span>
+            <span className="text-xs font-medium">{f.label}</span>
           </button>
         ))}
       </div>
 
-      <div className="relative mx-5 rounded-2xl overflow-hidden" style={{ height: '480px' }}>
+      {/* Map */}
+      <div className="relative mx-5 rounded-2xl overflow-hidden" style={{ height: '280px' }}>
         <MapContainer
           center={MUMBAI_CENTER}
           zoom={13}
@@ -121,7 +164,7 @@ export default function MapPage() {
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
           />
-          <FlyToSelected selected={selected} />
+          <FitBounds requests={activeRequests} selectedId={selectedId} />
           <Marker position={MUMBAI_CENTER} icon={userIcon} />
           {activeRequests.map((req) => {
             if (!req.location.coords) return null;
@@ -149,43 +192,61 @@ export default function MapPage() {
         )}
       </div>
 
-      {selected && (
-        <div className="mx-5 mt-3 liquid-glass-heavy p-4 slide-up">
-          <div className="flex items-start gap-3">
-            <div className="w-10 h-10 rounded-xl bg-muted/50 flex items-center justify-center text-lg shrink-0">
-              {getCategoryEmoji(selected.category)}
-            </div>
-            <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-1.5 mb-0.5">
-                <UrgencyBadge urgency={selected.urgency} />
-                <span className="text-2xs text-muted-foreground">📍 {selected.location.distance}km</span>
+      {/* Events list header */}
+      <div className="px-5 pt-4 pb-2 flex items-center justify-between">
+        <p className="text-sm font-semibold text-foreground">
+          {currentFilter?.emoji} {activeRequests.length} {filter === 'all' ? 'plans' : `${currentFilter?.label} plans`} nearby
+        </p>
+        {selectedId && (
+          <button onClick={() => setSelectedId(null)} className="text-2xs text-primary font-semibold tap-scale">
+            Show all
+          </button>
+        )}
+      </div>
+
+      {/* Events list */}
+      <div className="flex-1 overflow-y-auto px-5 space-y-2">
+        {(selectedId ? activeRequests.filter(r => r.id === selectedId) : activeRequests).map((req) => (
+          <div 
+            key={req.id} 
+            className={cn(
+              "liquid-glass p-3 tap-scale transition-all",
+              selectedId === req.id && "ring-2 ring-primary/30"
+            )}
+            onClick={() => setSelectedId(selectedId === req.id ? null : req.id)}
+          >
+            <div className="flex items-start gap-3">
+              <div className="w-10 h-10 rounded-xl bg-muted/50 flex items-center justify-center text-lg shrink-0">
+                {getCategoryEmoji(req.category)}
               </div>
-              <h3 className="text-sm font-semibold truncate">{selected.title}</h3>
-              <div className="flex items-center gap-2 mt-1.5 text-2xs text-muted-foreground">
-                <button onClick={() => navigate(`/host/${selected.userId}`)} className="underline decoration-dotted tap-scale">
-                  {selected.userName}
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-1.5 mb-0.5">
+                  <UrgencyBadge urgency={req.urgency} />
+                  <span className="text-2xs text-muted-foreground">📍 {req.location.distance}km</span>
+                </div>
+                <h3 className="text-sm font-semibold truncate">{req.title}</h3>
+                <div className="flex items-center gap-2 mt-1 text-2xs text-muted-foreground">
+                  <button onClick={(e) => { e.stopPropagation(); navigate(`/host/${req.userId}`); }} className="underline decoration-dotted tap-scale">
+                    {req.userName}
+                  </button>
+                  <span>👥 {req.seatsTotal - req.seatsTaken} left</span>
+                  <span>🎯 {req.userReliability}%</span>
+                </div>
+              </div>
+              <div className="flex flex-col gap-1.5 shrink-0">
+                <button onClick={(e) => { e.stopPropagation(); handleJoinFromMap(req); }}
+                  className="tahoe-btn-primary h-8 px-3 rounded-lg text-xs font-semibold tap-scale">
+                  Join
                 </button>
-                <span>👥 {selected.seatsTotal - selected.seatsTaken} left</span>
-                <span>🎯 {selected.userReliability}%</span>
+                <button onClick={(e) => { e.stopPropagation(); handleShare(req); }}
+                  className="liquid-glass h-7 w-7 rounded-lg flex items-center justify-center tap-scale">
+                  <Share2 size={13} />
+                </button>
               </div>
-              <div className="flex items-center gap-2 mt-1 text-2xs text-muted-foreground/70">
-                <span>🛡️ Public</span>
-                {(selected.userTrust === 'trusted' || selected.userTrust === 'anchor') && <span>✅ Verified</span>}
-              </div>
-            </div>
-            <div className="flex flex-col gap-1.5 shrink-0">
-              <button onClick={() => handleJoinFromMap(selected)}
-                className="tahoe-btn-primary h-8 px-3 rounded-lg text-xs font-semibold tap-scale">
-                Join
-              </button>
-              <button onClick={() => setShowShare(true)}
-                className="liquid-glass h-7 w-7 rounded-lg flex items-center justify-center tap-scale">
-                <Share2 size={13} />
-              </button>
             </div>
           </div>
-        </div>
-      )}
+        ))}
+      </div>
 
       {confirmRequest && (
         <JoinConfirmDialog
@@ -196,8 +257,8 @@ export default function MapPage() {
         />
       )}
 
-      {showShare && selected && (
-        <ShareSheet open={showShare} onClose={() => setShowShare(false)} title={selected.title} />
+      {showShare && shareRequest && (
+        <ShareSheet open={showShare} onClose={() => { setShowShare(false); setShareRequest(null); }} title={shareRequest.title} />
       )}
 
       <BottomNav />
