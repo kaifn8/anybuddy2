@@ -184,7 +184,7 @@ export default function SignupPage() {
           {step === 'photo' && (
             <div className="space-y-5">
               <div className="flex justify-center">
-                <div className="w-28 h-28 rounded-full liquid-glass-heavy flex items-center justify-center specular-highlight">
+                <div className="w-28 h-28 rounded-full liquid-glass-heavy flex items-center justify-center">
                   <span className="text-4xl">📷</span>
                 </div>
               </div>
