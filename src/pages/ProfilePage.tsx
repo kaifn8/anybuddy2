@@ -95,7 +95,7 @@ export default function ProfilePage() {
         )}
         
         {/* Interests */}
-        <div className="liquid-glass-heavy p-4 specular-highlight" style={{ borderRadius: '1rem' }}>
+        <div className="liquid-glass-heavy p-4">
           <h3 className="text-xs font-semibold text-muted-foreground mb-2.5">INTERESTS</h3>
           <div className="flex flex-wrap gap-1.5">
             {user.interests.map((interest) => (
