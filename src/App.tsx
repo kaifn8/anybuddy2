@@ -37,6 +37,7 @@ const App = () => (
           <Route path="/create" element={<CreateRequestPage />} />
           <Route path="/join/:id" element={<JoinRequestPage />} />
           <Route path="/request/:id" element={<RequestDetailPage />} />
+          <Route path="/host/:userId" element={<HostProfilePage />} />
           <Route path="/review/:id" element={<ReviewPage />} />
           <Route path="/credits" element={<CreditsPage />} />
           <Route path="/notifications" element={<NotificationsPage />} />
