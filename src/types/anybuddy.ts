@@ -1,20 +1,37 @@
 export type TrustLevel = 'seed' | 'solid' | 'trusted' | 'anchor';
 export type Urgency = 'now' | 'today' | 'week';
-export type Category = 'chai' | 'explore' | 'shopping' | 'work' | 'help' | 'casual';
+export type Category = 'chai' | 'explore' | 'shopping' | 'work' | 'help' | 'casual' | 'sports' | 'food' | 'walk';
 
 export interface User {
   id: string;
   firstName: string;
   phone: string;
+  email?: string;
+  bio?: string;
   ageRange: string;
   city: string;
+  zone?: string;
   interests: Category[];
   trustLevel: TrustLevel;
   credits: number;
   completedJoins: number;
   createdAt: Date;
   avatar?: string;
+  // Enhanced profile fields
+  reliabilityScore: number; // 0-100
+  joinRate: number; // 0-100
+  hostRating: number; // 0-5
+  meetupsHosted: number;
+  meetupsAttended: number;
+  noShows: number;
+  cancellations: number;
+  isVerified: boolean;
+  badges: Badge[];
+  savedPlans: string[];
+  loginMethod?: 'phone' | 'email' | 'google' | 'apple';
 }
+
+export type Badge = 'verified_host' | 'top_host' | 'trusted_member' | 'early_adopter' | 'streak_7';
 
 export interface Request {
   id: string;
@@ -22,7 +39,10 @@ export interface Request {
   userName: string;
   userTrust: TrustLevel;
   userAvatar?: string;
+  userReliability?: number;
+  userHostRating?: number;
   title: string;
+  description?: string;
   category: Category;
   urgency: Urgency;
   when: Date;
@@ -35,9 +55,13 @@ export interface Request {
   seatsTaken: number;
   expiresAt: Date;
   createdAt: Date;
-  timer?: number; // minutes
+  timer?: number;
   liveShare: boolean;
   participants: Participant[];
+  photo?: string;
+  isRecurring?: boolean;
+  recurringDay?: string;
+  status: 'active' | 'completed' | 'cancelled' | 'expired';
 }
 
 export interface Participant {
@@ -58,7 +82,7 @@ export interface ChatMessage {
 
 export interface Notification {
   id: string;
-  type: 'nearby' | 'urgent' | 'join' | 'message' | 'credit' | 'trust';
+  type: 'nearby' | 'urgent' | 'join' | 'message' | 'credit' | 'trust' | 'reminder' | 'completion';
   title: string;
   message: string;
   timestamp: Date;
@@ -72,4 +96,25 @@ export interface CreditTransaction {
   amount: number;
   reason: string;
   timestamp: Date;
+}
+
+export interface MeetupReview {
+  id: string;
+  requestId: string;
+  reviewerId: string;
+  rating: number; // 1-5
+  didHappen: 'yes' | 'no' | 'didnt_attend';
+  comment?: string;
+  timestamp: Date;
+}
+
+export interface MapPin {
+  id: string;
+  requestId: string;
+  category: Category;
+  title: string;
+  coords: { lat: number; lng: number };
+  seatsLeft: number;
+  urgency: Urgency;
+  distance: number;
 }
