@@ -5,32 +5,34 @@ import type { User, Request, Notification, CreditTransaction, Category, TrustLev
 const FAKE_NAMES = ['Priya', 'Arjun', 'Maya', 'Rohan', 'Zara', 'Aditya', 'Neha', 'Vikram', 'Ananya', 'Kabir', 'Riya', 'Dev', 'Simran', 'Rahul'];
 
 const FAKE_REQUEST_TITLES = [
-  'Anyone for chai and a chat?',
+  'Anyone for chai at Carter Road?',
   'Need help moving a couch 🛋️',
-  'Looking for a co-working buddy',
-  'Exploring the new art exhibition',
+  'Looking for a co-working buddy in Bandra',
+  'Exploring Kala Ghoda art district',
   'Quick grocery run - need company!',
-  'Study session at the library?',
-  'Morning walk in the park',
-  'Anyone know good cafes nearby?',
-  'Trying a new restaurant tonight',
-  'Weekend hiking trip planning',
-  'Need a gym buddy 💪',
-  'Coffee and brainstorming session',
-  'Badminton at 6 PM?',
-  'Street food crawl in Indiranagar',
-  'Evening jog around the lake',
+  'Study session at Asiatic Library?',
+  'Morning walk at Marine Drive',
+  'Anyone know good cafes in Versova?',
+  'Trying a new restaurant in Colaba tonight',
+  'Weekend trek to Karnala Fort',
+  'Need a gym buddy in Andheri 💪',
+  'Coffee and brainstorming at Prithvi Cafe',
+  'Badminton at 6 PM in Powai?',
+  'Street food crawl in Mohammad Ali Road',
+  'Evening jog at Juhu Beach',
 ];
 
 const LOCATIONS = [
-  { name: 'Koramangala', distance: 0.5, coords: { lat: 12.9352, lng: 77.6245 } },
-  { name: 'Indiranagar', distance: 1.2, coords: { lat: 12.9784, lng: 77.6408 } },
-  { name: 'HSR Layout', distance: 0.8, coords: { lat: 12.9116, lng: 77.6389 } },
-  { name: 'Whitefield', distance: 4.5, coords: { lat: 12.9698, lng: 77.7500 } },
-  { name: 'MG Road', distance: 2.1, coords: { lat: 12.9756, lng: 77.6068 } },
-  { name: 'JP Nagar', distance: 3.2, coords: { lat: 12.9063, lng: 77.5857 } },
-  { name: 'Jayanagar', distance: 1.8, coords: { lat: 12.9308, lng: 77.5838 } },
-  { name: 'Marathahalli', distance: 3.8, coords: { lat: 12.9591, lng: 77.6974 } },
+  { name: 'Bandra West', distance: 0.5, coords: { lat: 19.0596, lng: 72.8295 } },
+  { name: 'Andheri West', distance: 1.8, coords: { lat: 19.1197, lng: 72.8464 } },
+  { name: 'Colaba', distance: 3.5, coords: { lat: 18.9067, lng: 72.8147 } },
+  { name: 'Juhu', distance: 2.1, coords: { lat: 19.0883, lng: 72.8265 } },
+  { name: 'Powai', distance: 4.2, coords: { lat: 19.1176, lng: 72.9060 } },
+  { name: 'Lower Parel', distance: 1.5, coords: { lat: 18.9930, lng: 72.8302 } },
+  { name: 'Versova', distance: 2.8, coords: { lat: 19.1320, lng: 72.8145 } },
+  { name: 'Worli', distance: 1.2, coords: { lat: 19.0176, lng: 72.8150 } },
+  { name: 'Dadar', distance: 2.0, coords: { lat: 19.0178, lng: 72.8478 } },
+  { name: 'Malad West', distance: 3.5, coords: { lat: 19.1860, lng: 72.8385 } },
 ];
 
 const CATEGORIES: Category[] = ['chai', 'explore', 'shopping', 'work', 'help', 'casual', 'sports', 'food', 'walk'];
@@ -38,12 +40,12 @@ const URGENCIES: Urgency[] = ['now', 'today', 'week'];
 const TRUST_LEVELS: TrustLevel[] = ['seed', 'solid', 'trusted', 'anchor'];
 
 const BIOS = [
-  'Coffee addict ☕ Love meeting new people',
-  'Weekend explorer 🧭',
-  'Fitness enthusiast & foodie',
-  'Just moved to Bangalore, looking for buddies!',
-  'Book nerd who also loves hiking',
-  'Tech geek by day, badminton player by evening',
+  'Cutting chai addict ☕ Love meeting new people',
+  'Weekend explorer - Konkan coast is home 🧭',
+  'Fitness enthusiast & street food lover',
+  'Just moved to Mumbai, looking for buddies!',
+  'Book nerd who also loves monsoon treks',
+  'Tech geek by day, cricket player by evening',
 ];
 
 interface AppState {
@@ -129,7 +131,7 @@ const generateInitialRequests = (count: number): Request[] => {
 };
 
 const createDefaultUser = (overrides: Partial<User>): User => ({
-  id: '', firstName: '', phone: '', ageRange: '', city: 'Bangalore',
+  id: '', firstName: '', phone: '', ageRange: '', city: 'Mumbai',
   interests: [], trustLevel: 'seed', credits: 3, completedJoins: 0,
   createdAt: new Date(), reliabilityScore: 100, joinRate: 100,
   hostRating: 0, meetupsHosted: 0, meetupsAttended: 0, noShows: 0,

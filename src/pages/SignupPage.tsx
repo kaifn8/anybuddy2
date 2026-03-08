@@ -10,7 +10,7 @@ type Step = 'method' | 'phone' | 'otp' | 'name' | 'photo' | 'bio' | 'age' | 'int
 const steps: Step[] = ['method', 'phone', 'otp', 'name', 'photo', 'bio', 'age', 'interests', 'zone'];
 const ageRanges = ['18-24', '25-34', '35-44', '45-54', '55+'];
 const categories: Category[] = ['chai', 'explore', 'shopping', 'work', 'help', 'casual', 'sports', 'food', 'walk'];
-const zones = ['Koramangala', 'Indiranagar', 'HSR Layout', 'Whitefield', 'MG Road', 'JP Nagar', 'Jayanagar', 'Marathahalli'];
+const zones = ['Bandra', 'Andheri', 'Colaba', 'Juhu', 'Powai', 'Lower Parel', 'Versova', 'Worli', 'Dadar', 'Malad'];
 
 const stepConfig: Record<Step, { emoji: string; title: string; subtitle: string }> = {
   method: { emoji: '👋', title: 'Welcome to AnyBuddy', subtitle: 'Choose how to sign in' },
@@ -80,7 +80,7 @@ export default function SignupPage() {
       gsap.to(contentRef.current, { opacity: 0, duration: 0.2, onComplete: () => {
         setUser(createDefaultUser({
           id: `user_${Date.now()}`, firstName, phone, email, bio,
-          ageRange, city: 'Bangalore', zone, interests, loginMethod,
+          ageRange, city: 'Mumbai', zone, interests, loginMethod,
           avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${firstName}`,
         }));
         setOnboarded(true);
