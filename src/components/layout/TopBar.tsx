@@ -18,12 +18,6 @@ const CITIES: Record<string, string[]> = {
   'Thane': ['Thane West', 'Thane East', 'Ghodbunder', 'Majiwada', 'Hiranandani Estate', 'Kalwa'],
 };
 
-// Simple geo-detection stub: picks city based on random/stored preference
-function detectCity(): string {
-  // In production this would use navigator.geolocation
-  return 'Mumbai';
-}
-
 export function TopBar() {
   const navigate = useNavigate();
   const user = useAppStore((s) => s.user);
@@ -31,13 +25,13 @@ export function TopBar() {
   const chatMessages = useAppStore((s) => s.chatMessages);
   const joinedRequests = useAppStore((s) => s.joinedRequests);
 
-  const [currentZone, setCurrentZone] = useState<string>(user?.zone || 'Bandra');
-  const [currentCity, setCurrentCity] = useState<string>(user?.city || 'Mumbai');
+  const [zone, setZone] = useState<string>(user?.zone || 'Bandra');
+  const [city, setCity] = useState<string>(user?.city || 'Mumbai');
 
-  // Sync from user if available
+  // Sync from user store when it changes
   useEffect(() => {
-    if (user?.zone) setCurrentZone(user.zone);
-    if (user?.city) setCurrentCity(user.city);
+    if (user?.zone) setZone(user.zone);
+    if (user?.city) setCity(user.city);
   }, [user?.zone, user?.city]);
 
   const unreadChats = joinedRequests.reduce((count, id) => {
@@ -45,12 +39,12 @@ export function TopBar() {
     return count + (msgs.length > 0 ? 1 : 0);
   }, 0);
 
-  const currentZone = user?.zone || 'Bandra';
-  const currentCity = user?.city || detectedCity;
-
-  const handleZoneChange = (city: string, zone: string) => {
-    setDetectedCity(city);
-    updateUser({ city, zone });
+  const handleZoneChange = (newCity: string, newZone: string) => {
+    setCity(newCity);
+    setZone(newZone);
+    if (user) {
+      updateUser({ city: newCity, zone: newZone });
+    }
   };
 
   return (
@@ -69,25 +63,25 @@ export function TopBar() {
         <DropdownMenu>
           <DropdownMenuTrigger className="flex items-center gap-1 tap-scale outline-none">
             <span className="text-xs">📍</span>
-            <span className="text-sm font-semibold text-foreground">{currentZone}</span>
+            <span className="text-sm font-semibold text-foreground">{zone}</span>
             <ChevronDown className="w-3.5 h-3.5 text-muted-foreground" />
           </DropdownMenuTrigger>
           <DropdownMenuContent align="start" className="min-w-[180px] max-h-[320px] overflow-y-auto">
-            {Object.entries(CITIES).map(([city, zones]) => (
-              <div key={city}>
+            {Object.entries(CITIES).map(([cityName, zones]) => (
+              <div key={cityName}>
                 <DropdownMenuLabel className="text-[11px] text-muted-foreground uppercase tracking-wide">
-                  {city} {city === currentCity && '📍'}
+                  {cityName} {cityName === city && '📍'}
                 </DropdownMenuLabel>
-                {zones.map((zone) => (
+                {zones.map((z) => (
                   <DropdownMenuItem
-                    key={zone}
-                    onClick={() => handleZoneChange(city, zone)}
+                    key={z}
+                    onClick={() => handleZoneChange(cityName, z)}
                     className={cn(
                       'text-sm cursor-pointer',
-                      zone === currentZone && 'font-bold text-primary'
+                      z === zone && 'font-bold text-primary'
                     )}
                   >
-                    {zone}
+                    {z}
                   </DropdownMenuItem>
                 ))}
                 <DropdownMenuSeparator />
