@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { TopBar } from '@/components/layout/TopBar';
+import { useAppStore } from '@/store/useAppStore';
 import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
 import { BottomNav } from '@/components/layout/BottomNav';
 import type { Request } from '@/types/anybuddy';
