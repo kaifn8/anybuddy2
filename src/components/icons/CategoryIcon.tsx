@@ -1,32 +1,15 @@
-import { Coffee, Compass, ShoppingBag, Laptop, HandHelping, Sparkles } from 'lucide-react';
 import type { Category } from '@/types/anybuddy';
-import { cn } from '@/lib/utils';
 
-interface CategoryIconProps {
-  category: Category;
-  className?: string;
-  size?: number;
-}
-
-const iconMap = {
-  chai: Coffee,
-  explore: Compass,
-  shopping: ShoppingBag,
-  work: Laptop,
-  help: HandHelping,
-  casual: Sparkles,
+const emojiMap: Record<Category, string> = {
+  chai: '☕',
+  explore: '🧭',
+  shopping: '🛍️',
+  work: '💻',
+  help: '🤝',
+  casual: '✨',
 };
 
-const colorMap = {
-  chai: 'text-warning',
-  explore: 'text-secondary',
-  shopping: 'text-primary',
-  work: 'text-foreground',
-  help: 'text-success',
-  casual: 'text-accent-foreground',
-};
-
-const bgMap = {
+const bgMap: Record<Category, string> = {
   chai: 'bg-warning/10',
   explore: 'bg-secondary/10',
   shopping: 'bg-primary/10',
@@ -35,18 +18,28 @@ const bgMap = {
   casual: 'bg-accent/15',
 };
 
-export function CategoryIcon({ category, className, size = 18 }: CategoryIconProps) {
-  const Icon = iconMap[category];
-  
+interface CategoryEmojiProps {
+  category: Category;
+  size?: 'sm' | 'md' | 'lg';
+  className?: string;
+}
+
+export function CategoryIcon({ category, size = 'md', className }: CategoryEmojiProps) {
+  const sizeClasses = {
+    sm: 'w-8 h-8 text-base',
+    md: 'w-10 h-10 text-xl',
+    lg: 'w-14 h-14 text-2xl',
+  };
+
   return (
-    <div className={cn(
-      'inline-flex items-center justify-center rounded-xl p-2.5',
-      bgMap[category],
-      className
-    )}>
-      <Icon size={size} className={colorMap[category]} strokeWidth={1.5} />
+    <div className={`inline-flex items-center justify-center rounded-2xl ${bgMap[category]} ${sizeClasses[size]} ${className || ''}`}>
+      <span role="img" aria-label={category}>{emojiMap[category]}</span>
     </div>
   );
+}
+
+export function getCategoryEmoji(category: Category): string {
+  return emojiMap[category];
 }
 
 export function getCategoryLabel(category: Category): string {

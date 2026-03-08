@@ -1,5 +1,3 @@
-import { MapPin } from 'lucide-react';
-import { LiveIndicator } from '@/components/ui/LiveIndicator';
 import { useAppStore } from '@/store/useAppStore';
 
 export function TopBar() {
@@ -10,19 +8,22 @@ export function TopBar() {
       <div className="max-w-md mx-auto flex items-center justify-between py-3.5 px-5">
         {/* Location */}
         <div className="flex items-center gap-1.5">
-          <MapPin size={14} className="text-primary" strokeWidth={2.5} />
-          <span className="font-medium text-foreground text-sm">
+          <span className="text-sm">📍</span>
+          <span className="font-semibold text-foreground text-sm">
             {user?.city || 'Bangalore'}
           </span>
         </div>
         
         {/* Logo */}
-        <span className="text-lg font-bold text-gradient-primary tracking-tight">
-          AnyBuddy
+        <span className="text-lg font-extrabold tracking-tight text-foreground">
+          any<span className="text-primary">buddy</span>
         </span>
         
-        {/* Live Indicator */}
-        <LiveIndicator />
+        {/* Live */}
+        <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-success/10">
+          <div className="w-1.5 h-1.5 rounded-full bg-success pulse-live" />
+          <span className="text-2xs font-semibold text-success">Live</span>
+        </div>
       </div>
     </header>
   );
