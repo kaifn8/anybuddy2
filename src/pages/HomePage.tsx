@@ -101,11 +101,6 @@ export default function HomePage() {
     .sort((a, b) => b.seatsTaken - a.seatsTaken)
     .slice(0, 3);
 
-  // Previous chats: joined requests with messages
-  const previousChats = joinedRequests
-    .map(id => requests.find(r => r.id === id))
-    .filter((r): r is Request => !!r)
-    .slice(0, 3);
   
   return (
     <div className="mobile-container min-h-screen bg-ambient pb-24">
