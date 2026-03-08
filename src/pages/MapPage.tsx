@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, useMap } from 'react-leaflet';
 import L from 'leaflet';
-// leaflet CSS loaded via index.html
 import { BottomNav } from '@/components/layout/BottomNav';
+import { JoinConfirmDialog } from '@/components/JoinConfirmDialog';
+import { ShareSheet } from '@/components/ShareSheet';
 import { useAppStore } from '@/store/useAppStore';
 import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
 import { UrgencyBadge } from '@/components/ui/UrgencyBadge';
@@ -12,7 +13,6 @@ import type { Category, Request } from '@/types/anybuddy';
 
 const MUMBAI_CENTER: [number, number] = [19.0760, 72.8777];
 
-// Create emoji-based div icons for markers
 function createEmojiIcon(emoji: string, isSelected = false) {
   return L.divIcon({
     html: `<div style="
@@ -46,7 +46,6 @@ const userIcon = L.divIcon({
   iconAnchor: [12, 12],
 });
 
-// Component to fly to selected marker
 function FlyToSelected({ selected }: { selected: Request | undefined }) {
   const map = useMap();
   useEffect(() => {
@@ -59,9 +58,11 @@ function FlyToSelected({ selected }: { selected: Request | undefined }) {
 
 export default function MapPage() {
   const navigate = useNavigate();
-  const { requests } = useAppStore();
+  const { requests, joinRequest, updateCredits } = useAppStore();
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [filter, setFilter] = useState<Category | 'all'>('all');
+  const [confirmRequest, setConfirmRequest] = useState<Request | null>(null);
+  const [showShare, setShowShare] = useState(false);
 
   const activeRequests = requests
     .filter(r => r.status === 'active' && new Date(r.expiresAt) > new Date())
@@ -79,17 +80,30 @@ export default function MapPage() {
     { id: 'walk', emoji: '🚶' },
   ];
 
+  const handleJoinFromMap = (req: Request) => {
+    setConfirmRequest(req);
+  };
+
+  const handleConfirmJoin = () => {
+    if (!confirmRequest) return;
+    joinRequest(confirmRequest.id);
+    updateCredits(0.5, 'Joined a request');
+    setConfirmRequest(null);
+    navigate(`/request/${confirmRequest.id}`);
+  };
+
   return (
     <div className="mobile-container min-h-screen bg-ambient pb-24 flex flex-col">
-      {/* Header */}
       <header className="sticky top-0 z-[1000] liquid-glass-nav">
         <div className="flex items-center justify-between h-12 px-5 max-w-md mx-auto">
           <h1 className="text-title-sm font-semibold">Nearby Plans</h1>
-          <span className="text-2xs text-muted-foreground">{activeRequests.length} active</span>
+          <span className="text-2xs text-muted-foreground flex items-center gap-1">
+            <span className="w-1.5 h-1.5 rounded-full bg-success pulse-live" />
+            {activeRequests.length} active
+          </span>
         </div>
       </header>
 
-      {/* Filter row */}
       <div className="flex gap-2 px-5 py-2.5 overflow-x-auto scrollbar-hide z-[1000] relative">
         {filters.map((f) => (
           <button key={f.id} onClick={() => { setFilter(f.id); setSelectedId(null); }}
@@ -101,7 +115,6 @@ export default function MapPage() {
         ))}
       </div>
 
-      {/* Map */}
       <div className="relative mx-5 rounded-2xl overflow-hidden" style={{ height: '480px' }}>
         <MapContainer
           center={MUMBAI_CENTER}
@@ -115,11 +128,7 @@ export default function MapPage() {
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
           />
           <FlyToSelected selected={selected} />
-
-          {/* User location */}
           <Marker position={MUMBAI_CENTER} icon={userIcon} />
-
-          {/* Plan pins */}
           {activeRequests.map((req) => {
             if (!req.location.coords) return null;
             const isSelected = selectedId === req.id;
@@ -146,7 +155,6 @@ export default function MapPage() {
         )}
       </div>
 
-      {/* Selected plan detail */}
       {selected && (
         <div className="mx-5 mt-3 liquid-glass-heavy p-4 specular-highlight slide-up" style={{ borderRadius: '1rem' }}>
           <div className="flex items-start gap-3">
@@ -160,17 +168,42 @@ export default function MapPage() {
               </div>
               <h3 className="text-sm font-semibold truncate">{selected.title}</h3>
               <div className="flex items-center gap-2 mt-1.5 text-2xs text-muted-foreground">
+                <button onClick={() => navigate(`/host/${selected.userId}`)} className="underline decoration-dotted tap-scale">
+                  {selected.userName}
+                </button>
                 <span>👥 {selected.seatsTotal - selected.seatsTaken} left</span>
                 <span>🎯 {selected.userReliability}%</span>
-                <span>{selected.userName}</span>
+              </div>
+              <div className="flex items-center gap-2 mt-1 text-2xs text-muted-foreground/70">
+                <span>🛡️ Public</span>
+                {(selected.userTrust === 'trusted' || selected.userTrust === 'anchor') && <span>✅ Verified</span>}
               </div>
             </div>
-            <button onClick={() => navigate(`/join/${selected.id}`)}
-              className="tahoe-btn-primary h-8 px-3 rounded-lg text-xs font-semibold tap-scale shrink-0">
-              Join
-            </button>
+            <div className="flex flex-col gap-1.5 shrink-0">
+              <button onClick={() => handleJoinFromMap(selected)}
+                className="tahoe-btn-primary h-8 px-3 rounded-lg text-xs font-semibold tap-scale">
+                Join
+              </button>
+              <button onClick={() => setShowShare(true)}
+                className="liquid-glass h-7 px-2 rounded-lg text-2xs font-semibold tap-scale text-center">
+                📤
+              </button>
+            </div>
           </div>
         </div>
+      )}
+
+      {confirmRequest && (
+        <JoinConfirmDialog
+          open={!!confirmRequest}
+          onClose={() => setConfirmRequest(null)}
+          onConfirm={handleConfirmJoin}
+          request={confirmRequest}
+        />
+      )}
+
+      {showShare && selected && (
+        <ShareSheet open={showShare} onClose={() => setShowShare(false)} title={selected.title} />
       )}
 
       <BottomNav />

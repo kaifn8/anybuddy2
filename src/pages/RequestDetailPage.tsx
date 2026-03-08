@@ -6,6 +6,7 @@ import { useAppStore } from '@/store/useAppStore';
 import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
 import { UrgencyBadge } from '@/components/ui/UrgencyBadge';
 import { TrustBadge } from '@/components/ui/TrustBadge';
+import { ShareSheet } from '@/components/ShareSheet';
 
 export default function RequestDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -13,6 +14,7 @@ export default function RequestDetailPage() {
   const { requests, joinedRequests, chatMessages, sendMessage, leaveRequest, user } = useAppStore();
   
   const [message, setMessage] = useState('');
+  const [showShare, setShowShare] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   
   const request = requests.find(r => r.id === id);
@@ -42,8 +44,11 @@ export default function RequestDetailPage() {
           <button onClick={() => navigate(-1)} className="tahoe-btn-ghost w-8 h-8 rounded-lg tap-scale text-sm">←</button>
           <div className="flex-1 min-w-0">
             <h1 className="text-sm font-semibold truncate">{request.title}</h1>
-            <p className="text-2xs text-muted-foreground">{request.userName}</p>
+            <button onClick={() => navigate(`/host/${request.userId}`)} className="text-2xs text-muted-foreground underline decoration-dotted tap-scale">
+              {request.userName}
+            </button>
           </div>
+          <button onClick={() => setShowShare(true)} className="tahoe-btn-ghost w-8 h-8 rounded-lg tap-scale text-sm">📤</button>
           {isJoined && (
             <button onClick={handleLeave} className="tahoe-btn-ghost text-2xs text-warning font-semibold px-2 py-1 rounded-lg tap-scale">
               Leave
@@ -63,6 +68,17 @@ export default function RequestDetailPage() {
           <div className="text-2xs text-muted-foreground">
             📍 {request.location.name} · 👥 {seatsLeft} left
           </div>
+        </div>
+
+        {/* Action row: map shortcut + safety */}
+        <div className="flex items-center gap-3 mt-2.5">
+          <button onClick={() => navigate('/map')} className="flex items-center gap-1 text-2xs text-primary font-semibold tap-scale">
+            📍 View on map
+          </button>
+          <span className="text-2xs text-muted-foreground/70">🛡️ Public meetup</span>
+          {(request.userTrust === 'trusted' || request.userTrust === 'anchor') && (
+            <span className="text-2xs text-muted-foreground/70">✅ Verified host</span>
+          )}
         </div>
         
         {request.participants.length > 0 && (
@@ -129,6 +145,8 @@ export default function RequestDetailPage() {
           </div>
         </div>
       )}
+
+      <ShareSheet open={showShare} onClose={() => setShowShare(false)} title={request.title} />
     </div>
   );
 }
