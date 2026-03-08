@@ -193,8 +193,8 @@ export default function MapPage() {
       </div>
 
       {/* Events list header */}
-      <div className="px-5 pt-4 pb-2 flex items-center justify-between">
-        <p className="text-sm font-semibold text-foreground">
+      <div className="px-5 pt-3 pb-1.5 flex items-center justify-between">
+        <p className="text-xs font-semibold text-muted-foreground">
           {currentFilter?.emoji} {activeRequests.length} {filter === 'all' ? 'plans' : `${currentFilter?.label} plans`} nearby
         </p>
         {selectedId && (
@@ -204,45 +204,39 @@ export default function MapPage() {
         )}
       </div>
 
-      {/* Events list */}
-      <div className="flex-1 overflow-y-auto px-5 space-y-2">
+      {/* Compact events list */}
+      <div className="flex-1 overflow-y-auto px-5 space-y-1.5">
         {(selectedId ? activeRequests.filter(r => r.id === selectedId) : activeRequests).map((req) => (
           <div 
             key={req.id} 
             className={cn(
-              "liquid-glass p-3 tap-scale transition-all",
-              selectedId === req.id && "ring-2 ring-primary/30"
+              "flex items-center gap-2.5 py-2.5 px-3 liquid-glass tap-scale transition-all",
+              selectedId === req.id && "ring-1.5 ring-primary/25"
             )}
             onClick={() => setSelectedId(selectedId === req.id ? null : req.id)}
           >
-            <div className="flex items-start gap-3">
-              <div className="w-10 h-10 rounded-xl bg-muted/50 flex items-center justify-center text-lg shrink-0">
-                {getCategoryEmoji(req.category)}
+            <div className="w-8 h-8 rounded-lg bg-muted/40 flex items-center justify-center text-base shrink-0">
+              {getCategoryEmoji(req.category)}
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-1.5">
+                <h3 className="text-[13px] font-semibold truncate">{req.title}</h3>
               </div>
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-1.5 mb-0.5">
-                  <UrgencyBadge urgency={req.urgency} />
-                  <span className="text-2xs text-muted-foreground">📍 {req.location.distance}km</span>
-                </div>
-                <h3 className="text-sm font-semibold truncate">{req.title}</h3>
-                <div className="flex items-center gap-2 mt-1 text-2xs text-muted-foreground">
-                  <button onClick={(e) => { e.stopPropagation(); navigate(`/host/${req.userId}`); }} className="underline decoration-dotted tap-scale">
-                    {req.userName}
-                  </button>
-                  <span>👥 {req.seatsTotal - req.seatsTaken} left</span>
-                  <span>🎯 {req.userReliability}%</span>
-                </div>
+              <div className="flex items-center gap-1.5 mt-0.5">
+                <UrgencyBadge urgency={req.urgency} />
+                <span className="text-[10px] text-muted-foreground">📍 {req.location.distance}km</span>
+                <span className="text-[10px] text-muted-foreground">👥 {req.seatsTotal - req.seatsTaken} left</span>
               </div>
-              <div className="flex flex-col gap-1.5 shrink-0">
-                <button onClick={(e) => { e.stopPropagation(); handleJoinFromMap(req); }}
-                  className="tahoe-btn-primary h-8 px-3 rounded-lg text-xs font-semibold tap-scale">
-                  Join
-                </button>
-                <button onClick={(e) => { e.stopPropagation(); handleShare(req); }}
-                  className="liquid-glass h-7 w-7 rounded-lg flex items-center justify-center tap-scale">
-                  <Share2 size={13} />
-                </button>
-              </div>
+            </div>
+            <div className="flex items-center gap-1.5 shrink-0">
+              <button onClick={(e) => { e.stopPropagation(); handleShare(req); }}
+                className="h-7 w-7 rounded-lg liquid-glass flex items-center justify-center tap-scale">
+                <Share2 size={12} />
+              </button>
+              <button onClick={(e) => { e.stopPropagation(); handleJoinFromMap(req); }}
+                className="tahoe-btn-primary h-7 px-3 rounded-lg text-[11px] font-semibold tap-scale">
+                Join
+              </button>
             </div>
           </div>
         ))}
