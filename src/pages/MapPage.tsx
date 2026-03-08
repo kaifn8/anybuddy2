@@ -117,7 +117,7 @@ export default function MapPage() {
           <FlyToSelected selected={selected} />
 
           {/* User location */}
-          <Marker position={BANGALORE_CENTER} icon={userIcon} />
+          <Marker position={MUMBAI_CENTER} icon={userIcon} />
 
           {/* Plan pins */}
           {activeRequests.map((req) => {
