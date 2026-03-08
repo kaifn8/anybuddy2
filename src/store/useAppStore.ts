@@ -261,10 +261,52 @@ export const useAppStore = create<AppState>()(
       },
       
       refreshFeed: () => {
-        const { requests } = get();
+        const { requests, addNotification } = get();
         const now = new Date();
         let filtered = requests.filter(r => new Date(r.expiresAt) > now && r.status === 'active');
-        if (Math.random() > 0.4) filtered = [generateFakeRequest(), ...filtered];
+        const newReq = Math.random() > 0.4 ? generateFakeRequest() : null;
+        if (newReq) {
+          filtered = [newReq, ...filtered];
+          // Simulate push notifications
+          const roll = Math.random();
+          if (roll < 0.35) {
+            addNotification({
+              type: 'nearby',
+              title: `New plan nearby`,
+              message: `${newReq.userName}: "${newReq.title}" — ${newReq.location.distance}km away`,
+              requestId: newReq.id,
+            });
+          } else if (roll < 0.55) {
+            const joinNames = FAKE_NAMES[Math.floor(Math.random() * FAKE_NAMES.length)];
+            const randomReq = filtered[Math.floor(Math.random() * filtered.length)];
+            if (randomReq) {
+              addNotification({
+                type: 'join',
+                title: `${joinNames} joined a plan`,
+                message: `"${randomReq.title}" now has ${randomReq.seatsTaken + 1} people`,
+                requestId: randomReq.id,
+              });
+            }
+          } else if (roll < 0.7) {
+            const msgName = FAKE_NAMES[Math.floor(Math.random() * FAKE_NAMES.length)];
+            const msgs = ['Are you coming?', 'Almost there! 🏃', 'See you in 5 min', 'Where should we meet exactly?', 'Running a bit late!'];
+            addNotification({
+              type: 'message',
+              title: `New message from ${msgName}`,
+              message: msgs[Math.floor(Math.random() * msgs.length)],
+            });
+          } else if (roll < 0.8) {
+            const urgentReq = filtered.find(r => r.urgency === 'now');
+            if (urgentReq) {
+              addNotification({
+                type: 'urgent',
+                title: '⚡ Plan starting soon!',
+                message: `"${urgentReq.title}" starts any minute — ${urgentReq.seatsTotal - urgentReq.seatsTaken} spots left`,
+                requestId: urgentReq.id,
+              });
+            }
+          }
+        }
         set({ requests: filtered.slice(0, 15) });
       },
       
