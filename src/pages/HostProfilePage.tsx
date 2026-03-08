@@ -70,7 +70,7 @@ export default function HostProfilePage() {
         </div>
 
         {/* Reviews */}
-        <div className="liquid-glass p-4 specular-highlight" style={{ borderRadius: '1rem' }}>
+        <div className="liquid-glass p-4">
           <h3 className="text-xs font-semibold text-muted-foreground mb-3">REVIEWS</h3>
           <div className="space-y-3">
             {FAKE_REVIEWS.map((review, i) => (
