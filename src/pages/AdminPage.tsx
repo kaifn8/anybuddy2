@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { TopBar } from '@/components/layout/TopBar';
 import { useAppStore } from '@/store/useAppStore';
 import { getCategoryLabel } from '@/components/icons/CategoryIcon';
 import type { Category } from '@/types/anybuddy';
@@ -19,22 +20,17 @@ export default function AdminPage() {
   
   return (
     <div className="mobile-container min-h-screen bg-ambient">
-      <header className="sticky top-0 z-40 liquid-glass-nav">
-        <div className="flex items-center gap-3 h-12 px-5 max-w-md mx-auto">
-          <button onClick={() => navigate('/home')} className="tahoe-btn-ghost w-8 h-8 rounded-lg tap-scale text-sm">←</button>
-          <h1 className="text-title-sm font-semibold">🛡️ Admin</h1>
-        </div>
-        <div className="flex max-w-md mx-auto">
-          {(['overview', 'moderation', 'pricing'] as const).map((tab) => (
-            <button key={tab} onClick={() => setActiveTab(tab)}
-              className={`flex-1 py-2.5 text-xs font-medium transition-colors ${
-                activeTab === tab ? 'text-primary border-b-2 border-primary' : 'text-muted-foreground'
-              }`}>
-              {tab.charAt(0).toUpperCase() + tab.slice(1)}
-            </button>
-          ))}
-        </div>
-      </header>
+      <TopBar showBack title="🛡️ Admin" />
+      <div className="flex max-w-md mx-auto border-b border-border/15">
+        {(['overview', 'moderation', 'pricing'] as const).map((tab) => (
+          <button key={tab} onClick={() => setActiveTab(tab)}
+            className={`flex-1 py-2.5 text-xs font-medium transition-colors ${
+              activeTab === tab ? 'text-primary border-b-2 border-primary' : 'text-muted-foreground'
+            }`}>
+            {tab.charAt(0).toUpperCase() + tab.slice(1)}
+          </button>
+        ))}
+      </div>
       
       <div className="px-5 pt-3 space-y-4 pb-8">
         {activeTab === 'overview' && (

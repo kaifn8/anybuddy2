@@ -1,4 +1,5 @@
 import { useNavigate, useParams } from 'react-router-dom';
+import { TopBar } from '@/components/layout/TopBar';
 import { useAppStore } from '@/store/useAppStore';
 import { TrustBadge } from '@/components/ui/TrustBadge';
 import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
@@ -36,12 +37,7 @@ export default function HostProfilePage() {
 
   return (
     <div className="mobile-container min-h-screen bg-ambient pb-8">
-      <header className="sticky top-0 z-40 liquid-glass-nav">
-        <div className="flex items-center gap-3 h-12 px-5 max-w-md mx-auto">
-          <button onClick={() => navigate(-1)} className="tahoe-btn-ghost w-8 h-8 rounded-lg tap-scale text-sm">←</button>
-          <h1 className="text-title-sm font-semibold">Host Profile</h1>
-        </div>
-      </header>
+      <TopBar showBack title="Host Profile" />
 
       <div className="px-5 pt-5 space-y-4">
         {/* Profile card */}

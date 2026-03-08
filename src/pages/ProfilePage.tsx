@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import { TopBar } from '@/components/layout/TopBar';
 import { formatDistanceToNow } from 'date-fns';
 import { BottomNav } from '@/components/layout/BottomNav';
 import { TrustBadge } from '@/components/ui/TrustBadge';
@@ -44,13 +45,7 @@ export default function ProfilePage() {
   
   return (
     <div className="mobile-container min-h-screen bg-ambient pb-24">
-      <header className="sticky top-0 z-40 liquid-glass-nav">
-        <div className="flex items-center justify-between h-12 px-5 max-w-md mx-auto">
-          <button onClick={() => navigate(-1)} className="tahoe-btn-ghost w-8 h-8 rounded-lg tap-scale text-sm">←</button>
-          <h1 className="text-title-sm font-semibold">Profile</h1>
-          <button className="tahoe-btn-ghost w-8 h-8 rounded-lg tap-scale text-sm">⚙️</button>
-        </div>
-      </header>
+      <TopBar showBack title="Profile" />
       
       <div className="px-5 pt-5 space-y-4">
         {/* Profile card */}

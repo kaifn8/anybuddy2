@@ -2,7 +2,7 @@ import { useState, useMemo, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 import { ModernInput } from '@/components/ui/ModernInput';
-import { PageHeader } from '@/components/layout/PageHeader';
+import { TopBar } from '@/components/layout/TopBar';
 import { Slider } from '@/components/ui/slider';
 import { Switch } from '@/components/ui/switch';
 import { useAppStore } from '@/store/useAppStore';
@@ -74,7 +74,7 @@ export default function CreateRequestPage() {
   
   return (
     <div className="mobile-container min-h-screen bg-ambient">
-      <PageHeader title="New Request" />
+      <TopBar showBack title="New Request" />
       
       <div ref={contentRef} className="px-5 pb-28 space-y-6 pt-2">
         <div>
