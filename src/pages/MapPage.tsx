@@ -94,15 +94,7 @@ export default function MapPage() {
 
   return (
     <div className="mobile-container min-h-screen bg-ambient pb-24 flex flex-col">
-      <header className="sticky top-0 z-[1000] liquid-glass-nav">
-        <div className="flex items-center justify-between h-12 px-5 max-w-md mx-auto">
-          <h1 className="text-title-sm font-semibold">Nearby Plans</h1>
-          <span className="text-2xs text-muted-foreground flex items-center gap-1">
-            <span className="w-1.5 h-1.5 rounded-full bg-success pulse-live" />
-            {activeRequests.length} active
-          </span>
-        </div>
-      </header>
+      <TopBar showBack title="Nearby Plans" />
 
       <div className="flex gap-2 px-5 py-2.5 overflow-x-auto scrollbar-hide z-[1000] relative">
         {filters.map((f) => (

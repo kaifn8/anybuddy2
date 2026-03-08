@@ -23,20 +23,12 @@ export default function NotificationsPage() {
   
   return (
     <div className="mobile-container min-h-screen bg-ambient pb-24">
-      <header className="sticky top-0 z-40 liquid-glass-nav">
-        <div className="flex items-center justify-between h-12 px-5 max-w-md mx-auto">
-          <div className="flex items-center gap-2.5">
-            <button onClick={() => navigate(-1)} className="tahoe-btn-ghost w-8 h-8 rounded-lg tap-scale text-sm">←</button>
-            <div>
-              <h1 className="text-title-sm font-semibold">Notifications</h1>
-              {unreadCount > 0 && <p className="text-2xs text-muted-foreground">{unreadCount} unread</p>}
-            </div>
-          </div>
-          {unreadCount > 0 && (
-            <button onClick={markAllRead} className="text-2xs text-primary font-semibold tap-scale">Mark all read</button>
-          )}
+      <TopBar showBack title="Notifications" />
+      {unreadCount > 0 && (
+        <div className="flex justify-end px-5 pt-1">
+          <button onClick={markAllRead} className="text-2xs text-primary font-semibold tap-scale">Mark all read</button>
         </div>
-      </header>
+      )}
       
       <div className="px-5 pt-3">
         {notifications.length > 0 ? (

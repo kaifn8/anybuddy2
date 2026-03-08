@@ -41,19 +41,7 @@ export default function RequestDetailPage() {
   return (
     <div className="mobile-container min-h-screen bg-ambient flex flex-col">
       {/* Header */}
-      <header className="sticky top-0 z-40 liquid-glass-nav">
-        <div className="flex items-center gap-2.5 h-12 px-5 max-w-md mx-auto">
-          <button onClick={() => navigate(-1)} className="tahoe-btn-ghost w-8 h-8 rounded-lg tap-scale text-sm">←</button>
-          <div className="flex-1 min-w-0">
-            <h1 className="text-sm font-semibold truncate">{request.title}</h1>
-            <button onClick={() => navigate(`/host/${request.userId}`)} className="text-2xs text-muted-foreground underline decoration-dotted tap-scale">
-              {request.userName}
-            </button>
-          </div>
-          <button onClick={() => setShowShare(true)} className="tahoe-btn-ghost w-8 h-8 rounded-lg tap-scale flex items-center justify-center"><Share2 className="w-4 h-4 text-foreground" /></button>
-          {isJoined && (
-            <button onClick={handleLeave} className="tahoe-btn-ghost text-2xs text-warning font-semibold px-2 py-1 rounded-lg tap-scale">
-              Leave
+      <TopBar showBack title={request.title} />
             </button>
           )}
         </div>
