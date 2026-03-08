@@ -2,72 +2,72 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
 @layer base {
   :root {
-    /* Neo-Minimal Palette - Soft & Approachable */
-    --primary: 245 58% 51%;
+    /* Warm Social Utility — Uber meets Headspace */
+    --primary: 15 90% 55%;
     --primary-foreground: 0 0% 100%;
     
-    --secondary: 168 76% 42%;
+    --secondary: 260 65% 58%;
     --secondary-foreground: 0 0% 100%;
     
-    --accent: 32 95% 65%;
-    --accent-foreground: 220 15% 20%;
+    --accent: 45 100% 58%;
+    --accent-foreground: 30 50% 18%;
     
-    /* Clean, airy background */
-    --background: 220 20% 98%;
-    --foreground: 220 25% 14%;
+    /* Warm, inviting background */
+    --background: 30 40% 97%;
+    --foreground: 25 30% 12%;
     
-    --success: 158 64% 42%;
+    --success: 155 72% 40%;
     --success-foreground: 0 0% 100%;
     
-    --warning: 25 95% 60%;
+    --warning: 25 95% 55%;
     --warning-foreground: 0 0% 100%;
 
-    /* Pure white cards with subtle depth */
-    --card: 0 0% 100%;
-    --card-foreground: 220 25% 14%;
+    /* Warm white cards */
+    --card: 30 30% 99%;
+    --card-foreground: 25 30% 12%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 220 25% 14%;
+    --popover: 30 30% 99%;
+    --popover-foreground: 25 30% 12%;
 
-    --muted: 220 14% 96%;
-    --muted-foreground: 220 10% 46%;
+    --muted: 30 20% 94%;
+    --muted-foreground: 25 15% 48%;
 
     --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 220 13% 91%;
-    --input: 220 13% 93%;
-    --ring: 245 58% 51%;
+    --border: 30 18% 89%;
+    --input: 30 15% 91%;
+    --ring: 15 90% 55%;
 
-    --radius: 0.875rem;
+    --radius: 1rem;
 
-    --sidebar-background: 220 20% 98%;
-    --sidebar-foreground: 220 25% 14%;
-    --sidebar-primary: 245 58% 51%;
+    --sidebar-background: 30 40% 97%;
+    --sidebar-foreground: 25 30% 12%;
+    --sidebar-primary: 15 90% 55%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 220 14% 96%;
-    --sidebar-accent-foreground: 220 25% 14%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 245 58% 51%;
+    --sidebar-accent: 30 20% 94%;
+    --sidebar-accent-foreground: 25 30% 12%;
+    --sidebar-border: 30 18% 89%;
+    --sidebar-ring: 15 90% 55%;
   }
 
   .dark {
-    --background: 224 28% 8%;
-    --foreground: 210 20% 96%;
-    --card: 224 25% 12%;
-    --card-foreground: 210 20% 96%;
-    --popover: 224 25% 12%;
-    --popover-foreground: 210 20% 96%;
-    --muted: 224 20% 18%;
-    --muted-foreground: 220 15% 55%;
-    --border: 224 20% 20%;
-    --input: 224 20% 20%;
-    --primary: 245 58% 60%;
-    --secondary: 168 65% 48%;
+    --background: 25 20% 7%;
+    --foreground: 30 15% 93%;
+    --card: 25 18% 11%;
+    --card-foreground: 30 15% 93%;
+    --popover: 25 18% 11%;
+    --popover-foreground: 30 15% 93%;
+    --muted: 25 15% 16%;
+    --muted-foreground: 30 12% 55%;
+    --border: 25 15% 18%;
+    --input: 25 15% 18%;
+    --primary: 15 90% 60%;
+    --secondary: 260 55% 62%;
   }
 }
 
@@ -78,136 +78,143 @@
 
   body {
     @apply bg-background text-foreground antialiased;
-    font-family: 'DM Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     letter-spacing: -0.01em;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-semibold tracking-tight;
-    font-family: 'DM Sans', 'Inter', -apple-system, sans-serif;
-    letter-spacing: -0.02em;
+    @apply font-bold tracking-tight;
+    font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+    letter-spacing: -0.025em;
   }
 }
 
 @layer components {
-  /* Neo-minimal cards - clean with subtle shadows */
-  .neo-card {
+  /* Uber-style clean cards */
+  .uber-card {
     @apply bg-card rounded-2xl;
-    box-shadow: 
-      0 1px 2px rgba(0, 0, 0, 0.04),
-      0 4px 12px rgba(0, 0, 0, 0.03);
-    border: 1px solid hsl(var(--border) / 0.5);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 6px 16px rgba(0, 0, 0, 0.04);
   }
 
-  .neo-card-elevated {
-    @apply bg-card rounded-2xl;
-    box-shadow: 
-      0 2px 4px rgba(0, 0, 0, 0.04),
-      0 8px 24px rgba(0, 0, 0, 0.06);
-    border: 1px solid hsl(var(--border) / 0.3);
+  .uber-card-elevated {
+    @apply bg-card rounded-3xl;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05), 0 10px 28px rgba(0, 0, 0, 0.07);
   }
 
-  .neo-card-interactive {
-    @apply neo-card transition-all duration-200;
+  .uber-card-interactive {
+    @apply uber-card transition-all duration-200;
   }
 
-  .neo-card-interactive:hover {
-    box-shadow: 
-      0 2px 4px rgba(0, 0, 0, 0.05),
-      0 12px 32px rgba(0, 0, 0, 0.08);
+  .uber-card-interactive:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06), 0 16px 40px rgba(0, 0, 0, 0.08);
     transform: translateY(-2px);
   }
 
-  /* Soft glass effect */
-  .glass {
+  /* Warm glass effect */
+  .glass-warm {
     @apply backdrop-blur-xl;
-    background: rgba(255, 255, 255, 0.85);
-    border: 1px solid rgba(255, 255, 255, 0.5);
-  }
-
-  .glass-subtle {
-    @apply backdrop-blur-md;
-    background: rgba(255, 255, 255, 0.6);
-  }
-
-  .glass-card {
-    @apply backdrop-blur-xl rounded-2xl;
-    background: rgba(255, 255, 255, 0.9);
-    box-shadow: 
-      0 2px 8px rgba(0, 0, 0, 0.04),
-      0 8px 24px rgba(0, 0, 0, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.7);
+    background: rgba(255, 252, 248, 0.88);
+    border: 1px solid rgba(255, 248, 240, 0.6);
   }
 
   .glass-nav {
     @apply backdrop-blur-2xl;
-    background: rgba(255, 255, 255, 0.92);
+    background: rgba(255, 252, 248, 0.92);
     border-bottom: 1px solid hsl(var(--border) / 0.5);
   }
 
-  /* Minimal shadows */
-  .shadow-soft {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  /* Warm gradient backgrounds */
+  .bg-warm-gradient {
+    background: linear-gradient(170deg, hsl(30 50% 97%) 0%, hsl(25 45% 95%) 50%, hsl(35 40% 96%) 100%);
   }
 
-  .shadow-soft-lg {
-    box-shadow: 
-      0 4px 12px rgba(0, 0, 0, 0.05),
-      0 12px 32px rgba(0, 0, 0, 0.06);
+  .bg-warm-hero {
+    background: linear-gradient(160deg, hsl(15 85% 55%) 0%, hsl(30 90% 58%) 50%, hsl(45 95% 60%) 100%);
   }
 
-  /* Neo-minimal buttons */
-  .neo-button {
-    @apply inline-flex items-center justify-center rounded-xl font-medium transition-all duration-200;
+  .bg-warm-sunset {
+    background: linear-gradient(135deg, hsl(350 70% 55%) 0%, hsl(15 90% 58%) 40%, hsl(45 95% 62%) 100%);
+  }
+
+  /* Emoji containers */
+  .emoji-bubble {
+    @apply inline-flex items-center justify-center rounded-2xl;
+    font-size: 1.5rem;
+  }
+
+  .emoji-bubble-lg {
+    @apply inline-flex items-center justify-center rounded-3xl;
+    font-size: 2rem;
+  }
+
+  .emoji-bubble-sm {
+    @apply inline-flex items-center justify-center rounded-xl;
+    font-size: 1.125rem;
+  }
+
+  /* Uber-style buttons */
+  .uber-button {
+    @apply inline-flex items-center justify-center rounded-2xl font-semibold transition-all duration-150;
     @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2;
   }
 
-  .neo-button-primary {
-    @apply neo-button bg-primary text-primary-foreground;
-    box-shadow: 0 2px 8px hsl(var(--primary) / 0.25);
+  .uber-button-primary {
+    @apply uber-button bg-foreground text-background;
   }
 
-  .neo-button-primary:hover {
+  .uber-button-primary:hover {
     @apply opacity-90;
-    box-shadow: 0 4px 16px hsl(var(--primary) / 0.3);
   }
 
-  .neo-button-soft {
-    @apply neo-button bg-primary/10 text-primary;
+  .uber-button-primary:active {
+    transform: scale(0.98);
   }
 
-  .neo-button-soft:hover {
-    @apply bg-primary/15;
+  .uber-button-warm {
+    @apply uber-button;
+    background: linear-gradient(135deg, hsl(var(--primary)), hsl(30 90% 58%));
+    color: white;
+    box-shadow: 0 4px 14px hsl(var(--primary) / 0.3);
   }
 
-  /* Gradient accent */
-  .gradient-primary {
-    background: linear-gradient(135deg, hsl(var(--primary)), hsl(245 58% 58%));
+  .uber-button-warm:hover {
+    box-shadow: 0 6px 20px hsl(var(--primary) / 0.4);
   }
 
-  .gradient-soft {
-    background: linear-gradient(135deg, hsl(var(--primary) / 0.1), hsl(var(--secondary) / 0.1));
+  /* Soft pill chips */
+  .pill-chip {
+    @apply inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full text-sm font-medium transition-all;
   }
 
-  .text-gradient-primary {
+  .pill-chip-active {
+    @apply bg-foreground text-background;
+  }
+
+  .pill-chip-inactive {
+    @apply bg-card text-muted-foreground;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  }
+
+  /* Gradient text */
+  .text-gradient-warm {
     @apply bg-clip-text text-transparent;
     background-image: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--secondary)));
   }
 
-  /* Clean avatar styles */
-  .avatar-ring {
-    @apply ring-2 ring-offset-2 ring-offset-background ring-border;
+  /* Shadows - warm tone */
+  .shadow-warm {
+    box-shadow: 0 4px 16px rgba(180, 100, 50, 0.08);
   }
 
-  .avatar-ring-primary {
-    @apply ring-2 ring-offset-2 ring-offset-background ring-primary/50;
+  .shadow-warm-lg {
+    box-shadow: 0 8px 28px rgba(180, 100, 50, 0.12);
   }
 
-  /* Refined interactions */
+  /* Interactions */
   .tap-scale {
-    @apply transition-transform duration-150 active:scale-[0.98];
+    @apply transition-transform duration-150 active:scale-[0.97];
   }
 
   .hover-lift {
@@ -215,20 +222,18 @@
   }
 
   .hover-lift:hover {
-    transform: translateY(-2px);
+    transform: translateY(-3px);
   }
 
-  /* Minimal pulse for live indicator */
+  /* Pulse for live */
   .pulse-live {
     animation: pulse-live 2.5s ease-in-out infinite;
   }
 
-  /* Gentle float */
   .float-animation {
     animation: float 5s ease-in-out infinite;
   }
 
-  /* Clean slide animations */
   .slide-up {
     animation: slide-up 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   }
@@ -243,34 +248,18 @@
 }
 
 @keyframes pulse-live {
-  0%, 100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.7;
-    transform: scale(1.1);
-  }
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.15); }
 }
 
 @keyframes float {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-6px);
-  }
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
 }
 
 @keyframes slide-up {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes fade-in {
@@ -279,14 +268,18 @@
 }
 
 @keyframes scale-in {
-  from {
-    opacity: 0;
-    transform: scale(0.96);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes wiggle {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-3deg); }
+  75% { transform: rotate(3deg); }
+}
+
+.wiggle {
+  animation: wiggle 0.5s ease-in-out;
 }
 
 /* Mobile container */
@@ -296,7 +289,7 @@
 
 /* Minimal scrollbar */
 ::-webkit-scrollbar {
-  width: 4px;
+  width: 3px;
 }
 
 ::-webkit-scrollbar-track {
@@ -307,29 +300,28 @@
   @apply bg-muted-foreground/10 rounded-full;
 }
 
-/* Neo-minimal badge variants */
+/* Badge variants */
 .badge-now {
-  @apply font-medium;
-  background-color: hsl(var(--warning) / 0.12);
-  color: hsl(var(--warning));
-}
-
-.badge-today {
-  @apply font-medium;
+  @apply font-semibold;
   background-color: hsl(var(--primary) / 0.12);
   color: hsl(var(--primary));
 }
 
-.badge-week {
-  @apply font-medium;
+.badge-today {
+  @apply font-semibold;
   background-color: hsl(var(--secondary) / 0.12);
   color: hsl(var(--secondary));
 }
 
-/* Trust level styles - subtle */
+.badge-week {
+  @apply font-semibold;
+  background-color: hsl(var(--success) / 0.12);
+  color: hsl(var(--success));
+}
+
+/* Trust level styles */
 .trust-seed {
-  @apply text-muted-foreground;
-  background-color: hsl(var(--muted));
+  @apply text-muted-foreground bg-muted;
 }
 
 .trust-solid {
@@ -341,7 +333,8 @@
 }
 
 .trust-anchor {
-  @apply text-accent-foreground bg-accent/20;
+  background: linear-gradient(135deg, hsl(var(--primary) / 0.15), hsl(var(--accent) / 0.2));
+  color: hsl(var(--primary));
 }
 
 /* Focus styles */
@@ -349,12 +342,10 @@
   @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 focus-visible:ring-offset-2;
 }
 
-/* Section spacing */
 .section-spacing {
   @apply py-6 px-5;
 }
 
-/* Typography utilities */
 .text-balance {
   text-wrap: balance;
 }
