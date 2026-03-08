@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Send } from 'lucide-react';
+import { Send, Share2 } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 import { useAppStore } from '@/store/useAppStore';
 import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
@@ -50,7 +50,7 @@ export default function RequestDetailPage() {
               {request.userName}
             </button>
           </div>
-          <button onClick={() => setShowShare(true)} className="tahoe-btn-ghost w-8 h-8 rounded-lg tap-scale text-sm">📤</button>
+          <button onClick={() => setShowShare(true)} className="tahoe-btn-ghost w-8 h-8 rounded-lg tap-scale flex items-center justify-center"><Share2 className="w-4 h-4 text-foreground" /></button>
           {isJoined && (
             <button onClick={handleLeave} className="tahoe-btn-ghost text-2xs text-warning font-semibold px-2 py-1 rounded-lg tap-scale">
               Leave
