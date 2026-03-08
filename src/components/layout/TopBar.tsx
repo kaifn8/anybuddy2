@@ -97,7 +97,7 @@ export function TopBar() {
 
         {/* Right: Chat emoji with badge */}
         <button
-          onClick={() => navigate('/notifications')}
+          onClick={() => navigate('/chats')}
           className="relative tap-scale text-lg"
         >
           💬
