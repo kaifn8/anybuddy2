@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Share2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker, useMap } from 'react-leaflet';
 import L from 'leaflet';
@@ -178,8 +179,8 @@ export default function MapPage() {
                 Join
               </button>
               <button onClick={() => setShowShare(true)}
-                className="liquid-glass h-7 px-2 rounded-lg text-2xs font-semibold tap-scale text-center">
-                📤
+                className="liquid-glass h-7 w-7 rounded-lg flex items-center justify-center tap-scale">
+                <Share2 size={13} />
               </button>
             </div>
           </div>

@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { formatDistanceToNow, isAfter, subDays } from 'date-fns';
+import { Share2 } from 'lucide-react';
 import { BottomNav } from '@/components/layout/BottomNav';
 import { TopBar } from '@/components/layout/TopBar';
 import { useAppStore } from '@/store/useAppStore';
@@ -127,8 +128,8 @@ export default function NotificationsPage() {
           <span className="text-2xl block mb-2">👋</span>
           <p className="text-sm font-semibold text-foreground">Invite friends to AnyBuddy</p>
           <p className="text-2xs text-muted-foreground mt-1 mb-3">More friends = more plans nearby. Share the love!</p>
-          <button onClick={handleShare} className="tahoe-btn-primary h-9 px-6 tap-scale text-xs font-semibold">
-            Share Invite Link
+          <button onClick={handleShare} className="tahoe-btn-primary h-9 px-6 tap-scale text-xs font-semibold flex items-center gap-1.5 mx-auto">
+            <Share2 size={14} /> Share Invite Link
           </button>
         </div>
       </div>
