@@ -29,16 +29,16 @@ const CATEGORY_COLORS: Record<Category, string> = {
   casual: 'bg-violet-100 border-violet-200',
 };
 
-function getStatusIndicator(request: Request) {
-  const seatsLeft = request.seatsTotal - request.seatsTaken;
+function getTimeIndicator(request: Request) {
   const minutesLeft = (new Date(request.expiresAt).getTime() - Date.now()) / 60000;
   
+  if (minutesLeft <= 5 && minutesLeft > 0) {
+    return { label: '⚡ Happening now', color: 'text-warning bg-warning/10 border border-warning/20' };
+  }
   if (minutesLeft <= 30 && minutesLeft > 0) {
     const mins = Math.round(minutesLeft);
     return { label: `⚡ Starts in ${mins} min`, color: 'text-warning bg-warning/10 border border-warning/20' };
   }
-  if (seatsLeft <= 2 && seatsLeft > 0) return { label: '🔥 Filling fast', color: 'text-destructive bg-destructive/10 border border-destructive/20' };
-  if (request.seatsTaken >= Math.ceil(request.seatsTotal * 0.7)) return { label: '🔥 Popular', color: 'text-primary bg-primary/10 border border-primary/20' };
   return null;
 }
 
