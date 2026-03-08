@@ -107,19 +107,8 @@ export default function HomePage() {
       <TopBar />
       
       {/* Greeting - compact */}
-      <div className="px-5 pt-4 pb-1">
-        <div ref={headerRef} className="mb-3">
-          <h2 className="text-base font-semibold text-foreground">
-            {user ? `Hey ${user.firstName} 👋` : 'Hey there 👋'}
-          </h2>
-          <p className="text-xs text-muted-foreground mt-0.5 flex items-center gap-1.5">
-            <span className="inline-flex items-center gap-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-success pulse-live" />
-              <span className="text-success font-semibold">{activeCount} live plans nearby</span>
-            </span>
-          </p>
-        </div>
-      </div>
+
+
 
       {/* Trending section - ABOVE categories */}
       {trending.length > 0 && (
