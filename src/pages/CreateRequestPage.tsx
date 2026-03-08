@@ -1,7 +1,6 @@
 import { useState, useMemo, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
-import { Button } from '@/components/ui/button';
 import { ModernInput } from '@/components/ui/ModernInput';
 import { PageHeader } from '@/components/layout/PageHeader';
 import { Slider } from '@/components/ui/slider';
@@ -32,11 +31,10 @@ export default function CreateRequestPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   
   const contentRef = useRef<HTMLDivElement>(null);
-  const costRef = useRef<HTMLSpanElement>(null);
   
   useEffect(() => {
     if (contentRef.current?.children) {
-      gsap.fromTo(contentRef.current.children, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.4, stagger: 0.05, ease: 'power2.out' });
+      gsap.fromTo(contentRef.current.children, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.35, stagger: 0.04, ease: 'power2.out' });
     }
   }, []);
   
@@ -48,10 +46,6 @@ export default function CreateRequestPage() {
     if (user?.trustLevel === 'trusted' || user?.trustLevel === 'anchor') cost -= 0.25;
     return Math.max(1, Math.round(cost * 10) / 10);
   }, [urgency, category, user?.trustLevel]);
-  
-  useEffect(() => {
-    if (costRef.current) gsap.fromTo(costRef.current, { scale: 1.15 }, { scale: 1, duration: 0.3, ease: 'back.out(2)' });
-  }, [creditCost]);
   
   const canPost = title.trim().length > 0 && category && (user?.credits ?? 0) >= creditCost;
   
@@ -66,44 +60,47 @@ export default function CreateRequestPage() {
     
     createRequest({ userId: user.id, userName: user.firstName, userTrust: user.trustLevel, userAvatar: user.avatar, title: title.trim(), category: category!, urgency, when, location: { name: user.city || 'Koramangala', distance: 0 }, seatsTotal: seats[0], seatsTaken: 0, expiresAt, timer: timer ?? undefined, liveShare });
     updateCredits(-creditCost, 'Posted a request');
-    gsap.to(contentRef.current, { opacity: 0, y: -20, duration: 0.3, onComplete: () => navigate('/home') });
+    gsap.to(contentRef.current, { opacity: 0, y: -16, duration: 0.25, onComplete: () => navigate('/home') });
   };
   
   return (
     <div className="mobile-container min-h-screen bg-ambient">
-      <PageHeader title="New Request ✨" />
+      <PageHeader title="New Request" />
       
-      <div ref={contentRef} className="px-5 pb-32 space-y-5">
-        <div className="space-y-2">
-          <label className="text-sm font-medium text-muted-foreground">What do you need?</label>
-          <ModernInput placeholder="e.g., Anyone for chai and a chat? ☕" value={title}
+      <div ref={contentRef} className="px-5 pb-28 space-y-6 pt-2">
+        {/* Title */}
+        <div>
+          <label className="text-xs font-medium text-muted-foreground mb-1.5 block">What do you need?</label>
+          <ModernInput placeholder="e.g., Anyone for chai?" value={title}
             onChange={(e) => setTitle(e.target.value.slice(0, 120))}
-            suffix={<span className="text-xs text-muted-foreground">{title.length}/120</span>}
+            suffix={<span className="text-2xs text-muted-foreground">{title.length}/120</span>}
           />
         </div>
         
-        <div className="space-y-3">
-          <label className="text-sm font-medium text-muted-foreground">Category</label>
-          <div className="grid grid-cols-2 gap-2.5">
+        {/* Category */}
+        <div>
+          <label className="text-xs font-medium text-muted-foreground mb-2 block">Category</label>
+          <div className="grid grid-cols-2 gap-2">
             {categories.map((cat) => (
               <button key={cat} onClick={() => setCategory(cat)}
-                className={cn('flex items-center gap-2.5 py-3.5 px-4 rounded-2xl text-sm font-semibold transition-all tap-scale text-left',
-                  category === cat ? 'glass-button-primary' : 'liquid-glass text-foreground'
+                className={cn('flex items-center gap-2 py-3 px-3.5 rounded-xl text-sm font-semibold transition-all tap-scale text-left',
+                  category === cat ? 'tahoe-btn-primary' : 'liquid-glass text-foreground'
                 )}>
-                <span className="text-lg">{getCategoryEmoji(cat)}</span>
+                <span>{getCategoryEmoji(cat)}</span>
                 <span>{getCategoryLabel(cat)}</span>
               </button>
             ))}
           </div>
         </div>
         
-        <div className="space-y-3">
-          <label className="text-sm font-medium text-muted-foreground">When?</label>
+        {/* When */}
+        <div>
+          <label className="text-xs font-medium text-muted-foreground mb-2 block">When?</label>
           <div className="flex gap-2">
             {([{ v: 'now' as Urgency, l: '⚡ Now' }, { v: 'today' as Urgency, l: '☀️ Today' }, { v: 'week' as Urgency, l: '📅 Week' }]).map((u) => (
               <button key={u.v} onClick={() => setUrgency(u.v)}
-                className={cn('flex-1 py-3.5 rounded-2xl text-sm font-semibold transition-all tap-scale',
-                  urgency === u.v ? 'glass-button-primary' : 'liquid-glass text-foreground'
+                className={cn('flex-1 py-3 rounded-xl text-sm font-semibold transition-all tap-scale',
+                  urgency === u.v ? 'tahoe-btn-primary' : 'liquid-glass text-foreground'
                 )}>
                 {u.l}
               </button>
@@ -111,14 +108,15 @@ export default function CreateRequestPage() {
           </div>
         </div>
         
+        {/* Timer */}
         {urgency === 'now' && (
-          <div className="space-y-3">
-            <label className="text-sm font-medium text-muted-foreground">⏰ Auto-expire</label>
+          <div>
+            <label className="text-xs font-medium text-muted-foreground mb-2 block">Auto-expire</label>
             <div className="flex gap-2">
               {timers.map((t) => (
                 <button key={t.label} onClick={() => setTimer(t.value)}
-                  className={cn('flex-1 py-3 rounded-xl text-xs font-semibold transition-all tap-scale',
-                    timer === t.value ? 'glass-button-primary text-xs' : 'liquid-glass text-foreground'
+                  className={cn('flex-1 py-2.5 rounded-xl text-xs font-semibold transition-all tap-scale',
+                    timer === t.value ? 'tahoe-btn-primary' : 'liquid-glass text-foreground'
                   )}>
                   {t.label}
                 </button>
@@ -127,54 +125,58 @@ export default function CreateRequestPage() {
           </div>
         )}
         
-        <div className="liquid-glass-heavy p-4 space-y-4 specular-highlight" style={{ borderRadius: '1.25rem' }}>
+        {/* Location + Live */}
+        <div className="liquid-glass-heavy p-4 specular-highlight" style={{ borderRadius: '1rem' }}>
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <span className="text-2xl">📍</span>
+            <div className="flex items-center gap-2.5">
+              <span className="text-xl">📍</span>
               <div>
-                <p className="font-semibold text-sm">{user?.city || 'Koramangala'}</p>
-                <p className="text-xs text-muted-foreground">Auto-detected</p>
+                <p className="text-sm font-semibold">{user?.city || 'Koramangala'}</p>
+                <p className="text-2xs text-muted-foreground">Auto-detected</p>
               </div>
             </div>
-            <span className="text-lg">✅</span>
+            <span className="text-base">✅</span>
           </div>
-          <div className="flex items-center justify-between pt-3 border-t border-border/30">
-            <span className="text-sm text-muted-foreground">Share live location 📡</span>
+          <div className="flex items-center justify-between mt-3 pt-3 border-t border-border/20">
+            <span className="text-xs text-muted-foreground">Share live location</span>
             <Switch checked={liveShare} onCheckedChange={setLiveShare} />
           </div>
         </div>
         
-        <div className="space-y-4">
-          <div className="flex items-center justify-between">
-            <label className="text-sm font-medium text-muted-foreground">👥 How many can join?</label>
-            <span className="text-xl font-bold text-foreground">{seats[0]}</span>
+        {/* Seats */}
+        <div>
+          <div className="flex items-center justify-between mb-2">
+            <label className="text-xs font-medium text-muted-foreground">How many can join?</label>
+            <span className="text-title font-bold text-foreground">{seats[0]}</span>
           </div>
-          <Slider value={seats} onValueChange={setSeats} min={1} max={10} step={1} className="py-2" />
-          <div className="flex justify-between text-xs text-muted-foreground">
+          <Slider value={seats} onValueChange={setSeats} min={1} max={10} step={1} />
+          <div className="flex justify-between text-2xs text-muted-foreground mt-1.5">
             <span>Solo buddy</span><span>Full crew</span>
           </div>
         </div>
         
-        <div className="liquid-glass-heavy p-4 specular-highlight" style={{ borderRadius: '1.25rem' }}>
+        {/* Cost */}
+        <div className="liquid-glass-heavy p-4 specular-highlight" style={{ borderRadius: '1rem' }}>
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <span className="text-2xl">💰</span>
+            <div className="flex items-center gap-2.5">
+              <span className="text-xl">💰</span>
               <div>
-                <p className="font-semibold text-sm">Cost to post</p>
-                <p className="text-xs text-muted-foreground">Balance: {user?.credits ?? 0} credits</p>
+                <p className="text-sm font-semibold">Cost to post</p>
+                <p className="text-2xs text-muted-foreground">Balance: {user?.credits ?? 0}</p>
               </div>
             </div>
-            <span ref={costRef} className="text-3xl font-bold">{creditCost}</span>
+            <span className="text-heading font-bold">{creditCost}</span>
           </div>
         </div>
       </div>
       
-      <div className="fixed bottom-0 left-0 right-0 p-5 liquid-glass-nav safe-area-pb">
+      {/* Fixed bottom CTA */}
+      <div className="fixed bottom-0 left-0 right-0 p-4 liquid-glass-nav">
         <div className="max-w-md mx-auto">
-          <Button className="w-full h-13 text-base font-semibold rounded-2xl glass-button-primary disabled:opacity-40"
+          <button className="w-full h-12 tahoe-btn-primary tap-scale disabled:opacity-40"
             onClick={handleSubmit} disabled={!canPost || isSubmitting}>
-            {isSubmitting ? 'Posting... ✨' : 'Post Request 🚀'}
-          </Button>
+            {isSubmitting ? 'Posting...' : 'Post Request'}
+          </button>
         </div>
       </div>
     </div>

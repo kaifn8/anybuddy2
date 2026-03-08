@@ -5,22 +5,17 @@ export function TopBar() {
   
   return (
     <header className="sticky top-0 z-40 liquid-glass-nav">
-      <div className="max-w-md mx-auto flex items-center justify-between py-3 px-5">
-        {/* Location */}
+      <div className="max-w-md mx-auto flex items-center justify-between h-12 px-5">
         <div className="flex items-center gap-1.5">
-          <span className="text-sm">📍</span>
-          <span className="font-semibold text-foreground text-sm">
-            {user?.city || 'Bangalore'}
-          </span>
+          <span className="text-xs">📍</span>
+          <span className="text-sm font-semibold text-foreground">{user?.city || 'Bangalore'}</span>
         </div>
         
-        {/* Logo */}
-        <span className="text-[17px] font-bold tracking-tight text-foreground">
+        <span className="text-body font-bold tracking-tight text-foreground">
           any<span className="text-primary">buddy</span>
         </span>
         
-        {/* Live */}
-        <div className="liquid-glass-subtle flex items-center gap-1.5 px-2.5 py-1">
+        <div className="liquid-glass-subtle flex items-center gap-1.5 px-2 py-0.5">
           <div className="w-1.5 h-1.5 rounded-full bg-success pulse-live" />
           <span className="text-2xs font-semibold text-success">Live</span>
         </div>

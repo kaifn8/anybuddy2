@@ -12,55 +12,55 @@ export default function NotificationsPage() {
   const navigate = useNavigate();
   const { notifications, markNotificationRead } = useAppStore();
   
-  const handleNotificationClick = (notification: typeof notifications[0]) => {
-    markNotificationRead(notification.id);
-    if (notification.requestId) navigate(`/request/${notification.requestId}`);
+  const handleClick = (n: typeof notifications[0]) => {
+    markNotificationRead(n.id);
+    if (n.requestId) navigate(`/request/${n.requestId}`);
   };
   
-  const markAllRead = () => { notifications.forEach(n => { if (!n.read) markNotificationRead(n.id); }); };
   const unreadCount = notifications.filter(n => !n.read).length;
+  const markAllRead = () => notifications.forEach(n => { if (!n.read) markNotificationRead(n.id); });
   
   return (
-    <div className="mobile-container min-h-screen bg-ambient pb-28">
+    <div className="mobile-container min-h-screen bg-ambient pb-24">
       <header className="sticky top-0 z-40 liquid-glass-nav">
-        <div className="flex items-center justify-between p-4 max-w-md mx-auto">
-          <div className="flex items-center gap-3">
-            <button onClick={() => navigate(-1)} className="glass-button p-2 rounded-xl tap-scale text-sm">←</button>
+        <div className="flex items-center justify-between h-12 px-5 max-w-md mx-auto">
+          <div className="flex items-center gap-2.5">
+            <button onClick={() => navigate(-1)} className="tahoe-btn-ghost w-8 h-8 rounded-lg tap-scale text-sm">←</button>
             <div>
-              <h1 className="text-[17px] font-semibold">Notifications</h1>
-              {unreadCount > 0 && <p className="text-xs text-muted-foreground">{unreadCount} unread</p>}
+              <h1 className="text-title-sm font-semibold">Notifications</h1>
+              {unreadCount > 0 && <p className="text-2xs text-muted-foreground">{unreadCount} unread</p>}
             </div>
           </div>
           {unreadCount > 0 && (
-            <button onClick={markAllRead} className="text-xs text-primary font-semibold tap-scale">Mark all read ✓</button>
+            <button onClick={markAllRead} className="text-2xs text-primary font-semibold tap-scale">Mark all read</button>
           )}
         </div>
       </header>
       
-      <div className="p-5">
+      <div className="px-5 pt-3">
         {notifications.length > 0 ? (
-          <div className="space-y-2">
-            {notifications.map((notification) => (
-              <button key={notification.id} onClick={() => handleNotificationClick(notification)}
+          <div className="space-y-1.5">
+            {notifications.map((n) => (
+              <button key={n.id} onClick={() => handleClick(n)}
                 className={cn(
-                  'w-full flex items-start gap-3 p-4 text-left transition-all tap-scale liquid-glass',
-                  !notification.read && 'ring-1 ring-primary/20'
-                )} style={{ borderRadius: '1rem' }}>
-                <span className="text-xl shrink-0 mt-0.5">{emojiMap[notification.type] || '🔔'}</span>
+                  'w-full flex items-start gap-2.5 p-3 text-left transition-all tap-scale liquid-glass',
+                  !n.read && 'ring-1 ring-primary/15'
+                )} style={{ borderRadius: '0.875rem' }}>
+                <span className="text-base shrink-0 mt-0.5">{emojiMap[n.type] || '🔔'}</span>
                 <div className="flex-1 min-w-0">
-                  <p className={cn('text-sm', notification.read ? 'font-normal' : 'font-semibold')}>{notification.title}</p>
-                  <p className="text-xs text-muted-foreground mt-0.5 line-clamp-2">{notification.message}</p>
-                  <p className="text-2xs text-muted-foreground mt-1.5">{formatDistanceToNow(new Date(notification.timestamp), { addSuffix: true })}</p>
+                  <p className={cn('text-sm', n.read ? 'font-normal' : 'font-semibold')}>{n.title}</p>
+                  <p className="text-2xs text-muted-foreground mt-0.5 line-clamp-2">{n.message}</p>
+                  <p className="text-2xs text-muted-foreground/60 mt-1">{formatDistanceToNow(new Date(n.timestamp), { addSuffix: true })}</p>
                 </div>
-                {!notification.read && <div className="w-2 h-2 rounded-full bg-primary shrink-0 mt-2" />}
+                {!n.read && <div className="w-1.5 h-1.5 rounded-full bg-primary shrink-0 mt-2" />}
               </button>
             ))}
           </div>
         ) : (
           <div className="text-center py-20">
-            <span className="text-5xl block mb-4">🔔</span>
-            <h3 className="font-semibold mb-1">All quiet here</h3>
-            <p className="text-sm text-muted-foreground">We'll ping you when there's action nearby 🎯</p>
+            <span className="text-4xl block mb-3">🔔</span>
+            <p className="text-sm font-medium text-foreground mb-1">All quiet here</p>
+            <p className="text-xs text-muted-foreground">We'll notify you when there's action nearby</p>
           </div>
         )}
       </div>

@@ -10,10 +10,10 @@ import type { TrustLevel } from '@/types/anybuddy';
 
 const trustProgression: TrustLevel[] = ['seed', 'solid', 'trusted', 'anchor'];
 const trustRequirements = {
-  seed: { joins: 0, label: 'Just starting' },
-  solid: { joins: 5, label: '5 completed joins' },
-  trusted: { joins: 15, label: '15 completed joins' },
-  anchor: { joins: 50, label: '50 completed joins' },
+  seed: { joins: 0 },
+  solid: { joins: 5 },
+  trusted: { joins: 15 },
+  anchor: { joins: 50 },
 };
 
 export default function CreditsPage() {
@@ -23,125 +23,100 @@ export default function CreditsPage() {
   
   const currentTrustIndex = trustProgression.indexOf(user?.trustLevel || 'seed');
   const nextTrust = trustProgression[currentTrustIndex + 1];
-  const nextRequirement = nextTrust ? trustRequirements[nextTrust].joins : null;
+  const nextReq = nextTrust ? trustRequirements[nextTrust].joins : null;
   
   useEffect(() => {
     if (contentRef.current?.children) {
-      gsap.fromTo(contentRef.current.children, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.5, stagger: 0.1, ease: 'power3.out' });
+      gsap.fromTo(contentRef.current.children, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.4, stagger: 0.08, ease: 'power3.out' });
     }
     if (creditsRef.current && user?.credits) {
       const obj = { value: 0 };
-      gsap.to(obj, { value: user.credits, duration: 1, ease: 'power2.out', onUpdate: () => { if (creditsRef.current) creditsRef.current.textContent = Math.round(obj.value).toString(); } });
+      gsap.to(obj, { value: user.credits, duration: 0.8, ease: 'power2.out', onUpdate: () => { if (creditsRef.current) creditsRef.current.textContent = Math.round(obj.value).toString(); } });
     }
   }, [user?.credits]);
   
   return (
-    <div className="mobile-container min-h-screen bg-ambient pb-28">
-      <PageHeader title="Credits & Trust 💰" />
+    <div className="mobile-container min-h-screen bg-ambient pb-24">
+      <PageHeader title="Credits & Trust" />
       
-      <div ref={contentRef} className="px-5 space-y-4">
-        {/* Balance Card */}
-        <div className="relative rounded-3xl p-6 text-white overflow-hidden specular-highlight"
-          style={{ background: 'linear-gradient(135deg, hsl(211 100% 50%), hsl(240 75% 55%), hsl(280 65% 55%))' }}>
-          <div className="absolute -right-8 -top-8 w-32 h-32 rounded-full blur-3xl bg-white/10" />
-          <div className="relative">
-            <div className="flex items-center gap-4 mb-4">
-              <span className="text-4xl">💰</span>
-              <div>
-                <p className="text-white/60 text-xs font-semibold uppercase tracking-wider">Your Balance</p>
-                <p ref={creditsRef} className="text-4xl font-bold">0</p>
-              </div>
-            </div>
-            <p className="text-white/50 text-sm">Earn credits by joining. Spend them to post ✨</p>
-          </div>
+      <div ref={contentRef} className="px-5 pt-2 space-y-4">
+        {/* Balance card */}
+        <div className="rounded-2xl p-5 text-white overflow-hidden relative"
+          style={{ background: 'linear-gradient(135deg, hsl(211 100% 50%), hsl(240 75% 55%), hsl(260 50% 56%))' }}>
+          <div className="absolute -right-6 -top-6 w-24 h-24 rounded-full blur-2xl bg-white/10" />
+          <p className="text-white/50 text-2xs font-semibold uppercase tracking-wider mb-1">Your Balance</p>
+          <p ref={creditsRef} className="text-hero font-bold">0</p>
+          <p className="text-white/40 text-xs mt-2">Earn by joining · Spend to post</p>
         </div>
         
-        {/* Trust Level */}
-        <div className="liquid-glass-heavy p-5 space-y-4 specular-highlight" style={{ borderRadius: '1.25rem' }}>
-          <div className="flex items-center gap-4">
-            <span className="text-3xl">🛡️</span>
+        {/* Trust level */}
+        <div className="liquid-glass-heavy p-4 specular-highlight" style={{ borderRadius: '1rem' }}>
+          <div className="flex items-center gap-3 mb-3">
+            <span className="text-2xl">🛡️</span>
             <div className="flex-1">
-              <p className="text-xs text-muted-foreground mb-1 font-medium">Trust Level</p>
+              <p className="text-2xs text-muted-foreground font-medium mb-0.5">Trust Level</p>
               <TrustBadge level={user?.trustLevel || 'seed'} size="md" />
             </div>
           </div>
           
           {nextTrust && (
-            <div className="space-y-2">
-              <div className="flex justify-between text-xs">
+            <div className="mt-3 pt-3 border-t border-border/20">
+              <div className="flex justify-between text-2xs mb-1.5">
                 <span className="text-muted-foreground">Progress to {nextTrust}</span>
-                <span className="font-semibold">{user?.completedJoins || 0}/{nextRequirement}</span>
+                <span className="font-semibold">{user?.completedJoins || 0}/{nextReq}</span>
               </div>
-              <ProgressBar value={user?.completedJoins || 0} max={nextRequirement || 1} size="md" />
+              <ProgressBar value={user?.completedJoins || 0} max={nextReq || 1} size="md" />
             </div>
           )}
           
           {!nextTrust && (
-            <div className="liquid-glass-subtle px-4 py-3 flex items-center gap-2">
-              <span>🏆</span>
-              <span className="text-sm font-semibold text-success">Max trust level!</span>
-            </div>
+            <p className="text-xs text-success font-semibold mt-2">🏆 Max trust level reached</p>
           )}
-          
-          <div className="pt-4 border-t border-border/30">
-            <div className="grid grid-cols-2 gap-3">
-              <div className="liquid-glass rounded-2xl p-3 text-center">
-                <p className="text-xl font-bold">{user?.completedJoins || 0}</p>
-                <p className="text-xs text-muted-foreground font-medium">Joins</p>
-              </div>
-              <div className="liquid-glass rounded-2xl p-3 text-center">
-                <p className="text-xl font-bold text-success">
-                  {user?.trustLevel === 'anchor' ? '-25%' : user?.trustLevel === 'trusted' ? '-15%' : user?.trustLevel === 'solid' ? '-5%' : '0%'}
-                </p>
-                <p className="text-xs text-muted-foreground font-medium">Discount</p>
-              </div>
-            </div>
-          </div>
         </div>
         
-        {/* How to Earn */}
-        <div className="liquid-glass p-5 specular-highlight" style={{ borderRadius: '1.25rem' }}>
-          <h3 className="font-semibold text-sm mb-4">How to earn credits 🎯</h3>
-          <div className="space-y-3">
+        {/* How to earn */}
+        <div className="liquid-glass p-4 specular-highlight" style={{ borderRadius: '1rem' }}>
+          <h3 className="text-xs font-semibold text-muted-foreground mb-3">HOW TO EARN</h3>
+          <div className="space-y-2.5">
             {[
               { emoji: '🤝', amount: '+0.5', action: "Join someone's request" },
               { emoji: '✅', amount: '+1', action: 'Complete a meetup' },
               { emoji: '⭐', amount: '+2', action: 'Get a positive rating' },
               { emoji: '🔥', amount: '+1', action: 'Weekly active bonus' },
             ].map((item, i) => (
-              <div key={i} className="flex items-center gap-3">
-                <span>{item.emoji}</span>
-                <span className="w-10 text-success font-bold text-sm">{item.amount}</span>
-                <span className="text-sm text-muted-foreground">{item.action}</span>
+              <div key={i} className="flex items-center gap-2.5">
+                <span className="text-sm">{item.emoji}</span>
+                <span className="w-8 text-success font-bold text-xs">{item.amount}</span>
+                <span className="text-xs text-muted-foreground">{item.action}</span>
               </div>
             ))}
           </div>
         </div>
         
         {/* History */}
-        <div className="space-y-3">
-          <h3 className="font-semibold text-sm px-1">Recent Activity 📋</h3>
+        <div>
+          <h3 className="text-xs font-semibold text-muted-foreground mb-2">RECENT ACTIVITY</h3>
           {creditHistory.length > 0 ? (
-            <div className="space-y-2">
+            <div className="space-y-1.5">
               {creditHistory.slice(0, 10).map((txn) => (
-                <div key={txn.id} className="flex items-center justify-between liquid-glass p-4" style={{ borderRadius: '1rem' }}>
-                  <div className="flex items-center gap-3">
-                    <span className="text-xl">{txn.type === 'earn' ? '📈' : '📉'}</span>
+                <div key={txn.id} className="flex items-center justify-between liquid-glass p-3" style={{ borderRadius: '0.875rem' }}>
+                  <div className="flex items-center gap-2.5">
+                    <span className="text-base">{txn.type === 'earn' ? '📈' : '📉'}</span>
                     <div>
-                      <p className="text-sm font-semibold">{txn.reason}</p>
-                      <p className="text-xs text-muted-foreground">{formatDistanceToNow(new Date(txn.timestamp), { addSuffix: true })}</p>
+                      <p className="text-sm font-medium">{txn.reason}</p>
+                      <p className="text-2xs text-muted-foreground">{formatDistanceToNow(new Date(txn.timestamp), { addSuffix: true })}</p>
                     </div>
                   </div>
-                  <span className={`font-bold ${txn.type === 'earn' ? 'text-success' : 'text-warning'}`}>
+                  <span className={`text-sm font-bold ${txn.type === 'earn' ? 'text-success' : 'text-warning'}`}>
                     {txn.type === 'earn' ? '+' : '-'}{txn.amount}
                   </span>
                 </div>
               ))}
             </div>
           ) : (
-            <div className="text-center py-12 liquid-glass" style={{ borderRadius: '1.25rem' }}>
-              <span className="text-4xl block mb-3">🏁</span>
-              <p className="text-sm text-muted-foreground font-medium">No activity yet. Start joining!</p>
+            <div className="text-center py-12 liquid-glass" style={{ borderRadius: '1rem' }}>
+              <span className="text-3xl block mb-2">🏁</span>
+              <p className="text-xs text-muted-foreground">No activity yet</p>
             </div>
           )}
         </div>
