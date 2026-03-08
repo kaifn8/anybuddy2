@@ -5,7 +5,7 @@ import { useAppStore } from '@/store/useAppStore';
 const navItems = [
   { emoji: '🏠', label: 'Feed', path: '/home' },
   { emoji: '🗺️', label: 'Map', path: '/map' },
-  { emoji: '✨', label: 'Post', path: '/create', isMain: true },
+  { emoji: '➕', label: 'Post', path: '/create', isMain: true },
   { emoji: '🔔', label: 'Alerts', path: '/notifications' },
   { emoji: '👤', label: 'Me', path: '/profile' },
 ];
