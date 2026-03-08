@@ -12,6 +12,7 @@ import MapPage from "./pages/MapPage";
 import CreateRequestPage from "./pages/CreateRequestPage";
 import JoinRequestPage from "./pages/JoinRequestPage";
 import RequestDetailPage from "./pages/RequestDetailPage";
+import HostProfilePage from "./pages/HostProfilePage";
 import ReviewPage from "./pages/ReviewPage";
 import CreditsPage from "./pages/CreditsPage";
 import NotificationsPage from "./pages/NotificationsPage";
