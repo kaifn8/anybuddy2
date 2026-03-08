@@ -127,7 +127,7 @@ export default function ProfilePage() {
         )}
         
         {/* Host stats */}
-        <div className="liquid-glass p-4 specular-highlight" style={{ borderRadius: '1rem' }}>
+        <div className="liquid-glass p-4">
           <h3 className="text-xs font-semibold text-muted-foreground mb-2">HOST STATS</h3>
           <div className="space-y-2">
             {[
