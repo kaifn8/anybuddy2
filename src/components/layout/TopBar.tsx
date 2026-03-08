@@ -1,10 +1,19 @@
 import { useNavigate } from 'react-router-dom';
+import { ArrowLeft } from 'lucide-react';
 import { useAppStore } from '@/store/useAppStore';
 
-export function TopBar() {
+interface TopBarProps {
+  showBack?: boolean;
+  title?: string;
+}
+
+export function TopBar({ showBack = false, title }: TopBarProps) {
   const navigate = useNavigate();
+  const requests = useAppStore((s) => s.requests);
   const chatMessages = useAppStore((s) => s.chatMessages);
   const joinedRequests = useAppStore((s) => s.joinedRequests);
+
+  const activeCount = requests.filter((r) => r.status === 'active').length;
 
   const unreadChats = joinedRequests.reduce((count, id) => {
     const msgs = chatMessages[id] || [];
@@ -23,25 +32,43 @@ export function TopBar() {
       }}
     >
       <div className="max-w-md mx-auto flex items-center justify-between h-full px-4">
-        <div className="w-8" />
+        {/* Left */}
+        <div className="w-20 flex items-center">
+          {showBack ? (
+            <button onClick={() => navigate(-1)} className="tap-scale p-1">
+              <ArrowLeft className="w-5 h-5 text-foreground" />
+            </button>
+          ) : (
+            <div className="flex items-center gap-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-success pulse-live" />
+              <span className="text-[11px] font-semibold text-success">{activeCount} active</span>
+            </div>
+          )}
+        </div>
 
-        {/* Center: Logo */}
-        <span className="text-[20px]" style={{ fontFamily: "'Pacifico', cursive" }}>
-          any<span className="text-primary">buddy</span>
-        </span>
+        {/* Center: Logo or page title */}
+        {title ? (
+          <span className="text-sm font-semibold text-foreground">{title}</span>
+        ) : (
+          <span className="text-[20px]" style={{ fontFamily: "'Pacifico', cursive" }}>
+            any<span className="text-primary">buddy</span>
+          </span>
+        )}
 
         {/* Right: Chat emoji with badge */}
-        <button
-          onClick={() => navigate('/chats')}
-          className="relative tap-scale text-lg w-8 flex items-center justify-center"
-        >
-          💬
-          {unreadChats > 0 && (
-            <span className="absolute -top-1 -right-1.5 w-4 h-4 rounded-full bg-destructive text-destructive-foreground text-[10px] font-bold flex items-center justify-center">
-              {unreadChats > 9 ? '9+' : unreadChats}
-            </span>
-          )}
-        </button>
+        <div className="w-20 flex items-center justify-end">
+          <button
+            onClick={() => navigate('/chats')}
+            className="relative tap-scale text-lg"
+          >
+            💬
+            {unreadChats > 0 && (
+              <span className="absolute -top-1 -right-1.5 w-4 h-4 rounded-full bg-destructive text-destructive-foreground text-[10px] font-bold flex items-center justify-center">
+                {unreadChats > 9 ? '9+' : unreadChats}
+              </span>
+            )}
+          </button>
+        </div>
       </div>
     </header>
   );
