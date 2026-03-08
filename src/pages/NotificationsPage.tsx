@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { formatDistanceToNow, isAfter, subDays } from 'date-fns';
+import { Share2 } from 'lucide-react';
 import { BottomNav } from '@/components/layout/BottomNav';
 import { TopBar } from '@/components/layout/TopBar';
 import { useAppStore } from '@/store/useAppStore';
