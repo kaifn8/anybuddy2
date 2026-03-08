@@ -72,7 +72,7 @@ export default function JoinRequestPage() {
       ) : (
         <div ref={containerRef} className="px-5 pt-3 space-y-4">
           {/* Request info */}
-          <div className="liquid-glass-heavy p-4 specular-highlight" style={{ borderRadius: '1.25rem' }}>
+          <div className="liquid-glass-heavy p-4">
             <div className="flex items-start gap-3">
               <span className="text-2xl">{getCategoryEmoji(request.category)}</span>
               <div className="flex-1">

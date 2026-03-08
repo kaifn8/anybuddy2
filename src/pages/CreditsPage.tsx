@@ -50,7 +50,7 @@ export default function CreditsPage() {
         </div>
         
         {/* Trust level */}
-        <div className="liquid-glass-heavy p-4 specular-highlight" style={{ borderRadius: '1rem' }}>
+        <div className="liquid-glass-heavy p-4">
           <div className="flex items-center gap-3 mb-3">
             <span className="text-2xl">🛡️</span>
             <div className="flex-1">
@@ -75,7 +75,7 @@ export default function CreditsPage() {
         </div>
         
         {/* How to earn */}
-        <div className="liquid-glass p-4 specular-highlight" style={{ borderRadius: '1rem' }}>
+        <div className="liquid-glass p-4">
           <h3 className="text-xs font-semibold text-muted-foreground mb-3">HOW TO EARN</h3>
           <div className="space-y-2.5">
             {[
@@ -99,7 +99,7 @@ export default function CreditsPage() {
           {creditHistory.length > 0 ? (
             <div className="space-y-1.5">
               {creditHistory.slice(0, 10).map((txn) => (
-                <div key={txn.id} className="flex items-center justify-between liquid-glass p-3" style={{ borderRadius: '0.875rem' }}>
+                <div key={txn.id} className="flex items-center justify-between liquid-glass p-3">
                   <div className="flex items-center gap-2.5">
                     <span className="text-base">{txn.type === 'earn' ? '📈' : '📉'}</span>
                     <div>
@@ -114,7 +114,7 @@ export default function CreditsPage() {
               ))}
             </div>
           ) : (
-            <div className="text-center py-12 liquid-glass" style={{ borderRadius: '1rem' }}>
+            <div className="text-center py-12 liquid-glass">
               <span className="text-3xl block mb-2">🏁</span>
               <p className="text-xs text-muted-foreground">No activity yet</p>
             </div>

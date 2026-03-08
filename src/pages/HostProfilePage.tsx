@@ -41,7 +41,7 @@ export default function HostProfilePage() {
 
       <div className="px-5 pt-5 space-y-4">
         {/* Profile card */}
-        <div className="liquid-glass-heavy p-5 text-center specular-highlight" style={{ borderRadius: '1.25rem' }}>
+        <div className="liquid-glass-heavy p-5 text-center">
           <img src={host.userAvatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${host.userName}`}
             alt={host.userName} className="w-20 h-20 rounded-full mx-auto border-3 border-white/40" />
           <h2 className="text-title font-bold mt-3">{host.userName}</h2>
@@ -62,7 +62,7 @@ export default function HostProfilePage() {
             { value: totalMeetups || 12, label: 'Meetups' },
             { value: `${successRate}%`, label: 'Success' },
           ].map((stat, i) => (
-            <div key={i} className="liquid-glass p-2.5 text-center specular-highlight" style={{ borderRadius: '0.75rem' }}>
+            <div key={i} className="liquid-glass p-2.5 text-center">
               <p className="text-sm font-bold text-foreground">{stat.value}</p>
               <p className="text-2xs text-muted-foreground mt-0.5">{stat.label}</p>
             </div>
@@ -70,7 +70,7 @@ export default function HostProfilePage() {
         </div>
 
         {/* Reviews */}
-        <div className="liquid-glass p-4 specular-highlight" style={{ borderRadius: '1rem' }}>
+        <div className="liquid-glass p-4">
           <h3 className="text-xs font-semibold text-muted-foreground mb-3">REVIEWS</h3>
           <div className="space-y-3">
             {FAKE_REVIEWS.map((review, i) => (
@@ -94,7 +94,7 @@ export default function HostProfilePage() {
 
         {/* Past/Active meetups */}
         {hostRequests.length > 0 && (
-          <div className="liquid-glass p-4 specular-highlight" style={{ borderRadius: '1rem' }}>
+          <div className="liquid-glass p-4">
             <h3 className="text-xs font-semibold text-muted-foreground mb-2.5">MEETUPS</h3>
             <div className="space-y-2">
               {hostRequests.slice(0, 5).map((req) => (

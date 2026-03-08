@@ -58,7 +58,7 @@ export default function ReviewPage() {
       ) : (
         <div ref={containerRef} className="px-5 pt-4 space-y-5">
           {/* Meetup info */}
-          <div className="liquid-glass-heavy p-4 text-center specular-highlight" style={{ borderRadius: '1.25rem' }}>
+          <div className="liquid-glass-heavy p-4 text-center">
             <h2 className="text-body font-bold">{request.title}</h2>
             <p className="text-xs text-muted-foreground mt-1">with {request.userName}</p>
           </div>

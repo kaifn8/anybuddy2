@@ -38,7 +38,7 @@ export default function NotificationsPage() {
                 className={cn(
                   'w-full flex items-start gap-2.5 p-3 text-left transition-all tap-scale liquid-glass',
                   !n.read && 'ring-1 ring-primary/15'
-                )} style={{ borderRadius: '0.875rem' }}>
+                )} style={{ borderRadius: '0.75rem' }}>
                 <span className="text-base shrink-0 mt-0.5">{emojiMap[n.type] || '🔔'}</span>
                 <div className="flex-1 min-w-0">
                   <p className={cn('text-sm', n.read ? 'font-normal' : 'font-semibold')}>{n.title}</p>

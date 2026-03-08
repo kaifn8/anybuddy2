@@ -49,7 +49,7 @@ export default function ProfilePage() {
       
       <div className="px-5 pt-5 space-y-4">
         {/* Profile card */}
-        <div className="liquid-glass-heavy p-5 text-center specular-highlight" style={{ borderRadius: '1.25rem' }}>
+        <div className="liquid-glass-heavy p-5 text-center">
           <div className="relative inline-block">
             <img src={user.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.firstName}`}
               alt={user.firstName} className="w-20 h-20 rounded-full mx-auto border-3 border-white/40" />
@@ -73,7 +73,7 @@ export default function ProfilePage() {
             { value: `${user.joinRate}%`, label: 'Join Rate' },
             { value: user.hostRating > 0 ? `${user.hostRating}★` : '—', label: 'Host' },
           ].map((stat, i) => (
-            <div key={i} className="liquid-glass p-2.5 text-center specular-highlight" style={{ borderRadius: '0.75rem' }}>
+            <div key={i} className="liquid-glass p-2.5 text-center">
               <p className="text-sm font-bold text-foreground">{stat.value}</p>
               <p className="text-2xs text-muted-foreground mt-0.5">{stat.label}</p>
             </div>
@@ -82,7 +82,7 @@ export default function ProfilePage() {
         
         {/* Badges */}
         {user.badges.length > 0 && (
-          <div className="liquid-glass p-4 specular-highlight" style={{ borderRadius: '1rem' }}>
+          <div className="liquid-glass p-4">
             <h3 className="text-xs font-semibold text-muted-foreground mb-2">BADGES</h3>
             <div className="flex flex-wrap gap-1.5">
               {user.badges.map((badge) => (
@@ -95,7 +95,7 @@ export default function ProfilePage() {
         )}
         
         {/* Interests */}
-        <div className="liquid-glass-heavy p-4 specular-highlight" style={{ borderRadius: '1rem' }}>
+        <div className="liquid-glass-heavy p-4">
           <h3 className="text-xs font-semibold text-muted-foreground mb-2.5">INTERESTS</h3>
           <div className="flex flex-wrap gap-1.5">
             {user.interests.map((interest) => (
@@ -114,7 +114,7 @@ export default function ProfilePage() {
             <div className="space-y-1.5">
               {savedPlansList.map((req) => req && (
                 <button key={req.id} onClick={() => navigate(`/request/${req.id}`)}
-                  className="w-full flex items-center gap-3 liquid-glass p-3 text-left tap-scale" style={{ borderRadius: '0.875rem' }}>
+                  className="w-full flex items-center gap-3 liquid-glass p-3 text-left tap-scale">
                   <span className="text-lg">{getCategoryEmoji(req.category)}</span>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-semibold truncate">{req.title}</p>
@@ -127,7 +127,7 @@ export default function ProfilePage() {
         )}
         
         {/* Host stats */}
-        <div className="liquid-glass p-4 specular-highlight" style={{ borderRadius: '1rem' }}>
+        <div className="liquid-glass p-4">
           <h3 className="text-xs font-semibold text-muted-foreground mb-2">HOST STATS</h3>
           <div className="space-y-2">
             {[
@@ -151,7 +151,7 @@ export default function ProfilePage() {
             <div className="space-y-1.5">
               {myRequests.slice(0, 3).map((req) => (
                 <button key={req.id} onClick={() => navigate(`/request/${req.id}`)}
-                  className="w-full flex items-center gap-3 liquid-glass p-3 text-left tap-scale" style={{ borderRadius: '0.875rem' }}>
+                  className="w-full flex items-center gap-3 liquid-glass p-3 text-left tap-scale">
                   <span className="text-lg">{getCategoryEmoji(req.category)}</span>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-semibold truncate">{req.title}</p>

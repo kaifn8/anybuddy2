@@ -132,7 +132,7 @@ export default function CreateRequestPage() {
           </div>
         )}
         
-        <div className="liquid-glass-heavy p-4 specular-highlight" style={{ borderRadius: '1rem' }}>
+        <div className="liquid-glass-heavy p-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2.5">
               <span className="text-xl">📍</span>
@@ -157,7 +157,7 @@ export default function CreateRequestPage() {
           </div>
         </div>
         
-        <div className="liquid-glass-heavy p-4 specular-highlight" style={{ borderRadius: '1rem' }}>
+        <div className="liquid-glass-heavy p-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2.5">
               <span className="text-xl">💰</span>

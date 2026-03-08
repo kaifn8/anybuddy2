@@ -149,7 +149,7 @@ export default function MapPage() {
       </div>
 
       {selected && (
-        <div className="mx-5 mt-3 liquid-glass-heavy p-4 specular-highlight slide-up" style={{ borderRadius: '1rem' }}>
+        <div className="mx-5 mt-3 liquid-glass-heavy p-4 slide-up">
           <div className="flex items-start gap-3">
             <div className="w-10 h-10 rounded-xl bg-muted/50 flex items-center justify-center text-lg shrink-0">
               {getCategoryEmoji(selected.category)}

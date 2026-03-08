@@ -86,15 +86,8 @@ export function RequestCard({ request, onJoin, onView, isJoined, className }: Re
   return (
     <>
       <div
-        className={cn('p-3 cursor-pointer tap-scale rounded-xl', className)}
+        className={cn('liquid-glass p-3 cursor-pointer tap-scale', className)}
         onClick={onView}
-        style={{
-          background: 'rgba(255,255,255,0.35)',
-          backdropFilter: 'blur(24px)',
-          WebkitBackdropFilter: 'blur(24px)',
-          border: '1px solid rgba(255,255,255,0.6)',
-          boxShadow: '0 2px 16px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.5)',
-        }}
       >
         {/* Status badge */}
         {status && (

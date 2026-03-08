@@ -36,17 +36,17 @@ export default function AdminPage() {
         {activeTab === 'overview' && (
           <>
             <div className="grid grid-cols-2 gap-2.5">
-              <div className="liquid-glass p-3.5 specular-highlight" style={{ borderRadius: '0.875rem' }}>
+              <div className="liquid-glass p-3.5">
                 <p className="text-2xs text-muted-foreground mb-1">Live Requests</p>
                 <p className="text-heading font-bold text-primary">{liveRequests}</p>
               </div>
-              <div className="liquid-glass p-3.5 specular-highlight" style={{ borderRadius: '0.875rem' }}>
+              <div className="liquid-glass p-3.5">
                 <p className="text-2xs text-muted-foreground mb-1">Active Users</p>
                 <p className="text-heading font-bold text-secondary">{totalParticipants + liveRequests}</p>
               </div>
             </div>
             
-            <div className="liquid-glass-heavy p-4 specular-highlight" style={{ borderRadius: '1rem' }}>
+            <div className="liquid-glass-heavy p-4">
               <h3 className="text-xs font-semibold text-muted-foreground mb-3">CATEGORY DEMAND</h3>
               <div className="space-y-2.5">
                 {(Object.entries(categoryDemand) as [Category, number][]).map(([cat, demand]) => (
@@ -67,7 +67,7 @@ export default function AdminPage() {
         )}
         
         {activeTab === 'moderation' && (
-          <div className="liquid-glass p-4 specular-highlight" style={{ borderRadius: '1rem' }}>
+          <div className="liquid-glass p-4">
             <div className="grid grid-cols-3 gap-2 mb-4">
               {[{ v: '847', l: 'Approved', c: 'text-success' }, { v: '23', l: 'Flagged', c: 'text-warning' }, { v: '12', l: 'Rejected', c: 'text-destructive' }].map((s, i) => (
                 <div key={i} className="text-center py-2">
@@ -86,7 +86,7 @@ export default function AdminPage() {
         )}
         
         {activeTab === 'pricing' && (
-          <div className="liquid-glass-heavy p-4 specular-highlight" style={{ borderRadius: '1rem' }}>
+          <div className="liquid-glass-heavy p-4">
             <h3 className="text-xs font-semibold text-muted-foreground mb-3">CREDIT PRICING</h3>
             <div className="space-y-2 text-xs">
               <div className="flex justify-between py-1"><span>Base cost</span><span className="font-semibold">1 credit</span></div>

@@ -40,11 +40,7 @@ export default function ChatsPage() {
               <button
                 key={request.id}
                 onClick={() => navigate(`/request/${request.id}`)}
-                className="w-full flex items-center gap-3 p-3 rounded-xl tap-scale text-left"
-                style={{
-                  background: 'rgba(255,255,255,0.85)',
-                  border: '1px solid rgba(0,0,0,0.05)',
-                }}
+                className="w-full flex items-center gap-3 p-3 rounded-xl tap-scale text-left liquid-glass"
               >
                 <span className="text-2xl shrink-0">{getCategoryEmoji(request.category)}</span>
                 <div className="flex-1 min-w-0">
