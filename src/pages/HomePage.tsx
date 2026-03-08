@@ -172,33 +172,7 @@ export default function HomePage() {
         </div>
       )}
 
-      {/* Previous chats */}
-      {previousChats.length > 0 && (
-        <div className="px-5 mb-3">
-          <h3 className="text-xs font-bold text-foreground mb-2 flex items-center gap-1.5">
-            <span>💬</span> Active chats
-          </h3>
-          <div className="flex gap-2 overflow-x-auto scrollbar-hide -mx-5 px-5">
-            {previousChats.map((req) => {
-              const lastMsg = (chatMessages[req.id] || []).slice(-1)[0];
-              return (
-                <button key={req.id} onClick={() => navigate(`/request/${req.id}`)}
-                  className="shrink-0 p-2.5 flex items-center gap-2 tap-scale min-w-[200px] rounded-xl"
-                  style={{
-                    background: 'rgba(255,255,255,0.8)',
-                    border: '1px solid rgba(0,0,0,0.05)',
-                  }}>
-                  <span className="text-lg">{getCategoryEmoji(req.category)}</span>
-                  <div className="text-left flex-1 min-w-0">
-                    <p className="text-2xs font-semibold truncate">{req.title}</p>
-                    {lastMsg && <p className="text-[10px] text-muted-foreground truncate">{lastMsg.senderName}: {lastMsg.message}</p>}
-                  </div>
-                </button>
-              );
-            })}
-          </div>
-        </div>
-      )}
+
 
       {/* Category filters */}
       <div className="px-5 pb-1">
