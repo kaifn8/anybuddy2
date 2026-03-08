@@ -10,7 +10,7 @@ import { UrgencyBadge } from '@/components/ui/UrgencyBadge';
 import { cn } from '@/lib/utils';
 import type { Category, Request } from '@/types/anybuddy';
 
-const BANGALORE_CENTER: [number, number] = [12.9716, 77.5946];
+const MUMBAI_CENTER: [number, number] = [19.0760, 72.8777];
 
 // Create emoji-based div icons for markers
 function createEmojiIcon(emoji: string, isSelected = false) {

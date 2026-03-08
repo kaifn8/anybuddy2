@@ -131,7 +131,7 @@ const generateInitialRequests = (count: number): Request[] => {
 };
 
 const createDefaultUser = (overrides: Partial<User>): User => ({
-  id: '', firstName: '', phone: '', ageRange: '', city: 'Bangalore',
+  id: '', firstName: '', phone: '', ageRange: '', city: 'Mumbai',
   interests: [], trustLevel: 'seed', credits: 3, completedJoins: 0,
   createdAt: new Date(), reliabilityScore: 100, joinRate: 100,
   hostRating: 0, meetupsHosted: 0, meetupsAttended: 0, noShows: 0,
