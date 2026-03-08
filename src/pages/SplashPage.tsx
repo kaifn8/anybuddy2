@@ -14,15 +14,14 @@ export default function SplashPage() {
   
   useEffect(() => {
     const tl = gsap.timeline();
-    
     gsap.set([emojiRef.current, titleRef.current, taglineRef.current], { opacity: 0 });
     
     tl.fromTo(emojiRef.current, 
-      { opacity: 0, scale: 0.5, rotation: -15 },
-      { opacity: 1, scale: 1, rotation: 0, duration: 0.6, ease: 'back.out(2)' }
+      { opacity: 0, scale: 0.5, y: 20 },
+      { opacity: 1, scale: 1, y: 0, duration: 0.7, ease: 'back.out(1.7)' }
     )
     .fromTo(titleRef.current,
-      { opacity: 0, y: 20 },
+      { opacity: 0, y: 15 },
       { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' },
       '-=0.3'
     )
@@ -34,16 +33,9 @@ export default function SplashPage() {
     
     const navigateTimer = setTimeout(() => {
       gsap.to(containerRef.current, {
-        opacity: 0,
-        scale: 0.98,
-        duration: 0.3,
-        ease: 'power2.in',
+        opacity: 0, scale: 0.98, duration: 0.35, ease: 'power2.in',
         onComplete: () => {
-          if (user && isOnboarded) {
-            navigate('/home');
-          } else {
-            navigate('/onboarding');
-          }
+          navigate(user && isOnboarded ? '/home' : '/onboarding');
         },
       });
     }, 2200);
@@ -54,43 +46,37 @@ export default function SplashPage() {
   return (
     <div 
       ref={containerRef}
-      className="mobile-container flex flex-col items-center justify-center min-h-screen relative overflow-hidden bg-warm-hero"
+      className="mobile-container flex flex-col items-center justify-center min-h-screen relative overflow-hidden"
+      style={{
+        background: 'linear-gradient(160deg, hsl(211 100% 50%) 0%, hsl(240 80% 55%) 50%, hsl(280 65% 55%) 100%)',
+      }}
     >
-      <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent" />
+      {/* Ambient light effects */}
+      <div className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-white/10 blur-3xl" />
+      <div className="absolute bottom-1/3 right-1/4 w-48 h-48 rounded-full bg-white/8 blur-3xl" />
       
       <div className="relative z-10 flex flex-col items-center">
-        <div 
-          ref={emojiRef}
-          className="text-7xl mb-6"
-        >
+        <div ref={emojiRef} className="text-7xl mb-6 float-animation">
           🤙
         </div>
         
-        <h1 
-          ref={titleRef}
-          className="text-4xl font-extrabold text-white tracking-tight"
-        >
+        <h1 ref={titleRef} className="text-4xl font-bold text-white tracking-tight">
           anybuddy
         </h1>
         
-        <p 
-          ref={taglineRef}
-          className="text-white/70 text-sm mt-3 font-medium"
-        >
+        <p ref={taglineRef} className="text-white/60 text-sm mt-3 font-medium">
           Need someone? Anybody in? 🙌
         </p>
       </div>
       
-      <div className="absolute bottom-16 flex gap-2">
-        {['🟠', '🟡', '🟠'].map((dot, i) => (
-          <div
-            key={i}
-            className="text-xs animate-pulse"
-            style={{ animationDelay: `${i * 0.2}s` }}
-          >
-            {dot}
+      <div className="absolute bottom-16">
+        <div className="liquid-glass-subtle px-6 py-2">
+          <div className="flex gap-1.5">
+            {[0, 1, 2].map((i) => (
+              <div key={i} className="w-1.5 h-1.5 rounded-full bg-white/60 animate-pulse" style={{ animationDelay: `${i * 0.2}s` }} />
+            ))}
           </div>
-        ))}
+        </div>
       </div>
     </div>
   );
