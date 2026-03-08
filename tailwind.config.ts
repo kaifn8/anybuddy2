@@ -14,11 +14,12 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ['DM Sans', 'Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
-        display: ['DM Sans', 'Inter', '-apple-system', 'sans-serif'],
+        sans: ['Plus Jakarta Sans', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+        display: ['Plus Jakarta Sans', '-apple-system', 'sans-serif'],
       },
       fontSize: {
         '2xs': ['0.6875rem', { lineHeight: '1rem' }],
+        'hero': ['2rem', { lineHeight: '1.1', letterSpacing: '-0.03em' }],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -105,16 +106,20 @@ export default {
           "100%": { backgroundPosition: "200% 0" },
         },
         "slide-up": {
-          "0%": { opacity: "0", transform: "translateY(12px)" },
+          "0%": { opacity: "0", transform: "translateY(16px)" },
           "100%": { opacity: "1", transform: "translateY(0)" },
         },
         "scale-in": {
-          "0%": { opacity: "0", transform: "scale(0.96)" },
+          "0%": { opacity: "0", transform: "scale(0.95)" },
           "100%": { opacity: "1", transform: "scale(1)" },
         },
         "fade-in": {
           "0%": { opacity: "0" },
           "100%": { opacity: "1" },
+        },
+        bounce: {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-6px)" },
         },
       },
       animation: {
@@ -124,12 +129,15 @@ export default {
         "slide-up": "slide-up 0.35s cubic-bezier(0.16, 1, 0.3, 1)",
         "scale-in": "scale-in 0.25s cubic-bezier(0.16, 1, 0.3, 1)",
         "fade-in": "fade-in 0.25s ease-out",
+        bounce: "bounce 1.5s ease-in-out infinite",
       },
       boxShadow: {
         soft: "0 2px 8px rgba(0, 0, 0, 0.04)",
         "soft-lg": "0 4px 12px rgba(0, 0, 0, 0.05), 0 12px 32px rgba(0, 0, 0, 0.06)",
-        neo: "0 1px 2px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.03)",
-        "neo-lg": "0 2px 4px rgba(0, 0, 0, 0.04), 0 8px 24px rgba(0, 0, 0, 0.06)",
+        warm: "0 4px 16px rgba(180, 100, 50, 0.08)",
+        "warm-lg": "0 8px 28px rgba(180, 100, 50, 0.12)",
+        uber: "0 1px 3px rgba(0, 0, 0, 0.04), 0 6px 16px rgba(0, 0, 0, 0.04)",
+        "uber-lg": "0 2px 6px rgba(0, 0, 0, 0.05), 0 10px 28px rgba(0, 0, 0, 0.07)",
       },
     },
   },
