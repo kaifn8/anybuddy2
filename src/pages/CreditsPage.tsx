@@ -75,7 +75,7 @@ export default function CreditsPage() {
         </div>
         
         {/* How to earn */}
-        <div className="liquid-glass p-4 specular-highlight" style={{ borderRadius: '1rem' }}>
+        <div className="liquid-glass p-4">
           <h3 className="text-xs font-semibold text-muted-foreground mb-3">HOW TO EARN</h3>
           <div className="space-y-2.5">
             {[
