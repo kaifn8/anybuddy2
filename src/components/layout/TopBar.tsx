@@ -52,10 +52,10 @@ export function TopBar() {
       className="sticky top-0 z-40"
       style={{
         height: 56,
-        background: 'rgba(255,255,255,0.95)',
-        backdropFilter: 'blur(10px)',
-        WebkitBackdropFilter: 'blur(10px)',
-        borderBottom: '1px solid rgba(0,0,0,0.05)',
+        background: 'transparent',
+        backdropFilter: 'blur(16px)',
+        WebkitBackdropFilter: 'blur(16px)',
+        borderBottom: '1px solid rgba(0,0,0,0.04)',
       }}
     >
       <div className="max-w-md mx-auto flex items-center justify-between h-full px-4">
@@ -91,7 +91,7 @@ export function TopBar() {
         </DropdownMenu>
 
         {/* Center: Logo */}
-        <span className="text-[16px] font-bold tracking-tight text-foreground absolute left-1/2 -translate-x-1/2">
+        <span className="text-[20px] absolute left-1/2 -translate-x-1/2" style={{ fontFamily: "'Pacifico', cursive" }}>
           any<span className="text-primary">buddy</span>
         </span>
 
