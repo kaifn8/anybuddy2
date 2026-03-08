@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { TopBar } from '@/components/layout/TopBar';
 import { useAppStore } from '@/store/useAppStore';
 import { getCategoryLabel } from '@/components/icons/CategoryIcon';
 import type { Category } from '@/types/anybuddy';
