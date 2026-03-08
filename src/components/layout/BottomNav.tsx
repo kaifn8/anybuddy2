@@ -3,10 +3,10 @@ import { cn } from '@/lib/utils';
 import { useAppStore } from '@/store/useAppStore';
 
 const navItems = [
-  { emoji: '🏠', label: 'Home', path: '/home' },
-  { emoji: '🔔', label: 'Alerts', path: '/notifications' },
+  { emoji: '🏠', label: 'Feed', path: '/home' },
+  { emoji: '🗺️', label: 'Map', path: '/map' },
   { emoji: '✨', label: 'Post', path: '/create', isMain: true },
-  { emoji: '💰', label: 'Credits', path: '/credits' },
+  { emoji: '🔔', label: 'Alerts', path: '/notifications' },
   { emoji: '👤', label: 'Me', path: '/profile' },
 ];
 

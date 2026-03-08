@@ -8,9 +8,11 @@ import SplashPage from "./pages/SplashPage";
 import OnboardingPage from "./pages/OnboardingPage";
 import SignupPage from "./pages/SignupPage";
 import HomePage from "./pages/HomePage";
+import MapPage from "./pages/MapPage";
 import CreateRequestPage from "./pages/CreateRequestPage";
 import JoinRequestPage from "./pages/JoinRequestPage";
 import RequestDetailPage from "./pages/RequestDetailPage";
+import ReviewPage from "./pages/ReviewPage";
 import CreditsPage from "./pages/CreditsPage";
 import NotificationsPage from "./pages/NotificationsPage";
 import ProfilePage from "./pages/ProfilePage";
@@ -30,9 +32,11 @@ const App = () => (
           <Route path="/onboarding" element={<OnboardingPage />} />
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/home" element={<HomePage />} />
+          <Route path="/map" element={<MapPage />} />
           <Route path="/create" element={<CreateRequestPage />} />
           <Route path="/join/:id" element={<JoinRequestPage />} />
           <Route path="/request/:id" element={<RequestDetailPage />} />
+          <Route path="/review/:id" element={<ReviewPage />} />
           <Route path="/credits" element={<CreditsPage />} />
           <Route path="/notifications" element={<NotificationsPage />} />
           <Route path="/profile" element={<ProfilePage />} />
