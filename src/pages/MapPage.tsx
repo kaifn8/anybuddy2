@@ -210,12 +210,12 @@ export default function MapPage() {
           <div 
             key={req.id} 
             className={cn(
-              "flex items-center gap-2.5 py-2.5 px-3 liquid-glass tap-scale transition-all",
-              selectedId === req.id && "ring-1.5 ring-primary/25"
+              "flex items-center gap-2.5 py-2.5 px-3 backdrop-blur-md bg-background/30 border border-border/20 tap-scale transition-all",
+              selectedId === req.id && "ring-1.5 ring-primary/25 bg-background/40"
             )}
             onClick={() => setSelectedId(selectedId === req.id ? null : req.id)}
           >
-            <div className="w-8 h-8 rounded-lg bg-muted/40 flex items-center justify-center text-base shrink-0">
+            <div className="w-8 h-8 rounded-lg bg-background/50 backdrop-blur-sm flex items-center justify-center text-base shrink-0 border border-border/20">
               {getCategoryEmoji(req.category)}
             </div>
             <div className="flex-1 min-w-0">
@@ -230,7 +230,7 @@ export default function MapPage() {
             </div>
             <div className="flex items-center gap-1.5 shrink-0">
               <button onClick={(e) => { e.stopPropagation(); handleShare(req); }}
-                className="h-7 w-7 rounded-lg liquid-glass flex items-center justify-center tap-scale">
+                className="h-7 w-7 rounded-lg backdrop-blur-sm bg-background/40 border border-border/20 flex items-center justify-center tap-scale">
                 <Share2 size={12} />
               </button>
               <button onClick={(e) => { e.stopPropagation(); handleJoinFromMap(req); }}
