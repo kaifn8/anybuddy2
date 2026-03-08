@@ -67,7 +67,7 @@ export default function AdminPage() {
         )}
         
         {activeTab === 'moderation' && (
-          <div className="liquid-glass p-4 specular-highlight" style={{ borderRadius: '1rem' }}>
+          <div className="liquid-glass p-4">
             <div className="grid grid-cols-3 gap-2 mb-4">
               {[{ v: '847', l: 'Approved', c: 'text-success' }, { v: '23', l: 'Flagged', c: 'text-warning' }, { v: '12', l: 'Rejected', c: 'text-destructive' }].map((s, i) => (
                 <div key={i} className="text-center py-2">
