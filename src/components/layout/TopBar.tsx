@@ -91,7 +91,7 @@ export function TopBar() {
         </DropdownMenu>
 
         {/* Center: Logo */}
-        <span className="text-[16px] font-bold tracking-tight text-foreground absolute left-1/2 -translate-x-1/2">
+        <span className="text-[20px] absolute left-1/2 -translate-x-1/2" style={{ fontFamily: "'Pacifico', cursive" }}>
           any<span className="text-primary">buddy</span>
         </span>
 
