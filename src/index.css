@@ -241,18 +241,30 @@
      ═══════════════════════════════════ */
 
   .glass-pill {
-    @apply inline-flex items-center gap-1.5 text-sm font-medium transition-all duration-150;
+    @apply inline-flex items-center gap-1.5 text-sm font-medium;
     padding: 0.5rem 0.875rem;
     border-radius: 999px;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .glass-pill:hover {
+    transform: translateY(-1px);
   }
 
   .glass-pill-active {
-    background: hsl(var(--foreground));
+    background: hsla(var(--foreground) / 0.88);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     color: hsl(var(--background));
+    box-shadow: 0 2px 8px hsla(var(--foreground) / 0.15);
   }
 
   .glass-pill-inactive {
     @apply liquid-glass-subtle text-muted-foreground;
+  }
+
+  .glass-pill-inactive:hover {
+    background: hsla(0 0% 100% / 0.7);
   }
 
   /* ═══════════════════════════════════
