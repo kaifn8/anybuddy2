@@ -162,29 +162,36 @@ export default function HomePage() {
 
       {/* Category filters */}
       <div className="px-5 pb-1">
-        <div className="flex gap-2 overflow-x-auto pb-2 -mx-5 px-5 scrollbar-hide">
+        <div className="flex gap-1.5 overflow-x-auto pb-1.5 -mx-5 px-5 scrollbar-hide">
           {FILTERS.map((cat) => (
             <button key={cat.id} onClick={() => setActiveFilter(cat.id)}
-              className={cn('shrink-0 glass-pill tap-scale',
-                activeFilter === cat.id ? 'glass-pill-active' : 'glass-pill-inactive'
+              className={cn('shrink-0 px-2.5 py-1 rounded-full text-[11px] font-medium tap-scale transition-all flex items-center gap-1',
+                activeFilter === cat.id
+                  ? 'bg-foreground text-background shadow-sm'
+                  : 'bg-foreground/5 text-muted-foreground'
               )}>
-              <span className="text-xs">{cat.emoji}</span>
+              <span className="text-[11px]">{cat.emoji}</span>
               <span>{cat.label}</span>
             </button>
           ))}
         </div>
 
         {/* Quick filters */}
-        <div className="flex gap-2 overflow-x-auto pb-3 -mx-5 px-5 scrollbar-hide mt-2">
+        <div className="flex gap-1.5 overflow-x-auto pb-2 -mx-5 px-5 scrollbar-hide mt-1.5">
           {QUICK_FILTERS.map((f) => (
             <button key={f.id} onClick={() => setQuickFilter(quickFilter === f.id ? null : f.id)}
-              className={cn('shrink-0 px-3 py-1.5 rounded-lg text-2xs font-semibold tap-scale transition-all',
-                quickFilter === f.id ? 'tahoe-btn-primary' : 'liquid-glass text-muted-foreground'
+              className={cn('shrink-0 px-2.5 py-1 rounded-full text-[10px] font-semibold tap-scale transition-all',
+                quickFilter === f.id ? 'bg-primary text-primary-foreground' : 'bg-foreground/[0.03] text-muted-foreground'
               )}>
               {f.label}
             </button>
           ))}
         </div>
+      </div>
+
+      {/* Section label */}
+      <div className="px-5 pt-1 pb-2">
+        <h3 className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">All plans</h3>
       </div>
       
       <div ref={cardsRef} className="px-5 space-y-3">
