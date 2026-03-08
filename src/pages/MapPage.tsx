@@ -13,6 +13,18 @@ import { UrgencyBadge } from '@/components/ui/UrgencyBadge';
 import { cn } from '@/lib/utils';
 import type { Category, Request } from '@/types/anybuddy';
 
+const CATEGORY_TINTS: Record<Category, string> = {
+  chai: 'bg-amber-500/15 border-amber-400/30',
+  food: 'bg-orange-500/15 border-orange-400/30',
+  sports: 'bg-emerald-500/15 border-emerald-400/30',
+  explore: 'bg-blue-500/15 border-blue-400/30',
+  work: 'bg-slate-500/15 border-slate-400/30',
+  walk: 'bg-teal-500/15 border-teal-400/30',
+  help: 'bg-rose-500/15 border-rose-400/30',
+  shopping: 'bg-purple-500/15 border-purple-400/30',
+  casual: 'bg-violet-500/15 border-violet-400/30',
+};
+
 const MUMBAI_CENTER: [number, number] = [19.0760, 72.8777];
 
 function createEmojiIcon(emoji: string, isSelected = false) {
