@@ -12,6 +12,7 @@ import MapPage from "./pages/MapPage";
 import CreateRequestPage from "./pages/CreateRequestPage";
 import JoinRequestPage from "./pages/JoinRequestPage";
 import RequestDetailPage from "./pages/RequestDetailPage";
+import HostProfilePage from "./pages/HostProfilePage";
 import ReviewPage from "./pages/ReviewPage";
 import CreditsPage from "./pages/CreditsPage";
 import NotificationsPage from "./pages/NotificationsPage";
@@ -36,6 +37,7 @@ const App = () => (
           <Route path="/create" element={<CreateRequestPage />} />
           <Route path="/join/:id" element={<JoinRequestPage />} />
           <Route path="/request/:id" element={<RequestDetailPage />} />
+          <Route path="/host/:userId" element={<HostProfilePage />} />
           <Route path="/review/:id" element={<ReviewPage />} />
           <Route path="/credits" element={<CreditsPage />} />
           <Route path="/notifications" element={<NotificationsPage />} />

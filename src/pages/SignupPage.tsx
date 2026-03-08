@@ -131,19 +131,6 @@ export default function SignupPage() {
                 <span className="text-lg">✉️</span>
                 <div><p className="text-sm font-semibold">Continue with Email</p><p className="text-2xs text-muted-foreground">Magic link</p></div>
               </button>
-              <div className="flex items-center gap-3 my-4">
-                <div className="flex-1 h-px bg-border/50" /><span className="text-2xs text-muted-foreground">or</span><div className="flex-1 h-px bg-border/50" />
-              </div>
-              <div className="flex gap-2.5">
-                <button onClick={() => handleSocialLogin('google')}
-                  className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl liquid-glass tap-scale">
-                  <span className="text-base">🟢</span><span className="text-xs font-semibold">Google</span>
-                </button>
-                <button onClick={() => handleSocialLogin('apple')}
-                  className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl liquid-glass tap-scale">
-                  <span className="text-base">🍎</span><span className="text-xs font-semibold">Apple</span>
-                </button>
-              </div>
             </div>
           )}
           

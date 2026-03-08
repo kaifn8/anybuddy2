@@ -14,6 +14,7 @@ export function BottomNav() {
   const location = useLocation();
   const navigate = useNavigate();
   const notifications = useAppStore((s) => s.notifications);
+  const user = useAppStore((s) => s.user);
   const unreadCount = notifications.filter(n => !n.read).length;
   
   return (
@@ -40,7 +41,14 @@ export function BottomNav() {
                 className="flex flex-col items-center gap-0.5 py-1 px-3 tap-scale"
               >
                 <div className="relative">
-                  <span className={cn('text-base', isActive ? '' : 'opacity-40')}>{item.emoji}</span>
+                  {item.path === '/profile' ? (
+                    <div className="relative">
+                      <span className={cn('text-base', isActive ? '' : 'opacity-40')}>{item.emoji}</span>
+                      {user && <span className="absolute -bottom-0.5 -right-1 w-2 h-2 rounded-full bg-success border border-background" />}
+                    </div>
+                  ) : (
+                    <span className={cn('text-base', isActive ? '' : 'opacity-40')}>{item.emoji}</span>
+                  )}
                   {item.path === '/notifications' && unreadCount > 0 && (
                     <span className="absolute -top-1 -right-1.5 bg-destructive text-destructive-foreground text-[8px] rounded-full w-3.5 h-3.5 flex items-center justify-center font-bold">
                       {unreadCount > 9 ? '9+' : unreadCount}
