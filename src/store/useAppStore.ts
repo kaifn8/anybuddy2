@@ -40,12 +40,12 @@ const URGENCIES: Urgency[] = ['now', 'today', 'week'];
 const TRUST_LEVELS: TrustLevel[] = ['seed', 'solid', 'trusted', 'anchor'];
 
 const BIOS = [
-  'Coffee addict ☕ Love meeting new people',
-  'Weekend explorer 🧭',
-  'Fitness enthusiast & foodie',
-  'Just moved to Bangalore, looking for buddies!',
-  'Book nerd who also loves hiking',
-  'Tech geek by day, badminton player by evening',
+  'Cutting chai addict ☕ Love meeting new people',
+  'Weekend explorer - Konkan coast is home 🧭',
+  'Fitness enthusiast & street food lover',
+  'Just moved to Mumbai, looking for buddies!',
+  'Book nerd who also loves monsoon treks',
+  'Tech geek by day, cricket player by evening',
 ];
 
 interface AppState {
