@@ -8,7 +8,7 @@ import { useAppStore } from '@/store/useAppStore';
 import { cn } from '@/lib/utils';
 import type { Category } from '@/types/anybuddy';
 
-const FILTER_CATEGORIES: { id: Category | 'all'; label: string; emoji: string }[] = [
+const FILTERS: { id: Category | 'all'; label: string; emoji: string }[] = [
   { id: 'all', label: 'All', emoji: '🔥' },
   { id: 'chai', label: 'Chai', emoji: '☕' },
   { id: 'explore', label: 'Explore', emoji: '🧭' },
@@ -20,20 +20,19 @@ const FILTER_CATEGORIES: { id: Category | 'all'; label: string; emoji: string }[
 export default function HomePage() {
   const navigate = useNavigate();
   const { requests, joinedRequests, refreshFeed, user } = useAppStore();
-  const [isRefreshing, setIsRefreshing] = useState(false);
   const [activeFilter, setActiveFilter] = useState<Category | 'all'>('all');
   
   const headerRef = useRef<HTMLDivElement>(null);
-  const cardsContainerRef = useRef<HTMLDivElement>(null);
+  const cardsRef = useRef<HTMLDivElement>(null);
   
   useEffect(() => {
     const tl = gsap.timeline();
-    tl.fromTo(headerRef.current, { opacity: 0, y: -10 }, { opacity: 1, y: 0, duration: 0.35 });
-    if (cardsContainerRef.current?.children) {
-      tl.fromTo(cardsContainerRef.current.children,
-        { opacity: 0, y: 24 },
-        { opacity: 1, y: 0, duration: 0.45, stagger: 0.07, ease: 'power2.out' },
-        '-=0.15'
+    tl.fromTo(headerRef.current, { opacity: 0, y: -8 }, { opacity: 1, y: 0, duration: 0.3 });
+    if (cardsRef.current?.children) {
+      tl.fromTo(cardsRef.current.children,
+        { opacity: 0, y: 16 },
+        { opacity: 1, y: 0, duration: 0.35, stagger: 0.06, ease: 'power2.out' },
+        '-=0.1'
       );
     }
   }, []);
@@ -43,51 +42,37 @@ export default function HomePage() {
     return () => clearInterval(interval);
   }, [refreshFeed]);
   
-  const handleRefresh = () => {
-    setIsRefreshing(true);
-    if (cardsContainerRef.current?.children) {
-      gsap.to(cardsContainerRef.current.children, {
-        opacity: 0.4, y: -5, duration: 0.15, stagger: 0.02,
-        onComplete: () => {
-          refreshFeed();
-          gsap.to(cardsContainerRef.current?.children || [], { opacity: 1, y: 0, duration: 0.35, stagger: 0.04, ease: 'power2.out' });
-          setIsRefreshing(false);
-        },
-      });
-    } else { refreshFeed(); setIsRefreshing(false); }
-  };
-  
   const handleJoin = (requestId: string) => {
     if (!user) { navigate('/signup'); return; }
     navigate(joinedRequests.includes(requestId) ? `/request/${requestId}` : `/join/${requestId}`);
   };
   
-  const filteredRequests = [...requests]
+  const filtered = [...requests]
     .filter(r => activeFilter === 'all' || r.category === activeFilter)
     .sort((a, b) => {
-      const urgencyOrder = { now: 0, today: 1, week: 2 };
-      return urgencyOrder[a.urgency] !== urgencyOrder[b.urgency]
-        ? urgencyOrder[a.urgency] - urgencyOrder[b.urgency]
+      const order = { now: 0, today: 1, week: 2 };
+      return order[a.urgency] !== order[b.urgency]
+        ? order[a.urgency] - order[b.urgency]
         : new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
     });
   
   return (
-    <div className="mobile-container min-h-screen bg-ambient pb-28">
+    <div className="mobile-container min-h-screen bg-ambient pb-24">
       <TopBar />
       
-      <div className="px-5 pt-4 pb-2">
+      <div className="px-5 pt-5 pb-1">
         <div ref={headerRef} className="mb-5">
-          <h2 className="text-hero font-bold text-foreground">
+          <h2 className="text-heading font-bold text-foreground">
             {user ? `Hey ${user.firstName} 👋` : 'Hey there 👋'}
           </h2>
-          <p className="text-sm text-muted-foreground mt-1">
-            {filteredRequests.length} people nearby need a buddy
+          <p className="text-sm text-muted-foreground mt-0.5">
+            {filtered.length} people nearby need a buddy
           </p>
         </div>
         
-        {/* Glass filter pills */}
-        <div className="flex gap-2 overflow-x-auto pb-3 -mx-5 px-5 scrollbar-hide">
-          {FILTER_CATEGORIES.map((cat) => (
+        {/* Filter pills */}
+        <div className="flex gap-2 overflow-x-auto pb-4 -mx-5 px-5 scrollbar-hide">
+          {FILTERS.map((cat) => (
             <button
               key={cat.id}
               onClick={() => setActiveFilter(cat.id)}
@@ -95,15 +80,16 @@ export default function HomePage() {
                 activeFilter === cat.id ? 'glass-pill-active' : 'glass-pill-inactive'
               )}
             >
-              <span>{cat.emoji}</span>
+              <span className="text-xs">{cat.emoji}</span>
               <span>{cat.label}</span>
             </button>
           ))}
         </div>
       </div>
       
-      <div ref={cardsContainerRef} className="px-5 space-y-3">
-        {filteredRequests.map((request) => (
+      {/* Feed */}
+      <div ref={cardsRef} className="px-5 space-y-3">
+        {filtered.map((request) => (
           <RequestCard
             key={request.id}
             request={request}
@@ -113,14 +99,14 @@ export default function HomePage() {
           />
         ))}
         
-        {filteredRequests.length === 0 && (
-          <div className="text-center py-16">
-            <span className="text-5xl block mb-4">🔍</span>
-            <p className="text-muted-foreground text-sm mb-3 font-medium">
+        {filtered.length === 0 && (
+          <div className="text-center py-20">
+            <span className="text-4xl block mb-3">🔍</span>
+            <p className="text-sm text-muted-foreground mb-2 font-medium">
               No requests {activeFilter !== 'all' ? `for ${activeFilter}` : 'nearby'}
             </p>
-            <button onClick={() => navigate('/create')} className="text-primary font-semibold text-sm">
-              Be the first to post ✨
+            <button onClick={() => navigate('/create')} className="text-primary font-semibold text-sm tap-scale">
+              Be the first to post
             </button>
           </div>
         )}

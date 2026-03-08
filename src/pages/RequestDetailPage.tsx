@@ -2,8 +2,6 @@ import { useState, useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Send } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { useAppStore } from '@/store/useAppStore';
 import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
 import { UrgencyBadge } from '@/components/ui/UrgencyBadge';
@@ -26,7 +24,7 @@ export default function RequestDetailPage() {
   if (!request) {
     return (
       <div className="mobile-container min-h-screen bg-ambient flex items-center justify-center">
-        <p className="text-muted-foreground">Request not found</p>
+        <p className="text-sm text-muted-foreground">Request not found</p>
       </div>
     );
   }
@@ -34,102 +32,100 @@ export default function RequestDetailPage() {
   const handleSend = () => { if (!message.trim() || !id) return; sendMessage(id, message.trim()); setMessage(''); };
   const handleLeave = () => { if (!id) return; leaveRequest(id); navigate('/home'); };
   
-  const timeLeft = formatDistanceToNow(new Date(request.expiresAt), { addSuffix: false });
   const seatsLeft = request.seatsTotal - request.seatsTaken;
   
   return (
     <div className="mobile-container min-h-screen bg-ambient flex flex-col">
+      {/* Header */}
       <header className="sticky top-0 z-40 liquid-glass-nav">
-        <div className="flex items-center gap-3 p-4 max-w-md mx-auto">
-          <button onClick={() => navigate(-1)} className="glass-button p-2 rounded-xl tap-scale text-sm">←</button>
+        <div className="flex items-center gap-2.5 h-12 px-5 max-w-md mx-auto">
+          <button onClick={() => navigate(-1)} className="tahoe-btn-ghost w-8 h-8 rounded-lg tap-scale text-sm">←</button>
           <div className="flex-1 min-w-0">
-            <h1 className="font-semibold truncate text-[15px]">{request.title}</h1>
-            <p className="text-xs text-muted-foreground">{request.userName}</p>
+            <h1 className="text-sm font-semibold truncate">{request.title}</h1>
+            <p className="text-2xs text-muted-foreground">{request.userName}</p>
           </div>
           {isJoined && (
-            <button onClick={handleLeave} className="glass-button px-3 py-1.5 rounded-xl tap-scale text-xs text-warning font-medium">
+            <button onClick={handleLeave} className="tahoe-btn-ghost text-2xs text-warning font-semibold px-2 py-1 rounded-lg tap-scale">
               Leave
             </button>
           )}
         </div>
       </header>
       
-      {/* Info */}
-      <div className="p-4 border-b border-border/30">
-        <div className="flex items-start gap-3">
-          <span className="text-2xl">{getCategoryEmoji(request.category)}</span>
-          <div className="flex-1">
-            <div className="flex items-center gap-2 flex-wrap mb-2">
-              <UrgencyBadge urgency={request.urgency} />
-              <TrustBadge level={request.userTrust} />
-            </div>
-            <div className="flex items-center gap-3 text-xs text-muted-foreground">
-              <span>📍 {request.location.name}</span>
-              <span>👥 {seatsLeft} left</span>
-              <span>⏱ {timeLeft}</span>
-            </div>
+      {/* Info bar */}
+      <div className="px-5 py-3 border-b border-border/15">
+        <div className="flex items-center gap-2.5">
+          <span className="text-xl">{getCategoryEmoji(request.category)}</span>
+          <div className="flex items-center gap-2 flex-wrap flex-1">
+            <UrgencyBadge urgency={request.urgency} />
+            <TrustBadge level={request.userTrust} />
+          </div>
+          <div className="text-2xs text-muted-foreground">
+            📍 {request.location.name} · 👥 {seatsLeft} left
           </div>
         </div>
         
         {request.participants.length > 0 && (
-          <div className="mt-4 pt-4 border-t border-border/30">
-            <p className="text-sm font-medium mb-2">Participants</p>
-            <div className="flex -space-x-2">
+          <div className="flex items-center gap-2 mt-2.5 pt-2.5 border-t border-border/15">
+            <div className="flex -space-x-1.5">
               {request.participants.map((p) => (
                 <img key={p.id} src={p.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${p.name}`}
-                  alt={p.name} className="w-8 h-8 rounded-full border-2 border-background" title={p.name} />
+                  alt={p.name} className="w-6 h-6 rounded-full border-2 border-background" />
               ))}
               <img src={request.userAvatar} alt={request.userName}
-                className="w-8 h-8 rounded-full border-2 border-background" title={`${request.userName} (Host)`} />
+                className="w-6 h-6 rounded-full border-2 border-background" />
             </div>
+            <span className="text-2xs text-muted-foreground">{request.participants.length + 1} people</span>
           </div>
         )}
       </div>
       
       {isJoined ? (
         <>
-          <div className="flex-1 overflow-y-auto p-4 space-y-3">
+          {/* Chat */}
+          <div className="flex-1 overflow-y-auto px-5 py-3 space-y-2">
             {messages.map((msg) => (
               <div key={msg.id} className={`flex ${msg.senderId === user?.id ? 'justify-end' : 'justify-start'}`}>
-                <div className={`max-w-[80%] rounded-2xl px-4 py-2.5 ${
+                <div className={`max-w-[75%] rounded-2xl px-3.5 py-2 ${
                   msg.senderId === 'system'
-                    ? 'liquid-glass-subtle text-muted-foreground text-center w-full text-sm'
+                    ? 'liquid-glass-subtle text-muted-foreground text-center w-full text-xs'
                     : msg.senderId === user?.id
-                    ? 'glass-button-primary rounded-br-lg'
-                    : 'liquid-glass rounded-bl-lg'
+                    ? 'tahoe-btn-primary rounded-br-md'
+                    : 'liquid-glass rounded-bl-md'
                 }`}>
                   {msg.senderId !== user?.id && msg.senderId !== 'system' && (
-                    <p className="text-xs font-semibold text-primary mb-1">{msg.senderName}</p>
+                    <p className="text-2xs font-semibold text-primary mb-0.5">{msg.senderName}</p>
                   )}
-                  <p className="text-[15px]">{msg.message}</p>
+                  <p className="text-sm">{msg.message}</p>
                 </div>
               </div>
             ))}
             <div ref={messagesEndRef} />
           </div>
           
-          <div className="p-4 liquid-glass-nav">
+          {/* Message input */}
+          <div className="p-3 liquid-glass-nav">
             <div className="flex gap-2 max-w-md mx-auto">
-              <Input placeholder="Type a message..." value={message} onChange={(e) => setMessage(e.target.value)}
+              <input placeholder="Type a message..." value={message} onChange={(e) => setMessage(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-                className="flex-1 rounded-full liquid-glass border-0 h-11"
+                className="flex-1 rounded-full liquid-glass h-10 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20"
               />
-              <Button size="icon" className="glass-button-primary rounded-full tap-scale shrink-0 h-11 w-11"
+              <button className="tahoe-btn-primary rounded-full w-10 h-10 flex items-center justify-center tap-scale shrink-0"
                 onClick={handleSend} disabled={!message.trim()}>
-                <Send size={16} />
-              </Button>
+                <Send size={15} />
+              </button>
             </div>
           </div>
         </>
       ) : (
-        <div className="flex-1 flex items-center justify-center p-6">
+        <div className="flex-1 flex items-center justify-center p-8">
           <div className="text-center">
-            <span className="text-4xl block mb-4">🔒</span>
-            <p className="text-muted-foreground mb-4 font-medium">Join to unlock the chat</p>
-            <Button className="glass-button-primary rounded-2xl px-8 py-3 tap-scale"
+            <span className="text-3xl block mb-3">🔒</span>
+            <p className="text-sm text-muted-foreground mb-4">Join to unlock the chat</p>
+            <button className="tahoe-btn-primary h-10 px-6 tap-scale"
               onClick={() => navigate(`/join/${request.id}`)} disabled={seatsLeft === 0}>
-              {seatsLeft === 0 ? 'Request is full' : 'Join Now 🤝'}
-            </Button>
+              {seatsLeft === 0 ? 'Request is full' : 'Join Now'}
+            </button>
           </div>
         </div>
       )}
