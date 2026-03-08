@@ -64,7 +64,7 @@ export default function CreateRequestPage() {
       userAvatar: user.avatar, userReliability: user.reliabilityScore,
       userHostRating: user.hostRating, title: title.trim(), description: description.trim() || undefined,
       category: category!, urgency, when,
-      location: { name: user.zone || user.city || 'Koramangala', distance: 0, coords: { lat: 12.9352, lng: 77.6245 } },
+      location: { name: user.zone || user.city || 'Bandra', distance: 0, coords: { lat: 19.0596, lng: 72.8295 } },
       seatsTotal: seats[0], seatsTaken: 0, expiresAt, timer: timer ?? undefined,
       liveShare, status: 'active',
     });
