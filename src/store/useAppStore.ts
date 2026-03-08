@@ -5,21 +5,21 @@ import type { User, Request, Notification, CreditTransaction, Category, TrustLev
 const FAKE_NAMES = ['Priya', 'Arjun', 'Maya', 'Rohan', 'Zara', 'Aditya', 'Neha', 'Vikram', 'Ananya', 'Kabir', 'Riya', 'Dev', 'Simran', 'Rahul'];
 
 const FAKE_REQUEST_TITLES = [
-  'Anyone for chai and a chat?',
+  'Anyone for chai at Carter Road?',
   'Need help moving a couch 🛋️',
-  'Looking for a co-working buddy',
-  'Exploring the new art exhibition',
+  'Looking for a co-working buddy in Bandra',
+  'Exploring Kala Ghoda art district',
   'Quick grocery run - need company!',
-  'Study session at the library?',
-  'Morning walk in the park',
-  'Anyone know good cafes nearby?',
-  'Trying a new restaurant tonight',
-  'Weekend hiking trip planning',
-  'Need a gym buddy 💪',
-  'Coffee and brainstorming session',
-  'Badminton at 6 PM?',
-  'Street food crawl in Indiranagar',
-  'Evening jog around the lake',
+  'Study session at Asiatic Library?',
+  'Morning walk at Marine Drive',
+  'Anyone know good cafes in Versova?',
+  'Trying a new restaurant in Colaba tonight',
+  'Weekend trek to Karnala Fort',
+  'Need a gym buddy in Andheri 💪',
+  'Coffee and brainstorming at Prithvi Cafe',
+  'Badminton at 6 PM in Powai?',
+  'Street food crawl in Mohammad Ali Road',
+  'Evening jog at Juhu Beach',
 ];
 
 const LOCATIONS = [
