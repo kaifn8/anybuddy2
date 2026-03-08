@@ -222,8 +222,8 @@ export default function MapPage() {
           <div
             key={req.id}
             className={cn(
-              "backdrop-blur-md bg-background/30 border border-border/20 rounded-2xl p-3 tap-scale transition-all",
-              selectedId === req.id && "ring-1 ring-primary/30 bg-background/40"
+              "backdrop-blur-xl bg-background/80 border border-border/50 rounded-2xl p-3 tap-scale transition-all shadow-sm",
+              selectedId === req.id && "ring-1 ring-primary/50 bg-background/95 shadow-md"
             )}
             onClick={() => setSelectedId(selectedId === req.id ? null : req.id)}
           >
