@@ -50,7 +50,7 @@ export default function CreditsPage() {
         </div>
         
         {/* Trust level */}
-        <div className="liquid-glass-heavy p-4 specular-highlight" style={{ borderRadius: '1rem' }}>
+        <div className="liquid-glass-heavy p-4">
           <div className="flex items-center gap-3 mb-3">
             <span className="text-2xl">🛡️</span>
             <div className="flex-1">
