@@ -136,7 +136,7 @@ export function RequestCard({ request, onJoin, onView, isJoined, className }: Re
         </div>
 
         {/* Seats progress + attendee avatars */}
-        <div className="flex items-center justify-between mt-3 pt-3 border-t border-border/20">
+        <div className="flex items-center justify-between mt-2 pt-2 border-t border-border/15">
           <div className="flex items-center gap-2">
             {/* Attendee avatars */}
             <div className="flex -space-x-1.5">
