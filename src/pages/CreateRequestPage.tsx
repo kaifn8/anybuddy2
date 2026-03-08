@@ -2,7 +2,7 @@ import { useState, useMemo, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 import { ModernInput } from '@/components/ui/ModernInput';
-import { PageHeader } from '@/components/layout/PageHeader';
+import { TopBar } from '@/components/layout/TopBar';
 import { Slider } from '@/components/ui/slider';
 import { Switch } from '@/components/ui/switch';
 import { useAppStore } from '@/store/useAppStore';

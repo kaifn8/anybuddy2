@@ -2,7 +2,7 @@ import { useRef, useEffect } from 'react';
 import { formatDistanceToNow } from 'date-fns';
 import gsap from 'gsap';
 import { BottomNav } from '@/components/layout/BottomNav';
-import { PageHeader } from '@/components/layout/PageHeader';
+import { TopBar } from '@/components/layout/TopBar';
 import { TrustBadge } from '@/components/ui/TrustBadge';
 import { ProgressBar } from '@/components/ui/ProgressIndicator';
 import { useAppStore } from '@/store/useAppStore';
