@@ -31,17 +31,14 @@ export function TopBar() {
   const chatMessages = useAppStore((s) => s.chatMessages);
   const joinedRequests = useAppStore((s) => s.joinedRequests);
 
-  const [detectedCity, setDetectedCity] = useState<string>(user?.city || detectCity());
+  const [currentZone, setCurrentZone] = useState<string>(user?.zone || 'Bandra');
+  const [currentCity, setCurrentCity] = useState<string>(user?.city || 'Mumbai');
 
-  // Auto-detect city on mount
+  // Sync from user if available
   useEffect(() => {
-    const city = user?.city || detectCity();
-    setDetectedCity(city);
-    if (!user?.zone) {
-      const zones = CITIES[city] || CITIES['Mumbai'];
-      updateUser({ city, zone: zones[0] });
-    }
-  }, []);
+    if (user?.zone) setCurrentZone(user.zone);
+    if (user?.city) setCurrentCity(user.city);
+  }, [user?.zone, user?.city]);
 
   const unreadChats = joinedRequests.reduce((count, id) => {
     const msgs = chatMessages[id] || [];
