@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Send } from 'lucide-react';
+import { Send, Share2 } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 import { useAppStore } from '@/store/useAppStore';
 import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
