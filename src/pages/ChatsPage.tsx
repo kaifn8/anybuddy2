@@ -25,21 +25,7 @@ export default function ChatsPage() {
 
   return (
     <div className="mobile-container min-h-screen bg-ambient pb-24">
-      {/* Header */}
-      <header
-        className="sticky top-0 z-40 flex items-center gap-3 px-4"
-        style={{
-          height: 56,
-          background: 'rgba(255,255,255,0.95)',
-          backdropFilter: 'blur(10px)',
-          borderBottom: '1px solid rgba(0,0,0,0.05)',
-        }}
-      >
-        <button onClick={() => navigate(-1)} className="tap-scale p-1">
-          <ArrowLeft className="w-5 h-5 text-foreground" />
-        </button>
-        <h1 className="text-base font-bold text-foreground">Chats</h1>
-      </header>
+      <TopBar showBack title="Chats" />
 
       <div className="px-5 pt-4">
         {chats.length === 0 ? (
