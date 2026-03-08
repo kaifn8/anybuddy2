@@ -111,20 +111,97 @@ export default function HomePage() {
     <div className="mobile-container min-h-screen bg-ambient pb-24">
       <TopBar />
       
-      <div className="px-5 pt-5 pb-1">
-        <div ref={headerRef} className="mb-5">
-          <h2 className="text-heading font-bold text-foreground">
+      {/* Greeting - compact */}
+      <div className="px-5 pt-4 pb-1">
+        <div ref={headerRef} className="mb-3">
+          <h2 className="text-base font-semibold text-foreground">
             {user ? `Hey ${user.firstName} 👋` : 'Hey there 👋'}
           </h2>
-          <p className="text-sm text-muted-foreground mt-0.5 flex items-center gap-1.5">
+          <p className="text-xs text-muted-foreground mt-0.5 flex items-center gap-1.5">
             <span className="inline-flex items-center gap-1">
               <span className="w-1.5 h-1.5 rounded-full bg-success pulse-live" />
               <span className="text-success font-semibold">{activeCount} live plans nearby</span>
             </span>
           </p>
         </div>
-        
-        {/* Category filters */}
+      </div>
+
+      {/* Trending section - ABOVE categories */}
+      {trending.length > 0 && (
+        <div className="px-5 mb-4">
+          <h3 className="text-xs font-bold text-foreground mb-2.5 flex items-center gap-1.5">
+            <span>🔥</span> Popular nearby
+          </h3>
+          <div className="flex gap-2.5 overflow-x-auto scrollbar-hide -mx-5 px-5 pb-1">
+            {trending.map((req) => {
+              const seatsLeft = req.seatsTotal - req.seatsTaken;
+              const fillPercent = Math.round((req.seatsTaken / req.seatsTotal) * 100);
+              return (
+                <button key={req.id} onClick={() => navigate(`/request/${req.id}`)}
+                  className="shrink-0 tap-scale min-w-[200px] max-w-[220px] rounded-2xl overflow-hidden"
+                  style={{
+                    background: 'rgba(255,255,255,0.85)',
+                    backdropFilter: 'blur(12px)',
+                    border: '1px solid rgba(0,0,0,0.06)',
+                    boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
+                  }}>
+                  <div className="p-3.5">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-xl">{getCategoryEmoji(req.category)}</span>
+                      <span className="text-[10px] font-bold text-primary bg-primary/10 px-2 py-0.5 rounded-full">
+                        {req.seatsTaken}/{req.seatsTotal} joined
+                      </span>
+                    </div>
+                    <p className="text-sm font-semibold text-foreground truncate mb-1">{req.title}</p>
+                    <p className="text-[11px] text-muted-foreground mb-2.5">📍 {req.location.name}</p>
+                    {/* Fill bar */}
+                    <div className="w-full h-1.5 rounded-full bg-muted overflow-hidden">
+                      <div
+                        className="h-full rounded-full bg-primary transition-all"
+                        style={{ width: `${fillPercent}%` }}
+                      />
+                    </div>
+                    <p className="text-[10px] text-muted-foreground mt-1">
+                      {seatsLeft === 0 ? '🔴 Full' : seatsLeft === 1 ? '🟡 1 spot left' : `${seatsLeft} spots left`}
+                    </p>
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {/* Previous chats */}
+      {previousChats.length > 0 && (
+        <div className="px-5 mb-3">
+          <h3 className="text-xs font-bold text-foreground mb-2 flex items-center gap-1.5">
+            <span>💬</span> Active chats
+          </h3>
+          <div className="flex gap-2 overflow-x-auto scrollbar-hide -mx-5 px-5">
+            {previousChats.map((req) => {
+              const lastMsg = (chatMessages[req.id] || []).slice(-1)[0];
+              return (
+                <button key={req.id} onClick={() => navigate(`/request/${req.id}`)}
+                  className="shrink-0 p-2.5 flex items-center gap-2 tap-scale min-w-[200px] rounded-xl"
+                  style={{
+                    background: 'rgba(255,255,255,0.8)',
+                    border: '1px solid rgba(0,0,0,0.05)',
+                  }}>
+                  <span className="text-lg">{getCategoryEmoji(req.category)}</span>
+                  <div className="text-left flex-1 min-w-0">
+                    <p className="text-2xs font-semibold truncate">{req.title}</p>
+                    {lastMsg && <p className="text-[10px] text-muted-foreground truncate">{lastMsg.senderName}: {lastMsg.message}</p>}
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {/* Category filters */}
+      <div className="px-5 pb-1">
         <div className="flex gap-2 overflow-x-auto pb-2 -mx-5 px-5 scrollbar-hide">
           {FILTERS.map((cat) => (
             <button key={cat.id} onClick={() => setActiveFilter(cat.id)}
@@ -149,48 +226,6 @@ export default function HomePage() {
           ))}
         </div>
       </div>
-
-      {/* Previous chats */}
-      {previousChats.length > 0 && (
-        <div className="px-5 mb-4">
-          <h3 className="text-xs font-semibold text-muted-foreground mb-2 uppercase">Previous Chats</h3>
-          <div className="flex gap-2 overflow-x-auto scrollbar-hide -mx-5 px-5">
-            {previousChats.map((req) => {
-              const lastMsg = (chatMessages[req.id] || []).slice(-1)[0];
-              return (
-                <button key={req.id} onClick={() => navigate(`/request/${req.id}`)}
-                  className="shrink-0 liquid-glass p-2.5 flex items-center gap-2 tap-scale min-w-[200px]" style={{ borderRadius: '0.75rem' }}>
-                  <span className="text-lg">{getCategoryEmoji(req.category)}</span>
-                  <div className="text-left flex-1 min-w-0">
-                    <p className="text-2xs font-semibold truncate">{req.title}</p>
-                    {lastMsg && <p className="text-[10px] text-muted-foreground truncate">{lastMsg.senderName}: {lastMsg.message}</p>}
-                  </div>
-                </button>
-              );
-            })}
-          </div>
-        </div>
-      )}
-
-      {/* Trending section */}
-      {trending.length > 0 && activeFilter === 'all' && !quickFilter && (
-        <div className="px-5 mb-4">
-          <h3 className="text-xs font-semibold text-muted-foreground mb-2 uppercase">🔥 Popular nearby</h3>
-          <div className="flex gap-2 overflow-x-auto scrollbar-hide -mx-5 px-5">
-            {trending.map((req) => (
-              <button key={req.id} onClick={() => navigate(`/request/${req.id}`)}
-                className="shrink-0 liquid-glass-heavy p-3 tap-scale specular-highlight min-w-[170px]" style={{ borderRadius: '0.875rem' }}>
-                <div className="flex items-center gap-2 mb-1.5">
-                  <span className="text-lg">{getCategoryEmoji(req.category)}</span>
-                  <span className="text-2xs text-muted-foreground">{req.seatsTaken}/{req.seatsTotal} joined</span>
-                </div>
-                <p className="text-xs font-semibold truncate">{req.title}</p>
-                <p className="text-[10px] text-muted-foreground mt-0.5">📍 {req.location.name}</p>
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
       
       <div ref={cardsRef} className="px-5 space-y-3">
         {filtered.map((request) => (
