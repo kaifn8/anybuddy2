@@ -86,82 +86,85 @@ export function RequestCard({ request, onJoin, onView, isJoined, className }: Re
   return (
     <>
       <div
-        className={cn('bg-background/80 backdrop-blur-xl border border-border/50 shadow-sm rounded-2xl p-3 cursor-pointer tap-scale', className)}
+        className={cn('bg-background/80 backdrop-blur-xl border border-border/50 shadow-sm rounded-3xl p-4 cursor-pointer tap-scale transition-colors hover:bg-background/90', className)}
         onClick={onView}
       >
         {/* Status badge */}
         {status && (
-          <div className={cn('inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-bold mb-2', status.color)}>
+          <div className={cn('inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold mb-3', status.color)}>
             {status.label}
           </div>
         )}
 
-        <div className="flex items-start gap-2.5">
+        <div className="flex items-start gap-3.5">
           {/* Category icon with color */}
-          <div className={cn('w-9 h-9 rounded-lg border flex items-center justify-center text-base shrink-0', CATEGORY_COLORS[request.category])}>
+          <div className={cn('w-12 h-12 rounded-2xl border border-white/20 shadow-sm flex items-center justify-center text-2xl shrink-0', CATEGORY_COLORS[request.category])}>
             {getCategoryEmoji(request.category)}
           </div>
           
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-1.5 mb-0.5">
+          <div className="flex-1 min-w-0 pt-0.5">
+            <div className="flex items-center gap-1.5 mb-1">
               <UrgencyBadge urgency={request.urgency} />
-              {request.liveShare && <span className="text-[10px] text-success font-semibold">📡</span>}
+              {request.liveShare && <span className="text-[10px] text-success font-semibold">📡 Live</span>}
             </div>
-            <h3 className="font-semibold text-[13px] text-foreground leading-snug line-clamp-2">{request.title}</h3>
-            <p className="text-[11px] text-muted-foreground mt-0.5">📍 {request.location.name}</p>
+            <h3 className="font-bold text-[15px] text-foreground leading-snug line-clamp-2 mb-1">{request.title}</h3>
+            <p className="text-[12px] text-muted-foreground font-medium flex items-center gap-1">
+              <span>📍</span> <span className="truncate">{request.location.name}</span>
+            </p>
           </div>
           
-          <div className="flex flex-col items-end gap-1 shrink-0">
+          <div className="flex flex-col items-end gap-2 shrink-0">
             <button
               className={cn(
-                'tap-scale h-7 px-3 rounded-lg text-[11px] font-semibold',
-                isJoined ? 'tahoe-btn-secondary text-muted-foreground' : 'tahoe-btn-primary'
+                'tap-scale h-8 px-4 rounded-xl text-xs font-bold shadow-sm',
+                isJoined ? 'bg-secondary text-secondary-foreground' : 'bg-primary text-primary-foreground'
               )}
               onClick={handleJoinClick}
               disabled={seatsLeft === 0 && !isJoined}
             >
               {isJoined ? '✓ In' : seatsLeft === 0 ? 'Full' : 'Join'}
             </button>
-            <button onClick={handleSaveClick} className="tap-scale p-0.5">
-              <Heart size={13} className={cn(isSaved ? 'fill-destructive text-destructive' : 'text-muted-foreground/50')} />
+            <button onClick={handleSaveClick} className="tap-scale p-1 -mr-1">
+              <Heart size={16} className={cn(isSaved ? 'fill-destructive text-destructive' : 'text-muted-foreground/40 hover:text-muted-foreground/60 transition-colors')} />
             </button>
           </div>
         </div>
 
         {/* Seats progress + attendee avatars */}
-        <div className="flex items-center justify-between mt-2 pt-2 border-t border-border/15">
-          <div className="flex items-center gap-2">
+        <div className="flex items-center justify-between mt-4 pt-3 border-t border-border/20">
+          <div className="flex items-center gap-2.5">
             {/* Attendee avatars */}
-            <div className="flex -space-x-1.5">
+            <div className="flex -space-x-2">
               {attendeeAvatars.slice(0, 3).map((avatar, i) => (
-                <img key={i} src={avatar} alt="" className="w-5 h-5 rounded-full border-2 border-background" />
+                <img key={i} src={avatar} alt="" className="w-6 h-6 rounded-full border-2 border-background shadow-sm" />
               ))}
               {attendeeAvatars.length > 3 && (
-                <div className="w-5 h-5 rounded-full bg-muted border-2 border-background flex items-center justify-center">
-                  <span className="text-[8px] font-bold text-muted-foreground">+{attendeeAvatars.length - 3}</span>
+                <div className="w-6 h-6 rounded-full bg-muted border-2 border-background flex items-center justify-center shadow-sm">
+                  <span className="text-[9px] font-bold text-muted-foreground">+{attendeeAvatars.length - 3}</span>
                 </div>
               )}
             </div>
-            <span className="text-2xs text-muted-foreground font-semibold">
-              👥 {request.seatsTaken}/{request.seatsTotal} spots filled
+            <span className="text-[11px] text-muted-foreground font-semibold">
+              <span className="text-foreground">{request.seatsTaken}</span>/{request.seatsTotal} joined
             </span>
           </div>
-          <span className="text-2xs text-muted-foreground">⏱ {timeLeft}</span>
+          <span className="text-[11px] font-medium text-muted-foreground bg-muted/50 px-2 py-1 rounded-md">⏱ {timeLeft}</span>
         </div>
         
         {/* Host + meta row */}
-        <div className="flex items-center justify-between mt-2">
-          <button onClick={handleHostClick} className="flex items-center gap-1.5 tap-scale">
+        <div className="flex items-center justify-between mt-3">
+          <button onClick={handleHostClick} className="flex items-center gap-2 tap-scale">
             <img src={request.userAvatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${request.userName}`}
-              alt={request.userName} className="w-4 h-4 rounded-full" />
-            <span className="text-2xs text-muted-foreground font-medium underline decoration-dotted">{request.userName}</span>
+              alt={request.userName} className="w-5 h-5 rounded-full" />
+            <span className="text-xs text-muted-foreground font-medium hover:text-foreground transition-colors">{request.userName}</span>
             {request.userReliability && (
-              <span className="text-[10px] text-success font-semibold">{request.userReliability}%</span>
+              <span className="text-[10px] text-success font-bold bg-success/10 px-1.5 py-0.5 rounded-sm">{request.userReliability}%</span>
             )}
           </button>
-          <div className="flex items-center gap-2 text-2xs text-muted-foreground">
-            <span>{request.location.distance}km</span>
-            <button onClick={handleShareClick} className="tap-scale"><Share2 size={13} /></button>
+          <div className="flex items-center gap-2.5 text-xs text-muted-foreground">
+            <span className="font-medium">{request.location.distance}km</span>
+            <div className="w-1 h-1 rounded-full bg-border"></div>
+            <button onClick={handleShareClick} className="tap-scale hover:text-foreground transition-colors"><Share2 size={14} /></button>
           </div>
         </div>
 
