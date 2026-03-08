@@ -82,7 +82,7 @@ export default function ProfilePage() {
         
         {/* Badges */}
         {user.badges.length > 0 && (
-          <div className="liquid-glass p-4 specular-highlight" style={{ borderRadius: '1rem' }}>
+          <div className="liquid-glass p-4">
             <h3 className="text-xs font-semibold text-muted-foreground mb-2">BADGES</h3>
             <div className="flex flex-wrap gap-1.5">
               {user.badges.map((badge) => (
