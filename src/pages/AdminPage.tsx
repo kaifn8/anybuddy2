@@ -40,7 +40,7 @@ export default function AdminPage() {
                 <p className="text-2xs text-muted-foreground mb-1">Live Requests</p>
                 <p className="text-heading font-bold text-primary">{liveRequests}</p>
               </div>
-              <div className="liquid-glass p-3.5 specular-highlight" style={{ borderRadius: '0.875rem' }}>
+              <div className="liquid-glass p-3.5">
                 <p className="text-2xs text-muted-foreground mb-1">Active Users</p>
                 <p className="text-heading font-bold text-secondary">{totalParticipants + liveRequests}</p>
               </div>
