@@ -227,7 +227,7 @@ export default function MapPage() {
             )}
             onClick={() => setSelectedId(selectedId === req.id ? null : req.id)}
           >
-            <div className="w-8 h-8 rounded-lg bg-background/50 backdrop-blur-sm flex items-center justify-center text-base shrink-0 border border-border/20">
+            <div className={cn("w-8 h-8 rounded-lg backdrop-blur-sm flex items-center justify-center text-base shrink-0 border", CATEGORY_TINTS[req.category])}>
               {getCategoryEmoji(req.category)}
             </div>
             <div className="flex-1 min-w-0">
