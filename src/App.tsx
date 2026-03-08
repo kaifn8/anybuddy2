@@ -15,6 +15,7 @@ import RequestDetailPage from "./pages/RequestDetailPage";
 import HostProfilePage from "./pages/HostProfilePage";
 import ReviewPage from "./pages/ReviewPage";
 import CreditsPage from "./pages/CreditsPage";
+import ChatsPage from "./pages/ChatsPage";
 import NotificationsPage from "./pages/NotificationsPage";
 import ProfilePage from "./pages/ProfilePage";
 import AdminPage from "./pages/AdminPage";
@@ -40,6 +41,7 @@ const App = () => (
           <Route path="/host/:userId" element={<HostProfilePage />} />
           <Route path="/review/:id" element={<ReviewPage />} />
           <Route path="/credits" element={<CreditsPage />} />
+          <Route path="/chats" element={<ChatsPage />} />
           <Route path="/notifications" element={<NotificationsPage />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/admin" element={<AdminPage />} />
