@@ -216,38 +216,52 @@ export default function MapPage() {
         )}
       </div>
 
-      {/* Compact events list */}
-      <div className="flex-1 overflow-y-auto px-5 space-y-1.5">
+      {/* Events list */}
+      <div className="flex-1 overflow-y-auto px-5 space-y-2 pb-2">
         {(selectedId ? activeRequests.filter(r => r.id === selectedId) : activeRequests).map((req) => (
-          <div 
-            key={req.id} 
+          <div
+            key={req.id}
             className={cn(
-              "flex items-center gap-2.5 py-2.5 px-3 backdrop-blur-md bg-background/30 border border-border/20 tap-scale transition-all",
-              selectedId === req.id && "ring-1.5 ring-primary/25 bg-background/40"
+              "backdrop-blur-md bg-background/30 border border-border/20 rounded-2xl p-3 tap-scale transition-all",
+              selectedId === req.id && "ring-1 ring-primary/30 bg-background/40"
             )}
             onClick={() => setSelectedId(selectedId === req.id ? null : req.id)}
           >
-            <div className={cn("w-8 h-8 rounded-lg backdrop-blur-sm flex items-center justify-center text-base shrink-0 border", CATEGORY_TINTS[req.category])}>
-              {getCategoryEmoji(req.category)}
-            </div>
-            <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-1.5">
-                <h3 className="text-[13px] font-semibold truncate">{req.title}</h3>
+            <div className="flex items-center gap-3">
+              {/* Icon */}
+              <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center text-lg shrink-0 border", CATEGORY_TINTS[req.category])}>
+                {getCategoryEmoji(req.category)}
               </div>
-              <div className="flex items-center gap-1.5 mt-0.5">
-                <UrgencyBadge urgency={req.urgency} />
-                <span className="text-[10px] text-muted-foreground">📍 {req.location.distance}km</span>
-                <span className="text-[10px] text-muted-foreground">👥 {req.seatsTotal - req.seatsTaken} left</span>
+
+              {/* Content */}
+              <div className="flex-1 min-w-0">
+                <h3 className="text-[13px] font-semibold text-foreground truncate leading-tight">{req.title}</h3>
+                <div className="flex items-center gap-2 mt-1">
+                  <UrgencyBadge urgency={req.urgency} />
+                  <span className="text-[10px] text-muted-foreground">📍 {req.location.distance}km</span>
+                </div>
               </div>
-            </div>
-            <div className="flex items-center gap-1.5 shrink-0">
-              <button onClick={(e) => { e.stopPropagation(); handleShare(req); }}
-                className="h-7 w-7 rounded-lg backdrop-blur-sm bg-background/40 border border-border/20 flex items-center justify-center tap-scale">
-                <Share2 size={12} />
-              </button>
-              <button onClick={(e) => { e.stopPropagation(); handleJoinFromMap(req); }}
-                className="tahoe-btn-primary h-7 px-3 rounded-lg text-[11px] font-semibold tap-scale">
+
+              {/* Join button only */}
+              <button
+                onClick={(e) => { e.stopPropagation(); handleJoinFromMap(req); }}
+                className="tahoe-btn-primary h-8 px-4 rounded-xl text-xs font-semibold tap-scale shrink-0"
+              >
                 Join
+              </button>
+            </div>
+
+            {/* Footer row */}
+            <div className="flex items-center justify-between mt-2.5 pt-2 border-t border-border/10">
+              <div className="flex items-center gap-3 text-[10px] text-muted-foreground">
+                <span>👥 {req.seatsTotal - req.seatsTaken} spots left</span>
+                <span>🎯 {req.userReliability}% reliable</span>
+              </div>
+              <button
+                onClick={(e) => { e.stopPropagation(); handleShare(req); }}
+                className="flex items-center gap-1 text-[10px] text-muted-foreground tap-scale"
+              >
+                <Share2 size={10} /> Share
               </button>
             </div>
           </div>
