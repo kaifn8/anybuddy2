@@ -161,7 +161,7 @@ export function RequestCard({ request, onJoin, onView, isJoined, className }: Re
           </button>
           <div className="flex items-center gap-2 text-2xs text-muted-foreground">
             <span>{request.location.distance}km</span>
-            <button onClick={handleShareClick} className="tap-scale">📤</button>
+            <button onClick={handleShareClick} className="tap-scale"><Share2 size={13} /></button>
           </div>
         </div>
 

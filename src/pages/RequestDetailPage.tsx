@@ -65,6 +65,9 @@ export default function RequestDetailPage() {
 
           {/* Action row */}
           <div className="flex items-center gap-3 mt-3 pt-2.5 border-t border-border/15">
+            <button onClick={() => setShowShare(true)} className="flex items-center gap-1 text-2xs text-primary font-semibold tap-scale">
+              <Share2 size={12} /> Share
+            </button>
             <button onClick={() => navigate('/map')} className="flex items-center gap-1 text-2xs text-primary font-semibold tap-scale">
               📍 View on map
             </button>
