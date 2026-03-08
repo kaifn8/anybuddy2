@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Heart } from 'lucide-react';
+import { Heart, Share2 } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 import type { Request, Category } from '@/types/anybuddy';
 import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
