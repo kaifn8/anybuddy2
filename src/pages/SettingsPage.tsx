@@ -18,7 +18,6 @@ export default function SettingsPage() {
   const [emailNotifications, setEmailNotifications] = useState(false);
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [locationSharing, setLocationSharing] = useState(true);
-  const [locationSharing, setLocationSharing] = useState(true);
   
   const settingsSections = [
     {
