@@ -7,8 +7,8 @@ import { MapPin, ShieldCheck, BadgeCheck, Zap, Users, Star, ArrowLeft } from 'lu
 const slides = [
   { id: 'people', title: "Friends busy?", description: "Find people nearby who are up for coffee, food, walks, or games right now." },
   { id: 'realtime', title: 'Plans keep falling through?', description: 'Post in seconds. People nearby can join in minutes.' },
-  { id: 'safe', title: 'Want company, not DMs?', description: 'Skip the awkward chatting.\n\nJust join real plans with real people.' },
-  { id: 'credits', title: 'People who actually show up', description: 'Earn credits by participating.\n\nReliable people unlock more.' },
+  { id: 'safe', title: 'Not here for random DMs', description: 'No lurking. No weird messages. Just real plans.' },
+  { id: 'credits', title: 'Built for people who mean it', description: 'Participate, earn trust, unlock more.' },
 ];
 
 const NEARBY_PEOPLE = [
