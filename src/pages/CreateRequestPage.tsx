@@ -7,7 +7,7 @@ import { Slider } from '@/components/ui/slider';
 import { Switch } from '@/components/ui/switch';
 import { useAppStore } from '@/store/useAppStore';
 import { getCategoryLabel, getCategoryEmoji } from '@/components/icons/CategoryIcon';
-import type { Category, Urgency } from '@/types/anybuddy';
+import type { Category, Urgency, JoinMode, PlanVisibility } from '@/types/anybuddy';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 
@@ -30,6 +30,8 @@ export default function CreateRequestPage() {
   const [timer, setTimer] = useState<number | null>(null);
   const [seats, setSeats] = useState([2]);
   const [liveShare, setLiveShare] = useState(false);
+  const [joinMode, setJoinMode] = useState<JoinMode>('auto');
+  const [visibility, setVisibility] = useState<PlanVisibility>('public');
   const [isSubmitting, setIsSubmitting] = useState(false);
   
   const contentRef = useRef<HTMLDivElement>(null);
@@ -67,7 +69,7 @@ export default function CreateRequestPage() {
       category: category!, urgency, when,
       location: { name: user.zone || user.city || 'Bandra', distance: 0, coords: { lat: 19.0596, lng: 72.8295 } },
       seatsTotal: seats[0], seatsTaken: 0, expiresAt, timer: timer ?? undefined,
-      liveShare, status: 'active',
+      liveShare, status: 'active', joinMode, visibility, pendingJoinRequests: [],
     });
     updateCredits(-creditCost, 'Posted a request');
     gsap.to(contentRef.current, { opacity: 0, y: -16, duration: 0.25, onComplete: () => navigate('/home') });
@@ -155,6 +157,47 @@ export default function CreateRequestPage() {
           <Slider value={seats} onValueChange={setSeats} min={1} max={10} step={1} />
           <div className="flex justify-between text-2xs text-muted-foreground mt-1.5">
             <span>Solo buddy</span><span>Full crew</span>
+          </div>
+        </div>
+
+        {/* Join Mode */}
+        <div>
+          <label className="text-xs font-medium text-muted-foreground mb-2 block">How people join</label>
+          <div className="flex gap-2">
+            <Button onClick={() => setJoinMode('auto')}
+              variant={joinMode === 'auto' ? 'default' : 'secondary'}
+              className="flex-1 py-3 h-auto text-xs flex-col gap-1">
+              <span>⚡</span>
+              <span>Auto join</span>
+            </Button>
+            <Button onClick={() => setJoinMode('approval')}
+              variant={joinMode === 'approval' ? 'default' : 'secondary'}
+              className="flex-1 py-3 h-auto text-xs flex-col gap-1">
+              <span>✋</span>
+              <span>Request to join</span>
+            </Button>
+          </div>
+          <p className="text-[10px] text-muted-foreground mt-1.5">
+            {joinMode === 'auto' ? 'Anyone can join instantly' : 'You approve each person before they join'}
+          </p>
+        </div>
+
+        {/* Visibility */}
+        <div>
+          <label className="text-xs font-medium text-muted-foreground mb-2 block">Plan visibility</label>
+          <div className="flex gap-2">
+            <Button onClick={() => setVisibility('public')}
+              variant={visibility === 'public' ? 'default' : 'secondary'}
+              className="flex-1 py-3 h-auto text-xs flex-col gap-1">
+              <span>🌍</span>
+              <span>Public</span>
+            </Button>
+            <Button onClick={() => setVisibility('request')}
+              variant={visibility === 'request' ? 'default' : 'secondary'}
+              className="flex-1 py-3 h-auto text-xs flex-col gap-1">
+              <span>🔒</span>
+              <span>Request only</span>
+            </Button>
           </div>
         </div>
         
