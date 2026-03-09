@@ -195,9 +195,9 @@ export default function RequestDetailPage() {
           <div className="text-center">
             <span className="text-3xl block mb-3">🔒</span>
             <p className="text-sm text-muted-foreground mb-4">Join to unlock the chat</p>
-            <button className="tahoe-btn-primary h-10 px-6 tap-scale"
+            <button className="tahoe-btn-primary h-10 px-6 rounded-xl tap-scale font-semibold"
               onClick={() => navigate(`/join/${request.id}`)} disabled={seatsLeft === 0}>
-              {seatsLeft === 0 ? 'Request is full' : 'Join Now'}
+              {seatsLeft === 0 ? 'Request is full' : 'Join Plan'}
             </button>
           </div>
         </div>
