@@ -12,11 +12,12 @@ import { Button } from '@/components/ui/button';
 export default function JoinRequestPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { requests, joinRequest, updateCredits, user } = useAppStore();
+  const { requests, joinRequest, requestToJoin, updateCredits, user } = useAppStore();
   
   const [note, setNote] = useState('');
   const [isJoining, setIsJoining] = useState(false);
   const [isJoined, setIsJoined] = useState(false);
+  const [isRequested, setIsRequested] = useState(false);
   
   const containerRef = useRef<HTMLDivElement>(null);
   const successRef = useRef<HTMLDivElement>(null);
@@ -29,10 +30,10 @@ export default function JoinRequestPage() {
   }, []);
   
   useEffect(() => {
-    if (isJoined && successRef.current) {
+    if ((isJoined || isRequested) && successRef.current) {
       gsap.fromTo(successRef.current, { scale: 0.85, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.4, ease: 'back.out(1.7)' });
     }
-  }, [isJoined]);
+  }, [isJoined, isRequested]);
   
   if (!request) {
     return (
@@ -45,15 +46,22 @@ export default function JoinRequestPage() {
       </div>
     );
   }
+
+  const isApprovalMode = request.joinMode === 'approval';
   
   const handleJoin = () => {
     if (!user) return;
     setIsJoining(true);
     setTimeout(() => {
-      joinRequest(request.id, note.trim() || undefined);
-      updateCredits(0.5, 'Joined a request');
-      setIsJoined(true);
-      setTimeout(() => navigate(`/request/${request.id}`), 1500);
+      if (isApprovalMode) {
+        requestToJoin(request.id, note.trim() || undefined);
+        setIsRequested(true);
+      } else {
+        joinRequest(request.id, note.trim() || undefined);
+        updateCredits(0.5, 'Joined a request');
+        setIsJoined(true);
+        setTimeout(() => navigate(`/request/${request.id}`), 1500);
+      }
     }, 500);
   };
   
@@ -62,13 +70,22 @@ export default function JoinRequestPage() {
   
   return (
     <div className="mobile-container min-h-screen bg-ambient">
-      <TopBar showBack title="Join Request" />
+      <TopBar showBack title={isApprovalMode ? 'Request to Join' : 'Join Request'} />
       
       {isJoined ? (
         <div ref={successRef} className="flex flex-col items-center justify-center min-h-[70vh] px-8">
           <span className="text-6xl mb-4">🎉</span>
           <h2 className="text-title font-bold mb-1">You're in!</h2>
           <p className="text-sm text-muted-foreground">Opening chat with {request.userName}...</p>
+        </div>
+      ) : isRequested ? (
+        <div ref={successRef} className="flex flex-col items-center justify-center min-h-[70vh] px-8">
+          <span className="text-6xl mb-4">✋</span>
+          <h2 className="text-title font-bold mb-1">Request sent!</h2>
+          <p className="text-sm text-muted-foreground text-center mb-6">
+            {request.userName} will review your request. You'll get notified when they respond.
+          </p>
+          <Button variant="secondary" onClick={() => navigate('/home')}>Back to Home</Button>
         </div>
       ) : (
         <div ref={containerRef} className="px-5 pt-3 space-y-4">
@@ -77,7 +94,12 @@ export default function JoinRequestPage() {
             <div className="flex items-start gap-3">
               <span className="text-2xl">{getCategoryEmoji(request.category)}</span>
               <div className="flex-1">
-                <UrgencyBadge urgency={request.urgency} />
+                <div className="flex items-center gap-2">
+                  <UrgencyBadge urgency={request.urgency} />
+                  {isApprovalMode && (
+                    <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-secondary/15 text-secondary">✋ Approval required</span>
+                  )}
+                </div>
                 <h2 className="text-body font-bold mt-1.5 mb-2.5">{request.title}</h2>
                 <div className="flex items-center gap-2.5">
                   <img src={request.userAvatar} alt={request.userName} className="w-7 h-7 rounded-full" />
@@ -85,6 +107,9 @@ export default function JoinRequestPage() {
                     <p className="text-sm font-semibold">{request.userName}</p>
                     <TrustBadge level={request.userTrust} size="sm" />
                   </div>
+                  {request.userReliability && (
+                    <span className="text-[10px] text-muted-foreground ml-auto">⭐ {request.userReliability}% reliable</span>
+                  )}
                 </div>
               </div>
             </div>
@@ -107,7 +132,9 @@ export default function JoinRequestPage() {
           
           {/* Note */}
           <div className="liquid-glass p-3.5" style={{ borderRadius: '1rem' }}>
-            <label className="text-xs font-medium text-muted-foreground mb-1.5 block">Quick note (optional)</label>
+            <label className="text-xs font-medium text-muted-foreground mb-1.5 block">
+              Quick note {isApprovalMode ? '(helps the host decide)' : '(optional)'}
+            </label>
             <input placeholder="e.g., On my way! ETA 10 mins" value={note} onChange={(e) => setNote(e.target.value.slice(0, 50))}
               className="w-full h-10 px-3 rounded-lg liquid-glass text-sm focus:outline-none focus:ring-2 focus:ring-primary/20"
             />
@@ -118,11 +145,24 @@ export default function JoinRequestPage() {
           <div className="liquid-glass p-3.5" style={{ borderRadius: '1rem' }}>
             <h3 className="text-xs font-semibold text-muted-foreground mb-2">WHAT HAPPENS NEXT</h3>
             <ul className="space-y-2">
-              {[
+              {isApprovalMode ? [
+                { emoji: '✋', text: 'Your request is sent to the host' },
+                { emoji: '🔔', text: 'You\'ll be notified when they respond' },
+                { emoji: '💬', text: 'Chat unlocks once approved' },
+              ] : [
                 { emoji: '🔒', text: 'Your spot is locked' },
                 { emoji: '💬', text: 'Group chat opens' },
                 { emoji: '📍', text: "You'll see the meetup spot" },
-              ].map((item, i) => (
+              ]}
+              {(isApprovalMode ? [
+                { emoji: '✋', text: 'Your request is sent to the host' },
+                { emoji: '🔔', text: 'You\'ll be notified when they respond' },
+                { emoji: '💬', text: 'Chat unlocks once approved' },
+              ] : [
+                { emoji: '🔒', text: 'Your spot is locked' },
+                { emoji: '💬', text: 'Group chat opens' },
+                { emoji: '📍', text: "You'll see the meetup spot" },
+              ]).map((item, i) => (
                 <li key={i} className="flex items-center gap-2 text-xs text-muted-foreground">
                   <span>{item.emoji}</span><span>{item.text}</span>
                 </li>
@@ -136,9 +176,9 @@ export default function JoinRequestPage() {
             {isJoining ? (
               <span className="flex items-center gap-2">
                 <span className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                Joining...
+                {isApprovalMode ? 'Sending request...' : 'Joining...'}
               </span>
-            ) : `Join ${request.userName}`}
+            ) : isApprovalMode ? `Request to join ${request.userName}` : `Join ${request.userName}`}
           </Button>
           {seatsLeft <= 2 && seatsLeft > 0 && (
             <p className="text-center text-warning text-2xs font-semibold">Only {seatsLeft} spot{seatsLeft > 1 ? 's' : ''} left</p>
