@@ -103,16 +103,14 @@ export default function RequestDetailPage() {
 
               {/* Host info with reliability */}
               <div className="flex items-center gap-1.5">
-                <div className="relative">
-                  <img src={request.userAvatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${request.userName}`}
-                    alt={request.userName} className="w-5 h-5 rounded-full" />
-                  {(request.userTrust === 'trusted' || request.userTrust === 'anchor') && (
-                    <span className="absolute -bottom-0.5 -right-0.5 text-[10px]">✅</span>
-                  )}
-                </div>
-                <span className="text-[12px] text-muted-foreground font-medium">
+                <img src={request.userAvatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${request.userName}`}
+                  alt={request.userName} className="w-5 h-5 rounded-full" />
+                <span className="text-[12px] text-muted-foreground font-medium flex items-center gap-1">
                   {request.userName}
-                  {request.userReliability && <span className="ml-1.5">• ⭐ {request.userReliability}% reliable</span>}
+                  {(request.userTrust === 'trusted' || request.userTrust === 'anchor') && (
+                    <BadgeCheck size={14} className="text-blue-500 fill-blue-500" />
+                  )}
+                  {request.userReliability && <span className="ml-0.5">• ⭐ {request.userReliability}% reliable</span>}
                 </span>
               </div>
             </div>
