@@ -1,6 +1,7 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { useAppStore } from '@/store/useAppStore';
+import { Button } from '@/components/ui/button';
 
 const navItems = [
   { emoji: '🏠', label: 'Feed', path: '/home' },
