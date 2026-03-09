@@ -408,5 +408,12 @@
     hsl(var(--background));
 }
 
+.dark .bg-ambient {
+  background:
+    radial-gradient(ellipse at 20% 0%, hsla(211 100% 50% / 0.1) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 100%, hsla(260 50% 50% / 0.08) 0%, transparent 50%),
+    hsl(var(--background));
+}
+
 .scrollbar-hide::-webkit-scrollbar { display: none; }
 .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
