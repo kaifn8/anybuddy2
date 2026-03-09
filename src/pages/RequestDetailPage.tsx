@@ -46,55 +46,94 @@ export default function RequestDetailPage() {
       
       {/* Meetup summary card */}
       <div className="px-5 py-3 border-b border-border/15">
-        <div className="liquid-glass p-3.5 rounded-xl">
-          <div className="flex items-start gap-3">
+        <div className="liquid-glass p-4 rounded-3xl" style={{ boxShadow: '0px 2px 10px rgba(0,0,0,0.05)' }}>
+          {/* Time indicator */}
+          {(() => {
+            const minutesLeft = (new Date(request.expiresAt).getTime() - Date.now()) / 60000;
+            let timeIndicator = null;
+            if (minutesLeft <= 5 && minutesLeft > 0) {
+              timeIndicator = { label: '⚡ Happening now', color: 'text-warning bg-warning/10 border border-warning/20' };
+            } else if (minutesLeft <= 30 && minutesLeft > 0) {
+              const mins = Math.round(minutesLeft);
+              timeIndicator = { label: `⚡ Starts in ${mins} min`, color: 'text-warning bg-warning/10 border border-warning/20' };
+            }
+            return timeIndicator ? (
+              <div className={`inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-semibold mb-3 ${timeIndicator.color}`}>
+                {timeIndicator.label}
+              </div>
+            ) : null;
+          })()}
+
+          <div className="flex items-start gap-3 mb-3">
             <span className="text-2xl">{getCategoryEmoji(request.category)}</span>
             <div className="flex-1">
-              <div className="flex items-center gap-2 flex-wrap">
-                <UrgencyBadge urgency={request.urgency} />
-                <TrustBadge level={request.userTrust} />
+              {/* Title - prominent */}
+              <h2 className="font-semibold text-[17px] leading-tight mb-2">{request.title}</h2>
+              
+              {/* Location + Distance merged */}
+              <p className="text-[13px] text-muted-foreground font-medium mb-2">
+                📍 {request.location.name} • {request.location.distance} km away
+              </p>
+
+              {/* Participant info with avatars */}
+              <div className="flex items-center gap-2 mb-2">
+                <div className="flex -space-x-1.5">
+                  <img src={request.userAvatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${request.userName}`}
+                    alt={request.userName} className="w-5 h-5 rounded-full border-2 border-background" />
+                  {request.participants.slice(0, 2).map((p) => (
+                    <img key={p.id} src={p.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${p.name}`}
+                      alt={p.name} className="w-5 h-5 rounded-full border-2 border-background" />
+                  ))}
+                  {request.participants.length > 2 && (
+                    <div className="w-5 h-5 rounded-full bg-muted border-2 border-background flex items-center justify-center">
+                      <span className="text-[8px] font-bold text-muted-foreground">+{request.participants.length - 2}</span>
+                    </div>
+                  )}
+                </div>
+                <span className="text-[12px] text-muted-foreground font-medium">
+                  👥 {request.seatsTaken} of {request.seatsTotal} spots filled
+                </span>
               </div>
-              <h2 className="text-sm font-bold mt-1.5">{request.title}</h2>
-              <div className="space-y-1 mt-2 text-2xs text-muted-foreground">
-                <p>📍 {request.location.name} · {request.location.distance}km</p>
-                <p>⏱ Starts in {timeLeft}</p>
-                <p>👥 {request.seatsTaken}/{request.seatsTotal} people · {seatsLeft} spots left</p>
+
+              {/* Host info with reliability */}
+              <div className="flex items-center gap-1.5">
+                <img src={request.userAvatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${request.userName}`}
+                  alt={request.userName} className="w-5 h-5 rounded-full" />
+                <span className="text-[12px] text-muted-foreground font-medium">
+                  👤 {request.userName}
+                  {request.userReliability && <span className="ml-1.5">• ⭐ {request.userReliability}% reliable</span>}
+                </span>
               </div>
             </div>
           </div>
 
+          {/* Safety indicators - combined */}
+          <div className="text-[11px] text-muted-foreground/70 mb-3">
+            🛡 Public meetup
+            {(request.userTrust === 'trusted' || request.userTrust === 'anchor') && ' • Verified host'}
+            {request.liveShare && ' • 📡 Live location'}
+          </div>
+
           {/* Action row */}
-          <div className="flex items-center gap-3 mt-3 pt-2.5 border-t border-border/15">
-            <button onClick={() => setShowShare(true)} className="flex items-center gap-1 text-2xs text-primary font-semibold tap-scale">
-              <Share2 size={12} /> Share
+          <div className="flex items-center gap-3 pt-3 border-t border-border/15">
+            <button onClick={() => setShowShare(true)} className="flex items-center gap-1.5 text-[12px] text-primary font-semibold tap-scale">
+              <Share2 size={14} /> Share
             </button>
-            <button onClick={() => navigate('/map')} className="flex items-center gap-1 text-2xs text-primary font-semibold tap-scale">
+            <button onClick={() => navigate('/map')} className="flex items-center gap-1.5 text-[12px] text-primary font-semibold tap-scale">
               📍 View on map
             </button>
-            <span className="text-[10px] text-muted-foreground/60">🛡️ Public meetup</span>
-            {(request.userTrust === 'trusted' || request.userTrust === 'anchor') && (
-              <span className="text-[10px] text-muted-foreground/60">✅ Verified host</span>
-            )}
           </div>
         </div>
 
         {/* Participants list */}
-        <button onClick={() => setShowParticipants(!showParticipants)} className="w-full tap-scale">
-          <div className="flex items-center gap-2 mt-3">
-            <div className="flex -space-x-1.5">
-              <img src={request.userAvatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${request.userName}`}
-                alt={request.userName} className="w-6 h-6 rounded-full border-2 border-background" />
-              {request.participants.map((p) => (
-                <img key={p.id} src={p.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${p.name}`}
-                  alt={p.name} className="w-6 h-6 rounded-full border-2 border-background" />
-              ))}
-            </div>
-            <span className="text-2xs text-muted-foreground">{request.participants.length + 1} people · tap to see</span>
+        <button onClick={() => setShowParticipants(!showParticipants)} className="w-full tap-scale mt-3">
+          <div className="flex items-center gap-2 text-[12px] text-muted-foreground hover:text-foreground transition-colors">
+            <span>👥 View all participants ({request.participants.length + 1})</span>
           </div>
         </button>
 
         {showParticipants && (
-          <div className="mt-2 liquid-glass-subtle p-3 rounded-lg space-y-2">
+          <div className="mt-2 liquid-glass-subtle p-3 rounded-xl space-y-2">
             <h4 className="text-[10px] font-semibold text-muted-foreground uppercase">Participants</h4>
             <div className="flex items-center gap-2">
               <img src={request.userAvatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${request.userName}`}
