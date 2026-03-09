@@ -23,9 +23,9 @@ const FILTERS: { id: Category | 'all'; label: string; emoji: string }[] = [
 ];
 
 const QUICK_FILTERS = [
-  { id: 'near', label: '📍 Near me', sort: (a: Request, b: Request) => a.location.distance - b.location.distance },
-  { id: 'soon', label: '⚡ Starting soon', sort: (a: Request, b: Request) => new Date(a.expiresAt).getTime() - new Date(b.expiresAt).getTime() },
-  { id: 'popular', label: '🔥 Popular', sort: (a: Request, b: Request) => b.seatsTaken - a.seatsTaken },
+  { id: 'near', label: '📍 Closest first', sort: (a: Request, b: Request) => a.location.distance - b.location.distance },
+  { id: 'soon', label: '⚡ Starting now', sort: (a: Request, b: Request) => new Date(a.expiresAt).getTime() - new Date(b.expiresAt).getTime() },
+  { id: 'popular', label: '🔥 Filling fast', sort: (a: Request, b: Request) => b.seatsTaken - a.seatsTaken },
 ];
 
 const QUICK_CREATE: { emoji: string; title: string; category: Category }[] = [
