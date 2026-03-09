@@ -221,16 +221,16 @@ export default function ProfilePage() {
         {/* My requests */}
         {myRequests.length > 0 && (
           <div>
-            <h3 className="text-xs font-semibold text-muted-foreground mb-2">MY REQUESTS</h3>
-            <div className="space-y-1.5">
+            <h3 className="text-xs font-semibold text-muted-foreground mb-3">MY REQUESTS</h3>
+            <div className="space-y-2">
               {myRequests.slice(0, 3).map((req) => (
                 <button key={req.id} onClick={() => navigate(`/request/${req.id}`)}
-                  className="w-full flex items-center gap-3 bg-background/80 backdrop-blur-xl border border-border/50 p-4 rounded-3xl text-left tap-scale hover:bg-background/90 transition-colors"
+                  className="w-full flex items-center gap-3 bg-background/80 backdrop-blur-xl border border-border/50 p-3 rounded-3xl text-left tap-scale hover:bg-background/90 transition-colors"
                   style={{ boxShadow: '0px 2px 10px rgba(0,0,0,0.05)' }}>
                   <span className="text-lg">{getCategoryEmoji(req.category)}</span>
                   <div className="flex-1 min-w-0">
-                    <p className="font-semibold text-[14px] truncate">{req.title}</p>
-                    <p className="text-[12px] text-muted-foreground mt-1">{req.seatsTaken} of {req.seatsTotal} spots filled • {req.status}</p>
+                    <p className="font-semibold text-[13px] truncate">{req.title}</p>
+                    <p className="text-[11px] text-muted-foreground mt-1">{req.seatsTaken} of {req.seatsTotal} spots filled • {req.status}</p>
                   </div>
                 </button>
               ))}
@@ -238,9 +238,33 @@ export default function ProfilePage() {
           </div>
         )}
         
-        <button className="w-full h-11 tahoe-btn-secondary tap-scale text-sm" onClick={() => { reset(); navigate('/'); }}>
-          Log Out
-        </button>
+        {/* Saved Plans */}
+        {savedPlansList.length > 0 && (
+          <div>
+            <h3 className="text-xs font-semibold text-muted-foreground mb-3">♡ SAVED PLANS</h3>
+            <div className="space-y-2">
+              {savedPlansList.map((req) => (
+                <button key={req.id} onClick={() => navigate(`/request/${req.id}`)}
+                  className="w-full flex items-center gap-3 bg-background/80 backdrop-blur-xl border border-border/50 p-3 rounded-3xl text-left tap-scale hover:bg-background/90 transition-colors"
+                  style={{ boxShadow: '0px 2px 10px rgba(0,0,0,0.05)' }}>
+                  <span className="text-lg">{getCategoryEmoji(req.category)}</span>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-semibold text-[13px] truncate">{req.title}</p>
+                    <p className="text-[11px] text-muted-foreground mt-1">📍 {req.location.name} • {req.location.distance} km away</p>
+                    <p className="text-[11px] text-muted-foreground mt-0.5">{req.seatsTaken} of {req.seatsTotal} spots filled</p>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+        
+        {/* Logout button at bottom */}
+        <div className="pt-4 pb-2">
+          <button className="w-full text-xs text-muted-foreground hover:text-foreground transition-colors tap-scale" onClick={() => { reset(); navigate('/'); }}>
+            Log out
+          </button>
+        </div>
       </div>
       
       <BottomNav />
