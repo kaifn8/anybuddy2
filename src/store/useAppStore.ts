@@ -367,6 +367,43 @@ export const useAppStore = create<AppState>()(
         set({ requests: requests.map(r => r.id === requestId ? { ...r, status: 'completed' as const } : r) });
       },
       
+      submitVerificationSelfie: (selfieUrl: string) => {
+        const { user, pendingVerifications } = get();
+        if (!user) return;
+        const req: VerificationRequest = {
+          userId: user.id, userName: user.firstName, selfieUrl,
+          submittedAt: new Date(), status: 'pending',
+        };
+        set({
+          user: { ...user, verificationStatus: 'pending', verificationSelfie: selfieUrl },
+          pendingVerifications: [req, ...pendingVerifications],
+        });
+      },
+      
+      approveVerification: (userId: string) => {
+        const { user, pendingVerifications } = get();
+        set({
+          pendingVerifications: pendingVerifications.map(v =>
+            v.userId === userId ? { ...v, status: 'verified' as const } : v
+          ),
+          ...(user && user.id === userId ? {
+            user: { ...user, verificationStatus: 'verified' as const, isVerified: true },
+          } : {}),
+        });
+      },
+      
+      rejectVerification: (userId: string) => {
+        const { user, pendingVerifications } = get();
+        set({
+          pendingVerifications: pendingVerifications.map(v =>
+            v.userId === userId ? { ...v, status: 'failed' as const } : v
+          ),
+          ...(user && user.id === userId ? {
+            user: { ...user, verificationStatus: 'failed' as const, isVerified: false, verificationSelfie: undefined },
+          } : {}),
+        });
+      },
+      
       reset: () => set({ ...initialState, requests: generateInitialRequests(10) }),
     }),
     {
