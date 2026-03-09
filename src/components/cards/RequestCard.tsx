@@ -132,16 +132,15 @@ export function RequestCard({ request, onJoin, onView, isJoined, className }: Re
           
           {/* Join button */}
           <div className="shrink-0">
-            <button
-              className={cn(
-                'tap-scale h-10 px-4 rounded-xl text-sm font-medium shadow-sm',
-                isJoined ? 'bg-secondary text-secondary-foreground' : 'bg-primary text-primary-foreground hover:bg-primary/90'
-              )}
+            <Button
+              variant={isJoined ? 'secondary' : 'default'}
+              size="sm"
+              className="tap-scale"
               onClick={handleJoinClick}
               disabled={seatsLeft === 0 && !isJoined}
             >
               {isJoined ? '✓ Joined' : seatsLeft === 0 ? 'Full' : 'Join Plan'}
-            </button>
+            </Button>
           </div>
         </div>
 
