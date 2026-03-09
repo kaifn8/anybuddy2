@@ -131,40 +131,39 @@ export function RequestCard({ request, onJoin, onView, isJoined, className }: Re
             <h3 className="font-semibold text-[14px] text-foreground leading-tight line-clamp-2 mb-1.5">{request.title}</h3>
             
             {/* Location + Distance merged */}
-            <p className="text-[12px] text-muted-foreground font-medium mb-1.5">
+            <p className="text-[12px] text-muted-foreground font-medium mb-1.5 truncate">
               📍 {request.location.name} • {request.location.distance} km away
             </p>
+          </div>
+        </div>
 
-            {/* Participant info with avatars */}
-            <div className="flex items-center gap-1.5">
-              <div className="flex -space-x-1.5">
-                {attendeeAvatars.slice(0, 3).map((avatar, i) => (
-                  <img key={i} src={avatar} alt="" className="w-4 h-4 rounded-full border-2 border-background" />
-                ))}
-                {attendeeAvatars.length > 3 && (
-                  <div className="w-4 h-4 rounded-full bg-muted border-2 border-background flex items-center justify-center">
-                    <span className="text-[7px] font-bold text-muted-foreground">+{attendeeAvatars.length - 3}</span>
-                  </div>
-                )}
-              </div>
-              <span className="text-[11px] text-muted-foreground font-medium">
-                {request.seatsTaken} of {request.seatsTotal} spots filled
-              </span>
+        {/* Participant info + Join button row */}
+        <div className="flex items-center justify-between gap-2 mb-2">
+          <div className="flex items-center gap-1.5 min-w-0">
+            <div className="flex -space-x-1.5 shrink-0">
+              {attendeeAvatars.slice(0, 3).map((avatar, i) => (
+                <img key={i} src={avatar} alt="" className="w-4 h-4 rounded-full border-2 border-background" />
+              ))}
+              {attendeeAvatars.length > 3 && (
+                <div className="w-4 h-4 rounded-full bg-muted border-2 border-background flex items-center justify-center">
+                  <span className="text-[7px] font-bold text-muted-foreground">+{attendeeAvatars.length - 3}</span>
+                </div>
+              )}
             </div>
+            <span className="text-[11px] text-muted-foreground font-medium truncate">
+              {request.seatsTaken} of {request.seatsTotal} spots filled
+            </span>
           </div>
-          
-          {/* Join button */}
-          <div className="shrink-0">
-            <Button
-              variant={isJoined ? 'secondary' : 'default'}
-              size="sm"
-              className="tap-scale h-8 px-3 text-[12px]"
-              onClick={handleJoinClick}
-              disabled={seatsLeft === 0 && !isJoined}
-            >
-              {isJoined ? '✓ Joined' : seatsLeft === 0 ? 'Full' : 'Join'}
-            </Button>
-          </div>
+
+          <Button
+            variant={isJoined ? 'secondary' : 'default'}
+            size="sm"
+            className="tap-scale h-8 px-3 text-[12px] shrink-0"
+            onClick={handleJoinClick}
+            disabled={seatsLeft === 0 && !isJoined}
+          >
+            {isJoined ? '✓ Joined' : seatsLeft === 0 ? 'Full' : 'Join'}
+          </Button>
         </div>
 
         {/* Host info + reliability on same row */}
