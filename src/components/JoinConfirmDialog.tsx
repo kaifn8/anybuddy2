@@ -1,9 +1,14 @@
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { UrgencyBadge } from '@/components/ui/UrgencyBadge';
 import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
 import { formatDistanceToNow } from 'date-fns';
 import type { Request } from '@/types/anybuddy';
 import { Button } from '@/components/ui/button';
+import { useAppStore } from '@/store/useAppStore';
+import { toast } from 'sonner';
+
+const RESERVATION_SECONDS = 45;
 
 interface JoinConfirmDialogProps {
   open: boolean;
@@ -13,32 +18,88 @@ interface JoinConfirmDialogProps {
 }
 
 export function JoinConfirmDialog({ open, onClose, onConfirm, request }: JoinConfirmDialogProps) {
+  const { reserveSeat, releaseReservation } = useAppStore();
+  const [isReserved, setIsReserved] = useState(false);
+  const [countdown, setCountdown] = useState(RESERVATION_SECONDS);
+  const [isConfirming, setIsConfirming] = useState(false);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const reservedRef = useRef(false);
+
   const seatsLeft = request.seatsTotal - request.seatsTaken;
   const timeLeft = formatDistanceToNow(new Date(request.expiresAt), { addSuffix: false });
 
-  // Attendee avatars
+  const cleanup = useCallback(() => {
+    if (timerRef.current) { clearInterval(timerRef.current); timerRef.current = null; }
+    if (reservedRef.current) { releaseReservation(request.id); reservedRef.current = false; }
+    setIsReserved(false);
+    setCountdown(RESERVATION_SECONDS);
+    setIsConfirming(false);
+  }, [request.id, releaseReservation]);
+
+  // Cleanup on close or unmount
+  useEffect(() => { if (!open) cleanup(); }, [open, cleanup]);
+  useEffect(() => () => cleanup(), [cleanup]);
+
+  const handleReserve = () => {
+    reserveSeat(request.id);
+    reservedRef.current = true;
+    setIsReserved(true);
+    setCountdown(RESERVATION_SECONDS);
+
+    timerRef.current = setInterval(() => {
+      setCountdown(prev => {
+        if (prev <= 1) {
+          cleanup();
+          toast.error('⏰ Reservation expired');
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+  };
+
+  const handleConfirm = () => {
+    if (timerRef.current) { clearInterval(timerRef.current); timerRef.current = null; }
+    setIsConfirming(true);
+    // Release temp seat, the real join action will re-add
+    releaseReservation(request.id);
+    reservedRef.current = false;
+    setTimeout(() => {
+      onConfirm();
+      setIsReserved(false);
+      setIsConfirming(false);
+    }, 300);
+  };
+
+  const handleClose = () => {
+    cleanup();
+    onClose();
+  };
+
   const avatars = [
     request.userAvatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${request.userName}`,
     ...request.participants.map(p => p.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${p.name}`),
   ];
 
+  const countdownPercent = (countdown / RESERVATION_SECONDS) * 100;
+
   return (
-    <Dialog open={open} onOpenChange={(v) => !v && onClose()}>
+    <Dialog open={open} onOpenChange={(v) => !v && handleClose()}>
       <DialogContent className="liquid-glass-heavy border-border/20 max-w-[340px] rounded-2xl p-5">
         <DialogHeader>
           <DialogTitle className="text-sm font-bold flex items-center gap-2">
             <span>{getCategoryEmoji(request.category)}</span>
-            You in?
+            {isReserved ? '🔒 Seat reserved' : 'You in?'}
           </DialogTitle>
           <DialogDescription className="sr-only">Confirm joining this plan</DialogDescription>
         </DialogHeader>
+
         <div className="liquid-glass p-3.5 rounded-xl mt-1">
           <div className="flex items-center gap-1.5 mb-1.5">
             <UrgencyBadge urgency={request.urgency} />
           </div>
           <h3 className="text-sm font-semibold leading-snug">{request.title}</h3>
           
-          {/* Location */}
           <p className="text-2xs text-muted-foreground mt-1.5">📍 {request.location.name} · {request.location.distance}km away</p>
           
           <div className="flex items-center gap-3 mt-2 text-2xs text-muted-foreground">
@@ -76,13 +137,50 @@ export function JoinConfirmDialog({ open, onClose, onConfirm, request }: JoinCon
             )}
           </div>
         </div>
-        <div className="flex gap-2 mt-2">
-          <Button variant="secondary" onClick={onClose} className="flex-1 h-10 text-xs">
-            Not now
-          </Button>
-          <Button onClick={onConfirm} className="flex-1 h-10 text-xs" disabled={seatsLeft === 0}>
-            {seatsLeft === 0 ? 'Too late 😔' : "I'm in →"}
-          </Button>
+
+        {/* Reservation countdown */}
+        {isReserved && (
+          <div className="space-y-1.5">
+            <div className="relative rounded-full h-1.5 bg-muted overflow-hidden">
+              <div
+                className="absolute inset-y-0 left-0 rounded-full transition-all duration-1000 ease-linear"
+                style={{
+                  width: `${countdownPercent}%`,
+                  background: countdown <= 10
+                    ? 'hsl(var(--destructive))'
+                    : countdown <= 20
+                    ? 'hsl(var(--warning))'
+                    : 'hsl(var(--primary))',
+                }}
+              />
+            </div>
+            <p className="text-center text-[10px] text-muted-foreground">
+              Confirm within <span className={countdown <= 10 ? 'text-destructive font-bold' : 'font-semibold'}>{countdown}s</span>
+            </p>
+          </div>
+        )}
+
+        {/* Actions */}
+        <div className="flex gap-2 mt-1">
+          {!isReserved ? (
+            <>
+              <Button variant="secondary" onClick={handleClose} className="flex-1 h-10 text-xs">
+                Not now
+              </Button>
+              <Button onClick={handleReserve} className="flex-1 h-10 text-xs" disabled={seatsLeft === 0}>
+                {seatsLeft === 0 ? 'Too late 😔' : 'Reserve seat →'}
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button variant="secondary" onClick={handleClose} className="flex-1 h-10 text-xs">
+                Release
+              </Button>
+              <Button onClick={handleConfirm} className="flex-1 h-10 text-xs" disabled={isConfirming}>
+                {isConfirming ? 'Confirming...' : "I'm in ✓"}
+              </Button>
+            </>
+          )}
         </div>
       </DialogContent>
     </Dialog>

@@ -146,6 +146,9 @@ interface AppState {
   approveJoinRequest: (requestId: string, userId: string) => void;
   declineJoinRequest: (requestId: string, userId: string) => void;
   endPlanEarly: (requestId: string) => void;
+  // Seat reservation
+  reserveSeat: (requestId: string) => void;
+  releaseReservation: (requestId: string) => void;
   // Admin actions
   adminWarnings: Record<string, string[]>;
   pricingConfig: PricingConfig;
@@ -620,6 +623,26 @@ export const useAppStore = create<AppState>()(
             requestId,
           });
         }
+      },
+
+      reserveSeat: (requestId) => {
+        const { requests } = get();
+        set({
+          requests: requests.map(r => r.id === requestId
+            ? { ...r, seatsTaken: r.seatsTaken + 1 }
+            : r
+          ),
+        });
+      },
+
+      releaseReservation: (requestId) => {
+        const { requests } = get();
+        set({
+          requests: requests.map(r => r.id === requestId
+            ? { ...r, seatsTaken: Math.max(0, r.seatsTaken - 1) }
+            : r
+          ),
+        });
       },
 
       sendAdminWarning: (userId, userName, message) => {
