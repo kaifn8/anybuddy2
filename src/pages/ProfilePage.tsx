@@ -58,9 +58,8 @@ export default function ProfilePage() {
   const joinText = isToday ? 'Joined today' : `Joined ${format(joinDate, 'MMM yyyy')}`;
 
   const stats = [
-    { value: `${user.reliabilityScore}%`, label: 'Reliability' },
-    { value: user.meetupsAttended + user.completedJoins, label: 'Meetups' },
-    { value: `${user.joinRate}%`, label: 'Join rate' },
+    { value: `${user.reliabilityScore}%`, label: 'Reliable' },
+    { value: user.meetupsAttended + user.completedJoins, label: 'Joined' },
     { value: user.meetupsHosted, label: 'Hosted' },
   ];
 
