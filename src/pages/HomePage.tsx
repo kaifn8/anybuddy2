@@ -129,11 +129,11 @@ export default function HomePage() {
 
       {/* Trending section */}
       {trending.length > 0 && (
-        <div className="px-5 pt-4 mb-6">
-          <h3 className="text-base font-bold text-foreground mb-4 flex items-center gap-1.5">
+        <div className="px-5 pt-3.5 mb-5">
+          <h3 className="text-[15px] font-bold text-foreground mb-3.5 flex items-center gap-1.5">
             <span>🔥</span> Popular nearby
           </h3>
-          <div ref={trendingRef} className="flex gap-4 overflow-x-auto scrollbar-hide -mx-5 px-5 pb-1">
+          <div ref={trendingRef} className="flex gap-3.5 overflow-x-auto scrollbar-hide -mx-5 px-5 pb-1">
             {trending.map((req, i) => {
               const seatsLeft = req.seatsTotal - req.seatsTaken;
               const fillPercent = Math.round((req.seatsTaken / req.seatsTotal) * 100);
@@ -144,7 +144,7 @@ export default function HomePage() {
               ];
               return (
                 <button key={req.id} onClick={() => navigate(`/request/${req.id}`)}
-                  className="shrink-0 tap-scale min-w-[240px] max-w-[260px] rounded-3xl overflow-hidden text-left"
+                  className="shrink-0 tap-scale min-w-[210px] max-w-[230px] rounded-2xl overflow-hidden text-left"
                   style={{
                     background: tints[i % tints.length],
                     backdropFilter: 'blur(20px)',
@@ -152,19 +152,19 @@ export default function HomePage() {
                     border: '1px solid rgba(255,255,255,0.5)',
                     boxShadow: '0 4px 20px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.6)',
                   }}>
-                  <div className="p-5">
-                    <div className="flex items-center justify-between mb-2.5">
-                      <span className="text-3xl">{getCategoryEmoji(req.category)}</span>
-                      <span className="text-[11px] font-bold text-primary bg-primary/10 px-2.5 py-1 rounded-full">
+                  <div className="p-4">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-2xl">{getCategoryEmoji(req.category)}</span>
+                      <span className="text-[10px] font-bold text-primary bg-primary/10 px-2 py-0.5 rounded-full">
                         {req.seatsTaken}/{req.seatsTotal} joined
                       </span>
                     </div>
-                    <p className="text-[15px] font-semibold text-foreground truncate mb-1">{req.title}</p>
-                    <p className="text-[13px] text-muted-foreground mb-3">📍 {req.location.name}</p>
-                    <div className="w-full h-2 rounded-full bg-foreground/5 overflow-hidden">
+                    <p className="text-[14px] font-semibold text-foreground truncate mb-1">{req.title}</p>
+                    <p className="text-[12px] text-muted-foreground mb-2.5">📍 {req.location.name}</p>
+                    <div className="w-full h-1.5 rounded-full bg-foreground/5 overflow-hidden">
                       <div className="h-full rounded-full bg-primary/70 transition-all" style={{ width: `${fillPercent}%` }} />
                     </div>
-                    <p className="text-[11px] text-muted-foreground mt-1.5">
+                    <p className="text-[10px] text-muted-foreground mt-1">
                       {seatsLeft === 0 ? '🔴 Full' : seatsLeft === 1 ? '🟡 1 spot left' : `${seatsLeft} spots left`}
                     </p>
                   </div>
