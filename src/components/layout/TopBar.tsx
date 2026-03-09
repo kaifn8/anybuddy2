@@ -24,13 +24,10 @@ export function TopBar({ showBack = false, title, hideChat = false, showSettings
 
   return (
     <header
-      className="sticky top-0 z-40"
+      className="sticky top-0 z-40 h-14 border-b border-border/30 dark:border-white/10 bg-white/70 dark:bg-[rgb(15,15,20)]/80"
       style={{
-        height: 56,
-        background: 'transparent',
-        backdropFilter: 'blur(16px)',
-        WebkitBackdropFilter: 'blur(16px)',
-        borderBottom: '1px solid rgba(0,0,0,0.04)',
+        backdropFilter: 'blur(20px) saturate(180%)',
+        WebkitBackdropFilter: 'blur(20px) saturate(180%)',
       }}
     >
       <div className="max-w-md mx-auto flex items-center justify-between h-full px-4">
