@@ -64,10 +64,8 @@ export default function ProfilePage() {
   ];
 
   const hostStats = [
-    { icon: '📅', label: 'Plans hosted', value: user.meetupsHosted },
-    { icon: '✅', label: 'Successful meetups', value: user.meetupsAttended },
+    { icon: '✅', label: 'Success rate', value: user.meetupsHosted > 0 ? `${Math.round((user.meetupsAttended / user.meetupsHosted) * 100)}%` : '0%' },
     { icon: '⚠️', label: 'No-shows', value: user.noShows },
-    { icon: '❌', label: 'Cancellations', value: user.cancellations },
   ];
   
   const activityCount = pastMeetups.length + myRequests.length + savedPlansList.length;
