@@ -44,9 +44,9 @@ export default function CreditsPage() {
         <div className="rounded-2xl p-5 text-white overflow-hidden relative"
           style={{ background: 'linear-gradient(135deg, hsl(211 100% 50%), hsl(240 75% 55%), hsl(260 50% 56%))' }}>
           <div className="absolute -right-6 -top-6 w-24 h-24 rounded-full blur-2xl bg-white/10" />
-          <p className="text-white/50 text-2xs font-semibold uppercase tracking-wider mb-1">Your Balance</p>
+          <p className="text-white/50 text-2xs font-semibold uppercase tracking-wider mb-1">Available to spend</p>
           <p ref={creditsRef} className="text-hero font-bold">0</p>
-          <p className="text-white/40 text-xs mt-2">Earn by joining · Spend to post</p>
+          <p className="text-white/40 text-xs mt-2">Show up = earn more</p>
         </div>
         
         {/* Trust level */}
