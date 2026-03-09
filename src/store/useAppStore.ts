@@ -222,6 +222,9 @@ const initialState = {
   pendingVerifications: [] as VerificationRequest[],
   reports: [] as UserReport[],
   flaggedMessages: [] as FlaggedMessage[],
+  adminWarnings: {} as Record<string, string[]>,
+  pricingConfig: DEFAULT_PRICING_CONFIG,
+  trustDiscounts: DEFAULT_TRUST_DISCOUNTS,
 };
 
 export const useAppStore = create<AppState>()(
