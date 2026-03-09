@@ -514,6 +514,21 @@ export const useAppStore = create<AppState>()(
         const { requests } = get();
         set({ requests: requests.map(r => r.id === requestId ? { ...r, status: 'cancelled' as const } : r) });
       },
+
+      sendAdminWarning: (userId, userName, message) => {
+        const { adminWarnings, addNotification } = get();
+        const existing = adminWarnings[userId] || [];
+        set({ adminWarnings: { ...adminWarnings, [userId]: [...existing, message] } });
+        addNotification({
+          type: 'message',
+          title: `⚠️ Warning sent to ${userName}`,
+          message,
+        });
+      },
+
+      updatePricingConfig: (config) => set({ pricingConfig: config }),
+
+      updateTrustDiscounts: (discounts) => set({ trustDiscounts: discounts }),
       
       reset: () => set({ ...initialState, requests: generateInitialRequests(10) }),
     }),
