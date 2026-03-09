@@ -358,13 +358,19 @@ export default function OnboardingPage() {
           ))}
         </div>
         
-        <Button className="w-full h-12 text-[15px] font-semibold" onClick={handleNext}>
-          {isLastSlide ? 'Get Started' : 'Continue'}
+        <Button 
+          className="w-full h-14 text-[16px] font-bold rounded-2xl shadow-xl shadow-primary/25 hover:shadow-2xl hover:shadow-primary/30 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
+          onClick={handleNext}
+        >
+          {isLastSlide ? "Let's go 🚀" : 'Continue →'}
         </Button>
         
         {currentSlide < slides.length - 1 && (
-          <button className="w-full text-muted-foreground mt-3 py-2 text-sm font-medium tap-scale" onClick={handleSkip}>
-            Skip
+          <button 
+            className="w-full mt-3 py-2.5 text-sm font-semibold text-muted-foreground/60 hover:text-muted-foreground tap-scale transition-colors rounded-xl"
+            onClick={handleSkip}
+          >
+            Skip for now
           </button>
         )}
       </div>
