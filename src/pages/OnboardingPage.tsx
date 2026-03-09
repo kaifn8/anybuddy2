@@ -5,10 +5,10 @@ import { Button } from '@/components/ui/button';
 import { MapPin, ShieldCheck, BadgeCheck, Zap, Users, Star } from 'lucide-react';
 
 const slides = [
-  { id: 'people', title: 'Find Your People', description: 'Connect with people nearby who want the same things — right now.' },
-  { id: 'realtime', title: 'Real-Time Vibes', description: 'Post what you need in seconds. Watch as people nearby respond instantly.' },
-  { id: 'safe', title: 'Safe by Design', description: 'Trust levels, group chats, and no random DMs. Your safety comes first.' },
-  { id: 'credits', title: 'Credits & Trust', description: 'Earn credits by helping others. Build trust through real connections.' },
+  { id: 'people', title: 'Someone's waiting', description: 'Right now, people near you want the same thing. Don't miss them.' },
+  { id: 'realtime', title: 'Gone in minutes', description: 'Post in 10 seconds. Get replies before your coffee cools.' },
+  { id: 'safe', title: 'No creeps. Ever.', description: 'No random DMs. No strangers stalking. Just group hangs with real people.' },
+  { id: 'credits', title: 'Give to get', description: 'Help others, earn credits. The more you give, the more you unlock.' },
 ];
 
 const NEARBY_PEOPLE = [
