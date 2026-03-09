@@ -138,6 +138,14 @@ interface AppState {
   flagMessage: (requestId: string, messageId: string, reason: string) => void;
   updateFlaggedMessage: (messageId: string, status: 'removed' | 'cleared') => void;
   removePlan: (requestId: string) => void;
+  // Host actions
+  removeParticipant: (requestId: string, participantId: string) => void;
+  blockUser: (userId: string) => void;
+  unblockUser: (userId: string) => void;
+  requestToJoin: (requestId: string, note?: string) => void;
+  approveJoinRequest: (requestId: string, userId: string) => void;
+  declineJoinRequest: (requestId: string, userId: string) => void;
+  endPlanEarly: (requestId: string) => void;
   // Admin actions
   adminWarnings: Record<string, string[]>;
   pricingConfig: PricingConfig;
