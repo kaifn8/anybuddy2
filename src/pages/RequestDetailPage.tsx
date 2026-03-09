@@ -351,22 +351,15 @@ export default function RequestDetailPage() {
 
           {/* ── Chat section (optional, collapsed) ── */}
           {(isJoined || isHost) && (
-            <div className="pb-6">
-              {/* Toggle header */}
+            <div className="pb-8">
+              {/* Toggle */}
               <button onClick={() => setShowChat(!showChat)}
-                className="w-full flex items-center justify-between py-3.5 px-3 rounded-2xl liquid-glass tap-scale group transition-colors hover:bg-muted/40">
-                <div className="flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-xl bg-primary/10 flex items-center justify-center">
-                    <MessageCircle size={15} className="text-primary" />
-                  </div>
-                  <div className="text-left">
-                    <span className="text-sm font-semibold text-foreground">Group Chat</span>
-                    <p className="text-[10px] text-muted-foreground">
-                      {msgs.length === 0 ? 'No messages yet' : `${msgs.length} message${msgs.length > 1 ? 's' : ''}`}
-                    </p>
-                  </div>
+                className="w-full flex items-center justify-between py-3 px-4 rounded-2xl bg-muted/30 tap-scale transition-colors hover:bg-muted/50">
+                <div className="flex items-center gap-3">
+                  <MessageCircle size={18} className="text-primary" />
+                  <span className="text-[13px] font-semibold">Group Chat</span>
                   {msgs.length > 0 && (
-                    <span className="text-[10px] bg-primary text-primary-foreground px-1.5 py-0.5 rounded-full font-bold min-w-[18px] text-center">
+                    <span className="text-[10px] bg-primary text-primary-foreground w-5 h-5 rounded-full font-bold flex items-center justify-center">
                       {msgs.length}
                     </span>
                   )}
@@ -380,31 +373,30 @@ export default function RequestDetailPage() {
               {/* Chat body */}
               <div className={cn(
                 'overflow-hidden transition-all duration-300 ease-out',
-                showChat ? 'max-h-[500px] opacity-100 mt-2' : 'max-h-0 opacity-0 mt-0'
+                showChat ? 'max-h-[600px] opacity-100 mt-3' : 'max-h-0 opacity-0 mt-0'
               )}>
-                <div className="liquid-glass-heavy rounded-2xl overflow-hidden border border-border/10">
-                  {/* Messages area */}
-                  <div className="max-h-[320px] overflow-y-auto px-4 py-3 space-y-3">
+                <div className="rounded-2xl overflow-hidden border border-border/10 bg-background/60 backdrop-blur-xl">
+                  
+                  {/* Messages */}
+                  <div className="max-h-[340px] overflow-y-auto px-4 py-4 space-y-4">
                     {msgs.length === 0 && (
-                      <div className="text-center py-10">
-                        <div className="w-12 h-12 rounded-2xl bg-muted/60 flex items-center justify-center mx-auto mb-3">
-                          <MessageCircle size={20} className="text-muted-foreground/50" />
-                        </div>
-                        <p className="text-xs font-medium text-muted-foreground mb-1">No messages yet</p>
-                        <p className="text-[10px] text-muted-foreground/60">Use quick actions above or start a conversation</p>
+                      <div className="text-center py-12">
+                        <span className="text-3xl block mb-3">💬</span>
+                        <p className="text-xs text-muted-foreground">Start a conversation</p>
                       </div>
                     )}
+
                     {msgs.map((msg, i) => {
                       const isMe = msg.senderId === user?.id;
                       const isSystem = msg.senderId === 'system';
-                      const showAvatar = !isMe && !isSystem && (i === 0 || msgs[i - 1]?.senderId !== msg.senderId);
+                      const showName = !isMe && !isSystem && (i === 0 || msgs[i - 1]?.senderId !== msg.senderId);
                       const isLastInGroup = i === msgs.length - 1 || msgs[i + 1]?.senderId !== msg.senderId;
                       const time = new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
                       if (isSystem) {
                         return (
-                          <div key={msg.id} className="flex justify-center py-1">
-                            <span className="text-[10px] text-muted-foreground/60 bg-muted/40 px-3 py-1 rounded-full">
+                          <div key={msg.id} className="flex justify-center my-2">
+                            <span className="text-[10px] text-muted-foreground/50 italic">
                               {msg.message}
                             </span>
                           </div>
@@ -412,36 +404,38 @@ export default function RequestDetailPage() {
                       }
 
                       return (
-                        <div key={msg.id} className={cn('flex gap-2', isMe ? 'justify-end' : 'justify-start')}>
-                          {/* Avatar for others */}
-                          {!isMe && (
-                            <div className="w-6 shrink-0">
-                              {showAvatar ? (
-                                <img
-                                  src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${msg.senderName}`}
-                                  alt={msg.senderName}
-                                  className="w-6 h-6 rounded-full"
-                                />
-                              ) : <div className="w-6" />}
-                            </div>
-                          )}
+                        <div key={msg.id} className={cn(
+                          'flex items-end gap-2',
+                          isMe ? 'flex-row-reverse' : 'flex-row',
+                          !isLastInGroup && 'mb-0.5'
+                        )}>
+                          {/* Avatar */}
+                          <div className="w-7 shrink-0">
+                            {showName && !isMe ? (
+                              <img
+                                src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${msg.senderName}`}
+                                alt=""
+                                className="w-7 h-7 rounded-full"
+                              />
+                            ) : null}
+                          </div>
 
-                          <div className={cn('max-w-[72%]', isMe && 'items-end')}>
-                            {showAvatar && !isMe && (
-                              <p className="text-[10px] font-semibold text-primary mb-0.5 ml-1">{msg.senderName}</p>
+                          <div className={cn('max-w-[70%] space-y-0.5', isMe ? 'items-end' : 'items-start')}>
+                            {showName && (
+                              <p className="text-[10px] font-medium text-muted-foreground ml-1 mb-1">{msg.senderName}</p>
                             )}
                             <div className={cn(
-                              'px-3.5 py-2 text-[13px] leading-relaxed',
+                              'px-3.5 py-2.5 text-[13px] leading-[1.45]',
                               isMe
-                                ? 'bg-primary text-primary-foreground rounded-2xl rounded-br-lg'
-                                : 'bg-muted/60 text-foreground rounded-2xl rounded-bl-lg'
+                                ? 'bg-primary text-primary-foreground rounded-[18px] rounded-br-[6px]'
+                                : 'bg-muted/50 text-foreground rounded-[18px] rounded-bl-[6px]'
                             )}>
                               {msg.message}
                             </div>
                             {isLastInGroup && (
                               <p className={cn(
-                                'text-[9px] text-muted-foreground/50 mt-0.5',
-                                isMe ? 'text-right mr-1' : 'ml-1'
+                                'text-[9px] text-muted-foreground/40 px-1',
+                                isMe ? 'text-right' : 'text-left'
                               )}>
                                 {time}
                               </p>
@@ -453,27 +447,26 @@ export default function RequestDetailPage() {
                     <div ref={messagesEndRef} />
                   </div>
 
-                  {/* Input */}
-                  <div className="p-3 border-t border-border/10 bg-background/40 backdrop-blur-sm">
-                    <div className="flex gap-2 items-end">
+                  {/* Input bar */}
+                  <div className="px-3 py-2.5 border-t border-border/8">
+                    <div className="flex gap-2 items-center">
                       <input
-                        placeholder="Say something..."
+                        placeholder="Message..."
                         value={message}
                         onChange={(e) => setMessage(e.target.value)}
                         onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-                        className="flex-1 rounded-2xl bg-muted/50 h-10 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-muted-foreground/40"
+                        className="flex-1 rounded-full bg-muted/40 h-10 px-4 text-[13px] focus:outline-none focus:ring-1 focus:ring-primary/15 transition-all placeholder:text-muted-foreground/35"
                       />
-                      <Button
-                        className={cn(
-                          'rounded-2xl w-10 h-10 p-0 shrink-0 transition-all duration-200',
-                          !message.trim() && 'opacity-40 scale-90'
-                        )}
-                        size="sm"
+                      <button
                         onClick={handleSend}
                         disabled={!message.trim()}
+                        className={cn(
+                          'w-9 h-9 rounded-full bg-primary flex items-center justify-center shrink-0 transition-all duration-200 tap-scale',
+                          !message.trim() ? 'opacity-30 scale-90' : 'opacity-100 scale-100'
+                        )}
                       >
-                        <Send size={15} />
-                      </Button>
+                        <Send size={14} className="text-primary-foreground ml-0.5" />
+                      </button>
                     </div>
                   </div>
                 </div>
