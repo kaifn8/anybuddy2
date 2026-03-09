@@ -142,6 +142,19 @@ export default function HomePage() {
     <div className="mobile-container min-h-screen bg-ambient pb-24 lg:pb-8">
       <TopBar />
       
+      {/* Desktop welcome header */}
+      <div className="hidden lg:flex items-center justify-between px-5 pt-4 pb-2">
+        <div>
+          <h1 className="text-xl font-bold text-foreground">
+            {user ? `Hey ${user.firstName} 👋` : 'Discover plans nearby'}
+          </h1>
+          <p className="text-sm text-muted-foreground mt-0.5">Find people to hang out with right now</p>
+        </div>
+        <button onClick={() => navigate('/create')} className="hidden lg:flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2.5 rounded-xl font-semibold text-sm tap-scale shadow-lg shadow-primary/20">
+          🪄 Create a plan
+        </button>
+      </div>
+      
       {/* Greeting - compact */}
 
 
