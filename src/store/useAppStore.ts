@@ -208,7 +208,7 @@ const createDefaultUser = (overrides: Partial<User>): User => ({
   createdAt: new Date(), reliabilityScore: 100, joinRate: 100,
   hostRating: 0, meetupsHosted: 0, meetupsAttended: 0, noShows: 0,
   cancellations: 0, isVerified: false, verificationStatus: 'unverified',
-  badges: [], savedPlans: [],
+  badges: [], savedPlans: [], blockedUsers: [],
   ...overrides,
 });
 
