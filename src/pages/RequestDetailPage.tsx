@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Send, Share2, BadgeCheck, Flag, MoreVertical, UserX, Ban, XCircle, MapPin, Clock, Users, Navigation, Info, X, ChevronUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -38,7 +38,7 @@ export default function RequestDetailPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const {
-    requests, joinedRequests, chatMessages, sendMessage, leaveRequest, user,
+    requests, joinedRequests, chatMessages, sendMessage, leaveRequest, user, refreshFeed,
     removeParticipant, blockUser, approveJoinRequest, declineJoinRequest, endPlanEarly,
   } = useAppStore();
 
@@ -48,7 +48,12 @@ export default function RequestDetailPage() {
   const [showInfo, setShowInfo] = useState(false);
   const [showLeaveWarning, setShowLeaveWarning] = useState(false);
   const [reportTarget, setReportTarget] = useState<{ id: string; name: string; type: 'user' | 'plan' } | null>(null);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [pullDistance, setPullDistance] = useState(0);
+  const [typingUser, setTypingUser] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const chatContainerRef = useRef<HTMLDivElement>(null);
+  const pullStartY = useRef<number | null>(null);
 
   const request = requests.find(r => r.id === id);
   const isJoined = joinedRequests.includes(id || '');
@@ -60,6 +65,53 @@ export default function RequestDetailPage() {
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [msgs]);
+
+  // Simulated typing indicator
+  useEffect(() => {
+    if (!isMember || !request) return;
+    const participants = request.participants || [];
+    if (participants.length === 0) return;
+    
+    const interval = setInterval(() => {
+      if (Math.random() > 0.6) {
+        const randomP = participants[Math.floor(Math.random() * participants.length)];
+        setTypingUser(randomP.name);
+        setTimeout(() => setTypingUser(null), 2000 + Math.random() * 1500);
+      }
+    }, 6000);
+    return () => clearInterval(interval);
+  }, [isMember, request]);
+
+  // Pull-to-refresh handlers
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    const container = chatContainerRef.current;
+    if (container && container.scrollTop <= 0) {
+      pullStartY.current = e.touches[0].clientY;
+    }
+  }, []);
+
+  const handleTouchMove = useCallback((e: React.TouchEvent) => {
+    if (pullStartY.current === null) return;
+    const delta = e.touches[0].clientY - pullStartY.current;
+    if (delta > 0 && delta < 120) {
+      setPullDistance(delta);
+    }
+  }, []);
+
+  const handleTouchEnd = useCallback(() => {
+    if (pullDistance > 60) {
+      setIsRefreshing(true);
+      setPullDistance(0);
+      // Simulate refresh
+      setTimeout(() => {
+        refreshFeed();
+        setIsRefreshing(false);
+      }, 1200);
+    } else {
+      setPullDistance(0);
+    }
+    pullStartY.current = null;
+  }, [pullDistance, refreshFeed]);
 
   if (!request) {
     return (
@@ -124,8 +176,30 @@ export default function RequestDetailPage() {
           ))}
         </div>
 
+        {/* Pull-to-refresh indicator */}
+        {(pullDistance > 0 || isRefreshing) && (
+          <div className="flex justify-center py-2 transition-all" style={{ height: isRefreshing ? 40 : Math.min(pullDistance * 0.6, 40) }}>
+            <div className={cn(
+              'flex items-center gap-2 text-[11px] text-muted-foreground font-medium',
+              isRefreshing && 'animate-pulse'
+            )}>
+              <div className={cn(
+                'w-4 h-4 border-2 border-primary/40 border-t-primary rounded-full',
+                isRefreshing && 'animate-spin'
+              )} />
+              {isRefreshing ? 'Refreshing...' : pullDistance > 60 ? 'Release to refresh' : 'Pull to refresh'}
+            </div>
+          </div>
+        )}
+
         {/* Chat messages — fills remaining space */}
-        <div className="flex-1 overflow-y-auto px-4 py-3 space-y-1">
+        <div
+          ref={chatContainerRef}
+          className="flex-1 overflow-y-auto px-4 py-3 space-y-1"
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+        >
           {msgs.length === 0 && (
             <div className="flex flex-col items-center justify-center h-full text-center py-20">
               <span className="text-4xl mb-3">💬</span>
@@ -182,6 +256,25 @@ export default function RequestDetailPage() {
               </div>
             );
           })}
+
+          {/* Typing indicator */}
+          {typingUser && (
+            <div className="flex items-end gap-2 mb-2 animate-fade-in">
+              <div className="w-7 shrink-0">
+                <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${typingUser}`}
+                  alt="" className="w-7 h-7 rounded-full" />
+              </div>
+              <div>
+                <p className="text-[10px] font-medium text-muted-foreground ml-1 mb-1">{typingUser}</p>
+                <div className="px-4 py-3 bg-muted/50 rounded-[18px] rounded-bl-[6px] flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-muted-foreground/40 animate-bounce" style={{ animationDelay: '0ms' }} />
+                  <span className="w-1.5 h-1.5 rounded-full bg-muted-foreground/40 animate-bounce" style={{ animationDelay: '150ms' }} />
+                  <span className="w-1.5 h-1.5 rounded-full bg-muted-foreground/40 animate-bounce" style={{ animationDelay: '300ms' }} />
+                </div>
+              </div>
+            </div>
+          )}
+
           <div ref={messagesEndRef} />
         </div>
 
