@@ -645,6 +645,7 @@ export const useAppStore = create<AppState>()(
         });
       },
 
+      sendAdminWarning: (userId, userName, message) => {
         const { adminWarnings, addNotification } = get();
         const existing = adminWarnings[userId] || [];
         set({ adminWarnings: { ...adminWarnings, [userId]: [...existing, message] } });
