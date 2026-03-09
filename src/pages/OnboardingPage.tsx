@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 import { Button } from '@/components/ui/button';
-import { MapPin, ShieldCheck, BadgeCheck, Zap, Users, Star } from 'lucide-react';
+import { MapPin, ShieldCheck, BadgeCheck, Zap, Users, Star, ArrowLeft } from 'lucide-react';
 
 const slides = [
   { id: 'people', title: "Someone's waiting", description: "Right now, people near you want the same thing. Don't miss them." },
