@@ -1,11 +1,11 @@
 import { useNavigate } from 'react-router-dom';
 import { TopBar } from '@/components/layout/TopBar';
-import { format, formatDistanceToNow } from 'date-fns';
+import { format } from 'date-fns';
 import { BottomNav } from '@/components/layout/BottomNav';
-import { TrustBadge } from '@/components/ui/TrustBadge';
 import { getCategoryLabel, getCategoryEmoji } from '@/components/icons/CategoryIcon';
 import { useAppStore } from '@/store/useAppStore';
 import { Button } from '@/components/ui/button';
+import { Share2 } from 'lucide-react';
 import type { Badge, Request } from '@/types/anybuddy';
 
 const badgeLabels: Record<Badge, { emoji: string; label: string }> = {
@@ -18,7 +18,7 @@ const badgeLabels: Record<Badge, { emoji: string; label: string }> = {
 
 export default function ProfilePage() {
   const navigate = useNavigate();
-  const { user: rawUser, myRequests, requests, reset } = useAppStore();
+  const { user: rawUser, myRequests, requests } = useAppStore();
   
   const user = rawUser ? {
     ...rawUser,
@@ -57,9 +57,22 @@ export default function ProfilePage() {
   const isToday = new Date().toDateString() === joinDate.toDateString();
   const joinText = isToday ? 'Joined today' : `Joined ${format(joinDate, 'MMM d, yyyy')}`;
   
+  const handleShare = async () => {
+    const shareData = {
+      title: 'Join me on AnyBuddy!',
+      text: 'Find people to hang out with nearby. Download AnyBuddy!',
+      url: window.location.origin,
+    };
+    if (navigator.share) {
+      try { await navigator.share(shareData); } catch {}
+    } else {
+      await navigator.clipboard.writeText(shareData.url);
+    }
+  };
+
   return (
     <div className="mobile-container min-h-screen bg-ambient pb-24">
-      <TopBar showBack title="Profile" />
+      <TopBar title="Profile" hideChat showSettings />
       
       <div className="px-5 pt-5 space-y-5">
         {/* Profile card */}
@@ -88,20 +101,18 @@ export default function ProfilePage() {
           </div>
         </div>
         
-        {/* Profile actions */}
-        <div className="grid grid-cols-2 gap-3">
-          <Button variant="default" className="w-full" onClick={() => navigate('/edit-profile')}>
-            Edit Profile
+        {/* Invite Friends */}
+        <div className="liquid-glass-heavy p-4 rounded-3xl text-center">
+          <div className="flex items-center justify-between mb-3">
+            <span className="text-xs font-semibold text-muted-foreground">INVITES LEFT</span>
+            <span className="text-lg font-bold text-primary">3</span>
+          </div>
+          <span className="text-2xl block mb-2">👋</span>
+          <p className="text-sm font-semibold text-foreground">Invite friends to AnyBuddy</p>
+          <p className="text-2xs text-muted-foreground mt-1 mb-3">More friends = more plans nearby</p>
+          <Button onClick={() => navigate('/invite')} size="sm" className="mx-auto gap-1.5 w-full">
+            <Share2 size={14} /> Share Invite Link
           </Button>
-          <Button variant="outline" className="w-full" onClick={() => navigate('/invite')}>
-            Invite Friends
-          </Button>
-        </div>
-        
-        {/* Invite count */}
-        <div className="liquid-glass p-3 rounded-2xl flex items-center justify-between">
-          <span className="text-xs font-medium text-muted-foreground">🎟 Invites left</span>
-          <span className="text-sm font-bold text-primary">3</span>
         </div>
         
         {/* Stats grid */}
@@ -149,27 +160,6 @@ export default function ProfilePage() {
             ))}
           </div>
         </div>
-
-        {/* Saved Plans */}
-        {savedPlansList.length > 0 && (
-          <div>
-            <h3 className="text-xs font-semibold text-muted-foreground mb-2 uppercase">♡ Saved Plans</h3>
-            <div className="space-y-1.5">
-              {savedPlansList.map((req) => req && (
-                <button key={req.id} onClick={() => navigate(`/request/${req.id}`)}
-                  className="w-full flex items-center gap-3 bg-background/80 backdrop-blur-xl border border-border/50 p-4 rounded-3xl text-left tap-scale hover:bg-background/90 transition-colors"
-                  style={{ boxShadow: '0px 2px 10px rgba(0,0,0,0.05)' }}>
-                  <span className="text-lg">{getCategoryEmoji(req.category)}</span>
-                  <div className="flex-1 min-w-0">
-                    <p className="font-semibold text-[14px] truncate">{req.title}</p>
-                    <p className="text-[12px] text-muted-foreground mt-1">📍 {req.location.name} • {req.location.distance} km away</p>
-                    <p className="text-[12px] text-muted-foreground mt-0.5">{req.seatsTaken} of {req.seatsTotal} spots filled</p>
-                  </div>
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
         
         {/* Host stats */}
         <div className="liquid-glass p-4 rounded-3xl">
@@ -258,13 +248,6 @@ export default function ProfilePage() {
             </div>
           </div>
         )}
-        
-        {/* Logout button at bottom */}
-        <div className="pt-4 pb-2">
-          <button className="w-full text-xs text-destructive font-bold hover:text-destructive/80 transition-colors tap-scale" onClick={() => { reset(); navigate('/'); }}>
-            Log out
-          </button>
-        </div>
       </div>
       
       <BottomNav />
