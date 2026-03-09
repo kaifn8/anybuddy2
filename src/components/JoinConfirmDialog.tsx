@@ -28,7 +28,7 @@ export function JoinConfirmDialog({ open, onClose, onConfirm, request }: JoinCon
         <DialogHeader>
           <DialogTitle className="text-sm font-bold flex items-center gap-2">
             <span>{getCategoryEmoji(request.category)}</span>
-            Join this meetup?
+            You in?
           </DialogTitle>
           <DialogDescription className="sr-only">Confirm joining this plan</DialogDescription>
         </DialogHeader>
