@@ -96,9 +96,9 @@ export default function OnboardingPage() {
           ))}
         </div>
         
-        <button className="w-full h-12 tahoe-btn-primary tap-scale" onClick={handleNext}>
+        <Button className="w-full h-12" onClick={handleNext}>
           {isLastSlide ? 'Get Started' : 'Continue'}
-        </button>
+        </Button>
         
         {currentSlide < slides.length - 1 && (
           <button className="w-full text-muted-foreground mt-3 py-2 text-sm font-medium tap-scale" onClick={handleSkip}>

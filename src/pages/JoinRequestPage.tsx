@@ -131,7 +131,7 @@ export default function JoinRequestPage() {
           </div>
           
           {/* Join CTA */}
-          <button className="w-full h-12 tahoe-btn-primary tap-scale"
+          <Button className="w-full h-12"
             onClick={handleJoin} disabled={isJoining || seatsLeft === 0}>
             {isJoining ? (
               <span className="flex items-center gap-2">
@@ -139,7 +139,7 @@ export default function JoinRequestPage() {
                 Joining...
               </span>
             ) : `Join ${request.userName}`}
-          </button>
+          </Button>
           {seatsLeft <= 2 && seatsLeft > 0 && (
             <p className="text-center text-warning text-2xs font-semibold">Only {seatsLeft} spot{seatsLeft > 1 ? 's' : ''} left</p>
           )}

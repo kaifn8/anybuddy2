@@ -5,6 +5,7 @@ import { useAppStore, createDefaultUser } from '@/store/useAppStore';
 import type { Category } from '@/types/anybuddy';
 import { getCategoryLabel, getCategoryEmoji } from '@/components/icons/CategoryIcon';
 import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
 
 type Step = 'method' | 'phone' | 'otp' | 'name' | 'photo' | 'bio' | 'age' | 'interests' | 'zone';
 const steps: Step[] = ['method', 'phone', 'otp', 'name', 'photo', 'bio', 'age', 'interests', 'zone'];
@@ -143,7 +144,7 @@ export default function SignupPage() {
                   onChange={(e) => setPhone(e.target.value.replace(/\D/g, '').slice(0, 10))}
                   className="flex-1 h-12 px-4 rounded-xl liquid-glass text-body font-medium focus:outline-none focus:ring-2 focus:ring-primary/20" autoFocus />
               </div>
-              <button className="w-full h-12 tahoe-btn-primary tap-scale" onClick={() => phone.length >= 10 && goToStep('otp')} disabled={phone.length < 10}>Send Code</button>
+              <Button className="w-full h-12" onClick={() => phone.length >= 10 && goToStep('otp')} disabled={phone.length < 10}>Send Code</Button>
             </div>
           )}
           
@@ -152,7 +153,7 @@ export default function SignupPage() {
               <input type="email" placeholder="your@email.com" value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full h-12 px-4 rounded-xl liquid-glass text-body font-medium focus:outline-none focus:ring-2 focus:ring-primary/20" autoFocus />
-              <button className="w-full h-12 tahoe-btn-primary tap-scale" onClick={() => email.includes('@') && goToStep('otp')} disabled={!email.includes('@')}>Send Magic Link</button>
+              <Button className="w-full h-12" onClick={() => email.includes('@') && goToStep('otp')} disabled={!email.includes('@')}>Send Magic Link</Button>
             </div>
           )}
           
@@ -176,7 +177,7 @@ export default function SignupPage() {
             <div className="space-y-5">
               <input placeholder="Your first name" value={firstName} onChange={(e) => setFirstName(e.target.value)} autoFocus
                 className="w-full h-12 px-4 rounded-xl liquid-glass text-body font-medium focus:outline-none focus:ring-2 focus:ring-primary/20" />
-              <button className="w-full h-12 tahoe-btn-primary tap-scale" onClick={() => firstName.trim() && goToStep('photo')} disabled={!firstName.trim()}>Continue</button>
+              <Button className="w-full h-12" onClick={() => firstName.trim() && goToStep('photo')} disabled={!firstName.trim()}>Continue</Button>
             </div>
           )}
           
@@ -188,7 +189,7 @@ export default function SignupPage() {
                   <span className="text-4xl">📷</span>
                 </div>
               </div>
-              <button className="w-full h-12 tahoe-btn-secondary tap-scale text-sm">Upload Photo</button>
+              <Button variant="secondary" className="w-full h-12">Upload Photo</Button>
               <button className="w-full text-primary text-sm font-semibold py-2 tap-scale" onClick={() => goToStep('bio')}>Skip for now</button>
             </div>
           )}
@@ -200,7 +201,7 @@ export default function SignupPage() {
                 onChange={(e) => setBio(e.target.value.slice(0, 120))}
                 className="w-full h-24 px-4 py-3 rounded-xl liquid-glass text-body font-medium focus:outline-none focus:ring-2 focus:ring-primary/20 resize-none" autoFocus />
               <p className="text-2xs text-muted-foreground text-right">{bio.length}/120</p>
-              <button className="w-full h-12 tahoe-btn-primary tap-scale" onClick={() => goToStep('age')}>Continue</button>
+              <Button className="w-full h-12" onClick={() => goToStep('age')}>Continue</Button>
             </div>
           )}
           
@@ -209,13 +210,13 @@ export default function SignupPage() {
             <div className="space-y-5">
               <div className="grid grid-cols-2 gap-2.5">
                 {ageRanges.map((range) => (
-                  <button key={range} onClick={() => setAgeRange(range)}
-                    className={cn('py-3.5 px-4 rounded-xl text-sm font-semibold transition-all tap-scale',
-                      ageRange === range ? 'tahoe-btn-primary' : 'liquid-glass text-foreground'
-                    )}>{range}</button>
+                  <Button key={range} onClick={() => setAgeRange(range)}
+                    variant={ageRange === range ? 'default' : 'secondary'}
+                    className="py-3.5 px-4 h-auto"
+                  >{range}</Button>
                 ))}
               </div>
-              <button className="w-full h-12 tahoe-btn-primary tap-scale" onClick={() => ageRange && goToStep('interests')} disabled={!ageRange}>Continue</button>
+              <Button className="w-full h-12" onClick={() => ageRange && goToStep('interests')} disabled={!ageRange}>Continue</Button>
             </div>
           )}
           
@@ -226,17 +227,17 @@ export default function SignupPage() {
                 {categories.map((cat) => {
                   const selected = interests.includes(cat);
                   return (
-                    <button key={cat} onClick={() => toggleInterest(cat)}
-                      className={cn('flex flex-col items-center gap-1 py-3 px-2 rounded-xl text-xs font-semibold transition-all tap-scale',
-                        selected ? 'tahoe-btn-primary' : 'liquid-glass text-foreground'
-                      )}>
+                    <Button key={cat} onClick={() => toggleInterest(cat)}
+                      variant={selected ? 'default' : 'secondary'}
+                      className="flex flex-col items-center gap-1 py-3 px-2 h-auto"
+                    >
                       <span className="text-lg">{getCategoryEmoji(cat)}</span>
-                      <span>{getCategoryLabel(cat)}</span>
-                    </button>
+                      <span className="text-xs">{getCategoryLabel(cat)}</span>
+                    </Button>
                   );
                 })}
               </div>
-              <button className="w-full h-12 tahoe-btn-primary tap-scale" onClick={() => interests.length >= 2 && goToStep('zone')} disabled={interests.length < 2}>Continue</button>
+              <Button className="w-full h-12" onClick={() => interests.length >= 2 && goToStep('zone')} disabled={interests.length < 2}>Continue</Button>
               {interests.length > 0 && interests.length < 2 && (
                 <p className="text-center text-2xs text-muted-foreground">Pick {2 - interests.length} more</p>
               )}
@@ -248,15 +249,15 @@ export default function SignupPage() {
             <div className="space-y-5">
               <div className="grid grid-cols-2 gap-2">
                 {zones.map((z) => (
-                  <button key={z} onClick={() => setZone(z)}
-                    className={cn('py-3 px-3 rounded-xl text-xs font-semibold transition-all tap-scale text-left',
-                      zone === z ? 'tahoe-btn-primary' : 'liquid-glass text-foreground'
-                    )}>
+                  <Button key={z} onClick={() => setZone(z)}
+                    variant={zone === z ? 'default' : 'secondary'}
+                    className="py-3 px-3 h-auto text-xs text-left justify-start"
+                  >
                     📍 {z}
-                  </button>
+                  </Button>
                 ))}
               </div>
-              <button className="w-full h-12 tahoe-btn-primary tap-scale" onClick={handleComplete} disabled={!zone || interests.length < 2}>Let's Go</button>
+              <Button className="w-full h-12" onClick={handleComplete} disabled={!zone || interests.length < 2}>Let's Go</Button>
             </div>
           )}
         </div>
