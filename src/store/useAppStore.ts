@@ -115,6 +115,11 @@ interface AppState {
   submitVerificationSelfie: (selfieUrl: string) => void;
   approveVerification: (userId: string) => void;
   rejectVerification: (userId: string) => void;
+  submitReport: (report: { targetId: string; targetName: string; targetType: 'user' | 'plan'; reason: string; description: string }) => void;
+  updateReportStatus: (reportId: string, status: 'reviewed' | 'dismissed') => void;
+  flagMessage: (requestId: string, messageId: string, reason: string) => void;
+  updateFlaggedMessage: (messageId: string, status: 'removed' | 'cleared') => void;
+  removePlan: (requestId: string) => void;
   reset: () => void;
 }
 
