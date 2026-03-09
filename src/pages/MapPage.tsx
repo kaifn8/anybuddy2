@@ -208,6 +208,27 @@ export default function MapPage() {
           })}
         </MapContainer>
 
+        {/* Locate me button */}
+        <button
+          onClick={() => {
+            const map = mapRef.current;
+            if (!map || !navigator.geolocation) return;
+            navigator.geolocation.getCurrentPosition(
+              (pos) => {
+                const latlng: [number, number] = [pos.coords.latitude, pos.coords.longitude];
+                setUserPos(latlng);
+                map.flyTo(latlng, 15, { duration: 0.8 });
+              },
+              () => {},
+              { enableHighAccuracy: true, timeout: 5000 }
+            );
+          }}
+          className="absolute bottom-3 right-3 z-[1000] w-9 h-9 rounded-full bg-background/90 backdrop-blur-xl border border-border/50 shadow-lg flex items-center justify-center tap-scale hover:bg-background transition-colors"
+          aria-label="Locate me"
+        >
+          <Navigation size={16} className="text-primary" />
+        </button>
+
         {activeRequests.length === 0 && (
           <div className="absolute inset-0 flex items-center justify-center z-[500] pointer-events-none">
             <div className="text-center liquid-glass-heavy p-4 rounded-xl">
