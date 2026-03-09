@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Send, Share2, BadgeCheck, Flag, MoreVertical, UserX, Ban, XCircle, MapPin, Clock, Users, Navigation, Info, X, ChevronUp } from 'lucide-react';
+import { Send, Share2, BadgeCheck, Flag, MoreVertical, UserX, Ban, XCircle, MapPin, Clock, Users, Navigation, Info, X, ChevronUp, Smile, Image, Mic } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { formatDistanceToNow } from 'date-fns';
 import { useAppStore } from '@/store/useAppStore';
