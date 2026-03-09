@@ -1,10 +1,12 @@
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Settings } from 'lucide-react';
 import { useAppStore } from '@/store/useAppStore';
 
 interface TopBarProps {
   showBack?: boolean;
   title?: string;
+  hideChat?: boolean;
+  showSettings?: boolean;
 }
 
 export function TopBar({ showBack = false, title }: TopBarProps) {
