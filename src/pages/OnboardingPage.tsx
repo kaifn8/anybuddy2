@@ -6,9 +6,9 @@ import { MapPin, ShieldCheck, BadgeCheck, Zap, Users, Star, ArrowLeft } from 'lu
 
 const slides = [
   { id: 'people', title: "Friends busy?", description: "Find people nearby who are up for coffee, food, walks, or games right now." },
-  { id: 'realtime', title: 'Plans keep falling through?', description: 'Post a plan in seconds. People nearby can join within minutes.' },
-  { id: 'safe', title: 'Meeting strangers feels weird?', description: 'No random DMs. Just group plans with real people.' },
-  { id: 'credits', title: 'A community that shows up', description: 'Show up, help others, earn credits. The more you participate, the more you unlock.' },
+  { id: 'realtime', title: 'Plans keep falling through?', description: 'Post in seconds. People nearby can join in minutes.' },
+  { id: 'safe', title: 'Want company, not DMs?', description: 'Skip the awkward chatting.\n\nJust join real plans with real people.' },
+  { id: 'credits', title: 'People who actually show up', description: 'Earn credits by participating.\n\nReliable people unlock more.' },
 ];
 
 const NEARBY_PEOPLE = [
@@ -342,7 +342,7 @@ export default function OnboardingPage() {
         
         <div ref={textRef} className="text-center max-w-[280px]">
           <h2 className="text-[22px] font-bold text-foreground mb-2">{slide.title}</h2>
-          <p className="text-sm text-muted-foreground leading-relaxed">{slide.description}</p>
+          <p className="text-sm text-muted-foreground leading-relaxed whitespace-pre-line">{slide.description}</p>
         </div>
       </div>
       
