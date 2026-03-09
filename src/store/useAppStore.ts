@@ -192,6 +192,9 @@ const generateFakeRequest = (): Request => {
     liveShare: Math.random() > 0.5,
     participants: [],
     status: 'active',
+    joinMode: Math.random() > 0.6 ? 'approval' : 'auto',
+    visibility: 'public',
+    pendingJoinRequests: [],
   };
 };
 
