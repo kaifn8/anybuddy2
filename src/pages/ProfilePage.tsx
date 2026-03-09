@@ -51,24 +51,11 @@ export default function ProfilePage() {
   
   const pastMeetups = requests.filter(r => 
     r.status === 'completed' && r.participants.some(p => p.id === user.id)
-  ).slice(0, 3);
+  );
   
   const joinDate = new Date(user.createdAt);
   const isToday = new Date().toDateString() === joinDate.toDateString();
   const joinText = isToday ? 'Joined today' : `Joined ${format(joinDate, 'MMM yyyy')}`;
-  
-  const handleShare = async () => {
-    const shareData = {
-      title: 'Join me on AnyBuddy!',
-      text: 'Find people to hang out with nearby. Download AnyBuddy!',
-      url: window.location.origin,
-    };
-    if (navigator.share) {
-      try { await navigator.share(shareData); } catch {}
-    } else {
-      await navigator.clipboard.writeText(shareData.url);
-    }
-  };
 
   const stats = [
     { value: `${user.reliabilityScore}%`, label: 'Reliability' },
@@ -83,6 +70,8 @@ export default function ProfilePage() {
     { icon: '⚠️', label: 'No-shows', value: user.noShows },
     { icon: '❌', label: 'Cancellations', value: user.cancellations },
   ];
+  
+  const activityCount = pastMeetups.length + myRequests.length + savedPlansList.length;
 
   return (
     <div className="mobile-container min-h-screen bg-ambient pb-24">
