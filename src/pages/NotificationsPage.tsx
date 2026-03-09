@@ -129,9 +129,9 @@ export default function NotificationsPage() {
           <span className="text-2xl block mb-2">👋</span>
           <p className="text-sm font-semibold text-foreground">Invite friends to AnyBuddy</p>
           <p className="text-2xs text-muted-foreground mt-1 mb-3">More friends = more plans nearby. Share the love!</p>
-          <button onClick={handleShare} className="tahoe-btn-primary h-9 px-6 tap-scale text-xs font-semibold flex items-center gap-1.5 mx-auto">
+          <Button onClick={handleShare} size="sm" className="mx-auto gap-1.5">
             <Share2 size={14} /> Share Invite Link
-          </button>
+          </Button>
         </div>
       </div>
       

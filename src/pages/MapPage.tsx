@@ -244,12 +244,13 @@ export default function MapPage() {
               </div>
 
               {/* Join button only */}
-              <button
+              <Button
                 onClick={(e) => { e.stopPropagation(); handleJoinFromMap(req); }}
-                className="tahoe-btn-primary h-8 px-4 rounded-xl text-xs font-semibold tap-scale shrink-0"
+                size="sm"
+                className="shrink-0"
               >
                 Join
-              </button>
+              </Button>
             </div>
 
             {/* Footer row */}

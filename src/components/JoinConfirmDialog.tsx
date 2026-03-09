@@ -75,13 +75,12 @@ export function JoinConfirmDialog({ open, onClose, onConfirm, request }: JoinCon
           </div>
         </div>
         <div className="flex gap-2 mt-2">
-          <button onClick={onClose} className="flex-1 h-10 tahoe-btn-secondary rounded-xl tap-scale text-xs font-semibold">
+          <Button variant="secondary" onClick={onClose} className="flex-1 h-10 text-xs">
             Cancel
-          </button>
-          <button onClick={onConfirm} className="flex-1 h-10 tahoe-btn-primary rounded-xl tap-scale text-xs font-semibold"
-            disabled={seatsLeft === 0}>
+          </Button>
+          <Button onClick={onConfirm} className="flex-1 h-10 text-xs" disabled={seatsLeft === 0}>
             {seatsLeft === 0 ? 'Full' : 'Confirm Join'}
-          </button>
+          </Button>
         </div>
       </DialogContent>
     </Dialog>

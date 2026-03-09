@@ -171,10 +171,10 @@ export default function CreateRequestPage() {
       
       <div className="fixed bottom-0 left-0 right-0 p-4 liquid-glass-nav">
         <div className="max-w-md mx-auto">
-          <button className="w-full h-12 tahoe-btn-primary tap-scale disabled:opacity-40"
+          <Button className="w-full h-12"
             onClick={handleSubmit} disabled={!canPost || isSubmitting}>
             {isSubmitting ? 'Posting...' : 'Post Request'}
-          </button>
+          </Button>
         </div>
       </div>
     </div>
