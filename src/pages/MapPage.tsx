@@ -211,7 +211,8 @@ export default function MapPage() {
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
           />
           <FitBounds requests={activeRequests} selectedId={selectedId} />
-          <Marker position={MUMBAI_CENTER} icon={userIcon} />
+          <Marker position={userPos} icon={userIcon} />
+          <LocateControl userPos={userPos} setUserPos={setUserPos} />
           {activeRequests.map((req) => {
             if (!req.location.coords) return null;
             const isSelected = selectedId === req.id;
