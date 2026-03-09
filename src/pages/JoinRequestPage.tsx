@@ -40,7 +40,7 @@ export default function JoinRequestPage() {
         <div className="text-center">
           <span className="text-4xl block mb-3">🤷</span>
           <p className="text-sm text-muted-foreground mb-4">Request not found</p>
-          <button onClick={() => navigate('/home')} className="tahoe-btn-primary h-10 px-6 tap-scale">Go Home</button>
+          <Button onClick={() => navigate('/home')} className="h-10 px-6">Go Home</Button>
         </div>
       </div>
     );
