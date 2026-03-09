@@ -6,7 +6,18 @@ function getInitialTheme(): Theme {
   if (typeof window === 'undefined') return 'light';
   const stored = localStorage.getItem('anybuddy-theme');
   if (stored === 'dark' || stored === 'light') return stored;
-  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  // Default to light mode — don't follow system preference to avoid unexpected dark mode
+  return 'light';
+}
+
+// Apply theme on initial page load (runs once, before any component mounts)
+if (typeof window !== 'undefined') {
+  const stored = localStorage.getItem('anybuddy-theme');
+  if (stored === 'dark') {
+    document.documentElement.classList.add('dark');
+  } else {
+    document.documentElement.classList.remove('dark');
+  }
 }
 
 export function useTheme() {
