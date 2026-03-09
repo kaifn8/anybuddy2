@@ -96,25 +96,20 @@ export default function ProfilePage() {
 
           {/* Overview Tab */}
           <TabsContent value="overview" className="space-y-4 mt-4">
-            {/* Invite Card */}
-            <div className="relative overflow-hidden rounded-2xl border border-primary/15 bg-primary/[0.04] backdrop-blur-sm p-4">
-              <div className="absolute -top-6 -right-6 w-20 h-20 rounded-full bg-primary/10 blur-xl" />
-              <div className="relative flex items-center gap-4">
-                <div className="w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
-                  <span className="text-xl">👋</span>
+            {/* Invite Card - compact */}
+            <button onClick={() => navigate('/invite')}
+              className="relative overflow-hidden rounded-2xl border border-primary/15 bg-primary/[0.04] backdrop-blur-sm p-3.5 tap-scale text-left w-full">
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+                  <span className="text-lg">👋</span>
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-center justify-between">
-                    <p className="text-sm font-semibold">Invite friends</p>
-                    <span className="text-2xs font-bold text-primary bg-primary/10 px-2 py-0.5 rounded-full">3 left</span>
-                  </div>
+                  <p className="text-sm font-semibold">Invite friends • 3 left</p>
                   <p className="text-2xs text-muted-foreground mt-0.5">More friends = more plans nearby</p>
                 </div>
+                <Share2 size={16} className="text-primary shrink-0" />
               </div>
-              <Button onClick={() => navigate('/invite')} size="sm" className="w-full mt-3 gap-1.5">
-                <Share2 size={14} /> Share Invite Link
-              </Button>
-            </div>
+            </button>
 
             {/* Interests */}
             {user.interests.length > 0 && (
