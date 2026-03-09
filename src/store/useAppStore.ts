@@ -411,7 +411,7 @@ export const useAppStore = create<AppState>()(
       partialize: (state) => ({
         user: state.user, isOnboarded: state.isOnboarded,
         creditHistory: state.creditHistory, joinedRequests: state.joinedRequests,
-        reviews: state.reviews,
+        reviews: state.reviews, pendingVerifications: state.pendingVerifications,
       }),
     }
   )
