@@ -248,13 +248,6 @@ export default function ProfilePage() {
             </div>
           </div>
         )}
-        
-        {/* Logout button at bottom */}
-        <div className="pt-4 pb-2">
-          <button className="w-full text-xs text-destructive font-bold hover:text-destructive/80 transition-colors tap-scale" onClick={() => { reset(); navigate('/'); }}>
-            Log out
-          </button>
-        </div>
       </div>
       
       <BottomNav />
