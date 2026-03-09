@@ -42,8 +42,10 @@ export function JoinConfirmDialog({ open, onClose, onConfirm, request }: JoinCon
           <p className="text-2xs text-muted-foreground mt-1.5">📍 {request.location.name} · {request.location.distance}km away</p>
           
           <div className="flex items-center gap-3 mt-2 text-2xs text-muted-foreground">
-            <span>⏱ Starts in {timeLeft}</span>
-            <span>👥 {seatsLeft} seat{seatsLeft !== 1 ? 's' : ''} left</span>
+            <span>⏱ {timeLeft} left to join</span>
+            <span className={seatsLeft <= 2 ? 'text-destructive font-semibold' : ''}>
+              👥 {seatsLeft === 0 ? 'Full!' : seatsLeft === 1 ? 'Last spot!' : `${seatsLeft} spots`}
+            </span>
           </div>
 
           {/* Attendees */}
