@@ -18,7 +18,7 @@ const badgeLabels: Record<Badge, { emoji: string; label: string }> = {
 
 export default function ProfilePage() {
   const navigate = useNavigate();
-  const { user: rawUser, myRequests, requests, reset } = useAppStore();
+  const { user: rawUser, myRequests, requests } = useAppStore();
   
   const user = rawUser ? {
     ...rawUser,
