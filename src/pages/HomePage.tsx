@@ -181,7 +181,6 @@ export default function HomePage() {
                   className="shrink-0 tap-scale min-w-[210px] max-w-[230px] lg:min-w-[260px] lg:max-w-[300px] rounded-2xl overflow-hidden text-left"
                   style={{
                     background: tints[i % tints.length],
-                    boxShadow: '0 4px 24px rgba(0,0,0,0.06)',
                   }}>
                   <div className="p-4">
                     <div className="flex items-center justify-between mb-2">
