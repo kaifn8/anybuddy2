@@ -172,13 +172,13 @@ export default function HomePage() {
               const seatsLeft = req.seatsTotal - req.seatsTaken;
               const fillPercent = Math.round((req.seatsTaken / req.seatsTotal) * 100);
               const tints = [
-                'linear-gradient(135deg, hsl(var(--primary) / 0.18) 0%, hsl(25 90% 55% / 0.22) 50%, hsl(350 70% 55% / 0.15) 100%)',
-                'linear-gradient(135deg, hsl(250 65% 58% / 0.18) 0%, hsl(var(--primary) / 0.22) 50%, hsl(280 55% 55% / 0.15) 100%)',
-                'linear-gradient(135deg, hsl(160 55% 42% / 0.18) 0%, hsl(175 60% 44% / 0.22) 50%, hsl(var(--primary) / 0.15) 100%)',
+                'linear-gradient(135deg, hsl(var(--primary) / 0.25) 0%, hsl(25 90% 55% / 0.3) 50%, hsl(350 70% 55% / 0.2) 100%)',
+                'linear-gradient(135deg, hsl(250 65% 58% / 0.25) 0%, hsl(var(--primary) / 0.3) 50%, hsl(280 55% 55% / 0.2) 100%)',
+                'linear-gradient(135deg, hsl(160 55% 42% / 0.25) 0%, hsl(175 60% 44% / 0.3) 50%, hsl(var(--primary) / 0.2) 100%)',
               ];
               return (
                 <button key={req.id} onClick={() => navigate(`/request/${req.id}`)}
-                  className="shrink-0 tap-scale min-w-[210px] max-w-[230px] lg:min-w-[260px] lg:max-w-[300px] rounded-2xl overflow-hidden text-left border border-border/20"
+                  className="shrink-0 tap-scale min-w-[210px] max-w-[230px] lg:min-w-[260px] lg:max-w-[300px] rounded-2xl overflow-hidden text-left"
                   style={{
                     background: tints[i % tints.length],
                     boxShadow: '0 4px 24px rgba(0,0,0,0.06)',
