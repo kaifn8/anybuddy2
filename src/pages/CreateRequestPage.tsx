@@ -9,6 +9,7 @@ import { useAppStore } from '@/store/useAppStore';
 import { getCategoryLabel, getCategoryEmoji } from '@/components/icons/CategoryIcon';
 import type { Category, Urgency } from '@/types/anybuddy';
 import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
 
 const categories: Category[] = ['chai', 'explore', 'shopping', 'work', 'help', 'casual', 'sports', 'food', 'walk'];
 const timers = [
