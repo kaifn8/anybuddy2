@@ -247,7 +247,7 @@ export default function MapPage() {
               <Button
                 onClick={(e) => { e.stopPropagation(); handleJoinFromMap(req); }}
                 size="sm"
-                className="shrink-0"
+                className="shrink-0 h-8 px-3 text-[12px]"
               >
                 Join
               </Button>
