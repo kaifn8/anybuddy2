@@ -495,6 +495,7 @@ export const useAppStore = create<AppState>()(
         user: state.user, isOnboarded: state.isOnboarded,
         creditHistory: state.creditHistory, joinedRequests: state.joinedRequests,
         reviews: state.reviews, pendingVerifications: state.pendingVerifications,
+        reports: state.reports, flaggedMessages: state.flaggedMessages,
       }),
     }
   )
