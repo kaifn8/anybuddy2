@@ -1,6 +1,7 @@
 export type TrustLevel = 'seed' | 'solid' | 'trusted' | 'anchor';
 export type Urgency = 'now' | 'today' | 'week';
 export type Category = 'chai' | 'explore' | 'shopping' | 'work' | 'help' | 'casual' | 'sports' | 'food' | 'walk';
+export type VerificationStatus = 'unverified' | 'pending' | 'verified' | 'failed';
 
 export interface User {
   id: string;
