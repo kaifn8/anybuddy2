@@ -375,7 +375,7 @@ export default function RequestDetailPage() {
                       <XCircle size={12} /> End plan
                     </button>
                   ) : (
-                    <button onClick={handleLeave} className="flex items-center gap-1.5 text-[12px] text-destructive/70 font-semibold tap-scale ml-auto">
+                    <button onClick={handleLeaveClick} className="flex items-center gap-1.5 text-[12px] text-destructive/70 font-semibold tap-scale ml-auto">
                       Leave plan
                     </button>
                   )}
