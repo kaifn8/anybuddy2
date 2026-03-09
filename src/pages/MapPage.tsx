@@ -143,6 +143,7 @@ export default function MapPage() {
   const [confirmRequest, setConfirmRequest] = useState<Request | null>(null);
   const [showShare, setShowShare] = useState(false);
   const [shareRequest, setShareRequest] = useState<Request | null>(null);
+  const [userPos, setUserPos] = useState<[number, number]>(MUMBAI_CENTER);
 
   const activeRequests = requests
     .filter(r => r.status === 'active' && new Date(r.expiresAt) > new Date())
