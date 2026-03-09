@@ -103,6 +103,32 @@ function FitBounds({ requests, selectedId }: { requests: Request[]; selectedId: 
   return null;
 }
 
+function LocateMe({ onLocated }: { onLocated: (lat: number, lng: number) => void }) {
+  const map = useMap();
+
+  const locate = useCallback(() => {
+    map.locate({ setView: true, maxZoom: 15 });
+    map.once('locationfound', (e) => {
+      onLocated(e.latlng.lat, e.latlng.lng);
+    });
+  }, [map, onLocated]);
+
+  return null;
+}
+
+// Expose locate trigger via ref-like pattern
+function LocateMeButton({ onLocate }: { onLocate: () => void }) {
+  return (
+    <button
+      onClick={onLocate}
+      className="absolute bottom-3 right-3 z-[1000] w-9 h-9 rounded-full bg-background/90 backdrop-blur-xl border border-border/50 shadow-lg flex items-center justify-center tap-scale hover:bg-background transition-colors"
+      aria-label="Locate me"
+    >
+      <Navigation size={16} className="text-primary" />
+    </button>
+  );
+}
+
 export default function MapPage() {
   const navigate = useNavigate();
   const { requests, joinRequest, updateCredits } = useAppStore();
