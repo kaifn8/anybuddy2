@@ -31,7 +31,7 @@ export function UrgencyBadge({ urgency, className, size = 'sm' }: UrgencyBadgePr
   
   return (
     <div className={cn(
-      'inline-flex items-center gap-1 rounded-full font-medium',
+      'inline-flex items-center gap-1 rounded-full font-medium whitespace-nowrap shrink-0',
       size === 'sm' ? 'px-2 py-0.5 text-2xs' : 'px-2.5 py-1 text-xs',
       styleMap[urgency],
       className
