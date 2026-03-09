@@ -62,7 +62,7 @@ export default function CreditsPage() {
           {nextTrust && (
             <div className="mt-3 pt-3 border-t border-border/20">
               <div className="flex justify-between text-2xs mb-1.5">
-                <span className="text-muted-foreground">Progress to {nextTrust}</span>
+                <span className="text-muted-foreground">{nextReq! - (user?.completedJoins || 0)} more to unlock {nextTrust}</span>
                 <span className="font-semibold">{user?.completedJoins || 0}/{nextReq}</span>
               </div>
               <ProgressBar value={user?.completedJoins || 0} max={nextReq || 1} size="md" />
@@ -70,7 +70,7 @@ export default function CreditsPage() {
           )}
           
           {!nextTrust && (
-            <p className="text-xs text-success font-semibold mt-2">🏆 Max trust level reached</p>
+            <p className="text-xs text-success font-semibold mt-2">🏆 You're a legend. Max trust.</p>
           )}
         </div>
         
