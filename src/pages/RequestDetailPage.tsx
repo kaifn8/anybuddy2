@@ -46,6 +46,7 @@ export default function RequestDetailPage() {
   const [showShare, setShowShare] = useState(false);
   const [showReport, setShowReport] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
+  const [showLeaveWarning, setShowLeaveWarning] = useState(false);
   const [reportTarget, setReportTarget] = useState<{ id: string; name: string; type: 'user' | 'plan' } | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
