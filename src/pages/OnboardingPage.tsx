@@ -359,7 +359,7 @@ export default function OnboardingPage() {
         </div>
         
         <Button 
-          className="w-full h-14 text-[16px] font-bold rounded-2xl shadow-xl shadow-primary/25 hover:shadow-2xl hover:shadow-primary/30 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
+          className="w-full h-11 text-[15px] font-semibold rounded-xl shadow-lg shadow-primary/20 transition-all active:scale-[0.98]"
           onClick={handleNext}
         >
           {isLastSlide ? "Let's go 🚀" : 'Continue →'}
