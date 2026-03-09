@@ -57,9 +57,22 @@ export default function ProfilePage() {
   const isToday = new Date().toDateString() === joinDate.toDateString();
   const joinText = isToday ? 'Joined today' : `Joined ${format(joinDate, 'MMM d, yyyy')}`;
   
+  const handleShare = async () => {
+    const shareData = {
+      title: 'Join me on AnyBuddy!',
+      text: 'Find people to hang out with nearby. Download AnyBuddy!',
+      url: window.location.origin,
+    };
+    if (navigator.share) {
+      try { await navigator.share(shareData); } catch {}
+    } else {
+      await navigator.clipboard.writeText(shareData.url);
+    }
+  };
+
   return (
     <div className="mobile-container min-h-screen bg-ambient pb-24">
-      <TopBar showBack title="Profile" />
+      <TopBar title="Profile" hideChat showSettings />
       
       <div className="px-5 pt-5 space-y-5">
         {/* Profile card */}
