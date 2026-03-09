@@ -5,8 +5,11 @@ import { BottomNav } from '@/components/layout/BottomNav';
 import { getCategoryLabel, getCategoryEmoji } from '@/components/icons/CategoryIcon';
 import { useAppStore } from '@/store/useAppStore';
 import { Button } from '@/components/ui/button';
-import { Share2 } from 'lucide-react';
+import { Share2, MapPin, Calendar, ChevronRight } from 'lucide-react';
 import type { Badge, Request } from '@/types/anybuddy';
+import { ProfileHero } from '@/components/profile/ProfileHero';
+import { ProfileStats } from '@/components/profile/ProfileStats';
+import { ProfileSection } from '@/components/profile/ProfileSection';
 
 const badgeLabels: Record<Badge, { emoji: string; label: string }> = {
   verified_host: { emoji: '✅', label: 'Verified Host' },
@@ -31,31 +34,25 @@ export default function ProfilePage() {
     return (
       <div className="mobile-container min-h-screen bg-ambient flex items-center justify-center">
         <div className="text-center px-8">
-          <span className="text-4xl block mb-3">👤</span>
-          <p className="text-sm text-muted-foreground mb-4">Sign in to view your profile</p>
-          <Button onClick={() => navigate('/signup')} className="h-10 px-6">Sign In</Button>
+          <span className="text-5xl block mb-4">👤</span>
+          <p className="text-sm text-muted-foreground mb-5">Sign in to view your profile</p>
+          <Button onClick={() => navigate('/signup')} className="h-11 px-8">Sign In</Button>
         </div>
       </div>
     );
   }
 
-  // Saved plans
   const savedPlansList = user.savedPlans
     .map(id => requests.find(r => r.id === id))
     .filter(Boolean) as Request[];
   
-  // Past meetups (completed requests the user joined)
   const pastMeetups = requests.filter(r => 
     r.status === 'completed' && r.participants.some(p => p.id === user.id)
   ).slice(0, 3);
   
-  // Determine member status
-  const memberStatus = user.badges.includes('early_adopter') ? '⭐ Early member' : '⭐ New member';
-  
-  // Format join date
   const joinDate = new Date(user.createdAt);
   const isToday = new Date().toDateString() === joinDate.toDateString();
-  const joinText = isToday ? 'Joined today' : `Joined ${format(joinDate, 'MMM d, yyyy')}`;
+  const joinText = isToday ? 'Joined today' : `Joined ${format(joinDate, 'MMM yyyy')}`;
   
   const handleShare = async () => {
     const shareData = {
@@ -70,187 +67,162 @@ export default function ProfilePage() {
     }
   };
 
+  const stats = [
+    { value: `${user.reliabilityScore}%`, label: 'Reliability' },
+    { value: user.meetupsAttended + user.completedJoins, label: 'Meetups' },
+    { value: `${user.joinRate}%`, label: 'Join rate' },
+    { value: user.meetupsHosted, label: 'Hosted' },
+  ];
+
+  const hostStats = [
+    { icon: '📅', label: 'Plans hosted', value: user.meetupsHosted },
+    { icon: '✅', label: 'Successful meetups', value: user.meetupsAttended },
+    { icon: '⚠️', label: 'No-shows', value: user.noShows },
+    { icon: '❌', label: 'Cancellations', value: user.cancellations },
+  ];
+
   return (
     <div className="mobile-container min-h-screen bg-ambient pb-24">
       <TopBar title="Profile" hideChat showSettings />
       
-      <div className="px-5 pt-5 space-y-5">
-        {/* Profile card */}
-        <div className="liquid-glass-heavy p-4 text-center rounded-3xl">
-          <div className="relative inline-block">
-            <img src={user.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.firstName}`}
-              alt={user.firstName} className="w-20 h-20 rounded-full mx-auto border-3 border-white/40" />
-            {user.isVerified && (
-              <span className="absolute -bottom-0.5 -right-0.5 text-lg">✅</span>
-            )}
+      <div className="px-5 pt-4 space-y-4">
+        {/* Hero Card */}
+        <ProfileHero
+          user={user}
+          joinText={joinText}
+          badgeLabels={badgeLabels}
+        />
+
+        {/* Quick Stats */}
+        <ProfileStats stats={stats} />
+
+        {/* Invite Card */}
+        <div className="relative overflow-hidden rounded-2xl border border-primary/15 bg-primary/[0.04] backdrop-blur-sm p-4">
+          <div className="absolute -top-6 -right-6 w-20 h-20 rounded-full bg-primary/10 blur-xl" />
+          <div className="relative flex items-center gap-4">
+            <div className="w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+              <span className="text-xl">👋</span>
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center justify-between">
+                <p className="text-sm font-semibold">Invite friends</p>
+                <span className="text-2xs font-bold text-primary bg-primary/10 px-2 py-0.5 rounded-full">3 left</span>
+              </div>
+              <p className="text-2xs text-muted-foreground mt-0.5">More friends = more plans nearby</p>
+            </div>
           </div>
-          <h2 className="text-title font-bold mt-3">{user.firstName}</h2>
-          {user.bio && <p className="text-xs text-muted-foreground mt-1">{user.bio}</p>}
-          
-          {/* Member status */}
-          <div className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-primary/10 text-primary text-[11px] font-semibold mt-2">
-            {memberStatus}
-          </div>
-          
-          {/* Location and join date */}
-          <div className="mt-3 space-y-0.5">
-            <p className="text-[11px] text-muted-foreground/70">
-              📍 {user.zone ? `${user.zone}, ${user.city}` : user.city}
-            </p>
-            <p className="text-[11px] text-muted-foreground/70">{joinText}</p>
-          </div>
-        </div>
-        
-        {/* Invite Friends */}
-        <div className="liquid-glass-heavy p-4 rounded-3xl text-center">
-          <div className="flex items-center justify-between mb-3">
-            <span className="text-xs font-semibold text-muted-foreground">INVITES LEFT</span>
-            <span className="text-lg font-bold text-primary">3</span>
-          </div>
-          <span className="text-2xl block mb-2">👋</span>
-          <p className="text-sm font-semibold text-foreground">Invite friends to AnyBuddy</p>
-          <p className="text-2xs text-muted-foreground mt-1 mb-3">More friends = more plans nearby</p>
-          <Button onClick={() => navigate('/invite')} size="sm" className="mx-auto gap-1.5 w-full">
+          <Button onClick={() => navigate('/invite')} size="sm" className="w-full mt-3 gap-1.5">
             <Share2 size={14} /> Share Invite Link
           </Button>
         </div>
-        
-        {/* Stats grid */}
-        <div className="grid grid-cols-4 gap-2">
-          {[
-            { icon: '⭐', label: 'Reliability', value: `${user.reliabilityScore}%` },
-            { icon: '🤝', label: 'Meetups', value: user.meetupsAttended + user.completedJoins },
-            { icon: '📊', label: 'Join rate', value: `${user.joinRate}%` },
-            { icon: '🎉', label: 'Hosted', value: user.meetupsHosted },
-          ].map((stat, i) => (
-            <div key={i} className="liquid-glass p-3 text-center rounded-2xl">
-              <div className="text-base mb-1">{stat.icon}</div>
-              <p className="text-sm font-bold text-foreground">{stat.value}</p>
-              <p className="text-[10px] text-muted-foreground mt-0.5">{stat.label}</p>
-            </div>
-          ))}
-        </div>
-        
-        {/* Badges */}
-        {user.badges.length > 0 && (
-          <div className="liquid-glass p-4">
-            <h3 className="text-xs font-semibold text-muted-foreground mb-2">BADGES</h3>
-            <div className="flex flex-wrap gap-1.5">
-              {user.badges.map((badge) => (
-                <span key={badge} className="liquid-glass-subtle flex items-center gap-1 px-2.5 py-1 text-2xs font-medium">
-                  {badgeLabels[badge]?.emoji} {badgeLabels[badge]?.label}
-                </span>
+
+        {/* Interests */}
+        {user.interests.length > 0 && (
+          <ProfileSection title="Interests" action="Edit" onAction={() => {}}>
+            <div className="flex flex-wrap gap-2">
+              {user.interests.map((interest) => (
+                <div key={interest} className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-medium bg-background/60 backdrop-blur-sm border border-border/40 transition-colors hover:border-primary/30">
+                  <span className="text-sm">{getCategoryEmoji(interest)}</span>
+                  <span>{getCategoryLabel(interest)}</span>
+                </div>
               ))}
             </div>
-          </div>
+          </ProfileSection>
+        )}
+
+        {/* Badges */}
+        {user.badges.length > 0 && (
+          <ProfileSection title="Badges">
+            <div className="flex flex-wrap gap-2">
+              {user.badges.map((badge) => (
+                <div key={badge} className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-accent/10 border border-accent/20">
+                  <span>{badgeLabels[badge]?.emoji}</span>
+                  <span>{badgeLabels[badge]?.label}</span>
+                </div>
+              ))}
+            </div>
+          </ProfileSection>
         )}
         
-        {/* Interests */}
-        <div className="liquid-glass-heavy p-4 rounded-3xl">
-          <div className="flex items-center justify-between mb-3">
-            <h3 className="text-xs font-semibold text-muted-foreground">INTERESTS</h3>
-            <button className="text-[11px] text-primary font-semibold tap-scale">Edit interests</button>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            {user.interests.map((interest) => (
-              <div key={interest} className="liquid-glass-subtle flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-medium border border-border/30">
-                <span>{getCategoryEmoji(interest)}</span>
-                <span>{getCategoryLabel(interest)}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-        
-        {/* Host stats */}
-        <div className="liquid-glass p-4 rounded-3xl">
-          <h3 className="text-xs font-semibold text-muted-foreground mb-3">HOST STATS</h3>
-          <div className="space-y-2.5">
-            {[
-              { icon: '📅', label: 'Plans hosted', value: user.meetupsHosted },
-              { icon: '✅', label: 'Successful meetups', value: user.meetupsAttended },
-              { icon: '⚠️', label: 'No-shows', value: user.noShows },
-              { icon: '❌', label: 'Cancellations', value: user.cancellations },
-            ].map((s, i) => (
-              <div key={i} className="flex items-center justify-between text-xs">
-                <span className="text-muted-foreground flex items-center gap-2">
-                  <span>{s.icon}</span>
+        {/* Host Stats */}
+        <ProfileSection title="Host Stats">
+          <div className="space-y-0">
+            {hostStats.map((s, i) => (
+              <div key={i} className="flex items-center justify-between py-2.5 border-b border-border/20 last:border-b-0">
+                <span className="text-xs text-muted-foreground flex items-center gap-2.5">
+                  <span className="text-sm">{s.icon}</span>
                   <span>{s.label}</span>
                 </span>
-                <span className="font-semibold">{s.value}</span>
+                <span className="text-sm font-bold tabular-nums">{s.value}</span>
               </div>
             ))}
           </div>
-        </div>
+        </ProfileSection>
         
         {/* Past Meetups */}
-        <div>
-          <h3 className="text-xs font-semibold text-muted-foreground mb-3">PAST MEETUPS</h3>
+        <ProfileSection title="Past Meetups">
           {pastMeetups.length > 0 ? (
             <div className="space-y-2">
               {pastMeetups.map((req) => (
-                <button key={req.id} onClick={() => navigate(`/request/${req.id}`)}
-                  className="w-full liquid-glass p-3 rounded-2xl text-left tap-scale hover:bg-background/90 transition-colors flex items-center gap-3">
-                  <span className="text-lg">{getCategoryEmoji(req.category)}</span>
-                  <div className="flex-1 min-w-0">
-                    <p className="font-semibold text-[13px] truncate">{req.title}</p>
-                    <p className="text-[11px] text-muted-foreground mt-0.5">{req.seatsTaken} people joined</p>
-                  </div>
-                </button>
+                <RequestRow key={req.id} req={req} onClick={() => navigate(`/request/${req.id}`)} />
               ))}
             </div>
           ) : (
-            <div className="liquid-glass p-6 rounded-3xl text-center">
-              <p className="text-sm text-muted-foreground mb-2">No meetups yet.</p>
-              <button onClick={() => navigate('/home')} className="text-xs text-primary font-semibold tap-scale">
+            <div className="py-6 text-center">
+              <p className="text-sm text-muted-foreground mb-3">No meetups yet</p>
+              <Button onClick={() => navigate('/home')} variant="secondary" size="sm">
                 Join your first plan 👇
-              </button>
+              </Button>
             </div>
           )}
-        </div>
+        </ProfileSection>
         
-        {/* My requests */}
+        {/* My Requests */}
         {myRequests.length > 0 && (
-          <div>
-            <h3 className="text-xs font-semibold text-muted-foreground mb-3">MY REQUESTS</h3>
+          <ProfileSection title="My Requests" action="See all" onAction={() => {}}>
             <div className="space-y-2">
               {myRequests.slice(0, 3).map((req) => (
-                <button key={req.id} onClick={() => navigate(`/request/${req.id}`)}
-                  className="w-full flex items-center gap-3 bg-background/80 backdrop-blur-xl border border-border/50 p-3 rounded-3xl text-left tap-scale hover:bg-background/90 transition-colors"
-                  style={{ boxShadow: '0px 2px 10px rgba(0,0,0,0.05)' }}>
-                  <span className="text-lg">{getCategoryEmoji(req.category)}</span>
-                  <div className="flex-1 min-w-0">
-                    <p className="font-semibold text-[13px] truncate">{req.title}</p>
-                    <p className="text-[11px] text-muted-foreground mt-1">{req.seatsTaken} of {req.seatsTotal} spots filled • {req.status}</p>
-                  </div>
-                </button>
+                <RequestRow key={req.id} req={req} onClick={() => navigate(`/request/${req.id}`)} subtitle={`${req.seatsTaken}/${req.seatsTotal} spots • ${req.status}`} />
               ))}
             </div>
-          </div>
+          </ProfileSection>
         )}
         
         {/* Saved Plans */}
         {savedPlansList.length > 0 && (
-          <div>
-            <h3 className="text-xs font-semibold text-muted-foreground mb-3">♡ SAVED PLANS</h3>
+          <ProfileSection title="Saved Plans" icon="♡">
             <div className="space-y-2">
               {savedPlansList.map((req) => (
-                <button key={req.id} onClick={() => navigate(`/request/${req.id}`)}
-                  className="w-full flex items-center gap-3 bg-background/80 backdrop-blur-xl border border-border/50 p-3 rounded-3xl text-left tap-scale hover:bg-background/90 transition-colors"
-                  style={{ boxShadow: '0px 2px 10px rgba(0,0,0,0.05)' }}>
-                  <span className="text-lg">{getCategoryEmoji(req.category)}</span>
-                  <div className="flex-1 min-w-0">
-                    <p className="font-semibold text-[13px] truncate">{req.title}</p>
-                    <p className="text-[11px] text-muted-foreground mt-1">📍 {req.location.name} • {req.location.distance} km away</p>
-                    <p className="text-[11px] text-muted-foreground mt-0.5">{req.seatsTaken} of {req.seatsTotal} spots filled</p>
-                  </div>
-                </button>
+                <RequestRow key={req.id} req={req} onClick={() => navigate(`/request/${req.id}`)} subtitle={`📍 ${req.location.name} • ${req.seatsTaken}/${req.seatsTotal} spots`} />
               ))}
             </div>
-          </div>
+          </ProfileSection>
         )}
+
+        {/* Bottom spacer */}
+        <div className="h-2" />
       </div>
       
       <BottomNav />
     </div>
+  );
+}
+
+/* Shared request row component */
+function RequestRow({ req, onClick, subtitle }: { req: Request; onClick: () => void; subtitle?: string }) {
+  return (
+    <button onClick={onClick}
+      className="w-full flex items-center gap-3 p-3 rounded-xl text-left tap-scale bg-background/50 backdrop-blur-sm border border-border/30 hover:border-border/60 transition-all group">
+      <div className="w-10 h-10 rounded-xl bg-muted/60 flex items-center justify-center shrink-0">
+        <span className="text-lg">{getCategoryEmoji(req.category)}</span>
+      </div>
+      <div className="flex-1 min-w-0">
+        <p className="font-semibold text-[13px] truncate group-hover:text-primary transition-colors">{req.title}</p>
+        <p className="text-[11px] text-muted-foreground mt-0.5">
+          {subtitle || `${req.seatsTaken} people joined`}
+        </p>
+      </div>
+      <ChevronRight size={16} className="text-muted-foreground/40 shrink-0" />
+    </button>
   );
 }
