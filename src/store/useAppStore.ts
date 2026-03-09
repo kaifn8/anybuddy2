@@ -195,6 +195,8 @@ const initialState = {
   creditHistory: [] as CreditTransaction[],
   reviews: [] as MeetupReview[],
   pendingVerifications: [] as VerificationRequest[],
+  reports: [] as UserReport[],
+  flaggedMessages: [] as FlaggedMessage[],
 };
 
 export const useAppStore = create<AppState>()(
