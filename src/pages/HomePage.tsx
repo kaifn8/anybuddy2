@@ -45,6 +45,8 @@ export default function HomePage() {
   const headerRef = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<HTMLDivElement>(null);
   const trendingRef = useRef<HTMLDivElement>(null);
+  const autoScrollRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const userInteractedRef = useRef(false);
   
   useEffect(() => {
     const tl = gsap.timeline();
@@ -74,6 +76,49 @@ export default function HomePage() {
     }
   }, []);
   
+  // Auto-scroll trending section
+  useEffect(() => {
+    const container = trendingRef.current;
+    if (!container) return;
+
+    let resumeTimeout: ReturnType<typeof setTimeout>;
+
+    const startAutoScroll = () => {
+      autoScrollRef.current = setInterval(() => {
+        if (userInteractedRef.current) return;
+        const maxScroll = container.scrollWidth - container.clientWidth;
+        if (maxScroll <= 0) return;
+        const nextScroll = container.scrollLeft + 120;
+        container.scrollTo({
+          left: nextScroll >= maxScroll ? 0 : nextScroll,
+          behavior: 'smooth',
+        });
+      }, 9000);
+    };
+
+    const handleInteraction = () => {
+      userInteractedRef.current = true;
+      clearTimeout(resumeTimeout);
+      resumeTimeout = setTimeout(() => {
+        userInteractedRef.current = false;
+      }, 15000);
+    };
+
+    container.addEventListener('touchstart', handleInteraction, { passive: true });
+    container.addEventListener('mousedown', handleInteraction);
+    container.addEventListener('scroll', handleInteraction, { passive: true });
+
+    startAutoScroll();
+
+    return () => {
+      if (autoScrollRef.current) clearInterval(autoScrollRef.current);
+      clearTimeout(resumeTimeout);
+      container.removeEventListener('touchstart', handleInteraction);
+      container.removeEventListener('mousedown', handleInteraction);
+      container.removeEventListener('scroll', handleInteraction);
+    };
+  }, []);
+
   useEffect(() => {
     const interval = setInterval(() => refreshFeed(), 20000);
     return () => clearInterval(interval);
