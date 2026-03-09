@@ -260,6 +260,14 @@
       0 6px 16px hsla(var(--glass-shadow));
   }
 
+  .dark .tahoe-btn-secondary:hover {
+    background: hsla(0 0% 100% / 0.12);
+  }
+
+  .dark .glass-pill-inactive:hover {
+    background: hsla(0 0% 100% / 0.1);
+  }
+
   /* Ghost — minimal, icon-friendly */
   .tahoe-btn-ghost {
     @apply tahoe-btn text-muted-foreground;
