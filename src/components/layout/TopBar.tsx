@@ -51,9 +51,10 @@ export function TopBar({ showBack = false, title, hideChat = false, showSettings
         {title ? (
           <span className="text-sm font-semibold text-foreground">{title}</span>
         ) : (
-          <span className="text-[20px]" style={{ fontFamily: "'Pacifico', cursive" }}>
+          <span className="text-[20px] lg:hidden" style={{ fontFamily: "'Pacifico', cursive" }}>
             any<span className="text-primary">buddy</span>
           </span>
+          <span className="hidden lg:block text-sm font-semibold text-foreground">Home</span>
         )}
 
         {/* Right: Chat or Settings */}
