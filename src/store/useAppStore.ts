@@ -120,6 +120,13 @@ interface AppState {
   flagMessage: (requestId: string, messageId: string, reason: string) => void;
   updateFlaggedMessage: (messageId: string, status: 'removed' | 'cleared') => void;
   removePlan: (requestId: string) => void;
+  // Admin actions
+  adminWarnings: Record<string, string[]>;
+  pricingConfig: PricingConfig;
+  trustDiscounts: Record<TrustLevel, number>;
+  sendAdminWarning: (userId: string, userName: string, message: string) => void;
+  updatePricingConfig: (config: PricingConfig) => void;
+  updateTrustDiscounts: (discounts: Record<TrustLevel, number>) => void;
   reset: () => void;
 }
 
