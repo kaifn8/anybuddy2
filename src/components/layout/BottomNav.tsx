@@ -43,8 +43,15 @@ export function BottomNav() {
                 <div className="relative">
                   {item.path === '/profile' ? (
                     <div className="relative">
-                      <span className={cn('text-base', isActive ? '' : 'opacity-40')}>{item.emoji}</span>
-                      {user && <span className="absolute -bottom-0.5 -right-1 w-2 h-2 rounded-full bg-success border border-background" />}
+                      <img 
+                        src={user?.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${user?.firstName || 'guest'}`}
+                        alt="Profile"
+                        className={cn(
+                          'w-6 h-6 rounded-full border-2 transition-opacity',
+                          isActive ? 'border-primary' : 'border-transparent opacity-40'
+                        )}
+                      />
+                      {user && <span className="absolute -bottom-0.5 -right-0.5 w-2 h-2 rounded-full bg-success border border-background" />}
                     </div>
                   ) : (
                     <span className={cn('text-base', isActive ? '' : 'opacity-40')}>{item.emoji}</span>
