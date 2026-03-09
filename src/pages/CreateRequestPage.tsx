@@ -124,10 +124,10 @@ export default function CreateRequestPage() {
             <label className="text-xs font-medium text-muted-foreground mb-2 block">Auto-expire</label>
             <div className="flex gap-2">
               {timers.map((t) => (
-                <button key={t.label} onClick={() => setTimer(t.value)}
-                  className={cn('flex-1 py-2.5 rounded-xl text-xs font-semibold transition-all tap-scale',
-                    timer === t.value ? 'tahoe-btn-primary' : 'liquid-glass text-foreground'
-                  )}>{t.label}</button>
+                <Button key={t.label} onClick={() => setTimer(t.value)}
+                  variant={timer === t.value ? 'default' : 'secondary'}
+                  className="flex-1 py-2.5 h-auto text-xs"
+                >{t.label}</Button>
               ))}
             </div>
           </div>
