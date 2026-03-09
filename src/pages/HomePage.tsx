@@ -234,6 +234,13 @@ export default function HomePage() {
               {f.label}
             </button>
           ))}
+            <button key={f.id} onClick={() => setQuickFilter(quickFilter === f.id ? null : f.id)}
+              className={cn('shrink-0 px-2.5 py-1 rounded-full text-[10px] font-semibold tap-scale transition-all',
+                quickFilter === f.id ? 'bg-primary text-primary-foreground' : 'bg-foreground/[0.03] text-muted-foreground'
+              )}>
+              {f.label}
+            </button>
+          ))}
         </div>
       </div>
 
