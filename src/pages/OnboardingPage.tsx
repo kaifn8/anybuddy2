@@ -71,53 +71,52 @@ export default function OnboardingPage() {
       case 'people':
         return (
           <div className="relative w-full max-w-[300px]">
-            {/* Central "you" node */}
-            <div className="relative flex items-center justify-center py-6">
-              <div className="absolute w-40 h-40 rounded-full border-2 border-dashed border-primary/20 animate-[spin_20s_linear_infinite]" />
-              <div className="absolute w-56 h-56 rounded-full border border-dashed border-primary/10 animate-[spin_30s_linear_infinite_reverse]" />
+            {/* Map-style visual */}
+            <div className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-primary/[0.06] via-background to-secondary/[0.06] border border-border/20 p-5 pb-4">
+              {/* Decorative grid dots */}
+              <div className="absolute inset-0 opacity-[0.04]" style={{
+                backgroundImage: 'radial-gradient(circle, hsl(var(--foreground)) 1px, transparent 1px)',
+                backgroundSize: '20px 20px',
+              }} />
               
-              <div className="relative z-10 w-16 h-16 rounded-full bg-gradient-to-br from-primary to-primary/70 flex items-center justify-center shadow-lg shadow-primary/25">
-                <span className="text-2xl">👤</span>
-              </div>
-              
-              {/* Orbiting avatars */}
-              {NEARBY_PEOPLE.map((person, i) => {
-                const angle = (i * 120 - 90) * (Math.PI / 180);
-                const radius = 85;
-                const x = Math.cos(angle) * radius;
-                const y = Math.sin(angle) * radius;
-                return (
-                  <div
-                    key={person.name}
-                    className="absolute z-10 flex flex-col items-center"
-                    style={{ transform: `translate(${x}px, ${y}px)` }}
-                  >
-                    <div className="w-12 h-12 rounded-full border-3 border-background shadow-lg overflow-hidden bg-muted">
-                      <img src={person.avatar} alt={person.name} className="w-full h-full object-cover" />
-                    </div>
-                    <span className="mt-1 text-[9px] font-semibold text-muted-foreground">{person.distance}</span>
-                  </div>
-                );
-              })}
-            </div>
-            
-            {/* Activity cards below */}
-            <div className="space-y-2 mt-2">
-              {NEARBY_PEOPLE.slice(0, 2).map((person, i) => (
-                <div key={i} className="liquid-glass flex items-center gap-2.5 px-3 py-2" style={{ borderRadius: '0.75rem' }}>
-                  <div className="w-8 h-8 rounded-full overflow-hidden bg-muted shrink-0">
-                    <img src={person.avatar} alt={person.name} className="w-full h-full object-cover" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-[11px] font-semibold truncate">{person.name}</p>
-                    <p className="text-[10px] text-muted-foreground truncate">{person.activity}</p>
-                  </div>
-                  <div className="flex items-center gap-1 text-[9px] text-primary font-medium">
-                    <MapPin size={10} />
-                    {person.distance}
-                  </div>
+              {/* Location pulse rings */}
+              <div className="flex justify-center mb-4 relative">
+                <div className="absolute w-32 h-32 rounded-full border border-primary/10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-[ping_3s_ease-out_infinite]" />
+                <div className="absolute w-20 h-20 rounded-full border border-primary/15 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-[ping_3s_ease-out_1s_infinite]" />
+                
+                <div className="relative z-10 w-14 h-14 rounded-full bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center shadow-xl shadow-primary/30">
+                  <span className="text-xl text-primary-foreground font-bold">You</span>
                 </div>
-              ))}
+              </div>
+
+              {/* People around you */}
+              <div className="grid grid-cols-3 gap-2">
+                {NEARBY_PEOPLE.map((person) => (
+                  <div key={person.name} className="flex flex-col items-center gap-1.5 py-2 px-1 rounded-2xl bg-background/50 backdrop-blur-sm border border-border/20">
+                    <div className="relative">
+                      <div className="w-11 h-11 rounded-full overflow-hidden bg-muted border-2 border-background shadow-md">
+                        <img src={person.avatar} alt={person.name} className="w-full h-full object-cover" />
+                      </div>
+                      <span className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-success border-2 border-background" />
+                    </div>
+                    <p className="text-[10px] font-semibold text-foreground">{person.name}</p>
+                    <span className="text-[8px] text-primary font-medium bg-primary/10 px-1.5 py-0.5 rounded-full">{person.distance}</span>
+                  </div>
+                ))}
+              </div>
+
+              {/* Activity tickers */}
+              <div className="mt-3 space-y-1.5">
+                {NEARBY_PEOPLE.map((person, i) => (
+                  <div key={i} className="flex items-center gap-2 px-3 py-2 rounded-xl bg-background/60 backdrop-blur-sm border border-border/15">
+                    <span className="w-1.5 h-1.5 rounded-full bg-success shrink-0 animate-pulse" />
+                    <p className="text-[10px] text-muted-foreground flex-1 truncate">
+                      <span className="font-semibold text-foreground">{person.name}</span> · {person.activity}
+                    </p>
+                    <span className="text-[8px] text-muted-foreground shrink-0">{person.distance}</span>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         );
@@ -169,38 +168,52 @@ export default function OnboardingPage() {
       case 'safe':
         return (
           <div className="w-full max-w-[300px]">
-            {/* Shield visual */}
-            <div className="flex justify-center mb-5">
-              <div className="relative">
-                <div className="w-24 h-24 rounded-3xl bg-gradient-to-br from-emerald-500/20 to-emerald-600/10 flex items-center justify-center border border-emerald-500/20">
-                  <ShieldCheck className="w-12 h-12 text-emerald-500" strokeWidth={1.5} />
-                </div>
-                <div className="absolute -top-1 -right-1 w-6 h-6 rounded-full bg-emerald-500 flex items-center justify-center">
-                  <BadgeCheck size={14} className="text-white" />
+            {/* Safety visual — layered card */}
+            <div className="relative rounded-3xl overflow-hidden bg-gradient-to-b from-success/[0.08] via-background to-primary/[0.05] border border-success/15 p-5">
+              {/* Large shield */}
+              <div className="flex justify-center mb-5">
+                <div className="relative">
+                  <div className="absolute inset-0 rounded-[1.75rem] bg-success/10 blur-xl scale-125" />
+                  <div className="relative w-20 h-20 rounded-[1.75rem] bg-gradient-to-br from-success/20 to-success/5 flex items-center justify-center border border-success/25 shadow-lg shadow-success/10">
+                    <ShieldCheck className="w-10 h-10 text-success" strokeWidth={1.5} />
+                  </div>
+                  <div className="absolute -top-1.5 -right-1.5 w-7 h-7 rounded-full bg-success flex items-center justify-center shadow-md shadow-success/30 border-2 border-background">
+                    <BadgeCheck size={14} className="text-success-foreground" />
+                  </div>
                 </div>
               </div>
-            </div>
-            
-            {/* Trust features */}
-            <div className="space-y-2">
-              {TRUST_FEATURES.map((feature, i) => (
-                <div
-                  key={i}
-                  className="liquid-glass flex items-center gap-3 px-4 py-3"
-                  style={{ borderRadius: '0.875rem' }}
-                >
-                  <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
-                    <feature.icon size={20} className="text-primary" />
+
+              {/* Trust checklist */}
+              <div className="space-y-2">
+                {TRUST_FEATURES.map((feature, i) => (
+                  <div
+                    key={i}
+                    className="flex items-center gap-3 px-3.5 py-3 rounded-2xl bg-background/60 backdrop-blur-sm border border-border/20"
+                  >
+                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary/15 to-primary/5 flex items-center justify-center shrink-0 border border-primary/10">
+                      <feature.icon size={18} className="text-primary" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-[12px] font-semibold">{feature.label}</p>
+                      <p className="text-[10px] text-muted-foreground leading-relaxed">{feature.desc}</p>
+                    </div>
+                    <div className="w-6 h-6 rounded-full bg-success/15 flex items-center justify-center border border-success/20">
+                      <span className="text-success text-[11px] font-bold">✓</span>
+                    </div>
                   </div>
-                  <div className="flex-1">
-                    <p className="text-[12px] font-semibold">{feature.label}</p>
-                    <p className="text-[10px] text-muted-foreground">{feature.desc}</p>
-                  </div>
-                  <div className="w-5 h-5 rounded-full bg-success/20 flex items-center justify-center">
-                    <span className="text-[10px]">✓</span>
-                  </div>
+                ))}
+              </div>
+
+              {/* Bottom trust meter */}
+              <div className="mt-4 px-1">
+                <div className="flex items-center justify-between mb-1.5">
+                  <span className="text-[9px] font-semibold text-muted-foreground uppercase tracking-wider">Your safety score</span>
+                  <span className="text-[11px] font-bold text-success">Protected</span>
                 </div>
-              ))}
+                <div className="w-full h-2 rounded-full bg-foreground/5 overflow-hidden">
+                  <div className="h-full rounded-full bg-gradient-to-r from-success/60 to-success" style={{ width: '100%' }} />
+                </div>
+              </div>
             </div>
           </div>
         );
