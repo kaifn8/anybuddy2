@@ -104,10 +104,19 @@ export function RequestCard({ request, onJoin, onView, isJoined, className }: Re
         style={{ boxShadow: '0px 2px 10px rgba(0,0,0,0.05)' }}
         onClick={onView}
       >
-        {/* Time indicator - only one */}
-        {timeIndicator && (
-          <div className={cn('inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-semibold mb-3', timeIndicator.color)}>
-            {timeIndicator.label}
+        {/* Status badges - time and hot indicator */}
+        {(timeIndicator || hotIndicator) && (
+          <div className="flex items-center gap-2 mb-3">
+            {timeIndicator && (
+              <div className={cn('inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-semibold', timeIndicator.color)}>
+                {timeIndicator.label}
+              </div>
+            )}
+            {hotIndicator && (
+              <div className={cn('inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-semibold', hotIndicator.color)}>
+                {hotIndicator.label}
+              </div>
+            )}
           </div>
         )}
 
