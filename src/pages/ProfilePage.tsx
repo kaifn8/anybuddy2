@@ -23,6 +23,7 @@ const badgeLabels: Record<Badge, { emoji: string; label: string }> = {
 
 export default function ProfilePage() {
   const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState('overview');
   const { user: rawUser, myRequests, requests } = useAppStore();
   
   const user = rawUser ? {
