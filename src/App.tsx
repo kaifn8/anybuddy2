@@ -18,6 +18,7 @@ import CreditsPage from "./pages/CreditsPage";
 import ChatsPage from "./pages/ChatsPage";
 import NotificationsPage from "./pages/NotificationsPage";
 import ProfilePage from "./pages/ProfilePage";
+import InviteFriendsPage from "./pages/InviteFriendsPage";
 import AdminPage from "./pages/AdminPage";
 import NotFound from "./pages/NotFound";
 
