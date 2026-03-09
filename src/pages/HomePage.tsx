@@ -132,7 +132,7 @@ export default function HomePage() {
           <h3 className="text-base font-bold text-foreground mb-4 flex items-center gap-1.5">
             <span>🔥</span> Popular nearby
           </h3>
-          <div className="flex gap-4 overflow-x-auto scrollbar-hide -mx-5 px-5 pb-1">
+          <div ref={trendingRef} className="flex gap-4 overflow-x-auto scrollbar-hide -mx-5 px-5 pb-1">
             {trending.map((req, i) => {
               const seatsLeft = req.seatsTotal - req.seatsTaken;
               const fillPercent = Math.round((req.seatsTaken / req.seatsTotal) * 100);
