@@ -526,6 +526,102 @@ export const useAppStore = create<AppState>()(
         set({ requests: requests.map(r => r.id === requestId ? { ...r, status: 'cancelled' as const } : r) });
       },
 
+      removeParticipant: (requestId, participantId) => {
+        const { requests, joinedRequests, addNotification } = get();
+        const req = requests.find(r => r.id === requestId);
+        if (!req) return;
+        // Prevent removal within 5 minutes of start
+        const minutesToStart = (new Date(req.when).getTime() - Date.now()) / 60000;
+        if (minutesToStart <= 5 && minutesToStart >= 0) return;
+        const participant = req.participants.find(p => p.id === participantId);
+        set({
+          requests: requests.map(r => r.id === requestId ? {
+            ...r,
+            seatsTaken: Math.max(0, r.seatsTaken - 1),
+            participants: r.participants.filter(p => p.id !== participantId),
+          } : r),
+          joinedRequests: joinedRequests.filter(id => id !== requestId),
+        });
+        if (participant) {
+          addNotification({
+            type: 'message',
+            title: 'Removed from plan',
+            message: `You were removed from "${req.title}" by the host.`,
+            requestId,
+          });
+        }
+      },
+
+      blockUser: (userId) => {
+        const { user } = get();
+        if (!user) return;
+        set({ user: { ...user, blockedUsers: [...(user.blockedUsers || []), userId] } });
+      },
+
+      unblockUser: (userId) => {
+        const { user } = get();
+        if (!user) return;
+        set({ user: { ...user, blockedUsers: (user.blockedUsers || []).filter(id => id !== userId) } });
+      },
+
+      requestToJoin: (requestId, note) => {
+        const { user, requests } = get();
+        if (!user) return;
+        const joinReq = {
+          userId: user.id, userName: user.firstName, userAvatar: user.avatar,
+          reliability: user.reliabilityScore, note, requestedAt: new Date(), status: 'pending' as const,
+        };
+        set({
+          requests: requests.map(r => r.id === requestId ? {
+            ...r, pendingJoinRequests: [...(r.pendingJoinRequests || []), joinReq],
+          } : r),
+        });
+      },
+
+      approveJoinRequest: (requestId, userId) => {
+        const { requests, joinedRequests, chatMessages } = get();
+        const req = requests.find(r => r.id === requestId);
+        if (!req) return;
+        const joinReq = (req.pendingJoinRequests || []).find(j => j.userId === userId);
+        if (!joinReq) return;
+        const participant = { id: joinReq.userId, name: joinReq.userName, avatar: joinReq.userAvatar, note: joinReq.note, joinedAt: new Date() };
+        const welcomeMsg = { id: `msg_${Date.now()}`, senderId: 'system', senderName: 'AnyBuddy', message: `${joinReq.userName} joined! Say hi 👋`, timestamp: new Date() };
+        set({
+          requests: requests.map(r => r.id === requestId ? {
+            ...r,
+            seatsTaken: r.seatsTaken + 1,
+            participants: [...r.participants, participant],
+            pendingJoinRequests: (r.pendingJoinRequests || []).map(j => j.userId === userId ? { ...j, status: 'accepted' as const } : j),
+          } : r),
+          joinedRequests: [...joinedRequests, requestId],
+          chatMessages: { ...chatMessages, [requestId]: [...(chatMessages[requestId] || []), welcomeMsg] },
+        });
+      },
+
+      declineJoinRequest: (requestId, userId) => {
+        const { requests } = get();
+        set({
+          requests: requests.map(r => r.id === requestId ? {
+            ...r,
+            pendingJoinRequests: (r.pendingJoinRequests || []).map(j => j.userId === userId ? { ...j, status: 'declined' as const } : j),
+          } : r),
+        });
+      },
+
+      endPlanEarly: (requestId) => {
+        const { requests, addNotification } = get();
+        const req = requests.find(r => r.id === requestId);
+        set({ requests: requests.map(r => r.id === requestId ? { ...r, status: 'cancelled' as const } : r) });
+        if (req) {
+          addNotification({
+            type: 'message',
+            title: 'Plan ended early',
+            message: `"${req.title}" was ended early by the host.`,
+            requestId,
+          });
+        }
+      },
+
       sendAdminWarning: (userId, userName, message) => {
         const { adminWarnings, addNotification } = get();
         const existing = adminWarnings[userId] || [];
