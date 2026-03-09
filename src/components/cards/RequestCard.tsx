@@ -175,18 +175,18 @@ export function RequestCard({ request, onJoin, onView, isJoined, className }: Re
             <span className="text-[11px] text-muted-foreground font-medium hover:text-foreground transition-colors flex items-center gap-1">
               {request.userName}
               {(request.userTrust === 'trusted' || request.userTrust === 'anchor') && (
-                <BadgeCheck size={16} className="text-primary" strokeWidth={2.5} />
+                <BadgeCheck size={14} className="text-primary" strokeWidth={2.5} />
               )}
               {request.userReliability && <span className="ml-0.5">• ⭐ {request.userReliability}% reliable</span>}
             </span>
           </button>
           
-          <div className="flex items-center gap-2">
-            <button onClick={handleSaveClick} className="tap-scale p-1">
-              <Heart size={15} className={cn(isSaved ? 'fill-destructive text-destructive' : 'text-muted-foreground/40 hover:text-muted-foreground/60 transition-colors')} />
+          <div className="flex items-center gap-1.5">
+            <button onClick={handleSaveClick} className="tap-scale p-0.5">
+              <Heart size={14} className={cn(isSaved ? 'fill-destructive text-destructive' : 'text-muted-foreground/40 hover:text-muted-foreground/60 transition-colors')} />
             </button>
             <button onClick={handleShareClick} className="tap-scale hover:text-foreground transition-colors">
-              <Share2 size={14} className="text-muted-foreground" />
+              <Share2 size={13} className="text-muted-foreground" />
             </button>
           </div>
         </div>
