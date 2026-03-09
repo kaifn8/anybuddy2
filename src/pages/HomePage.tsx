@@ -210,7 +210,7 @@ export default function HomePage() {
 
       {/* Category filters */}
       <div className="px-5 pb-1">
-        <div className="flex gap-1.5 overflow-x-auto pb-1.5 -mx-5 px-5 scrollbar-hide">
+        <div className="flex gap-1.5 overflow-x-auto pb-1.5 -mx-5 px-5 scrollbar-hide lg:mx-0 lg:px-0 lg:flex-wrap">
           {FILTERS.map((cat) => (
             <button key={cat.id} onClick={() => setActiveFilter(cat.id)}
               className={cn('shrink-0 px-2.5 py-1 rounded-full text-[11px] font-medium tap-scale transition-all flex items-center gap-1',
