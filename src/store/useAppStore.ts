@@ -146,6 +146,9 @@ interface AppState {
   approveJoinRequest: (requestId: string, userId: string) => void;
   declineJoinRequest: (requestId: string, userId: string) => void;
   endPlanEarly: (requestId: string) => void;
+  // Seat reservation
+  reserveSeat: (requestId: string) => void;
+  releaseReservation: (requestId: string) => void;
   // Admin actions
   adminWarnings: Record<string, string[]>;
   pricingConfig: PricingConfig;
