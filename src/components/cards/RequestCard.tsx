@@ -63,6 +63,7 @@ export function RequestCard({ request, onJoin, onView, isJoined, className }: Re
   
   const seatsLeft = request.seatsTotal - request.seatsTaken;
   const timeIndicator = getTimeIndicator(request);
+  const hotIndicator = getHotIndicator(request);
   const isSaved = user?.savedPlans?.includes(request.id);
   
   const handleJoinClick = (e: React.MouseEvent) => {
