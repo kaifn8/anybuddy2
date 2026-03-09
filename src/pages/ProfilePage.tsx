@@ -206,28 +206,6 @@ export default function ProfilePage() {
               </div>
             )}
           </TabsContent>
-
-          {/* Details Tab */}
-          <TabsContent value="details" className="space-y-4 mt-4">
-            {/* Host Stats */}
-            <ProfileSection title="Host Performance">
-              <div className="space-y-0">
-                {hostStats.map((s, i) => (
-                  <div key={i} className="flex items-center justify-between py-2.5 border-b border-border/20 last:border-b-0">
-                    <span className="text-xs text-muted-foreground flex items-center gap-2.5">
-                      <span className="text-sm">{s.icon}</span>
-                      <span>{s.label}</span>
-                    </span>
-                    <span className="text-sm font-bold tabular-nums">{s.value}</span>
-                  </div>
-                ))}
-              </div>
-            </ProfileSection>
-
-            <Button onClick={() => navigate('/credits')} variant="secondary" className="w-full" size="sm">
-              View Credits & Trust Level →
-            </Button>
-          </TabsContent>
         </Tabs>
 
         {/* Bottom spacer */}
