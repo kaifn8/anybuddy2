@@ -1,7 +1,13 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Heart, Share2 } from 'lucide-react';
+import { Heart, Share2, BadgeCheck } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
+import type { Request, Category } from '@/types/anybuddy';
+import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
+import { UrgencyBadge } from '@/components/ui/UrgencyBadge';
+import { ShareSheet } from '@/components/ShareSheet';
+import { useAppStore } from '@/store/useAppStore';
+import { cn } from '@/lib/utils';
 import type { Request, Category } from '@/types/anybuddy';
 import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
 import { UrgencyBadge } from '@/components/ui/UrgencyBadge';
