@@ -76,13 +76,13 @@ export default function CreditsPage() {
         
         {/* How to earn */}
         <div className="liquid-glass p-4">
-          <h3 className="text-xs font-semibold text-muted-foreground mb-3">HOW TO EARN</h3>
+          <h3 className="text-xs font-semibold text-muted-foreground mb-3">STACK MORE CREDITS</h3>
           <div className="space-y-2.5">
             {[
-              { emoji: '🤝', amount: '+0.5', action: "Join someone's request" },
-              { emoji: '✅', amount: '+1', action: 'Complete a meetup' },
-              { emoji: '⭐', amount: '+2', action: 'Get a positive rating' },
-              { emoji: '🔥', amount: '+1', action: 'Weekly active bonus' },
+              { emoji: '🤝', amount: '+0.5', action: 'Join a plan' },
+              { emoji: '✅', amount: '+1', action: 'Actually show up' },
+              { emoji: '⭐', amount: '+2', action: 'Get rated 5 stars' },
+              { emoji: '🔥', amount: '+1', action: 'Active 7 days straight' },
             ].map((item, i) => (
               <div key={i} className="flex items-center gap-2.5">
                 <span className="text-sm">{item.emoji}</span>
