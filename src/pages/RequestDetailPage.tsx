@@ -121,6 +121,9 @@ export default function RequestDetailPage() {
             <button onClick={() => navigate('/map')} className="flex items-center gap-1.5 text-[12px] text-primary font-semibold tap-scale">
               📍 View on map
             </button>
+            <button onClick={() => setShowReport(true)} className="flex items-center gap-1.5 text-[12px] text-destructive/70 font-semibold tap-scale ml-auto">
+              <Flag size={12} /> Report
+            </button>
           </div>
         </div>
 
