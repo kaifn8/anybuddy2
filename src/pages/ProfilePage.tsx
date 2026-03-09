@@ -76,6 +76,9 @@ export default function ProfilePage() {
           stats={stats}
         />
 
+        {/* Selfie verification card */}
+        <VerificationCard />
+
         {/* Invite nudge — slim */}
         <button
           onClick={() => navigate('/invite')}
