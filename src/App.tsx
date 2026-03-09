@@ -26,6 +26,7 @@ import AdminUsers from "./pages/admin/AdminUsers";
 import AdminVerification from "./pages/admin/AdminVerification";
 import AdminModeration from "./pages/admin/AdminModeration";
 import AdminPricing from "./pages/admin/AdminPricing";
+import AdminUserDetail from "./pages/admin/AdminUserDetail";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
