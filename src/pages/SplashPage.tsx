@@ -8,21 +8,21 @@ export default function SplashPage() {
   const { user, isOnboarded } = useAppStore();
   
   const containerRef = useRef<HTMLDivElement>(null);
-  const emojiRef = useRef<HTMLDivElement>(null);
-  const titleRef = useRef<HTMLHeadingElement>(null);
+  const logoRef = useRef<HTMLDivElement>(null);
+  const taglineRef = useRef<HTMLParagraphElement>(null);
   
   useEffect(() => {
     const tl = gsap.timeline();
-    gsap.set([emojiRef.current, titleRef.current], { opacity: 0 });
+    gsap.set([logoRef.current, taglineRef.current], { opacity: 0 });
     
-    tl.fromTo(emojiRef.current, 
-      { opacity: 0, scale: 0.5, y: 16 },
-      { opacity: 1, scale: 1, y: 0, duration: 0.6, ease: 'back.out(1.7)' }
+    tl.fromTo(logoRef.current, 
+      { opacity: 0, scale: 0.85, y: 10 },
+      { opacity: 1, scale: 1, y: 0, duration: 0.5, ease: 'power3.out' }
     )
-    .fromTo(titleRef.current,
-      { opacity: 0, y: 12 },
-      { opacity: 1, y: 0, duration: 0.4, ease: 'power3.out' },
-      '-=0.25'
+    .fromTo(taglineRef.current,
+      { opacity: 0, y: 8 },
+      { opacity: 0.5, y: 0, duration: 0.4, ease: 'power2.out' },
+      '-=0.15'
     );
     
     const timer = setTimeout(() => {
@@ -38,14 +38,24 @@ export default function SplashPage() {
   return (
     <div 
       ref={containerRef}
-      className="mobile-container flex flex-col items-center justify-center min-h-screen"
-      style={{
-        background: 'linear-gradient(160deg, hsl(211 100% 50%) 0%, hsl(240 80% 55%) 50%, hsl(260 50% 56%) 100%)',
-      }}
+      className="mobile-container flex flex-col items-center justify-center min-h-screen bg-ambient relative overflow-hidden"
     >
-      <div className="flex flex-col items-center">
-        <div ref={emojiRef} className="text-6xl mb-5">🤙</div>
-        <h1 ref={titleRef} className="text-hero font-bold text-white">anybuddy</h1>
+      {/* Ambient gradient orbs */}
+      <div className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-primary/10 blur-3xl" />
+      <div className="absolute bottom-1/3 right-1/4 w-48 h-48 rounded-full bg-secondary/10 blur-3xl" />
+      
+      <div className="flex flex-col items-center relative z-10">
+        <div ref={logoRef}>
+          <span 
+            className="text-[36px] text-foreground"
+            style={{ fontFamily: "'Pacifico', cursive" }}
+          >
+            any<span className="text-primary">buddy</span>
+          </span>
+        </div>
+        <p ref={taglineRef} className="text-[13px] text-muted-foreground mt-2 font-medium tracking-wide">
+          someone's always nearby
+        </p>
       </div>
     </div>
   );
