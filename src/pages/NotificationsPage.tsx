@@ -118,9 +118,9 @@ export default function NotificationsPage() {
               <p>• A plan starts soon nearby</p>
               <p>• New plans appear in your area</p>
             </div>
-            <button onClick={() => navigate('/home')} className="tahoe-btn-primary h-9 px-5 tap-scale text-xs font-semibold">
+            <Button onClick={() => navigate('/home')} size="sm">
               Browse Plans
-            </button>
+            </Button>
           </div>
         )}
 
