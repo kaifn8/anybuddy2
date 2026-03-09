@@ -149,7 +149,20 @@ export default function SettingsPage() {
     navigate('/');
   };
   
-  if (!user) return null;
+  if (!user) {
+    return (
+      <div className="mobile-container min-h-screen bg-ambient pb-24">
+        <TopBar showBack title="Settings" />
+        <div className="flex flex-col items-center justify-center px-8 pt-32">
+          <span className="text-5xl block mb-4">⚙️</span>
+          <p className="text-sm font-medium text-foreground mb-1">Settings</p>
+          <p className="text-xs text-muted-foreground mb-5">Sign in to manage your preferences</p>
+          <Button onClick={() => navigate('/signup')} className="h-11 px-8">Sign In</Button>
+        </div>
+        <BottomNav />
+      </div>
+    );
+  }
   
   return (
     <div className="mobile-container min-h-screen bg-ambient pb-24">
