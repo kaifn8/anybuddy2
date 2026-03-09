@@ -17,6 +17,7 @@ export default function HostProfilePage() {
   const { userId } = useParams<{ userId: string }>();
   const navigate = useNavigate();
   const { requests } = useAppStore();
+  const [showReport, setShowReport] = useState(false);
 
   const hostRequests = requests.filter(r => r.userId === userId);
   const host = hostRequests[0];
