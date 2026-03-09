@@ -135,11 +135,14 @@ export default function ProfilePage() {
         )}
         
         {/* Interests */}
-        <div className="liquid-glass-heavy p-4">
-          <h3 className="text-xs font-semibold text-muted-foreground mb-2.5">INTERESTS</h3>
-          <div className="flex flex-wrap gap-1.5">
+        <div className="liquid-glass-heavy p-4 rounded-3xl">
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="text-xs font-semibold text-muted-foreground">INTERESTS</h3>
+            <button className="text-[11px] text-primary font-semibold tap-scale">Edit interests</button>
+          </div>
+          <div className="flex flex-wrap gap-2">
             {user.interests.map((interest) => (
-              <div key={interest} className="liquid-glass-subtle flex items-center gap-1 px-3 py-1.5 text-xs font-medium">
+              <div key={interest} className="liquid-glass-subtle flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-medium border border-border/30">
                 <span>{getCategoryEmoji(interest)}</span>
                 <span>{getCategoryLabel(interest)}</span>
               </div>
