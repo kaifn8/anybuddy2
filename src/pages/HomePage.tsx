@@ -139,8 +139,23 @@ export default function HomePage() {
 
   
   return (
-    <div className="mobile-container min-h-screen bg-ambient pb-24">
-      <TopBar />
+    <div className="mobile-container min-h-screen bg-ambient pb-24 lg:pb-8">
+      <div className="lg:hidden">
+        <TopBar />
+      </div>
+      
+      {/* Desktop welcome header */}
+      <div className="hidden lg:flex items-center justify-between px-5 pt-4 pb-2">
+        <div>
+          <h1 className="text-xl font-bold text-foreground">
+            {user ? `Hey ${user.firstName} 👋` : 'Discover plans nearby'}
+          </h1>
+          <p className="text-sm text-muted-foreground mt-0.5">Find people to hang out with right now</p>
+        </div>
+        <button onClick={() => navigate('/create')} className="hidden lg:flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2.5 rounded-xl font-semibold text-sm tap-scale shadow-lg shadow-primary/20">
+          🪄 Create a plan
+        </button>
+      </div>
       
       {/* Greeting - compact */}
 
@@ -152,7 +167,7 @@ export default function HomePage() {
           <h3 className="text-[15px] font-bold text-foreground mb-3.5 flex items-center gap-1.5">
             <span>🔥</span> Filling up fast
           </h3>
-          <div ref={trendingRef} className="flex gap-3.5 overflow-x-auto scrollbar-hide -mx-5 px-5 pb-1">
+          <div ref={trendingRef} className="flex gap-3.5 overflow-x-auto scrollbar-hide -mx-5 px-5 pb-1 lg:mx-0 lg:px-0 lg:flex-wrap">
             {trending.map((req, i) => {
               const seatsLeft = req.seatsTotal - req.seatsTaken;
               const fillPercent = Math.round((req.seatsTaken / req.seatsTotal) * 100);
@@ -163,7 +178,7 @@ export default function HomePage() {
               ];
               return (
                 <button key={req.id} onClick={() => navigate(`/request/${req.id}`)}
-                  className="shrink-0 tap-scale min-w-[210px] max-w-[230px] rounded-2xl overflow-hidden text-left"
+                  className="shrink-0 tap-scale min-w-[210px] max-w-[230px] lg:min-w-[260px] lg:max-w-[300px] rounded-2xl overflow-hidden text-left"
                   style={{
                     background: tints[i % tints.length],
                     backdropFilter: 'blur(20px)',
@@ -197,7 +212,7 @@ export default function HomePage() {
 
       {/* Category filters */}
       <div className="px-5 pb-1">
-        <div className="flex gap-1.5 overflow-x-auto pb-1.5 -mx-5 px-5 scrollbar-hide">
+        <div className="flex gap-1.5 overflow-x-auto pb-1.5 -mx-5 px-5 scrollbar-hide lg:mx-0 lg:px-0 lg:flex-wrap">
           {FILTERS.map((cat) => (
             <button key={cat.id} onClick={() => setActiveFilter(cat.id)}
               className={cn('shrink-0 px-2.5 py-1 rounded-full text-[11px] font-medium tap-scale transition-all flex items-center gap-1',
@@ -212,7 +227,7 @@ export default function HomePage() {
         </div>
 
         {/* Quick filters */}
-        <div className="flex gap-1.5 overflow-x-auto pb-2 -mx-5 px-5 scrollbar-hide mt-1.5">
+        <div className="flex gap-1.5 overflow-x-auto pb-2 -mx-5 px-5 scrollbar-hide mt-1.5 lg:mx-0 lg:px-0 lg:flex-wrap">
           {QUICK_FILTERS.map((f) => (
             <button key={f.id} onClick={() => setQuickFilter(quickFilter === f.id ? null : f.id)}
               className={cn('shrink-0 px-2.5 py-1 rounded-full text-[10px] font-semibold tap-scale transition-all',
