@@ -65,8 +65,8 @@ export default function SettingsPage() {
           icon: '🎨', 
           label: 'Dark Mode', 
           type: 'toggle',
-          value: darkMode,
-          onChange: setDarkMode
+          value: isDark,
+          onChange: () => toggleTheme()
         },
         { 
           icon: '🔊', 
