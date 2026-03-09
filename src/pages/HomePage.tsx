@@ -176,7 +176,7 @@ export default function HomePage() {
               ];
               return (
                 <button key={req.id} onClick={() => navigate(`/request/${req.id}`)}
-                  className="shrink-0 tap-scale min-w-[210px] max-w-[230px] rounded-2xl overflow-hidden text-left"
+                  className="shrink-0 tap-scale min-w-[210px] max-w-[230px] lg:min-w-[260px] lg:max-w-[300px] rounded-2xl overflow-hidden text-left"
                   style={{
                     background: tints[i % tints.length],
                     backdropFilter: 'blur(20px)',
