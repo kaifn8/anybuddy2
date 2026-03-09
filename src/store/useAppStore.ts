@@ -81,6 +81,24 @@ export interface FlaggedMessage {
   status: 'pending' | 'removed' | 'cleared';
 }
 
+export interface PricingConfig {
+  base: number;
+  now: number;
+  today: number;
+  week: number;
+  joinEarn: number;
+  signupBonus: number;
+  referral: number;
+}
+
+const DEFAULT_PRICING_CONFIG: PricingConfig = {
+  base: 1, now: 0.5, today: 0.25, week: 0, joinEarn: 0.5, signupBonus: 3, referral: 1,
+};
+
+const DEFAULT_TRUST_DISCOUNTS: Record<TrustLevel, number> = {
+  seed: 0, solid: 10, trusted: 20, anchor: 35,
+};
+
 interface AppState {
   user: User | null;
   isOnboarded: boolean;
