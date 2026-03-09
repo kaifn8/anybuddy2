@@ -251,17 +251,72 @@ export default function SignupPage() {
           
           {/* Zone */}
           {step === 'zone' && (
-            <div className="space-y-5">
-              <div className="grid grid-cols-2 gap-2">
-                {zones.map((z) => (
-                  <Button key={z} onClick={() => setZone(z)}
-                    variant={zone === z ? 'default' : 'secondary'}
-                    className="py-3 px-3 h-auto text-xs text-left justify-start"
-                  >
-                    📍 {z}
-                  </Button>
-                ))}
+            <div className="space-y-4">
+              {/* City selection */}
+              <div>
+                <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider mb-2.5">Select your city</p>
+                <div className="flex gap-2">
+                  {cities.map((city) => (
+                    <button
+                      key={city.name}
+                      onClick={() => { setSelectedCity(city.name); setZone(''); }}
+                      className={cn(
+                        'flex-1 flex flex-col items-center gap-1.5 py-3.5 px-2 rounded-2xl border-2 transition-all tap-scale',
+                        selectedCity === city.name
+                          ? 'border-primary bg-primary/10 shadow-md shadow-primary/10'
+                          : 'border-border/30 bg-background/50 hover:border-border/50'
+                      )}
+                    >
+                      <span className="text-2xl">{city.emoji}</span>
+                      <span className={cn(
+                        'text-[11px] font-semibold',
+                        selectedCity === city.name ? 'text-primary' : 'text-foreground'
+                      )}>{city.name}</span>
+                    </button>
+                  ))}
+                </div>
               </div>
+
+              {/* Zone selection — show after city */}
+              {selectedCity && (
+                <div className="animate-fade-in">
+                  <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider mb-2.5">
+                    Where in {selectedCity}?
+                  </p>
+                  <div className="grid grid-cols-2 gap-2">
+                    {cities.find(c => c.name === selectedCity)?.zones.map((z) => (
+                      <button
+                        key={z}
+                        onClick={() => setZone(z)}
+                        className={cn(
+                          'flex items-center gap-2 py-2.5 px-3 rounded-xl border transition-all tap-scale text-left',
+                          zone === z
+                            ? 'border-primary bg-primary/10 shadow-sm'
+                            : 'border-border/30 bg-background/50 hover:border-border/50'
+                        )}
+                      >
+                        <span className={cn(
+                          'w-2 h-2 rounded-full shrink-0',
+                          zone === z ? 'bg-primary' : 'bg-muted-foreground/30'
+                        )} />
+                        <span className={cn(
+                          'text-[12px] font-medium',
+                          zone === z ? 'text-primary' : 'text-foreground'
+                        )}>{z}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Selected summary */}
+              {zone && (
+                <div className="flex items-center justify-center gap-2 py-2.5 px-4 rounded-2xl bg-success/10 border border-success/20 animate-scale-in">
+                  <span className="text-success text-sm">📍</span>
+                  <span className="text-[12px] font-semibold text-success">{zone}, {selectedCity}</span>
+                </div>
+              )}
+
               <Button className="w-full h-12" onClick={handleComplete} disabled={!zone || interests.length < 2}>Let's Go</Button>
             </div>
           )}
