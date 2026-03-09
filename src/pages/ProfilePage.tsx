@@ -73,7 +73,6 @@ export default function ProfilePage() {
           user={user}
           joinText={joinText}
           stats={stats}
-          onSettings={() => navigate('/settings')}
         />
 
         {/* Invite nudge — slim */}
