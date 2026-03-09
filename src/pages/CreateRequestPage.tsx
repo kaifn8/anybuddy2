@@ -111,10 +111,10 @@ export default function CreateRequestPage() {
           <label className="text-xs font-medium text-muted-foreground mb-2 block">When?</label>
           <div className="flex gap-2">
             {([{ v: 'now' as Urgency, l: '⚡ Now' }, { v: 'today' as Urgency, l: '☀️ Today' }, { v: 'week' as Urgency, l: '📅 Week' }]).map((u) => (
-              <button key={u.v} onClick={() => setUrgency(u.v)}
-                className={cn('flex-1 py-3 rounded-xl text-sm font-semibold transition-all tap-scale',
-                  urgency === u.v ? 'tahoe-btn-primary' : 'liquid-glass text-foreground'
-                )}>{u.l}</button>
+              <Button key={u.v} onClick={() => setUrgency(u.v)}
+                variant={urgency === u.v ? 'default' : 'secondary'}
+                className="flex-1 py-3 h-auto text-sm"
+              >{u.l}</Button>
             ))}
           </div>
         </div>
