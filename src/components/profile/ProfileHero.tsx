@@ -1,14 +1,13 @@
-import { MapPin, BadgeCheck, ShieldCheck, Settings } from 'lucide-react';
+import { MapPin, BadgeCheck, ShieldCheck } from 'lucide-react';
 import type { Badge, User } from '@/types/anybuddy';
 
 interface ProfileHeroProps {
   user: User & { badges: Badge[] };
   joinText: string;
   stats: { value: string | number; label: string }[];
-  onSettings: () => void;
 }
 
-export function ProfileHero({ user, joinText, stats, onSettings }: ProfileHeroProps) {
+export function ProfileHero({ user, joinText, stats }: ProfileHeroProps) {
   const reliabilityColor =
     user.reliabilityScore >= 90 ? 'text-success' :
     user.reliabilityScore >= 70 ? 'text-warning' :
@@ -22,11 +21,6 @@ export function ProfileHero({ user, joinText, stats, onSettings }: ProfileHeroPr
       <div className="absolute -bottom-8 -left-8 w-36 h-36 rounded-full bg-secondary/8 blur-3xl" />
 
       <div className="relative liquid-glass-heavy rounded-3xl">
-        {/* Settings button */}
-        <button onClick={onSettings} className="absolute top-4 right-4 tap-scale p-1.5 rounded-xl bg-background/30 hover:bg-background/50 transition-colors">
-          <Settings size={16} className="text-muted-foreground" />
-        </button>
-
         {/* Top: Avatar + Name */}
         <div className="flex flex-col items-center px-5 pt-6 pb-4">
           {/* Avatar */}

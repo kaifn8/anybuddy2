@@ -65,7 +65,7 @@ export default function ProfilePage() {
 
   return (
     <div className="mobile-container min-h-screen bg-ambient pb-28">
-      <TopBar title="Profile" hideChat />
+      <TopBar title="Profile" hideChat showSettings />
 
       <div className="px-4 pt-3 space-y-3">
         {/* Hero — avatar, name, verification, location, join date + stats */}
@@ -73,7 +73,6 @@ export default function ProfilePage() {
           user={user}
           joinText={joinText}
           stats={stats}
-          onSettings={() => navigate('/settings')}
         />
 
         {/* Invite nudge — slim */}
