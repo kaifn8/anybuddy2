@@ -20,7 +20,12 @@ import NotificationsPage from "./pages/NotificationsPage";
 import ProfilePage from "./pages/ProfilePage";
 import InviteFriendsPage from "./pages/InviteFriendsPage";
 import SettingsPage from "./pages/SettingsPage";
-import AdminPage from "./pages/AdminPage";
+import AdminLayout from "./pages/admin/AdminLayout";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminUsers from "./pages/admin/AdminUsers";
+import AdminVerification from "./pages/admin/AdminVerification";
+import AdminModeration from "./pages/admin/AdminModeration";
+import AdminPricing from "./pages/admin/AdminPricing";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -48,7 +53,13 @@ const App = () => (
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/invite" element={<InviteFriendsPage />} />
           <Route path="/settings" element={<SettingsPage />} />
-          <Route path="/admin" element={<AdminPage />} />
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route index element={<AdminDashboard />} />
+            <Route path="users" element={<AdminUsers />} />
+            <Route path="verification" element={<AdminVerification />} />
+            <Route path="moderation" element={<AdminModeration />} />
+            <Route path="pricing" element={<AdminPricing />} />
+          </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
