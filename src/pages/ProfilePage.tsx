@@ -118,9 +118,9 @@ export default function ProfilePage() {
                   style={{ boxShadow: '0px 2px 10px rgba(0,0,0,0.05)' }}>
                   <span className="text-lg">{getCategoryEmoji(req.category)}</span>
                   <div className="flex-1 min-w-0">
-                    <p className="font-semibold text-[15px] truncate">{req.title}</p>
+                    <p className="font-semibold text-[14px] truncate">{req.title}</p>
                     <p className="text-[12px] text-muted-foreground mt-1">📍 {req.location.name} • {req.location.distance} km away</p>
-                    <p className="text-[12px] text-muted-foreground mt-0.5">👥 {req.seatsTaken} of {req.seatsTotal} spots filled</p>
+                    <p className="text-[12px] text-muted-foreground mt-0.5">{req.seatsTaken} of {req.seatsTotal} spots filled</p>
                   </div>
                 </button>
               ))}
@@ -157,8 +157,8 @@ export default function ProfilePage() {
                   style={{ boxShadow: '0px 2px 10px rgba(0,0,0,0.05)' }}>
                   <span className="text-lg">{getCategoryEmoji(req.category)}</span>
                   <div className="flex-1 min-w-0">
-                    <p className="font-semibold text-[15px] truncate">{req.title}</p>
-                    <p className="text-[12px] text-muted-foreground mt-1">👥 {req.seatsTaken} of {req.seatsTotal} spots filled • {req.status}</p>
+                    <p className="font-semibold text-[14px] truncate">{req.title}</p>
+                    <p className="text-[12px] text-muted-foreground mt-1">{req.seatsTaken} of {req.seatsTotal} spots filled • {req.status}</p>
                   </div>
                 </button>
               ))}
