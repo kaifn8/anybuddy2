@@ -243,13 +243,13 @@ export default function HomePage() {
         {filtered.length === 0 && (
           <div className="pt-8">
             <div className="text-center mb-6">
-              <span className="text-4xl block mb-3">🌊</span>
-              <p className="text-sm font-medium text-foreground mb-1">No plans nearby</p>
-              <p className="text-xs text-muted-foreground">Start one in 10 seconds 👇</p>
+              <span className="text-4xl block mb-3">😔</span>
+              <p className="text-sm font-medium text-foreground mb-1">Nothing happening... yet</p>
+              <p className="text-xs text-muted-foreground">Be the first. Someone's probably waiting.</p>
             </div>
             
             <div>
-              <h3 className="text-xs font-semibold text-muted-foreground mb-2 px-1">START A PLAN</h3>
+              <h3 className="text-xs font-semibold text-muted-foreground mb-2 px-1">START SOMETHING</h3>
               <div className="grid grid-cols-2 gap-2">
                 {QUICK_CREATE.map((s, i) => (
                   <button key={i} onClick={() => navigate('/create')}
