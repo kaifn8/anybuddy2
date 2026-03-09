@@ -48,18 +48,7 @@ export default function HomePage() {
   const autoScrollRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const userInteractedRef = useRef(false);
   
-  useEffect(() => {
-    const tl = gsap.timeline();
-    tl.fromTo(headerRef.current, { opacity: 0, y: -8 }, { opacity: 1, y: 0, duration: 0.3 });
-    if (cardsRef.current?.children) {
-      tl.fromTo(cardsRef.current.children,
-        { opacity: 0, y: 16 },
-        { opacity: 1, y: 0, duration: 0.35, stagger: 0.06, ease: 'power2.out' },
-        '-=0.1'
-      );
-    }
-
-  }, []);
+  // Removed startup animation per user request
   
   // Auto-scroll trending section
   useEffect(() => {
