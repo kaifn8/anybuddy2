@@ -119,6 +119,14 @@ export default function HostProfilePage() {
           </div>
         )}
       </div>
+
+      <ReportDialog
+        open={showReport}
+        onClose={() => setShowReport(false)}
+        targetId={host.userId}
+        targetName={host.userName}
+        targetType="user"
+      />
     </div>
   );
 }

@@ -206,6 +206,14 @@ export default function RequestDetailPage() {
 
       <ShareSheet open={showShare} onClose={() => setShowShare(false)} title={request.title}
         text={`${request.title}\n📍 ${request.location.name}\nStarts in ${timeLeft}\nJoin here 👇`} />
+
+      <ReportDialog
+        open={showReport}
+        onClose={() => setShowReport(false)}
+        targetId={request.id}
+        targetName={request.title}
+        targetType="plan"
+      />
     </div>
   );
 }
