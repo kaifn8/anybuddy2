@@ -12,6 +12,7 @@ import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
 import { UrgencyBadge } from '@/components/ui/UrgencyBadge';
 import { cn } from '@/lib/utils';
 import type { Category, Request } from '@/types/anybuddy';
+import { Button } from '@/components/ui/button';
 
 const CATEGORY_TINTS: Record<Category, string> = {
   chai: 'bg-amber-500/15 border-amber-400/30',
