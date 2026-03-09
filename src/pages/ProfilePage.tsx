@@ -130,9 +130,26 @@ export default function ProfilePage() {
               <ProfileSection title="Badges">
                 <div className="flex flex-wrap gap-2">
                   {user.badges.map((badge) => (
-                    <div key={badge} className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-accent/10 border border-accent/20">
-                      <span>{badgeLabels[badge]?.emoji}</span>
+                    <div key={badge} className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-accent/10 border border-accent/20">
+                      <span className="text-sm">{badgeLabels[badge]?.emoji}</span>
                       <span>{badgeLabels[badge]?.label}</span>
+                    </div>
+                  ))}
+                </div>
+              </ProfileSection>
+            )}
+
+            {/* Host Performance - moved here */}
+            {user.meetupsHosted > 0 && (
+              <ProfileSection title="Host Performance">
+                <div className="space-y-0">
+                  {hostStats.map((s, i) => (
+                    <div key={i} className="flex items-center justify-between py-2 border-b border-border/20 last:border-b-0">
+                      <span className="text-xs text-muted-foreground flex items-center gap-2">
+                        <span className="text-sm">{s.icon}</span>
+                        <span>{s.label}</span>
+                      </span>
+                      <span className="text-sm font-bold tabular-nums">{s.value}</span>
                     </div>
                   ))}
                 </div>
