@@ -392,6 +392,23 @@ export default function RequestDetailPage() {
           targetId={(reportTarget || { id: request.id }).id}
           targetName={(reportTarget || { name: request.title }).name}
           targetType={(reportTarget || { type: 'plan' as const }).type} />
+
+        <AlertDialog open={showLeaveWarning} onOpenChange={setShowLeaveWarning}>
+          <AlertDialogContent className="max-w-[320px] rounded-2xl">
+            <AlertDialogHeader>
+              <AlertDialogTitle className="text-base">Leave this plan?</AlertDialogTitle>
+              <AlertDialogDescription className="text-sm">
+                Your spot will be released and others can join. You won't be able to see the group chat anymore.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel className="rounded-xl">Stay</AlertDialogCancel>
+              <AlertDialogAction onClick={handleLeave} className="rounded-xl bg-destructive text-destructive-foreground hover:bg-destructive/90">
+                Leave plan
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
     );
   }
