@@ -160,7 +160,7 @@ export default function RequestDetailPage() {
                   msg.senderId === 'system'
                     ? 'liquid-glass-subtle text-muted-foreground text-center w-full text-xs'
                     : msg.senderId === user?.id
-                    ? 'tahoe-btn-primary rounded-br-md'
+                    ? 'bg-primary text-primary-foreground rounded-br-md'
                     : 'liquid-glass rounded-bl-md'
                 }`}>
                   {msg.senderId !== user?.id && msg.senderId !== 'system' && (
