@@ -1,9 +1,12 @@
+import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { TopBar } from '@/components/layout/TopBar';
 import { useAppStore } from '@/store/useAppStore';
 import { TrustBadge } from '@/components/ui/TrustBadge';
 import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
 import { Button } from '@/components/ui/button';
+import { Flag } from 'lucide-react';
+import { ReportDialog } from '@/components/ReportDialog';
 const FAKE_REVIEWS = [
   { name: 'Priya', rating: 5, comment: 'Great host — very chill meetup!', ago: '2 days ago' },
   { name: 'Arjun', rating: 4, comment: 'Really fun, would do it again.', ago: '1 week ago' },
