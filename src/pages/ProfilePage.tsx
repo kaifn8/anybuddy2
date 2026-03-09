@@ -113,10 +113,10 @@ export default function ProfilePage() {
 
             {/* Interests */}
             {user.interests.length > 0 && (
-              <ProfileSection title="Interests" action="Edit" onAction={() => {}}>
+              <ProfileSection title="Interests">
                 <div className="flex flex-wrap gap-2">
                   {user.interests.map((interest) => (
-                    <div key={interest} className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-medium bg-background/60 backdrop-blur-sm border border-border/40 transition-colors hover:border-primary/30">
+                    <div key={interest} className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium bg-background/60 backdrop-blur-sm border border-border/40">
                       <span className="text-sm">{getCategoryEmoji(interest)}</span>
                       <span>{getCategoryLabel(interest)}</span>
                     </div>
