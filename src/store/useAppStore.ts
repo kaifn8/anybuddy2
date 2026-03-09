@@ -625,7 +625,26 @@ export const useAppStore = create<AppState>()(
         }
       },
 
-      sendAdminWarning: (userId, userName, message) => {
+      reserveSeat: (requestId) => {
+        const { requests } = get();
+        set({
+          requests: requests.map(r => r.id === requestId
+            ? { ...r, seatsTaken: r.seatsTaken + 1 }
+            : r
+          ),
+        });
+      },
+
+      releaseReservation: (requestId) => {
+        const { requests } = get();
+        set({
+          requests: requests.map(r => r.id === requestId
+            ? { ...r, seatsTaken: Math.max(0, r.seatsTaken - 1) }
+            : r
+          ),
+        });
+      },
+
         const { adminWarnings, addNotification } = get();
         const existing = adminWarnings[userId] || [];
         set({ adminWarnings: { ...adminWarnings, [userId]: [...existing, message] } });
