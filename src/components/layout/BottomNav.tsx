@@ -23,7 +23,14 @@ export const BottomNav = React.forwardRef<HTMLElement, object>(function BottomNa
   return (
     <nav ref={ref} className="fixed bottom-0 left-0 right-0 z-50">
       <div className="max-w-md mx-auto px-4 pb-2">
-        <div className="flex items-center justify-around h-14 px-1" style={{ borderRadius: '1rem', background: 'rgba(230,240,255,0.85)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', border: '1px solid rgba(200,220,255,0.4)', boxShadow: '0 -2px 20px rgba(0,0,0,0.04)' }}>
+        <div 
+          className="flex items-center justify-around h-14 px-1 rounded-2xl border border-border/40 dark:border-white/10 bg-white/80 dark:bg-[rgb(18,18,24)]/85"
+          style={{ 
+            backdropFilter: 'blur(24px) saturate(180%)', 
+            WebkitBackdropFilter: 'blur(24px) saturate(180%)',
+            boxShadow: '0 -4px 20px rgba(0,0,0,0.05)'
+          }}
+        >
           {navItems.map((item) => {
             const isActive = location.pathname === item.path;
             
