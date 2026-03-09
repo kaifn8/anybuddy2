@@ -5,34 +5,34 @@ import { Button } from '@/components/ui/button';
 import { MapPin, ShieldCheck, BadgeCheck, Zap, Users, Star } from 'lucide-react';
 
 const slides = [
-  { id: 'people', title: 'Find Your People', description: 'Connect with people nearby who want the same things — right now.' },
-  { id: 'realtime', title: 'Real-Time Vibes', description: 'Post what you need in seconds. Watch as people nearby respond instantly.' },
-  { id: 'safe', title: 'Safe by Design', description: 'Trust levels, group chats, and no random DMs. Your safety comes first.' },
-  { id: 'credits', title: 'Credits & Trust', description: 'Earn credits by helping others. Build trust through real connections.' },
+  { id: 'people', title: "Someone's waiting", description: "Right now, people near you want the same thing. Don't miss them." },
+  { id: 'realtime', title: 'Gone in minutes', description: 'Post in 10 seconds. Get replies before your coffee cools.' },
+  { id: 'safe', title: 'No creeps. Ever.', description: 'No random DMs. No strangers stalking. Just group hangs with real people.' },
+  { id: 'credits', title: 'Give to get', description: 'Help others, earn credits. The more you give, the more you unlock.' },
 ];
 
 const NEARBY_PEOPLE = [
-  { name: 'Aarav', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Aarav', activity: 'Looking for coffee ☕', distance: '0.3 km' },
-  { name: 'Priya', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Priya', activity: 'Up for a walk 🚶', distance: '0.5 km' },
-  { name: 'Rohan', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Rohan', activity: 'Playing badminton 🏸', distance: '0.8 km' },
+  { name: 'Aarav', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Aarav', activity: 'Wants coffee now ☕', distance: '0.3 km' },
+  { name: 'Priya', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Priya', activity: 'Looking for walk buddy 🚶', distance: '0.5 km' },
+  { name: 'Rohan', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Rohan', activity: 'Needs +1 for badminton 🏸', distance: '0.8 km' },
 ];
 
 const LIVE_ACTIVITY = [
-  { emoji: '☕', text: 'Aarav posted "Coffee at Blue Tokai"', time: 'Just now', color: 'bg-amber-500/20 text-amber-600' },
-  { emoji: '✋', text: 'Priya joined your walk plan', time: '2 min ago', color: 'bg-emerald-500/20 text-emerald-600' },
-  { emoji: '💬', text: '3 new messages in "Evening Run"', time: '5 min ago', color: 'bg-blue-500/20 text-blue-600' },
+  { emoji: '☕', text: 'Aarav needs coffee buddy — 2 spots left', time: 'Just now', color: 'bg-amber-500/20 text-amber-600' },
+  { emoji: '✋', text: 'Priya joined your plan!', time: '2 min ago', color: 'bg-emerald-500/20 text-emerald-600' },
+  { emoji: '🔥', text: '"Evening Run" filling up fast', time: '5 min ago', color: 'bg-blue-500/20 text-blue-600' },
 ];
 
 const TRUST_FEATURES = [
-  { icon: ShieldCheck, label: 'Verified profiles', desc: 'Real people only' },
-  { icon: Users, label: 'Group chats', desc: 'No random DMs' },
-  { icon: BadgeCheck, label: 'Trust levels', desc: 'Build reputation' },
+  { icon: ShieldCheck, label: 'Verified humans', desc: 'No bots, no fakes' },
+  { icon: Users, label: 'Group-only', desc: 'Zero creepy DMs' },
+  { icon: BadgeCheck, label: 'Earn trust', desc: 'Show up, level up' },
 ];
 
 const EXAMPLE_PLANS = [
-  { emoji: '☕', title: 'Coffee in 20 min', time: '20 min', joined: 3 },
-  { emoji: '🏸', title: 'Badminton tonight', time: 'Today 7 PM', joined: 5 },
-  { emoji: '🚶', title: 'Walk at Marine Drive', time: '30 min', joined: 2 },
+  { emoji: '☕', title: 'Coffee in 20 min', time: '⏱ 20 min', joined: 3 },
+  { emoji: '🏸', title: 'Badminton — need 1 more', time: '🔥 Filling up', joined: 5 },
+  { emoji: '🚶', title: 'Marine Drive walk', time: '⚡ Starting soon', joined: 2 },
 ];
 
 export default function OnboardingPage() {

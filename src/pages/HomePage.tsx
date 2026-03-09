@@ -12,27 +12,27 @@ import type { Category, Request } from '@/types/anybuddy';
 
 const FILTERS: { id: Category | 'all'; label: string; emoji: string }[] = [
   { id: 'all', label: 'All', emoji: '🔥' },
-  { id: 'chai', label: 'Chai', emoji: '☕' },
+  { id: 'chai', label: 'Coffee', emoji: '☕' },
   { id: 'sports', label: 'Sports', emoji: '🏸' },
   { id: 'food', label: 'Food', emoji: '🍜' },
   { id: 'explore', label: 'Explore', emoji: '🧭' },
-  { id: 'work', label: 'Work', emoji: '💻' },
+  { id: 'work', label: 'Cowork', emoji: '💻' },
   { id: 'walk', label: 'Walk', emoji: '🚶' },
   { id: 'help', label: 'Help', emoji: '🤝' },
   { id: 'casual', label: 'Chill', emoji: '✨' },
 ];
 
 const QUICK_FILTERS = [
-  { id: 'near', label: '📍 Near me', sort: (a: Request, b: Request) => a.location.distance - b.location.distance },
-  { id: 'soon', label: '⚡ Starting soon', sort: (a: Request, b: Request) => new Date(a.expiresAt).getTime() - new Date(b.expiresAt).getTime() },
-  { id: 'popular', label: '🔥 Popular', sort: (a: Request, b: Request) => b.seatsTaken - a.seatsTaken },
+  { id: 'near', label: '📍 Closest first', sort: (a: Request, b: Request) => a.location.distance - b.location.distance },
+  { id: 'soon', label: '⚡ Starting now', sort: (a: Request, b: Request) => new Date(a.expiresAt).getTime() - new Date(b.expiresAt).getTime() },
+  { id: 'popular', label: '🔥 Filling fast', sort: (a: Request, b: Request) => b.seatsTaken - a.seatsTaken },
 ];
 
 const QUICK_CREATE: { emoji: string; title: string; category: Category }[] = [
-  { emoji: '☕', title: 'Coffee nearby', category: 'chai' },
-  { emoji: '🚶', title: 'Walk', category: 'walk' },
-  { emoji: '🍜', title: 'Dinner', category: 'food' },
-  { emoji: '🏸', title: 'Badminton', category: 'sports' },
+  { emoji: '☕', title: 'Grab coffee', category: 'chai' },
+  { emoji: '🚶', title: 'Go for walk', category: 'walk' },
+  { emoji: '🍜', title: 'Get food', category: 'food' },
+  { emoji: '🏸', title: 'Play sports', category: 'sports' },
 ];
 
 export default function HomePage() {
@@ -150,7 +150,7 @@ export default function HomePage() {
       {trending.length > 0 && (
         <div className="px-5 pt-3.5 mb-5">
           <h3 className="text-[15px] font-bold text-foreground mb-3.5 flex items-center gap-1.5">
-            <span>🔥</span> Popular nearby
+            <span>🔥</span> Filling up fast
           </h3>
           <div ref={trendingRef} className="flex gap-3.5 overflow-x-auto scrollbar-hide -mx-5 px-5 pb-1">
             {trending.map((req, i) => {
@@ -243,13 +243,13 @@ export default function HomePage() {
         {filtered.length === 0 && (
           <div className="pt-8">
             <div className="text-center mb-6">
-              <span className="text-4xl block mb-3">🌊</span>
-              <p className="text-sm font-medium text-foreground mb-1">No plans nearby</p>
-              <p className="text-xs text-muted-foreground">Start one in 10 seconds 👇</p>
+              <span className="text-4xl block mb-3">😔</span>
+              <p className="text-sm font-medium text-foreground mb-1">Nothing happening... yet</p>
+              <p className="text-xs text-muted-foreground">Be the first. Someone's probably waiting.</p>
             </div>
             
             <div>
-              <h3 className="text-xs font-semibold text-muted-foreground mb-2 px-1">START A PLAN</h3>
+              <h3 className="text-xs font-semibold text-muted-foreground mb-2 px-1">START SOMETHING</h3>
               <div className="grid grid-cols-2 gap-2">
                 {QUICK_CREATE.map((s, i) => (
                   <button key={i} onClick={() => navigate('/create')}
@@ -267,7 +267,7 @@ export default function HomePage() {
       {/* Quick create bar at bottom of feed */}
       {filtered.length > 0 && (
         <div className="px-5 mt-5 mb-2">
-          <h3 className="text-xs font-semibold text-muted-foreground mb-2 uppercase">Start a plan</h3>
+          <h3 className="text-xs font-semibold text-muted-foreground mb-2 uppercase">Need company?</h3>
           <div className="flex gap-2 overflow-x-auto scrollbar-hide -mx-5 px-5">
             {QUICK_CREATE.map((s, i) => (
               <button key={i} onClick={() => navigate('/create')}

@@ -28,7 +28,7 @@ export function JoinConfirmDialog({ open, onClose, onConfirm, request }: JoinCon
         <DialogHeader>
           <DialogTitle className="text-sm font-bold flex items-center gap-2">
             <span>{getCategoryEmoji(request.category)}</span>
-            Join this meetup?
+            You in?
           </DialogTitle>
           <DialogDescription className="sr-only">Confirm joining this plan</DialogDescription>
         </DialogHeader>
@@ -42,8 +42,10 @@ export function JoinConfirmDialog({ open, onClose, onConfirm, request }: JoinCon
           <p className="text-2xs text-muted-foreground mt-1.5">📍 {request.location.name} · {request.location.distance}km away</p>
           
           <div className="flex items-center gap-3 mt-2 text-2xs text-muted-foreground">
-            <span>⏱ Starts in {timeLeft}</span>
-            <span>👥 {seatsLeft} seat{seatsLeft !== 1 ? 's' : ''} left</span>
+            <span>⏱ {timeLeft} left to join</span>
+            <span className={seatsLeft <= 2 ? 'text-destructive font-semibold' : ''}>
+              👥 {seatsLeft === 0 ? 'Full!' : seatsLeft === 1 ? 'Last spot!' : `${seatsLeft} spots`}
+            </span>
           </div>
 
           {/* Attendees */}
@@ -76,10 +78,10 @@ export function JoinConfirmDialog({ open, onClose, onConfirm, request }: JoinCon
         </div>
         <div className="flex gap-2 mt-2">
           <Button variant="secondary" onClick={onClose} className="flex-1 h-10 text-xs">
-            Cancel
+            Not now
           </Button>
           <Button onClick={onConfirm} className="flex-1 h-10 text-xs" disabled={seatsLeft === 0}>
-            {seatsLeft === 0 ? 'Full' : 'Confirm Join'}
+            {seatsLeft === 0 ? 'Too late 😔' : "I'm in →"}
           </Button>
         </div>
       </DialogContent>

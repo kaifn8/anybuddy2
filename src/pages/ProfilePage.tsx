@@ -80,10 +80,10 @@ export default function ProfilePage() {
           onClick={() => navigate('/invite')}
           className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl tap-scale text-left border border-primary/15 bg-primary/[0.04] backdrop-blur-sm"
         >
-          <div className="w-8 h-8 rounded-xl bg-primary/10 flex items-center justify-center shrink-0 text-base">👋</div>
+          <div className="w-8 h-8 rounded-xl bg-primary/10 flex items-center justify-center shrink-0 text-base">🎁</div>
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-semibold text-foreground">Invite friends</p>
-            <p className="text-[10px] text-muted-foreground">More friends = more plans nearby</p>
+            <p className="text-sm font-semibold text-foreground">Bring your crew</p>
+            <p className="text-[10px] text-muted-foreground">3 friends = double credits 🔥</p>
           </div>
           <Share2 size={15} className="text-primary shrink-0" />
         </button>

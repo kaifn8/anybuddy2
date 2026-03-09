@@ -18,7 +18,7 @@ export default function InviteFriendsPage() {
   // Generate unique invite link (in real app, this would be from backend)
   const inviteCode = user?.id ? `${user.id.slice(0, 8)}` : 'ANYBUDDY';
   const inviteLink = `https://anybuddy.app/join/${inviteCode}`;
-  const inviteMessage = `Hey! Join me on AnyBuddy - the app to meet new people and join local activities. Use my invite code: ${inviteCode}`;
+  const inviteMessage = `Yo! I found people to hang with through this app. Join me: ${inviteLink}`;
   
   const invitesLeft = 3; // From user data
   
@@ -43,10 +43,10 @@ export default function InviteFriendsPage() {
       <div className="px-5 pt-5 space-y-5">
         {/* Header */}
         <div className="text-center">
-          <div className="text-4xl mb-3">🎉</div>
-          <h2 className="text-xl font-bold mb-2">Invite your friends</h2>
+          <div className="text-4xl mb-3">🚀</div>
+          <h2 className="text-xl font-bold mb-2">Your friends are missing out</h2>
           <p className="text-sm text-muted-foreground">
-            Share AnyBuddy with friends and get rewards when they join
+            Every friend you invite = 1 free credit for you both
           </p>
         </div>
         
@@ -54,8 +54,8 @@ export default function InviteFriendsPage() {
         <div className="liquid-glass-heavy p-4 rounded-3xl">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-semibold">Invites remaining</p>
-              <p className="text-2xs text-muted-foreground mt-0.5">Invite more friends to unlock rewards</p>
+              <p className="text-sm font-semibold">Invites left this week</p>
+              <p className="text-2xs text-muted-foreground mt-0.5">Use them or lose them 👀</p>
             </div>
             <div className="text-3xl font-bold text-primary">{invitesLeft}</div>
           </div>

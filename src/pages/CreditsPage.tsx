@@ -44,9 +44,9 @@ export default function CreditsPage() {
         <div className="rounded-2xl p-5 text-white overflow-hidden relative"
           style={{ background: 'linear-gradient(135deg, hsl(211 100% 50%), hsl(240 75% 55%), hsl(260 50% 56%))' }}>
           <div className="absolute -right-6 -top-6 w-24 h-24 rounded-full blur-2xl bg-white/10" />
-          <p className="text-white/50 text-2xs font-semibold uppercase tracking-wider mb-1">Your Balance</p>
+          <p className="text-white/50 text-2xs font-semibold uppercase tracking-wider mb-1">Available to spend</p>
           <p ref={creditsRef} className="text-hero font-bold">0</p>
-          <p className="text-white/40 text-xs mt-2">Earn by joining · Spend to post</p>
+          <p className="text-white/40 text-xs mt-2">Show up = earn more</p>
         </div>
         
         {/* Trust level */}
@@ -62,7 +62,7 @@ export default function CreditsPage() {
           {nextTrust && (
             <div className="mt-3 pt-3 border-t border-border/20">
               <div className="flex justify-between text-2xs mb-1.5">
-                <span className="text-muted-foreground">Progress to {nextTrust}</span>
+                <span className="text-muted-foreground">{nextReq! - (user?.completedJoins || 0)} more to unlock {nextTrust}</span>
                 <span className="font-semibold">{user?.completedJoins || 0}/{nextReq}</span>
               </div>
               <ProgressBar value={user?.completedJoins || 0} max={nextReq || 1} size="md" />
@@ -70,19 +70,19 @@ export default function CreditsPage() {
           )}
           
           {!nextTrust && (
-            <p className="text-xs text-success font-semibold mt-2">🏆 Max trust level reached</p>
+            <p className="text-xs text-success font-semibold mt-2">🏆 You're a legend. Max trust.</p>
           )}
         </div>
         
         {/* How to earn */}
         <div className="liquid-glass p-4">
-          <h3 className="text-xs font-semibold text-muted-foreground mb-3">HOW TO EARN</h3>
+          <h3 className="text-xs font-semibold text-muted-foreground mb-3">STACK MORE CREDITS</h3>
           <div className="space-y-2.5">
             {[
-              { emoji: '🤝', amount: '+0.5', action: "Join someone's request" },
-              { emoji: '✅', amount: '+1', action: 'Complete a meetup' },
-              { emoji: '⭐', amount: '+2', action: 'Get a positive rating' },
-              { emoji: '🔥', amount: '+1', action: 'Weekly active bonus' },
+              { emoji: '🤝', amount: '+0.5', action: 'Join a plan' },
+              { emoji: '✅', amount: '+1', action: 'Actually show up' },
+              { emoji: '⭐', amount: '+2', action: 'Get rated 5 stars' },
+              { emoji: '🔥', amount: '+1', action: 'Active 7 days straight' },
             ].map((item, i) => (
               <div key={i} className="flex items-center gap-2.5">
                 <span className="text-sm">{item.emoji}</span>
@@ -115,8 +115,8 @@ export default function CreditsPage() {
             </div>
           ) : (
             <div className="text-center py-12 liquid-glass">
-              <span className="text-3xl block mb-2">🏁</span>
-              <p className="text-xs text-muted-foreground">No activity yet</p>
+              <span className="text-3xl block mb-2">👀</span>
+              <p className="text-xs text-muted-foreground">Join a plan to start earning</p>
             </div>
           )}
         </div>

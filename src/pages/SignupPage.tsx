@@ -18,15 +18,15 @@ const cities = [
 ];
 
 const stepConfig: Record<Step, { emoji: string; title: string; subtitle: string }> = {
-  method: { emoji: '👋', title: 'Welcome to AnyBuddy', subtitle: 'Choose how to sign in' },
-  phone: { emoji: '📱', title: "What's your number?", subtitle: "We'll text you a code" },
-  otp: { emoji: '🔐', title: 'Enter the code', subtitle: '' },
-  name: { emoji: '😊', title: "What's your name?", subtitle: 'How people will see you' },
-  photo: { emoji: '📸', title: 'Add a profile photo', subtitle: 'Helps people recognize you' },
-  bio: { emoji: '✍️', title: 'Write a short bio', subtitle: 'Tell people about yourself' },
-  age: { emoji: '🎂', title: 'Your age range', subtitle: 'Helps find the right crew' },
-  interests: { emoji: '🎯', title: "What's your vibe?", subtitle: 'Pick at least 2' },
-  zone: { emoji: '📍', title: 'Your zone', subtitle: 'Where you mostly hang out' },
+  method: { emoji: '👋', title: "Let's get you in", subtitle: 'Takes 30 seconds. No spam, ever.' },
+  phone: { emoji: '📱', title: 'Your number?', subtitle: "Quick verification — we won't call" },
+  otp: { emoji: '🔐', title: 'Enter code', subtitle: '' },
+  name: { emoji: '😊', title: 'What should we call you?', subtitle: 'First name only — keep it casual' },
+  photo: { emoji: '📸', title: 'Show your face', subtitle: 'People join plans from real humans' },
+  bio: { emoji: '✍️', title: 'One line about you', subtitle: 'Make people want to hang with you' },
+  age: { emoji: '🎂', title: 'Your crew age', subtitle: 'Match with people your vibe' },
+  interests: { emoji: '🎯', title: 'What gets you out?', subtitle: 'Pick 2+ to unlock your feed' },
+  zone: { emoji: '📍', title: 'Your turf', subtitle: 'Where most plans will happen' },
 };
 
 export default function SignupPage() {
