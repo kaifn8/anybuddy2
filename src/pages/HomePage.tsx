@@ -12,11 +12,11 @@ import type { Category, Request } from '@/types/anybuddy';
 
 const FILTERS: { id: Category | 'all'; label: string; emoji: string }[] = [
   { id: 'all', label: 'All', emoji: '🔥' },
-  { id: 'chai', label: 'Chai', emoji: '☕' },
+  { id: 'chai', label: 'Coffee', emoji: '☕' },
   { id: 'sports', label: 'Sports', emoji: '🏸' },
   { id: 'food', label: 'Food', emoji: '🍜' },
   { id: 'explore', label: 'Explore', emoji: '🧭' },
-  { id: 'work', label: 'Work', emoji: '💻' },
+  { id: 'work', label: 'Cowork', emoji: '💻' },
   { id: 'walk', label: 'Walk', emoji: '🚶' },
   { id: 'help', label: 'Help', emoji: '🤝' },
   { id: 'casual', label: 'Chill', emoji: '✨' },
