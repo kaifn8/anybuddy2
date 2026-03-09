@@ -296,15 +296,8 @@ export default function RequestDetailPage() {
 
             {/* Input row */}
             <div className="flex gap-2 items-end">
-              {/* Attachment buttons */}
-              <div className="flex gap-1 shrink-0 pb-1">
-                <button className="w-8 h-8 rounded-full bg-muted/30 flex items-center justify-center tap-scale hover:bg-muted/50 transition-colors">
-                  <Image size={16} className="text-muted-foreground" />
-                </button>
-              </div>
-
-              {/* Text input with emoji hint */}
-              <div className="flex-1 relative">
+              {/* Text input */}
+              <div className="flex-1">
                 <textarea
                   placeholder="Type a message..."
                   value={message}
@@ -316,28 +309,23 @@ export default function RequestDetailPage() {
                     }
                   }}
                   rows={1}
-                  className="w-full rounded-2xl bg-muted/40 min-h-[44px] max-h-[120px] px-4 py-3 pr-10 text-[14px] resize-none focus:outline-none focus:ring-2 focus:ring-primary/20 focus:bg-muted/50 transition-all placeholder:text-muted-foreground/40 leading-[1.4]"
+                  className="w-full rounded-2xl bg-muted/40 min-h-[44px] max-h-[120px] px-4 py-3 text-[14px] resize-none focus:outline-none focus:ring-2 focus:ring-primary/20 focus:bg-muted/50 transition-all placeholder:text-muted-foreground/40 leading-[1.4]"
                   style={{ height: message.split('\n').length > 1 ? 'auto' : '44px' }}
                 />
-                <button className="absolute right-3 bottom-3 tap-scale">
-                  <Smile size={18} className="text-muted-foreground/50 hover:text-muted-foreground transition-colors" />
-                </button>
               </div>
 
-              {/* Send / Voice button */}
+              {/* Send button */}
               <div className="shrink-0 pb-1">
-                {message.trim() ? (
-                  <button
-                    onClick={handleSend}
-                    className="w-10 h-10 rounded-full bg-primary flex items-center justify-center tap-scale shadow-lg shadow-primary/25 transition-all duration-200 hover:scale-105 hover:shadow-xl hover:shadow-primary/30"
-                  >
-                    <Send size={16} className="text-primary-foreground ml-0.5" />
-                  </button>
-                ) : (
-                  <button className="w-10 h-10 rounded-full bg-muted/40 flex items-center justify-center tap-scale hover:bg-muted/60 transition-colors">
-                    <Mic size={18} className="text-muted-foreground" />
-                  </button>
-                )}
+                <button
+                  onClick={handleSend}
+                  disabled={!message.trim()}
+                  className={cn(
+                    'w-10 h-10 rounded-full bg-primary flex items-center justify-center tap-scale shadow-lg shadow-primary/25 transition-all duration-200',
+                    message.trim() ? 'opacity-100 hover:scale-105 hover:shadow-xl hover:shadow-primary/30' : 'opacity-30 scale-90'
+                  )}
+                >
+                  <Send size={16} className="text-primary-foreground ml-0.5" />
+                </button>
               </div>
             </div>
 
