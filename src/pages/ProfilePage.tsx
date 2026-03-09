@@ -172,21 +172,50 @@ export default function ProfilePage() {
         )}
         
         {/* Host stats */}
-        <div className="liquid-glass p-4">
-          <h3 className="text-xs font-semibold text-muted-foreground mb-2">HOST STATS</h3>
-          <div className="space-y-2">
+        <div className="liquid-glass p-4 rounded-3xl">
+          <h3 className="text-xs font-semibold text-muted-foreground mb-3">HOST STATS</h3>
+          <div className="space-y-2.5">
             {[
-              { label: 'Plans hosted', value: user.meetupsHosted },
-              { label: 'Successful meetups', value: user.meetupsAttended },
-              { label: 'No-shows', value: user.noShows },
-              { label: 'Cancellations', value: user.cancellations },
+              { icon: '📅', label: 'Plans hosted', value: user.meetupsHosted },
+              { icon: '✅', label: 'Successful meetups', value: user.meetupsAttended },
+              { icon: '⚠️', label: 'No-shows', value: user.noShows },
+              { icon: '❌', label: 'Cancellations', value: user.cancellations },
             ].map((s, i) => (
-              <div key={i} className="flex justify-between text-xs">
-                <span className="text-muted-foreground">{s.label}</span>
+              <div key={i} className="flex items-center justify-between text-xs">
+                <span className="text-muted-foreground flex items-center gap-2">
+                  <span>{s.icon}</span>
+                  <span>{s.label}</span>
+                </span>
                 <span className="font-semibold">{s.value}</span>
               </div>
             ))}
           </div>
+        </div>
+        
+        {/* Past Meetups */}
+        <div>
+          <h3 className="text-xs font-semibold text-muted-foreground mb-3">PAST MEETUPS</h3>
+          {pastMeetups.length > 0 ? (
+            <div className="space-y-2">
+              {pastMeetups.map((req) => (
+                <button key={req.id} onClick={() => navigate(`/request/${req.id}`)}
+                  className="w-full liquid-glass p-3 rounded-2xl text-left tap-scale hover:bg-background/90 transition-colors flex items-center gap-3">
+                  <span className="text-lg">{getCategoryEmoji(req.category)}</span>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-semibold text-[13px] truncate">{req.title}</p>
+                    <p className="text-[11px] text-muted-foreground mt-0.5">{req.seatsTaken} people joined</p>
+                  </div>
+                </button>
+              ))}
+            </div>
+          ) : (
+            <div className="liquid-glass p-6 rounded-3xl text-center">
+              <p className="text-sm text-muted-foreground mb-2">No meetups yet.</p>
+              <button onClick={() => navigate('/home')} className="text-xs text-primary font-semibold tap-scale">
+                Join your first plan 👇
+              </button>
+            </div>
+          )}
         </div>
         
         {/* My requests */}
