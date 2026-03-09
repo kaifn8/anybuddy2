@@ -179,8 +179,7 @@ export default function HomePage() {
                     background: tints[i % tints.length],
                     backdropFilter: 'blur(20px)',
                     WebkitBackdropFilter: 'blur(20px)',
-                    border: '1px solid rgba(255,255,255,0.5)',
-                    boxShadow: '0 4px 20px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.6)',
+                    boxShadow: '0 4px 20px rgba(0,0,0,0.04)',
                   }}>
                   <div className="p-4">
                     <div className="flex items-center justify-between mb-2">
