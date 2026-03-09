@@ -145,15 +145,6 @@ export default function JoinRequestPage() {
           <div className="liquid-glass p-3.5" style={{ borderRadius: '1rem' }}>
             <h3 className="text-xs font-semibold text-muted-foreground mb-2">WHAT HAPPENS NEXT</h3>
             <ul className="space-y-2">
-              {isApprovalMode ? [
-                { emoji: '✋', text: 'Your request is sent to the host' },
-                { emoji: '🔔', text: 'You\'ll be notified when they respond' },
-                { emoji: '💬', text: 'Chat unlocks once approved' },
-              ] : [
-                { emoji: '🔒', text: 'Your spot is locked' },
-                { emoji: '💬', text: 'Group chat opens' },
-                { emoji: '📍', text: "You'll see the meetup spot" },
-              ]}
               {(isApprovalMode ? [
                 { emoji: '✋', text: 'Your request is sent to the host' },
                 { emoji: '🔔', text: 'You\'ll be notified when they respond' },
