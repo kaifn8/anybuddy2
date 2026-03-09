@@ -68,7 +68,7 @@ export default function RequestDetailPage() {
             <span className="text-2xl">{getCategoryEmoji(request.category)}</span>
             <div className="flex-1">
               {/* Title - prominent */}
-              <h2 className="font-semibold text-[17px] leading-tight mb-2">{request.title}</h2>
+              <h2 className="font-semibold text-[15px] leading-tight mb-2">{request.title}</h2>
               
               {/* Location + Distance merged */}
               <p className="text-[13px] text-muted-foreground font-medium mb-2">
@@ -91,7 +91,7 @@ export default function RequestDetailPage() {
                   )}
                 </div>
                 <span className="text-[12px] text-muted-foreground font-medium">
-                  👥 {request.seatsTaken} of {request.seatsTotal} spots filled
+                  {request.seatsTaken} of {request.seatsTotal} spots filled
                 </span>
               </div>
 
