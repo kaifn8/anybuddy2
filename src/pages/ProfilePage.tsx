@@ -101,20 +101,18 @@ export default function ProfilePage() {
           </div>
         </div>
         
-        {/* Profile actions */}
-        <div className="grid grid-cols-2 gap-3">
-          <Button variant="default" className="w-full" onClick={() => navigate('/edit-profile')}>
-            Edit Profile
+        {/* Invite Friends */}
+        <div className="liquid-glass-heavy p-4 rounded-3xl text-center">
+          <div className="flex items-center justify-between mb-3">
+            <span className="text-xs font-semibold text-muted-foreground">INVITES LEFT</span>
+            <span className="text-lg font-bold text-primary">3</span>
+          </div>
+          <span className="text-2xl block mb-2">👋</span>
+          <p className="text-sm font-semibold text-foreground">Invite friends to AnyBuddy</p>
+          <p className="text-2xs text-muted-foreground mt-1 mb-3">More friends = more plans nearby</p>
+          <Button onClick={() => navigate('/invite')} size="sm" className="mx-auto gap-1.5 w-full">
+            <Share2 size={14} /> Share Invite Link
           </Button>
-          <Button variant="outline" className="w-full" onClick={() => navigate('/invite')}>
-            Invite Friends
-          </Button>
-        </div>
-        
-        {/* Invite count */}
-        <div className="liquid-glass p-3 rounded-2xl flex items-center justify-between">
-          <span className="text-xs font-medium text-muted-foreground">🎟 Invites left</span>
-          <span className="text-sm font-bold text-primary">3</span>
         </div>
         
         {/* Stats grid */}
