@@ -44,6 +44,7 @@ export default function HomePage() {
   
   const headerRef = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<HTMLDivElement>(null);
+  const trendingRef = useRef<HTMLDivElement>(null);
   
   useEffect(() => {
     const tl = gsap.timeline();
@@ -54,6 +55,21 @@ export default function HomePage() {
         { opacity: 1, y: 0, duration: 0.35, stagger: 0.06, ease: 'power2.out' },
         '-=0.1'
       );
+    }
+
+    // Subtle pulse animation for trending cards
+    if (trendingRef.current?.children) {
+      gsap.to(trendingRef.current.children, {
+        scale: 1.02,
+        duration: 2,
+        ease: 'sine.inOut',
+        repeat: -1,
+        yoyo: true,
+        stagger: {
+          each: 0.3,
+          repeat: -1,
+        }
+      });
     }
   }, []);
   
@@ -116,7 +132,7 @@ export default function HomePage() {
           <h3 className="text-base font-bold text-foreground mb-4 flex items-center gap-1.5">
             <span>🔥</span> Popular nearby
           </h3>
-          <div className="flex gap-4 overflow-x-auto scrollbar-hide -mx-5 px-5 pb-1">
+          <div ref={trendingRef} className="flex gap-4 overflow-x-auto scrollbar-hide -mx-5 px-5 pb-1">
             {trending.map((req, i) => {
               const seatsLeft = req.seatsTotal - req.seatsTaken;
               const fillPercent = Math.round((req.seatsTaken / req.seatsTotal) * 100);
