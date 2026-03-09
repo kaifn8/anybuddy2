@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
-
+import { Button } from '@/components/ui/button';
 const slides = [
   { emoji: '👋', title: 'Find Your People', description: 'Connect with people nearby who want the same things — right now.' },
   { emoji: '⚡', title: 'Real-Time Vibes', description: 'Post what you need in seconds. Watch as people nearby respond instantly.' },
