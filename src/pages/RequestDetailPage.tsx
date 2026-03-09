@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Send, Share2, BadgeCheck, Flag, MoreVertical, UserX, Ban, XCircle, MapPin, Clock, Users, Navigation, Info, X, ChevronUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
