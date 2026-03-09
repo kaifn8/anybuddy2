@@ -316,7 +316,7 @@
      ═══════════════════════════════════ */
 
   .badge-now {
-    @apply font-semibold text-xs;
+    @apply font-semibold;
     background: hsla(var(--primary) / 0.1);
     color: hsl(var(--primary));
     padding: 0.25rem 0.625rem;
@@ -324,7 +324,7 @@
   }
 
   .badge-today {
-    @apply font-semibold text-xs;
+    @apply font-semibold;
     background: hsla(var(--secondary) / 0.1);
     color: hsl(var(--secondary));
     padding: 0.25rem 0.625rem;
