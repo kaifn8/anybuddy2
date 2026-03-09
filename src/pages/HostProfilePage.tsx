@@ -99,11 +99,12 @@ export default function HostProfilePage() {
             <div className="space-y-2">
               {hostRequests.slice(0, 5).map((req) => (
                 <button key={req.id} onClick={() => navigate(`/request/${req.id}`)}
-                  className="w-full flex items-center gap-3 p-2 rounded-lg liquid-glass-subtle text-left tap-scale">
+                  className="w-full flex items-center gap-3 bg-background/80 backdrop-blur-xl border border-border/50 p-4 rounded-3xl text-left tap-scale hover:bg-background/90 transition-colors"
+                  style={{ boxShadow: '0px 2px 10px rgba(0,0,0,0.05)' }}>
                   <span className="text-lg">{getCategoryEmoji(req.category)}</span>
                   <div className="flex-1 min-w-0">
-                    <p className="text-xs font-semibold truncate">{req.title}</p>
-                    <p className="text-2xs text-muted-foreground">{req.seatsTaken}/{req.seatsTotal} joined · {req.status}</p>
+                    <p className="font-semibold text-[15px] truncate">{req.title}</p>
+                    <p className="text-[12px] text-muted-foreground mt-1">👥 {req.seatsTaken} of {req.seatsTotal} spots filled • {req.status}</p>
                   </div>
                 </button>
               ))}
