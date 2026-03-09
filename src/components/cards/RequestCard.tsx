@@ -100,20 +100,20 @@ export function RequestCard({ request, onJoin, onView, isJoined, className }: Re
   return (
     <>
       <div
-        className={cn('bg-background/80 backdrop-blur-xl border border-border/50 rounded-3xl p-4 cursor-pointer tap-scale transition-colors hover:bg-background/90', className)}
+        className={cn('bg-background/80 backdrop-blur-xl border border-border/50 rounded-3xl p-3 cursor-pointer tap-scale transition-colors hover:bg-background/90', className)}
         style={{ boxShadow: '0px 2px 10px rgba(0,0,0,0.05)' }}
         onClick={onView}
       >
         {/* Status badges - time and hot indicator */}
         {(timeIndicator || hotIndicator) && (
-          <div className="flex items-center gap-2 mb-3">
+          <div className="flex items-center gap-1.5 mb-2">
             {timeIndicator && (
-              <div className={cn('inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-semibold', timeIndicator.color)}>
+              <div className={cn('inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold', timeIndicator.color)}>
                 {timeIndicator.label}
               </div>
             )}
             {hotIndicator && (
-              <div className={cn('inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-semibold', hotIndicator.color)}>
+              <div className={cn('inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold', hotIndicator.color)}>
                 {hotIndicator.label}
               </div>
             )}
