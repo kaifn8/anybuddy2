@@ -156,7 +156,7 @@ export default function MapPage() {
         {filters.map((f) => (
           <button key={f.id} onClick={() => { setFilter(f.id); setSelectedId(null); }}
             className={cn('h-9 px-3 rounded-full flex items-center gap-1.5 tap-scale text-sm transition-all whitespace-nowrap',
-              filter === f.id ? 'tahoe-btn-primary' : 'liquid-glass'
+              filter === f.id ? 'bg-primary text-primary-foreground shadow-lg' : 'liquid-glass'
             )}>
             <span>{f.emoji}</span>
             <span className="text-xs font-medium">{f.label}</span>
