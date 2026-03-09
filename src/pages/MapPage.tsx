@@ -202,7 +202,7 @@ export default function MapPage() {
           />
           <FitBounds requests={activeRequests} selectedId={selectedId} />
           <Marker position={userPos} icon={userIcon} />
-          <LocateControl userPos={userPos} setUserPos={setUserPos} />
+          <LocateControl setUserPos={setUserPos} />
           {activeRequests.map((req) => {
             if (!req.location.coords) return null;
             const isSelected = selectedId === req.id;
