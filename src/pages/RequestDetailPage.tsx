@@ -18,6 +18,7 @@ export default function RequestDetailPage() {
   
   const [message, setMessage] = useState('');
   const [showShare, setShowShare] = useState(false);
+  const [showReport, setShowReport] = useState(false);
   const [showParticipants, setShowParticipants] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   
