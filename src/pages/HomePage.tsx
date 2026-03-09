@@ -172,9 +172,9 @@ export default function HomePage() {
               const seatsLeft = req.seatsTotal - req.seatsTaken;
               const fillPercent = Math.round((req.seatsTaken / req.seatsTotal) * 100);
               const tints = [
-                'linear-gradient(135deg, hsl(var(--primary) / 0.12) 0%, hsl(25 95% 60% / 0.18) 50%, hsl(350 80% 55% / 0.1) 100%)',
-                'linear-gradient(135deg, hsl(220 80% 55% / 0.12) 0%, hsl(260 70% 60% / 0.18) 50%, hsl(280 60% 55% / 0.1) 100%)',
-                'linear-gradient(135deg, hsl(160 60% 45% / 0.12) 0%, hsl(180 70% 45% / 0.18) 50%, hsl(200 65% 50% / 0.1) 100%)',
+                'linear-gradient(135deg, hsl(var(--primary) / 0.08) 0%, hsl(var(--primary) / 0.18) 40%, hsl(25 90% 58% / 0.12) 70%, hsl(350 75% 55% / 0.06) 100%)',
+                'linear-gradient(135deg, hsl(250 65% 58% / 0.08) 0%, hsl(var(--primary) / 0.14) 45%, hsl(280 55% 55% / 0.12) 75%, hsl(300 50% 50% / 0.06) 100%)',
+                'linear-gradient(135deg, hsl(160 55% 42% / 0.08) 0%, hsl(175 60% 44% / 0.16) 45%, hsl(var(--primary) / 0.1) 75%, hsl(210 60% 50% / 0.06) 100%)',
               ];
               return (
                 <button key={req.id} onClick={() => navigate(`/request/${req.id}`)}
