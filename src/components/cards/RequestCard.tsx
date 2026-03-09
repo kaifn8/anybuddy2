@@ -120,34 +120,34 @@ export function RequestCard({ request, onJoin, onView, isJoined, className }: Re
           </div>
         )}
 
-        <div className="flex items-start gap-3 mb-3">
+        <div className="flex items-start gap-2.5 mb-2">
           {/* Category icon */}
-          <div className={cn('w-11 h-11 rounded-2xl border border-white/20 shadow-sm flex items-center justify-center text-2xl shrink-0', CATEGORY_COLORS[request.category])}>
+          <div className={cn('w-10 h-10 rounded-2xl border border-white/20 shadow-sm flex items-center justify-center text-xl shrink-0', CATEGORY_COLORS[request.category])}>
             {getCategoryEmoji(request.category)}
           </div>
           
           <div className="flex-1 min-w-0">
             {/* Title - main element */}
-            <h3 className="font-semibold text-[15px] text-foreground leading-tight line-clamp-2 mb-2">{request.title}</h3>
+            <h3 className="font-semibold text-[14px] text-foreground leading-tight line-clamp-2 mb-1.5">{request.title}</h3>
             
             {/* Location + Distance merged */}
-            <p className="text-[13px] text-muted-foreground font-medium mb-2">
+            <p className="text-[12px] text-muted-foreground font-medium mb-1.5">
               📍 {request.location.name} • {request.location.distance} km away
             </p>
 
             {/* Participant info with avatars */}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1.5">
               <div className="flex -space-x-1.5">
                 {attendeeAvatars.slice(0, 3).map((avatar, i) => (
-                  <img key={i} src={avatar} alt="" className="w-5 h-5 rounded-full border-2 border-background" />
+                  <img key={i} src={avatar} alt="" className="w-4 h-4 rounded-full border-2 border-background" />
                 ))}
                 {attendeeAvatars.length > 3 && (
-                  <div className="w-5 h-5 rounded-full bg-muted border-2 border-background flex items-center justify-center">
-                    <span className="text-[8px] font-bold text-muted-foreground">+{attendeeAvatars.length - 3}</span>
+                  <div className="w-4 h-4 rounded-full bg-muted border-2 border-background flex items-center justify-center">
+                    <span className="text-[7px] font-bold text-muted-foreground">+{attendeeAvatars.length - 3}</span>
                   </div>
                 )}
               </div>
-              <span className="text-[12px] text-muted-foreground font-medium">
+              <span className="text-[11px] text-muted-foreground font-medium">
                 {request.seatsTaken} of {request.seatsTotal} spots filled
               </span>
             </div>
