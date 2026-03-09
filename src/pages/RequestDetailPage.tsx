@@ -411,9 +411,11 @@ export default function RequestDetailPage() {
         </div>
       </div>
 
-      <ShareSheet open={showShare} onClose={() => setShowShare(false)} request={request} />
+      <ShareSheet open={showShare} onClose={() => setShowShare(false)} title={request.title} request={request} />
       <ReportDialog open={showReport} onClose={() => { setShowReport(false); setReportTarget(null); }}
-        target={reportTarget || { id: request.id, name: request.title, type: 'plan' }} />
+        targetId={(reportTarget || { id: request.id }).id}
+        targetName={(reportTarget || { name: request.title }).name}
+        targetType={(reportTarget || { type: 'plan' as const }).type} />
     </div>
   );
 }
