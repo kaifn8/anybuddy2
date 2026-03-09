@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react';
-import { Search, ShieldCheck, Ban, Flag, MessageSquareWarning, ChevronUp, ChevronDown, Send } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Search, ShieldCheck, Ban, Flag, MessageSquareWarning, ChevronUp, ChevronDown, Send, MessageCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { generateFakeUsers, type AdminUser } from '@/data/adminData';
 import { cn } from '@/lib/utils';
@@ -26,6 +27,7 @@ const VERIFICATION_LABELS: Record<string, { label: string; color: string }> = {
 };
 
 export default function AdminUsers() {
+  const navigate = useNavigate();
   const [users, setUsers] = useState<AdminUser[]>(() => generateFakeUsers(30));
   const [search, setSearch] = useState('');
   const [trustFilter, setTrustFilter] = useState<TrustLevel | 'all'>('all');
@@ -210,6 +212,10 @@ export default function AdminUsers() {
                     <Button variant="outline" size="sm" className="h-8 text-[11px]"
                       onClick={() => setWarningDialog(user)}>
                       <MessageSquareWarning size={12} className="mr-1" /> Warn via DM
+                    </Button>
+                    <Button variant="secondary" size="sm" className="h-8 text-[11px]"
+                      onClick={() => navigate(`/admin/users/${user.id}`)}>
+                      <MessageCircle size={12} className="mr-1" /> View Chats
                     </Button>
                     <div className="flex gap-1">
                       <Button variant="outline" size="sm" className="flex-1 h-8 text-[11px]"
