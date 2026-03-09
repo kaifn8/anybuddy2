@@ -438,6 +438,55 @@ export const useAppStore = create<AppState>()(
         });
       },
       
+      submitReport: (report) => {
+        const { user, reports } = get();
+        if (!user) return;
+        const newReport: UserReport = {
+          id: `report_${Date.now()}`,
+          reporterId: user.id,
+          reporterName: user.firstName,
+          ...report,
+          status: 'pending',
+          createdAt: new Date(),
+        };
+        set({ reports: [newReport, ...reports] });
+      },
+
+      updateReportStatus: (reportId, status) => {
+        const { reports } = get();
+        set({ reports: reports.map(r => r.id === reportId ? { ...r, status } : r) });
+      },
+
+      flagMessage: (requestId, messageId, reason) => {
+        const { chatMessages, flaggedMessages, requests } = get();
+        const msgs = chatMessages[requestId] || [];
+        const msg = msgs.find(m => m.id === messageId);
+        const req = requests.find(r => r.id === requestId);
+        if (!msg) return;
+        const flagged: FlaggedMessage = {
+          id: `flag_${Date.now()}`,
+          requestId,
+          requestTitle: req?.title || 'Unknown plan',
+          senderId: msg.senderId,
+          senderName: msg.senderName,
+          message: msg.message,
+          flagReason: reason,
+          flaggedAt: new Date(),
+          status: 'pending',
+        };
+        set({ flaggedMessages: [flagged, ...flaggedMessages] });
+      },
+
+      updateFlaggedMessage: (messageId, status) => {
+        const { flaggedMessages } = get();
+        set({ flaggedMessages: flaggedMessages.map(m => m.id === messageId ? { ...m, status } : m) });
+      },
+
+      removePlan: (requestId) => {
+        const { requests } = get();
+        set({ requests: requests.map(r => r.id === requestId ? { ...r, status: 'cancelled' as const } : r) });
+      },
+      
       reset: () => set({ ...initialState, requests: generateInitialRequests(10) }),
     }),
     {
