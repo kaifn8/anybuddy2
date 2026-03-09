@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import type { User, Request, Notification, CreditTransaction, Category, TrustLevel, Urgency, Participant, ChatMessage, MeetupReview, Badge } from '@/types/anybuddy';
+import type { User, Request, Notification, CreditTransaction, Category, TrustLevel, Urgency, Participant, ChatMessage, MeetupReview, Badge, VerificationStatus } from '@/types/anybuddy';
 
 const FAKE_NAMES = ['Priya', 'Arjun', 'Maya', 'Rohan', 'Zara', 'Aditya', 'Neha', 'Vikram', 'Ananya', 'Kabir', 'Riya', 'Dev', 'Simran', 'Rahul'];
 
@@ -48,6 +48,14 @@ const BIOS = [
   'Tech geek by day, cricket player by evening',
 ];
 
+interface VerificationRequest {
+  userId: string;
+  userName: string;
+  selfieUrl: string;
+  submittedAt: Date;
+  status: VerificationStatus;
+}
+
 interface AppState {
   user: User | null;
   isOnboarded: boolean;
@@ -58,6 +66,7 @@ interface AppState {
   notifications: Notification[];
   creditHistory: CreditTransaction[];
   reviews: MeetupReview[];
+  pendingVerifications: VerificationRequest[];
   
   // Actions
   setUser: (user: User | null) => void;
@@ -76,6 +85,9 @@ interface AppState {
   unsavePlan: (requestId: string) => void;
   submitReview: (review: Omit<MeetupReview, 'id' | 'timestamp'>) => void;
   completeMeetup: (requestId: string) => void;
+  submitVerificationSelfie: (selfieUrl: string) => void;
+  approveVerification: (userId: string) => void;
+  rejectVerification: (userId: string) => void;
   reset: () => void;
 }
 
@@ -135,7 +147,8 @@ const createDefaultUser = (overrides: Partial<User>): User => ({
   interests: [], trustLevel: 'seed', credits: 3, completedJoins: 0,
   createdAt: new Date(), reliabilityScore: 100, joinRate: 100,
   hostRating: 0, meetupsHosted: 0, meetupsAttended: 0, noShows: 0,
-  cancellations: 0, isVerified: false, badges: [], savedPlans: [],
+  cancellations: 0, isVerified: false, verificationStatus: 'unverified',
+  badges: [], savedPlans: [],
   ...overrides,
 });
 
@@ -149,6 +162,7 @@ const initialState = {
   notifications: [] as Notification[],
   creditHistory: [] as CreditTransaction[],
   reviews: [] as MeetupReview[],
+  pendingVerifications: [] as VerificationRequest[],
 };
 
 export const useAppStore = create<AppState>()(
@@ -353,6 +367,43 @@ export const useAppStore = create<AppState>()(
         set({ requests: requests.map(r => r.id === requestId ? { ...r, status: 'completed' as const } : r) });
       },
       
+      submitVerificationSelfie: (selfieUrl: string) => {
+        const { user, pendingVerifications } = get();
+        if (!user) return;
+        const req: VerificationRequest = {
+          userId: user.id, userName: user.firstName, selfieUrl,
+          submittedAt: new Date(), status: 'pending',
+        };
+        set({
+          user: { ...user, verificationStatus: 'pending', verificationSelfie: selfieUrl },
+          pendingVerifications: [req, ...pendingVerifications],
+        });
+      },
+      
+      approveVerification: (userId: string) => {
+        const { user, pendingVerifications } = get();
+        set({
+          pendingVerifications: pendingVerifications.map(v =>
+            v.userId === userId ? { ...v, status: 'verified' as const } : v
+          ),
+          ...(user && user.id === userId ? {
+            user: { ...user, verificationStatus: 'verified' as const, isVerified: true },
+          } : {}),
+        });
+      },
+      
+      rejectVerification: (userId: string) => {
+        const { user, pendingVerifications } = get();
+        set({
+          pendingVerifications: pendingVerifications.map(v =>
+            v.userId === userId ? { ...v, status: 'failed' as const } : v
+          ),
+          ...(user && user.id === userId ? {
+            user: { ...user, verificationStatus: 'failed' as const, isVerified: false, verificationSelfie: undefined },
+          } : {}),
+        });
+      },
+      
       reset: () => set({ ...initialState, requests: generateInitialRequests(10) }),
     }),
     {
@@ -360,7 +411,7 @@ export const useAppStore = create<AppState>()(
       partialize: (state) => ({
         user: state.user, isOnboarded: state.isOnboarded,
         creditHistory: state.creditHistory, joinedRequests: state.joinedRequests,
-        reviews: state.reviews,
+        reviews: state.reviews, pendingVerifications: state.pendingVerifications,
       }),
     }
   )

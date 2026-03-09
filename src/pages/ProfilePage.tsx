@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Share2, ChevronRight } from 'lucide-react';
 import type { Badge, Request } from '@/types/anybuddy';
 import { ProfileHero } from '@/components/profile/ProfileHero';
+import { VerificationCard } from '@/components/profile/VerificationCard';
 import { cn } from '@/lib/utils';
 
 const badgeLabels: Record<Badge, { emoji: string; label: string }> = {
@@ -74,6 +75,9 @@ export default function ProfilePage() {
           joinText={joinText}
           stats={stats}
         />
+
+        {/* Selfie verification card */}
+        <VerificationCard />
 
         {/* Invite nudge — slim */}
         <button
