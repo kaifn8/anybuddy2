@@ -43,6 +43,19 @@ function getTimeIndicator(request: Request) {
   return null;
 }
 
+function getHotIndicator(request: Request) {
+  const seatsLeft = request.seatsTotal - request.seatsTaken;
+  const fillPercentage = (request.seatsTaken / request.seatsTotal) * 100;
+  
+  if (seatsLeft <= 2 && seatsLeft > 0) {
+    return { label: '🔥 Filling fast', color: 'text-destructive bg-destructive/10 border border-destructive/20' };
+  }
+  if (fillPercentage >= 70) {
+    return { label: '🔥 Popular', color: 'text-primary bg-primary/10 border border-primary/20' };
+  }
+  return null;
+}
+
 export function RequestCard({ request, onJoin, onView, isJoined, className }: RequestCardProps) {
   const navigate = useNavigate();
   const [showShare, setShowShare] = useState(false);
@@ -50,6 +63,7 @@ export function RequestCard({ request, onJoin, onView, isJoined, className }: Re
   
   const seatsLeft = request.seatsTotal - request.seatsTaken;
   const timeIndicator = getTimeIndicator(request);
+  const hotIndicator = getHotIndicator(request);
   const isSaved = user?.savedPlans?.includes(request.id);
   
   const handleJoinClick = (e: React.MouseEvent) => {
@@ -90,10 +104,19 @@ export function RequestCard({ request, onJoin, onView, isJoined, className }: Re
         style={{ boxShadow: '0px 2px 10px rgba(0,0,0,0.05)' }}
         onClick={onView}
       >
-        {/* Time indicator - only one */}
-        {timeIndicator && (
-          <div className={cn('inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-semibold mb-3', timeIndicator.color)}>
-            {timeIndicator.label}
+        {/* Status badges - time and hot indicator */}
+        {(timeIndicator || hotIndicator) && (
+          <div className="flex items-center gap-2 mb-3">
+            {timeIndicator && (
+              <div className={cn('inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-semibold', timeIndicator.color)}>
+                {timeIndicator.label}
+              </div>
+            )}
+            {hotIndicator && (
+              <div className={cn('inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-semibold', hotIndicator.color)}>
+                {hotIndicator.label}
+              </div>
+            )}
           </div>
         )}
 
