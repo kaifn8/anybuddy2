@@ -11,7 +11,11 @@ type Step = 'method' | 'phone' | 'otp' | 'name' | 'photo' | 'bio' | 'age' | 'int
 const steps: Step[] = ['method', 'phone', 'otp', 'name', 'photo', 'bio', 'age', 'interests', 'zone'];
 const ageRanges = ['18-24', '25-34', '35-44', '45-54', '55+'];
 const categories: Category[] = ['chai', 'explore', 'shopping', 'work', 'help', 'casual', 'sports', 'food', 'walk'];
-const zones = ['Bandra', 'Andheri', 'Colaba', 'Juhu', 'Powai', 'Lower Parel', 'Versova', 'Worli', 'Dadar', 'Malad'];
+const cities = [
+  { name: 'Mumbai', emoji: '🌆', zones: ['Bandra', 'Andheri', 'Colaba', 'Juhu', 'Powai', 'Lower Parel', 'Worli', 'Dadar'] },
+  { name: 'Navi Mumbai', emoji: '🏙️', zones: ['Vashi', 'Nerul', 'Kharghar', 'Belapur', 'Panvel', 'Airoli', 'Sanpada'] },
+  { name: 'Thane', emoji: '🌳', zones: ['Ghodbunder', 'Hiranandani', 'Majiwada', 'Naupada', 'Kopri', 'Vartak Nagar', 'Wagle Estate'] },
+];
 
 const stepConfig: Record<Step, { emoji: string; title: string; subtitle: string }> = {
   method: { emoji: '👋', title: 'Welcome to AnyBuddy', subtitle: 'Choose how to sign in' },
@@ -38,6 +42,7 @@ export default function SignupPage() {
   const [bio, setBio] = useState('');
   const [ageRange, setAgeRange] = useState('');
   const [interests, setInterests] = useState<Category[]>([]);
+  const [selectedCity, setSelectedCity] = useState('');
   const [zone, setZone] = useState('');
   
   const contentRef = useRef<HTMLDivElement>(null);
@@ -81,7 +86,7 @@ export default function SignupPage() {
       gsap.to(contentRef.current, { opacity: 0, duration: 0.2, onComplete: () => {
         setUser(createDefaultUser({
           id: `user_${Date.now()}`, firstName, phone, email, bio,
-          ageRange, city: 'Mumbai', zone, interests, loginMethod,
+          ageRange, city: selectedCity || 'Mumbai', zone, interests, loginMethod,
           avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${firstName}`,
         }));
         setOnboarded(true);
@@ -246,17 +251,72 @@ export default function SignupPage() {
           
           {/* Zone */}
           {step === 'zone' && (
-            <div className="space-y-5">
-              <div className="grid grid-cols-2 gap-2">
-                {zones.map((z) => (
-                  <Button key={z} onClick={() => setZone(z)}
-                    variant={zone === z ? 'default' : 'secondary'}
-                    className="py-3 px-3 h-auto text-xs text-left justify-start"
-                  >
-                    📍 {z}
-                  </Button>
-                ))}
+            <div className="space-y-4">
+              {/* City selection */}
+              <div>
+                <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider mb-2.5">Select your city</p>
+                <div className="flex gap-2">
+                  {cities.map((city) => (
+                    <button
+                      key={city.name}
+                      onClick={() => { setSelectedCity(city.name); setZone(''); }}
+                      className={cn(
+                        'flex-1 flex flex-col items-center gap-1.5 py-3.5 px-2 rounded-2xl border-2 transition-all tap-scale',
+                        selectedCity === city.name
+                          ? 'border-primary bg-primary/10 shadow-md shadow-primary/10'
+                          : 'border-border/30 bg-background/50 hover:border-border/50'
+                      )}
+                    >
+                      <span className="text-2xl">{city.emoji}</span>
+                      <span className={cn(
+                        'text-[11px] font-semibold',
+                        selectedCity === city.name ? 'text-primary' : 'text-foreground'
+                      )}>{city.name}</span>
+                    </button>
+                  ))}
+                </div>
               </div>
+
+              {/* Zone selection — show after city */}
+              {selectedCity && (
+                <div className="animate-fade-in">
+                  <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider mb-2.5">
+                    Where in {selectedCity}?
+                  </p>
+                  <div className="grid grid-cols-2 gap-2">
+                    {cities.find(c => c.name === selectedCity)?.zones.map((z) => (
+                      <button
+                        key={z}
+                        onClick={() => setZone(z)}
+                        className={cn(
+                          'flex items-center gap-2 py-2.5 px-3 rounded-xl border transition-all tap-scale text-left',
+                          zone === z
+                            ? 'border-primary bg-primary/10 shadow-sm'
+                            : 'border-border/30 bg-background/50 hover:border-border/50'
+                        )}
+                      >
+                        <span className={cn(
+                          'w-2 h-2 rounded-full shrink-0',
+                          zone === z ? 'bg-primary' : 'bg-muted-foreground/30'
+                        )} />
+                        <span className={cn(
+                          'text-[12px] font-medium',
+                          zone === z ? 'text-primary' : 'text-foreground'
+                        )}>{z}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Selected summary */}
+              {zone && (
+                <div className="flex items-center justify-center gap-2 py-2.5 px-4 rounded-2xl bg-success/10 border border-success/20 animate-scale-in">
+                  <span className="text-success text-sm">📍</span>
+                  <span className="text-[12px] font-semibold text-success">{zone}, {selectedCity}</span>
+                </div>
+              )}
+
               <Button className="w-full h-12" onClick={handleComplete} disabled={!zone || interests.length < 2}>Let's Go</Button>
             </div>
           )}
