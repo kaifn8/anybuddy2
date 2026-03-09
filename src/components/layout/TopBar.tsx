@@ -9,7 +9,7 @@ interface TopBarProps {
   showSettings?: boolean;
 }
 
-export function TopBar({ showBack = false, title }: TopBarProps) {
+export function TopBar({ showBack = false, title, hideChat = false, showSettings = false }: TopBarProps) {
   const navigate = useNavigate();
   const requests = useAppStore((s) => s.requests);
   const chatMessages = useAppStore((s) => s.chatMessages);
