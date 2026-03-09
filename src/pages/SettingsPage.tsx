@@ -6,16 +6,18 @@ import { useAppStore } from '@/store/useAppStore';
 import { ChevronRight } from 'lucide-react';
 import { Switch } from '@/components/ui/switch';
 import { Separator } from '@/components/ui/separator';
+import { useTheme } from '@/hooks/useTheme';
 
 export default function SettingsPage() {
   const navigate = useNavigate();
   const { user, reset } = useAppStore();
+  const { isDark, toggleTheme } = useTheme();
   
   // Local state for toggles
   const [pushNotifications, setPushNotifications] = useState(true);
   const [emailNotifications, setEmailNotifications] = useState(false);
   const [soundEnabled, setSoundEnabled] = useState(true);
-  const [darkMode, setDarkMode] = useState(false);
+  const [locationSharing, setLocationSharing] = useState(true);
   const [locationSharing, setLocationSharing] = useState(true);
   
   const settingsSections = [
