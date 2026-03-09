@@ -107,14 +107,15 @@ export default function ProfilePage() {
         {/* Stats grid */}
         <div className="grid grid-cols-4 gap-2">
           {[
-            { value: `${user.reliabilityScore}%`, label: 'Reliable' },
-            { value: user.meetupsAttended + user.completedJoins, label: 'Meetups' },
-            { value: `${user.joinRate}%`, label: 'Join Rate' },
-            { value: user.hostRating > 0 ? `${user.hostRating}★` : '—', label: 'Host' },
+            { icon: '⭐', label: 'Reliability', value: `${user.reliabilityScore}%` },
+            { icon: '🤝', label: 'Meetups', value: user.meetupsAttended + user.completedJoins },
+            { icon: '📊', label: 'Join rate', value: `${user.joinRate}%` },
+            { icon: '🎉', label: 'Hosted', value: user.meetupsHosted },
           ].map((stat, i) => (
-            <div key={i} className="liquid-glass p-2.5 text-center">
+            <div key={i} className="liquid-glass p-3 text-center rounded-2xl">
+              <div className="text-base mb-1">{stat.icon}</div>
               <p className="text-sm font-bold text-foreground">{stat.value}</p>
-              <p className="text-2xs text-muted-foreground mt-0.5">{stat.label}</p>
+              <p className="text-[10px] text-muted-foreground mt-0.5">{stat.label}</p>
             </div>
           ))}
         </div>
