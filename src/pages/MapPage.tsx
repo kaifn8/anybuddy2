@@ -125,7 +125,7 @@ function LocateControl({ setUserPos }: { setUserPos: (pos: [number, number]) => 
   return null;
 }
 
-export default function MapPage() {
+const mapRef = React.useRef<any>(null);
   const navigate = useNavigate();
   const { requests, joinRequest, updateCredits } = useAppStore();
   const [selectedId, setSelectedId] = useState<string | null>(null);
