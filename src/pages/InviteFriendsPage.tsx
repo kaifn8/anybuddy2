@@ -43,10 +43,10 @@ export default function InviteFriendsPage() {
       <div className="px-5 pt-5 space-y-5">
         {/* Header */}
         <div className="text-center">
-          <div className="text-4xl mb-3">🎉</div>
-          <h2 className="text-xl font-bold mb-2">Invite your friends</h2>
+          <div className="text-4xl mb-3">🚀</div>
+          <h2 className="text-xl font-bold mb-2">Your friends are missing out</h2>
           <p className="text-sm text-muted-foreground">
-            Share AnyBuddy with friends and get rewards when they join
+            Every friend you invite = 1 free credit for you both
           </p>
         </div>
         
