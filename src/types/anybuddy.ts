@@ -27,6 +27,8 @@ export interface User {
   noShows: number;
   cancellations: number;
   isVerified: boolean;
+  verificationStatus: VerificationStatus;
+  verificationSelfie?: string;
   badges: Badge[];
   savedPlans: string[];
   loginMethod?: 'phone' | 'email' | 'google' | 'apple';
