@@ -267,51 +267,81 @@ export default function OnboardingPage() {
       case 'credits':
         return (
           <div className="w-full max-w-[320px]">
-            <div className="relative rounded-[28px] bg-gradient-to-b from-primary/8 via-background to-background border border-border/30 overflow-hidden px-5 pt-6 pb-5" style={{ height: 340 }}>
-              
-              {/* Soft glow */}
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-56 h-32 rounded-full bg-primary/15 blur-[50px] pointer-events-none" />
-
-              {/* Credit card */}
-              <div className="relative z-10 flex items-center gap-3 px-4 py-3.5 rounded-2xl bg-gradient-to-r from-primary/10 to-primary/5 border border-primary/15 mb-4">
-                <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-primary to-primary/70 flex items-center justify-center shadow-lg shadow-primary/25">
-                  <Star className="w-5 h-5 text-primary-foreground" fill="currentColor" />
-                </div>
-                <div className="flex-1">
-                  <p className="text-[18px] font-bold text-foreground">2.5 credits</p>
-                  <p className="text-[10px] text-muted-foreground">Your starter balance</p>
-                </div>
-                <div className="px-2.5 py-1 rounded-full bg-success/15 border border-success/25">
-                  <span className="text-[10px] text-success font-bold">FREE</span>
-                </div>
+            <div className="relative rounded-[28px] overflow-hidden" style={{ height: 370 }}>
+              {/* Rich gradient background */}
+              <div className="absolute inset-0">
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/12 via-background to-amber-500/8" />
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-48 rounded-full bg-primary/20 blur-[70px]" />
+                <div className="absolute bottom-0 right-0 w-44 h-44 rounded-full bg-amber-400/15 blur-[60px]" />
               </div>
 
-              {/* How it works steps */}
-              <p className="text-[10px] text-muted-foreground font-semibold mb-3 uppercase tracking-wider text-center relative z-10">How it works</p>
-              <div className="space-y-2 relative z-10">
-                {[
-                  { emoji: '📍', text: 'Join a plan nearby', detail: '-0.5 credits', detailColor: 'text-destructive' },
-                  { emoji: '✅', text: 'Show up on time', detail: '+1.0 credits', detailColor: 'text-success' },
-                  { emoji: '⭐', text: 'Get a good review', detail: '+0.5 bonus', detailColor: 'text-success' },
-                ].map((step, i) => (
-                  <div
-                    key={i}
-                    className="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-background/70 backdrop-blur-md border border-border/20 shadow-sm"
-                    style={{ animation: 'fade-in 0.4s ease-out forwards', animationDelay: `${i * 0.12}s` }}
-                  >
-                    <div className="w-8 h-8 rounded-lg bg-muted/60 flex items-center justify-center shrink-0">
-                      <span className="text-base">{step.emoji}</span>
+              {/* Subtle grid */}
+              <div className="absolute inset-0 opacity-[0.02]" style={{
+                backgroundImage: 'linear-gradient(hsl(var(--foreground)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--foreground)) 1px, transparent 1px)',
+                backgroundSize: '24px 24px'
+              }} />
+
+              <div className="relative z-10 px-5 pt-5 pb-4 h-full flex flex-col">
+                {/* Animated credit counter */}
+                <div className="flex justify-center mb-4">
+                  <div className="relative">
+                    <div className="absolute inset-0 w-20 h-20 rounded-[1.5rem] bg-primary/25 blur-2xl animate-pulse" />
+                    <div className="relative w-16 h-16 rounded-[1.25rem] bg-gradient-to-br from-primary via-primary/90 to-primary/70 flex items-center justify-center shadow-2xl shadow-primary/30 border-4 border-background">
+                      <Star className="w-7 h-7 text-primary-foreground" fill="currentColor" />
                     </div>
-                    <p className="text-[11px] font-semibold text-foreground flex-1">{step.text}</p>
-                    <span className={`text-[11px] font-bold ${step.detailColor}`}>{step.detail}</span>
+                    {/* Floating +1 badge */}
+                    <div className="absolute -top-2 -right-3 px-2 py-0.5 rounded-full bg-success text-success-foreground text-[10px] font-bold shadow-lg" style={{ animation: 'float 3s ease-in-out infinite' }}>
+                      +1.0
+                    </div>
                   </div>
-                ))}
-              </div>
+                </div>
 
-              {/* Bottom bar */}
-              <div className="flex items-center justify-center gap-2 mt-4 relative z-10">
-                <span className="w-2 h-2 rounded-full bg-success animate-pulse" />
-                <span className="text-[10px] font-semibold text-success">Reliable people unlock premium plans</span>
+                {/* Balance display */}
+                <div className="text-center mb-4">
+                  <p className="text-[28px] font-bold text-foreground tracking-tight">2.5</p>
+                  <p className="text-[11px] text-muted-foreground font-medium -mt-0.5">starter credits</p>
+                </div>
+
+                {/* Journey visualization - connected steps */}
+                <div className="flex-1 flex flex-col justify-center">
+                  <div className="relative">
+                    {/* Connecting line */}
+                    <div className="absolute left-[19px] top-5 bottom-5 w-[2px] bg-gradient-to-b from-primary/30 via-success/40 to-success/30 rounded-full" />
+                    
+                    <div className="space-y-3">
+                      {[
+                        { emoji: '📍', text: 'Join a plan', detail: '-0.5', color: 'bg-primary/12 border-primary/20', dotColor: 'bg-primary' },
+                        { emoji: '🤝', text: 'Show up on time', detail: '+1.0', color: 'bg-success/12 border-success/20', dotColor: 'bg-success' },
+                        { emoji: '⭐', text: 'Earn a great review', detail: '+0.5', color: 'bg-amber-500/12 border-amber-500/20', dotColor: 'bg-amber-500' },
+                      ].map((step, i) => (
+                        <div
+                          key={i}
+                          className="flex items-center gap-3 relative"
+                          style={{ animation: 'fade-in 0.4s ease-out forwards', animationDelay: `${i * 0.15}s` }}
+                        >
+                          {/* Step dot */}
+                          <div className={`w-10 h-10 rounded-xl ${step.color} border flex items-center justify-center shrink-0 backdrop-blur-sm relative z-10`}>
+                            <span className="text-base">{step.emoji}</span>
+                          </div>
+                          <p className="text-[12px] font-semibold text-foreground flex-1">{step.text}</p>
+                          <span className={`text-[13px] font-bold tabular-nums ${
+                            step.detail.startsWith('+') ? 'text-success' : 'text-muted-foreground'
+                          }`}>{step.detail}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Bottom tagline */}
+                <div className="flex items-center justify-center gap-2 mt-3 px-3 py-2 rounded-xl bg-background/60 backdrop-blur-md border border-border/15">
+                  <div className="flex -space-x-1.5">
+                    {['🥇', '🥈', '🥉'].map((m, i) => (
+                      <span key={i} className="text-sm">{m}</span>
+                    ))}
+                  </div>
+                  <span className="text-[10px] font-semibold text-foreground/80">Top contributors unlock exclusive plans</span>
+                </div>
               </div>
             </div>
           </div>
