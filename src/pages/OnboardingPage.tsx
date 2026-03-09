@@ -342,7 +342,7 @@ export default function OnboardingPage() {
         
         <div ref={textRef} className="text-center max-w-[280px]">
           <h2 className="text-[22px] font-bold text-foreground mb-2">{slide.title}</h2>
-          <p className="text-sm text-muted-foreground leading-relaxed">{slide.description}</p>
+          <p className="text-sm text-muted-foreground leading-relaxed whitespace-pre-line">{slide.description}</p>
         </div>
       </div>
       
