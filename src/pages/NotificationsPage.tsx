@@ -6,6 +6,7 @@ import { TopBar } from '@/components/layout/TopBar';
 import { useAppStore } from '@/store/useAppStore';
 import { cn } from '@/lib/utils';
 import { useMemo } from 'react';
+import { Button } from '@/components/ui/button';
 
 const emojiMap: Record<string, string> = {
   nearby: '📍', urgent: '⚡', join: '🎉', message: '💬', credit: '💰', trust: '🛡️',
