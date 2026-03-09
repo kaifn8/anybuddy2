@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 import { Button } from '@/components/ui/button';
-import { MapPin, ShieldCheck, BadgeCheck, Zap, Users, Star } from 'lucide-react';
+import { MapPin, ShieldCheck, BadgeCheck, Zap, Users, Star, ArrowLeft } from 'lucide-react';
 
 const slides = [
   { id: 'people', title: "Someone's waiting", description: "Right now, people near you want the same thing. Don't miss them." },
@@ -307,10 +307,32 @@ export default function OnboardingPage() {
     }
   };
   
+  const handleBack = () => {
+    if (currentSlide > 0) {
+      gsap.to([visualRef.current, textRef.current], {
+        opacity: 0, y: 12, duration: 0.15,
+        onComplete: () => setCurrentSlide(prev => prev - 1),
+      });
+    }
+  };
+  
   return (
     <div ref={containerRef} className="mobile-container min-h-screen flex flex-col bg-ambient">
+      {/* Top bar with back button */}
+      {currentSlide > 0 && (
+        <div className="px-4 pt-4">
+          <button 
+            onClick={handleBack}
+            className="flex items-center gap-1.5 text-muted-foreground tap-scale py-2 pr-3"
+          >
+            <ArrowLeft size={18} />
+            <span className="text-sm font-medium">Back</span>
+          </button>
+        </div>
+      )}
+      
       {/* Content */}
-      <div className="flex-1 flex flex-col items-center justify-center px-6 pt-8">
+      <div className="flex-1 flex flex-col items-center justify-center px-6 pt-4">
         <div ref={visualRef} className="mb-6 w-full flex justify-center">
           {renderVisual()}
         </div>
