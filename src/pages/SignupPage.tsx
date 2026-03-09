@@ -11,7 +11,11 @@ type Step = 'method' | 'phone' | 'otp' | 'name' | 'photo' | 'bio' | 'age' | 'int
 const steps: Step[] = ['method', 'phone', 'otp', 'name', 'photo', 'bio', 'age', 'interests', 'zone'];
 const ageRanges = ['18-24', '25-34', '35-44', '45-54', '55+'];
 const categories: Category[] = ['chai', 'explore', 'shopping', 'work', 'help', 'casual', 'sports', 'food', 'walk'];
-const zones = ['Bandra', 'Andheri', 'Colaba', 'Juhu', 'Powai', 'Lower Parel', 'Versova', 'Worli', 'Dadar', 'Malad'];
+const cities = [
+  { name: 'Mumbai', emoji: '🌆', zones: ['Bandra', 'Andheri', 'Colaba', 'Juhu', 'Powai', 'Lower Parel', 'Worli', 'Dadar'] },
+  { name: 'Navi Mumbai', emoji: '🏙️', zones: ['Vashi', 'Nerul', 'Kharghar', 'Belapur', 'Panvel', 'Airoli', 'Sanpada'] },
+  { name: 'Thane', emoji: '🌳', zones: ['Ghodbunder', 'Hiranandani', 'Majiwada', 'Naupada', 'Kopri', 'Vartak Nagar', 'Wagle Estate'] },
+];
 
 const stepConfig: Record<Step, { emoji: string; title: string; subtitle: string }> = {
   method: { emoji: '👋', title: 'Welcome to AnyBuddy', subtitle: 'Choose how to sign in' },
