@@ -42,18 +42,23 @@ const iconSizeMap = {
   lg: 14,
 };
 
-export function TrustBadge({ level, showLabel = true, size = 'sm', className }: TrustBadgeProps) {
-  const Icon = iconMap[level];
-  
-  return (
-    <div className={cn(
-      'inline-flex items-center rounded-full font-medium',
-      styleMap[level],
-      sizeMap[size],
-      className
-    )}>
-      <Icon size={iconSizeMap[size]} strokeWidth={2} />
-      {showLabel && <span>{labelMap[level]}</span>}
-    </div>
-  );
-}
+import React from 'react';
+
+export const TrustBadge = React.forwardRef<HTMLDivElement, TrustBadgeProps>(
+  ({ level, showLabel = true, size = 'sm', className }, ref) => {
+    const Icon = iconMap[level];
+    
+    return (
+      <div ref={ref} className={cn(
+        'inline-flex items-center rounded-full font-medium',
+        styleMap[level],
+        sizeMap[size],
+        className
+      )}>
+        <Icon size={iconSizeMap[size]} strokeWidth={2} />
+        {showLabel && <span>{labelMap[level]}</span>}
+      </div>
+    );
+  }
+);
+TrustBadge.displayName = 'TrustBadge';

@@ -11,7 +11,9 @@ const navItems = [
   { emoji: '👤', label: 'Me', path: '/profile' },
 ];
 
-export function BottomNav() {
+import React from 'react';
+
+export const BottomNav = React.forwardRef<HTMLElement, object>(function BottomNav(_props, ref) {
   const location = useLocation();
   const navigate = useNavigate();
   const notifications = useAppStore((s) => s.notifications);
