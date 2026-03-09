@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react';
-import { Search, ShieldCheck, Ban, Flag, MessageSquareWarning, ChevronUp, ChevronDown, Send } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Search, ShieldCheck, Ban, Flag, MessageSquareWarning, ChevronUp, ChevronDown, Send, MessageCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { generateFakeUsers, type AdminUser } from '@/data/adminData';
 import { cn } from '@/lib/utils';
