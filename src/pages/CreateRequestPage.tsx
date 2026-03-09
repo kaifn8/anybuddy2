@@ -9,6 +9,7 @@ import { useAppStore } from '@/store/useAppStore';
 import { getCategoryLabel, getCategoryEmoji } from '@/components/icons/CategoryIcon';
 import type { Category, Urgency } from '@/types/anybuddy';
 import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
 
 const categories: Category[] = ['chai', 'explore', 'shopping', 'work', 'help', 'casual', 'sports', 'food', 'walk'];
 const timers = [
@@ -95,13 +96,13 @@ export default function CreateRequestPage() {
           <label className="text-xs font-medium text-muted-foreground mb-2 block">Category</label>
           <div className="grid grid-cols-3 gap-2">
             {categories.map((cat) => (
-              <button key={cat} onClick={() => setCategory(cat)}
-                className={cn('flex flex-col items-center gap-1 py-2.5 px-2 rounded-xl text-xs font-semibold transition-all tap-scale',
-                  category === cat ? 'tahoe-btn-primary' : 'liquid-glass text-foreground'
-                )}>
+              <Button key={cat} onClick={() => setCategory(cat)}
+                variant={category === cat ? 'default' : 'secondary'}
+                className="flex flex-col items-center gap-1 py-2.5 px-2 h-auto text-xs"
+              >
                 <span>{getCategoryEmoji(cat)}</span>
                 <span>{getCategoryLabel(cat)}</span>
-              </button>
+              </Button>
             ))}
           </div>
         </div>
@@ -110,10 +111,10 @@ export default function CreateRequestPage() {
           <label className="text-xs font-medium text-muted-foreground mb-2 block">When?</label>
           <div className="flex gap-2">
             {([{ v: 'now' as Urgency, l: '⚡ Now' }, { v: 'today' as Urgency, l: '☀️ Today' }, { v: 'week' as Urgency, l: '📅 Week' }]).map((u) => (
-              <button key={u.v} onClick={() => setUrgency(u.v)}
-                className={cn('flex-1 py-3 rounded-xl text-sm font-semibold transition-all tap-scale',
-                  urgency === u.v ? 'tahoe-btn-primary' : 'liquid-glass text-foreground'
-                )}>{u.l}</button>
+              <Button key={u.v} onClick={() => setUrgency(u.v)}
+                variant={urgency === u.v ? 'default' : 'secondary'}
+                className="flex-1 py-3 h-auto text-sm"
+              >{u.l}</Button>
             ))}
           </div>
         </div>
@@ -123,10 +124,10 @@ export default function CreateRequestPage() {
             <label className="text-xs font-medium text-muted-foreground mb-2 block">Auto-expire</label>
             <div className="flex gap-2">
               {timers.map((t) => (
-                <button key={t.label} onClick={() => setTimer(t.value)}
-                  className={cn('flex-1 py-2.5 rounded-xl text-xs font-semibold transition-all tap-scale',
-                    timer === t.value ? 'tahoe-btn-primary' : 'liquid-glass text-foreground'
-                  )}>{t.label}</button>
+                <Button key={t.label} onClick={() => setTimer(t.value)}
+                  variant={timer === t.value ? 'default' : 'secondary'}
+                  className="flex-1 py-2.5 h-auto text-xs"
+                >{t.label}</Button>
               ))}
             </div>
           </div>
@@ -170,10 +171,10 @@ export default function CreateRequestPage() {
       
       <div className="fixed bottom-0 left-0 right-0 p-4 liquid-glass-nav">
         <div className="max-w-md mx-auto">
-          <button className="w-full h-12 tahoe-btn-primary tap-scale disabled:opacity-40"
+          <Button className="w-full h-12"
             onClick={handleSubmit} disabled={!canPost || isSubmitting}>
             {isSubmitting ? 'Posting...' : 'Post Request'}
-          </button>
+          </Button>
         </div>
       </div>
     </div>

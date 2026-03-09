@@ -7,6 +7,7 @@ import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
 import { UrgencyBadge } from '@/components/ui/UrgencyBadge';
 import { TrustBadge } from '@/components/ui/TrustBadge';
 import { formatDistanceToNow } from 'date-fns';
+import { Button } from '@/components/ui/button';
 
 export default function JoinRequestPage() {
   const { id } = useParams<{ id: string }>();
@@ -39,7 +40,7 @@ export default function JoinRequestPage() {
         <div className="text-center">
           <span className="text-4xl block mb-3">🤷</span>
           <p className="text-sm text-muted-foreground mb-4">Request not found</p>
-          <button onClick={() => navigate('/home')} className="tahoe-btn-primary h-10 px-6 tap-scale">Go Home</button>
+          <Button onClick={() => navigate('/home')} className="h-10 px-6">Go Home</Button>
         </div>
       </div>
     );
@@ -130,7 +131,7 @@ export default function JoinRequestPage() {
           </div>
           
           {/* Join CTA */}
-          <button className="w-full h-12 tahoe-btn-primary tap-scale"
+          <Button className="w-full h-12"
             onClick={handleJoin} disabled={isJoining || seatsLeft === 0}>
             {isJoining ? (
               <span className="flex items-center gap-2">
@@ -138,7 +139,7 @@ export default function JoinRequestPage() {
                 Joining...
               </span>
             ) : `Join ${request.userName}`}
-          </button>
+          </Button>
           {seatsLeft <= 2 && seatsLeft > 0 && (
             <p className="text-center text-warning text-2xs font-semibold">Only {seatsLeft} spot{seatsLeft > 1 ? 's' : ''} left</p>
           )}

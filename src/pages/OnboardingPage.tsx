@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
-
+import { Button } from '@/components/ui/button';
 const slides = [
   { emoji: '👋', title: 'Find Your People', description: 'Connect with people nearby who want the same things — right now.' },
   { emoji: '⚡', title: 'Real-Time Vibes', description: 'Post what you need in seconds. Watch as people nearby respond instantly.' },
@@ -96,9 +96,9 @@ export default function OnboardingPage() {
           ))}
         </div>
         
-        <button className="w-full h-12 tahoe-btn-primary tap-scale" onClick={handleNext}>
+        <Button className="w-full h-12" onClick={handleNext}>
           {isLastSlide ? 'Get Started' : 'Continue'}
-        </button>
+        </Button>
         
         {currentSlide < slides.length - 1 && (
           <button className="w-full text-muted-foreground mt-3 py-2 text-sm font-medium tap-scale" onClick={handleSkip}>

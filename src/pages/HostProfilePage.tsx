@@ -3,7 +3,7 @@ import { TopBar } from '@/components/layout/TopBar';
 import { useAppStore } from '@/store/useAppStore';
 import { TrustBadge } from '@/components/ui/TrustBadge';
 import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
-
+import { Button } from '@/components/ui/button';
 const FAKE_REVIEWS = [
   { name: 'Priya', rating: 5, comment: 'Great host — very chill meetup!', ago: '2 days ago' },
   { name: 'Arjun', rating: 4, comment: 'Really fun, would do it again.', ago: '1 week ago' },
@@ -24,7 +24,7 @@ export default function HostProfilePage() {
         <div className="text-center">
           <span className="text-4xl block mb-3">🤷</span>
           <p className="text-sm text-muted-foreground mb-4">Host not found</p>
-          <button onClick={() => navigate(-1)} className="tahoe-btn-primary h-10 px-6 tap-scale">Go Back</button>
+          <Button onClick={() => navigate(-1)} className="h-10 px-6">Go Back</Button>
         </div>
       </div>
     );

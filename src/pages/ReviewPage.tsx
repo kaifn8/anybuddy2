@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { TopBar } from '@/components/layout/TopBar';
 import gsap from 'gsap';
 import { useAppStore } from '@/store/useAppStore';
+import { Button } from '@/components/ui/button';
 
 export default function ReviewPage() {
   const { id } = useParams<{ id: string }>();
@@ -72,12 +73,12 @@ export default function ReviewPage() {
                 { v: 'no' as const, l: '❌ No' },
                 { v: 'didnt_attend' as const, l: "🚫 Didn't attend" },
               ].map((opt) => (
-                <button key={opt.v} onClick={() => setDidHappen(opt.v)}
-                  className={`flex-1 py-3 rounded-xl text-xs font-semibold transition-all tap-scale ${
-                    didHappen === opt.v ? 'tahoe-btn-primary' : 'liquid-glass text-foreground'
-                  }`}>
+                <Button key={opt.v} onClick={() => setDidHappen(opt.v)}
+                  variant={didHappen === opt.v ? 'default' : 'secondary'}
+                  className="flex-1 py-3 h-auto text-xs"
+                >
                   {opt.l}
-                </button>
+                </Button>
               ))}
             </div>
           </div>
@@ -102,10 +103,10 @@ export default function ReviewPage() {
             </div>
           )}
           
-          <button className="w-full h-12 tahoe-btn-primary tap-scale disabled:opacity-40"
+          <Button className="w-full h-12"
             onClick={handleSubmit} disabled={!didHappen || (didHappen === 'yes' && rating === 0)}>
             Submit Review
-          </button>
+          </Button>
         </div>
       )}
     </div>

@@ -1,6 +1,7 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { useAppStore } from '@/store/useAppStore';
+import { Button } from '@/components/ui/button';
 
 const navItems = [
   { emoji: '🏠', label: 'Feed', path: '/home' },
@@ -27,9 +28,9 @@ export function BottomNav() {
             if (item.isMain) {
               return (
                 <button key={item.path} onClick={() => navigate(item.path)} className="relative -mt-5 tap-scale">
-                  <div className="tahoe-btn-primary rounded-2xl w-12 h-12 flex items-center justify-center">
+                  <Button className="rounded-2xl w-12 h-12 p-0">
                     <span className="text-lg">{item.emoji}</span>
-                  </div>
+                  </Button>
                 </button>
               );
             }

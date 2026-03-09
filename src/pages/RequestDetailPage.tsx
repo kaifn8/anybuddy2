@@ -160,7 +160,7 @@ export default function RequestDetailPage() {
                   msg.senderId === 'system'
                     ? 'liquid-glass-subtle text-muted-foreground text-center w-full text-xs'
                     : msg.senderId === user?.id
-                    ? 'tahoe-btn-primary rounded-br-md'
+                    ? 'bg-primary text-primary-foreground rounded-br-md'
                     : 'liquid-glass rounded-bl-md'
                 }`}>
                   {msg.senderId !== user?.id && msg.senderId !== 'system' && (
@@ -180,10 +180,10 @@ export default function RequestDetailPage() {
                 onKeyDown={(e) => e.key === 'Enter' && handleSend()}
                 className="flex-1 rounded-full liquid-glass h-10 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20"
               />
-              <button className="tahoe-btn-primary rounded-full w-10 h-10 flex items-center justify-center tap-scale shrink-0"
+              <Button className="rounded-full w-10 h-10 p-0 shrink-0"
                 onClick={handleSend} disabled={!message.trim()}>
                 <Send size={15} />
-              </button>
+              </Button>
             </div>
           </div>
         </>

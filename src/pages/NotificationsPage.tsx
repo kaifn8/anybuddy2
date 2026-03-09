@@ -6,6 +6,7 @@ import { TopBar } from '@/components/layout/TopBar';
 import { useAppStore } from '@/store/useAppStore';
 import { cn } from '@/lib/utils';
 import { useMemo } from 'react';
+import { Button } from '@/components/ui/button';
 
 const emojiMap: Record<string, string> = {
   nearby: '📍', urgent: '⚡', join: '🎉', message: '💬', credit: '💰', trust: '🛡️',
@@ -117,9 +118,9 @@ export default function NotificationsPage() {
               <p>• A plan starts soon nearby</p>
               <p>• New plans appear in your area</p>
             </div>
-            <button onClick={() => navigate('/home')} className="tahoe-btn-primary h-9 px-5 tap-scale text-xs font-semibold">
+            <Button onClick={() => navigate('/home')} size="sm">
               Browse Plans
-            </button>
+            </Button>
           </div>
         )}
 
@@ -128,9 +129,9 @@ export default function NotificationsPage() {
           <span className="text-2xl block mb-2">👋</span>
           <p className="text-sm font-semibold text-foreground">Invite friends to AnyBuddy</p>
           <p className="text-2xs text-muted-foreground mt-1 mb-3">More friends = more plans nearby. Share the love!</p>
-          <button onClick={handleShare} className="tahoe-btn-primary h-9 px-6 tap-scale text-xs font-semibold flex items-center gap-1.5 mx-auto">
+          <Button onClick={handleShare} size="sm" className="mx-auto gap-1.5">
             <Share2 size={14} /> Share Invite Link
-          </button>
+          </Button>
         </div>
       </div>
       

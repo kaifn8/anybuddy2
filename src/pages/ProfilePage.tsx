@@ -33,7 +33,7 @@ export default function ProfilePage() {
         <div className="text-center px-8">
           <span className="text-4xl block mb-3">👤</span>
           <p className="text-sm text-muted-foreground mb-4">Sign in to view your profile</p>
-          <button onClick={() => navigate('/signup')} className="tahoe-btn-primary h-10 px-6 tap-scale">Sign In</button>
+          <Button onClick={() => navigate('/signup')} className="h-10 px-6">Sign In</Button>
         </div>
       </div>
     );

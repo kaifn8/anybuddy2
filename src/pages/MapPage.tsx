@@ -12,6 +12,7 @@ import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
 import { UrgencyBadge } from '@/components/ui/UrgencyBadge';
 import { cn } from '@/lib/utils';
 import type { Category, Request } from '@/types/anybuddy';
+import { Button } from '@/components/ui/button';
 
 const CATEGORY_TINTS: Record<Category, string> = {
   chai: 'bg-amber-500/15 border-amber-400/30',
@@ -155,7 +156,7 @@ export default function MapPage() {
         {filters.map((f) => (
           <button key={f.id} onClick={() => { setFilter(f.id); setSelectedId(null); }}
             className={cn('h-9 px-3 rounded-full flex items-center gap-1.5 tap-scale text-sm transition-all whitespace-nowrap',
-              filter === f.id ? 'tahoe-btn-primary' : 'liquid-glass'
+              filter === f.id ? 'bg-primary text-primary-foreground shadow-lg' : 'liquid-glass'
             )}>
             <span>{f.emoji}</span>
             <span className="text-xs font-medium">{f.label}</span>
@@ -243,12 +244,13 @@ export default function MapPage() {
               </div>
 
               {/* Join button only */}
-              <button
+              <Button
                 onClick={(e) => { e.stopPropagation(); handleJoinFromMap(req); }}
-                className="tahoe-btn-primary h-8 px-4 rounded-xl text-xs font-semibold tap-scale shrink-0"
+                size="sm"
+                className="shrink-0"
               >
                 Join
-              </button>
+              </Button>
             </div>
 
             {/* Footer row */}

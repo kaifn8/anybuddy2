@@ -32,7 +32,7 @@ export function PageHeader({
         {showBack && (
           <button 
             onClick={() => navigate(-1)} 
-            className="tahoe-btn-ghost w-8 h-8 rounded-lg tap-scale text-sm"
+            className="w-8 h-8 rounded-lg tap-scale text-sm hover:bg-muted transition-colors"
           >
             ←
           </button>
