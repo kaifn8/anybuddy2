@@ -133,8 +133,8 @@ export function RequestCard({ request, onJoin, onView, isJoined, className }: Re
           <div className="shrink-0">
             <button
               className={cn(
-                'tap-scale h-9 px-4 rounded-xl text-[13px] font-semibold shadow-sm',
-                isJoined ? 'bg-secondary text-secondary-foreground' : 'bg-primary text-primary-foreground'
+                'tap-scale h-10 px-4 rounded-xl text-sm font-medium shadow-sm',
+                isJoined ? 'bg-secondary text-secondary-foreground' : 'bg-primary text-primary-foreground hover:bg-primary/90'
               )}
               onClick={handleJoinClick}
               disabled={seatsLeft === 0 && !isJoined}
