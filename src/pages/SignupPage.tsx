@@ -31,7 +31,7 @@ const cities = [
 
 const stepConfig: Record<Step, { emoji: string; title: string; subtitle: string }> = {
   method: { emoji: '👋', title: "Let's get you in", subtitle: 'Takes 30 seconds. No spam, ever.' },
-  phone: { emoji: '📱', title: 'Your number?', subtitle: "Quick verification — we won't call" },
+  phone: { emoji: '📱', title: 'Drop your number', subtitle: 'Just to verify you're real. No calls, no spam.' },
   otp: { emoji: '🔐', title: 'Enter code', subtitle: '' },
   name: { emoji: '😊', title: 'What should we call you?', subtitle: 'First name only — keep it casual' },
   photo: { emoji: '📸', title: 'Show your face', subtitle: 'People join plans from real humans' },
