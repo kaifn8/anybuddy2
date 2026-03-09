@@ -213,6 +213,10 @@ export default function AdminUsers() {
                       onClick={() => setWarningDialog(user)}>
                       <MessageSquareWarning size={12} className="mr-1" /> Warn via DM
                     </Button>
+                    <Button variant="secondary" size="sm" className="h-8 text-[11px]"
+                      onClick={() => navigate(`/admin/users/${user.id}`)}>
+                      <MessageCircle size={12} className="mr-1" /> View Chats
+                    </Button>
                     <div className="flex gap-1">
                       <Button variant="outline" size="sm" className="flex-1 h-8 text-[11px]"
                         disabled={user.trustLevel === 'seed'}
