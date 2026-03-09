@@ -27,6 +27,7 @@ const VERIFICATION_LABELS: Record<string, { label: string; color: string }> = {
 };
 
 export default function AdminUsers() {
+  const navigate = useNavigate();
   const [users, setUsers] = useState<AdminUser[]>(() => generateFakeUsers(30));
   const [search, setSearch] = useState('');
   const [trustFilter, setTrustFilter] = useState<TrustLevel | 'all'>('all');
