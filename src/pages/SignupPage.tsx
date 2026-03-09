@@ -38,7 +38,7 @@ const stepConfig: Record<Step, { emoji: string; title: string; subtitle: string 
   photo: { emoji: '📸', title: 'Show your face', subtitle: 'People join plans from real humans' },
   bio: { emoji: '✍️', title: 'One line about you', subtitle: 'Make people want to hang with you' },
   age: { emoji: '🎂', title: 'Your crew age', subtitle: 'Match with people your vibe' },
-  interests: { emoji: '🎯', title: 'What gets you out?', subtitle: 'Pick 2+ to unlock your feed' },
+  interests: { emoji: '🎯', title: 'What are you usually up for?', subtitle: 'Pick at least 3' },
   zone: { emoji: '📍', title: 'Your turf', subtitle: 'Where most plans will happen' },
 };
 
