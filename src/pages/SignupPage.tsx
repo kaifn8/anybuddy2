@@ -3,14 +3,27 @@ import { useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 import { useAppStore, createDefaultUser } from '@/store/useAppStore';
 import type { Category } from '@/types/anybuddy';
-import { getCategoryLabel, getCategoryEmoji } from '@/components/icons/CategoryIcon';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
+import { Check } from 'lucide-react';
 
 type Step = 'method' | 'phone' | 'otp' | 'name' | 'photo' | 'bio' | 'age' | 'interests' | 'zone';
 const steps: Step[] = ['method', 'phone', 'otp', 'name', 'photo', 'bio', 'age', 'interests', 'zone'];
 const ageRanges = ['18-24', '25-34', '35-44', '45-54', '55+'];
-const categories: Category[] = ['chai', 'explore', 'shopping', 'work', 'help', 'casual', 'sports', 'food', 'walk'];
+
+// Interest options with emoji and label
+const interestOptions: { id: Category; emoji: string; label: string }[] = [
+  { id: 'chai', emoji: '☕', label: 'Coffee / Chai' },
+  { id: 'food', emoji: '🍜', label: 'Food' },
+  { id: 'casual', emoji: '🍻', label: 'Drinks' },
+  { id: 'sports', emoji: '🏸', label: 'Sports' },
+  { id: 'walk', emoji: '🚶', label: 'Walks' },
+  { id: 'explore', emoji: '🌆', label: 'Explore' },
+  { id: 'shopping', emoji: '🛍', label: 'Shopping' },
+  { id: 'work', emoji: '💻', label: 'Work / Study' },
+  { id: 'help', emoji: '🎮', label: 'Games' },
+  { id: 'casual', emoji: '🎬', label: 'Movies / Culture' },
+];
 const cities = [
   { name: 'Mumbai', emoji: '🌆', zones: ['Bandra', 'Andheri', 'Colaba', 'Juhu', 'Powai', 'Lower Parel', 'Worli', 'Dadar'] },
   { name: 'Navi Mumbai', emoji: '🏙️', zones: ['Vashi', 'Nerul', 'Kharghar', 'Belapur', 'Panvel', 'Airoli', 'Sanpada'] },
