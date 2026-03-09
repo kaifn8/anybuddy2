@@ -109,7 +109,13 @@ export default function SignupPage() {
   };
   
   const toggleInterest = (cat: Category) => {
-    setInterests(prev => prev.includes(cat) ? prev.filter(c => c !== cat) : [...prev, cat]);
+    setInterests(prev => {
+      if (prev.includes(cat)) {
+        return prev.filter(c => c !== cat);
+      }
+      if (prev.length >= 5) return prev; // Max 5
+      return [...prev, cat];
+    });
   };
   
   const stepIndex = steps.indexOf(step);
