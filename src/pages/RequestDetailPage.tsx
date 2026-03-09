@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { TopBar } from '@/components/layout/TopBar';
-import { Send, Share2, BadgeCheck } from 'lucide-react';
+import { Send, Share2, BadgeCheck, Flag } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { formatDistanceToNow } from 'date-fns';
 import { useAppStore } from '@/store/useAppStore';
@@ -9,6 +9,7 @@ import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
 import { UrgencyBadge } from '@/components/ui/UrgencyBadge';
 import { TrustBadge } from '@/components/ui/TrustBadge';
 import { ShareSheet } from '@/components/ShareSheet';
+import { ReportDialog } from '@/components/ReportDialog';
 
 export default function RequestDetailPage() {
   const { id } = useParams<{ id: string }>();
