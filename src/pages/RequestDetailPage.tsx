@@ -71,6 +71,7 @@ export default function RequestDetailPage() {
 
   const handleSend = () => { if (!message.trim() || !id) return; sendMessage(id, message.trim()); setMessage(''); };
   const handleLeave = () => { if (!id) return; leaveRequest(id); navigate('/home'); };
+  const handleLeaveClick = () => setShowLeaveWarning(true);
   const minutesToStart = (new Date(request.when).getTime() - Date.now()) / 60000;
   const canRemove = minutesToStart > 5 || minutesToStart < 0;
   const handleRemoveParticipant = (participantId: string, name: string) => {
