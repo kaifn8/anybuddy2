@@ -86,7 +86,7 @@ export default function SignupPage() {
       gsap.to(contentRef.current, { opacity: 0, duration: 0.2, onComplete: () => {
         setUser(createDefaultUser({
           id: `user_${Date.now()}`, firstName, phone, email, bio,
-          ageRange, city: 'Mumbai', zone, interests, loginMethod,
+          ageRange, city: selectedCity || 'Mumbai', zone, interests, loginMethod,
           avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${firstName}`,
         }));
         setOnboarded(true);
