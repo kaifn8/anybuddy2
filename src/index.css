@@ -395,9 +395,27 @@
   50% { transform: translateY(-6px) rotate(var(--rotate, 0deg)); }
 }
 
-/* Mobile container */
+/* Responsive container */
 .mobile-container {
   @apply max-w-md mx-auto min-h-screen;
+}
+
+@media (min-width: 768px) {
+  .mobile-container {
+    @apply max-w-2xl;
+  }
+}
+
+@media (min-width: 1024px) {
+  .mobile-container {
+    @apply max-w-4xl pl-64;
+  }
+}
+
+@media (min-width: 1280px) {
+  .mobile-container {
+    @apply max-w-5xl;
+  }
 }
 
 /* Minimal scrollbar */
