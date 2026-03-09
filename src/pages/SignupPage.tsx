@@ -95,7 +95,7 @@ export default function SignupPage() {
   };
   
   const handleComplete = () => {
-    if (interests.length >= 2 && zone) {
+    if (interests.length >= 3 && zone) {
       gsap.to(contentRef.current, { opacity: 0, duration: 0.2, onComplete: () => {
         setUser(createDefaultUser({
           id: `user_${Date.now()}`, firstName, phone, email, bio,
