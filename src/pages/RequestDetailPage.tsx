@@ -176,8 +176,30 @@ export default function RequestDetailPage() {
           ))}
         </div>
 
+        {/* Pull-to-refresh indicator */}
+        {(pullDistance > 0 || isRefreshing) && (
+          <div className="flex justify-center py-2 transition-all" style={{ height: isRefreshing ? 40 : Math.min(pullDistance * 0.6, 40) }}>
+            <div className={cn(
+              'flex items-center gap-2 text-[11px] text-muted-foreground font-medium',
+              isRefreshing && 'animate-pulse'
+            )}>
+              <div className={cn(
+                'w-4 h-4 border-2 border-primary/40 border-t-primary rounded-full',
+                isRefreshing && 'animate-spin'
+              )} />
+              {isRefreshing ? 'Refreshing...' : pullDistance > 60 ? 'Release to refresh' : 'Pull to refresh'}
+            </div>
+          </div>
+        )}
+
         {/* Chat messages — fills remaining space */}
-        <div className="flex-1 overflow-y-auto px-4 py-3 space-y-1">
+        <div
+          ref={chatContainerRef}
+          className="flex-1 overflow-y-auto px-4 py-3 space-y-1"
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+        >
           {msgs.length === 0 && (
             <div className="flex flex-col items-center justify-center h-full text-center py-20">
               <span className="text-4xl mb-3">💬</span>
@@ -234,6 +256,25 @@ export default function RequestDetailPage() {
               </div>
             );
           })}
+
+          {/* Typing indicator */}
+          {typingUser && (
+            <div className="flex items-end gap-2 mb-2 animate-fade-in">
+              <div className="w-7 shrink-0">
+                <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${typingUser}`}
+                  alt="" className="w-7 h-7 rounded-full" />
+              </div>
+              <div>
+                <p className="text-[10px] font-medium text-muted-foreground ml-1 mb-1">{typingUser}</p>
+                <div className="px-4 py-3 bg-muted/50 rounded-[18px] rounded-bl-[6px] flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-muted-foreground/40 animate-bounce" style={{ animationDelay: '0ms' }} />
+                  <span className="w-1.5 h-1.5 rounded-full bg-muted-foreground/40 animate-bounce" style={{ animationDelay: '150ms' }} />
+                  <span className="w-1.5 h-1.5 rounded-full bg-muted-foreground/40 animate-bounce" style={{ animationDelay: '300ms' }} />
+                </div>
+              </div>
+            </div>
+          )}
+
           <div ref={messagesEndRef} />
         </div>
 
