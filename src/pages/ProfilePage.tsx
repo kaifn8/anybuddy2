@@ -1,11 +1,12 @@
 import { useNavigate } from 'react-router-dom';
 import { TopBar } from '@/components/layout/TopBar';
-import { formatDistanceToNow } from 'date-fns';
+import { format, formatDistanceToNow } from 'date-fns';
 import { BottomNav } from '@/components/layout/BottomNav';
 import { TrustBadge } from '@/components/ui/TrustBadge';
 import { getCategoryLabel, getCategoryEmoji } from '@/components/icons/CategoryIcon';
 import { useAppStore } from '@/store/useAppStore';
-import type { Badge } from '@/types/anybuddy';
+import { Button } from '@/components/ui/button';
+import type { Badge, Request } from '@/types/anybuddy';
 
 const badgeLabels: Record<Badge, { emoji: string; label: string }> = {
   verified_host: { emoji: '✅', label: 'Verified Host' },
