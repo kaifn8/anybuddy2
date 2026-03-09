@@ -32,7 +32,7 @@ export function TopBar({ showBack = false, title, hideChat = false, showSettings
         borderBottom: '1px solid rgba(0,0,0,0.04)',
       }}
     >
-      <div className="max-w-md mx-auto flex items-center justify-between h-full px-4">
+      <div className="max-w-md md:max-w-2xl lg:max-w-4xl xl:max-w-5xl mx-auto flex items-center justify-between h-full px-4 lg:pl-64">
         {/* Left */}
         <div className="w-20 flex items-center">
           {showBack ? (
