@@ -104,7 +104,7 @@ export function RequestCard({ request, onJoin, onView, isJoined, className }: Re
           
           <div className="flex-1 min-w-0">
             {/* Title - main element */}
-            <h3 className="font-semibold text-[17px] text-foreground leading-tight line-clamp-2 mb-2">{request.title}</h3>
+            <h3 className="font-semibold text-[15px] text-foreground leading-tight line-clamp-2 mb-2">{request.title}</h3>
             
             {/* Location + Distance merged */}
             <p className="text-[13px] text-muted-foreground font-medium mb-2">
@@ -124,7 +124,7 @@ export function RequestCard({ request, onJoin, onView, isJoined, className }: Re
                 )}
               </div>
               <span className="text-[12px] text-muted-foreground font-medium">
-                👥 {request.seatsTaken} of {request.seatsTotal} spots filled
+                {request.seatsTaken} of {request.seatsTotal} spots filled
               </span>
             </div>
           </div>
