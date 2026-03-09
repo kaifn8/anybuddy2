@@ -59,21 +59,6 @@ export default function HomePage() {
       );
     }
 
-    // Subtle pulse animation for trending cards with glow
-    if (trendingRef.current?.children) {
-      gsap.to(trendingRef.current.children, {
-        scale: 1.02,
-        boxShadow: '0 8px 32px rgba(var(--primary-rgb, 255, 120, 30), 0.15), inset 0 1px 0 rgba(255,255,255,0.8)',
-        duration: 2,
-        ease: 'sine.inOut',
-        repeat: -1,
-        yoyo: true,
-        stagger: {
-          each: 0.3,
-          repeat: -1,
-        }
-      });
-    }
   }, []);
   
   // Auto-scroll trending section
