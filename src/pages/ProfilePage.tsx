@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TopBar } from '@/components/layout/TopBar';
 import { format } from 'date-fns';
@@ -5,7 +6,8 @@ import { BottomNav } from '@/components/layout/BottomNav';
 import { getCategoryLabel, getCategoryEmoji } from '@/components/icons/CategoryIcon';
 import { useAppStore } from '@/store/useAppStore';
 import { Button } from '@/components/ui/button';
-import { Share2, MapPin, Calendar, ChevronRight } from 'lucide-react';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
+import { Share2, ChevronRight } from 'lucide-react';
 import type { Badge, Request } from '@/types/anybuddy';
 import { ProfileHero } from '@/components/profile/ProfileHero';
 import { ProfileStats } from '@/components/profile/ProfileStats';
@@ -21,6 +23,7 @@ const badgeLabels: Record<Badge, { emoji: string; label: string }> = {
 
 export default function ProfilePage() {
   const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState('overview');
   const { user: rawUser, myRequests, requests } = useAppStore();
   
   const user = rawUser ? {
@@ -48,24 +51,11 @@ export default function ProfilePage() {
   
   const pastMeetups = requests.filter(r => 
     r.status === 'completed' && r.participants.some(p => p.id === user.id)
-  ).slice(0, 3);
+  );
   
   const joinDate = new Date(user.createdAt);
   const isToday = new Date().toDateString() === joinDate.toDateString();
   const joinText = isToday ? 'Joined today' : `Joined ${format(joinDate, 'MMM yyyy')}`;
-  
-  const handleShare = async () => {
-    const shareData = {
-      title: 'Join me on AnyBuddy!',
-      text: 'Find people to hang out with nearby. Download AnyBuddy!',
-      url: window.location.origin,
-    };
-    if (navigator.share) {
-      try { await navigator.share(shareData); } catch {}
-    } else {
-      await navigator.clipboard.writeText(shareData.url);
-    }
-  };
 
   const stats = [
     { value: `${user.reliabilityScore}%`, label: 'Reliability' },
@@ -80,6 +70,8 @@ export default function ProfilePage() {
     { icon: '⚠️', label: 'No-shows', value: user.noShows },
     { icon: '❌', label: 'Cancellations', value: user.cancellations },
   ];
+  
+  const activityCount = pastMeetups.length + myRequests.length + savedPlansList.length;
 
   return (
     <div className="mobile-container min-h-screen bg-ambient pb-24">
@@ -96,108 +88,139 @@ export default function ProfilePage() {
         {/* Quick Stats */}
         <ProfileStats stats={stats} />
 
-        {/* Invite Card */}
-        <div className="relative overflow-hidden rounded-2xl border border-primary/15 bg-primary/[0.04] backdrop-blur-sm p-4">
-          <div className="absolute -top-6 -right-6 w-20 h-20 rounded-full bg-primary/10 blur-xl" />
-          <div className="relative flex items-center gap-4">
-            <div className="w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
-              <span className="text-xl">👋</span>
-            </div>
-            <div className="flex-1 min-w-0">
-              <div className="flex items-center justify-between">
-                <p className="text-sm font-semibold">Invite friends</p>
-                <span className="text-2xs font-bold text-primary bg-primary/10 px-2 py-0.5 rounded-full">3 left</span>
-              </div>
-              <p className="text-2xs text-muted-foreground mt-0.5">More friends = more plans nearby</p>
-            </div>
-          </div>
-          <Button onClick={() => navigate('/invite')} size="sm" className="w-full mt-3 gap-1.5">
-            <Share2 size={14} /> Share Invite Link
-          </Button>
-        </div>
+        {/* Tabbed Navigation */}
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+          <TabsList className="grid w-full grid-cols-3 h-11">
+            <TabsTrigger value="overview" className="text-xs">Overview</TabsTrigger>
+            <TabsTrigger value="activity" className="text-xs">
+              Activity {activityCount > 0 && <span className="ml-1 bg-primary/20 text-primary px-1.5 py-0.5 rounded-full text-[10px] font-bold">{activityCount}</span>}
+            </TabsTrigger>
+            <TabsTrigger value="details" className="text-xs">Details</TabsTrigger>
+          </TabsList>
 
-        {/* Interests */}
-        {user.interests.length > 0 && (
-          <ProfileSection title="Interests" action="Edit" onAction={() => {}}>
-            <div className="flex flex-wrap gap-2">
-              {user.interests.map((interest) => (
-                <div key={interest} className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-medium bg-background/60 backdrop-blur-sm border border-border/40 transition-colors hover:border-primary/30">
-                  <span className="text-sm">{getCategoryEmoji(interest)}</span>
-                  <span>{getCategoryLabel(interest)}</span>
+          {/* Overview Tab */}
+          <TabsContent value="overview" className="space-y-4 mt-4">
+            {/* Invite Card */}
+            <div className="relative overflow-hidden rounded-2xl border border-primary/15 bg-primary/[0.04] backdrop-blur-sm p-4">
+              <div className="absolute -top-6 -right-6 w-20 h-20 rounded-full bg-primary/10 blur-xl" />
+              <div className="relative flex items-center gap-4">
+                <div className="w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+                  <span className="text-xl">👋</span>
                 </div>
-              ))}
-            </div>
-          </ProfileSection>
-        )}
-
-        {/* Badges */}
-        {user.badges.length > 0 && (
-          <ProfileSection title="Badges">
-            <div className="flex flex-wrap gap-2">
-              {user.badges.map((badge) => (
-                <div key={badge} className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-accent/10 border border-accent/20">
-                  <span>{badgeLabels[badge]?.emoji}</span>
-                  <span>{badgeLabels[badge]?.label}</span>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center justify-between">
+                    <p className="text-sm font-semibold">Invite friends</p>
+                    <span className="text-2xs font-bold text-primary bg-primary/10 px-2 py-0.5 rounded-full">3 left</span>
+                  </div>
+                  <p className="text-2xs text-muted-foreground mt-0.5">More friends = more plans nearby</p>
                 </div>
-              ))}
-            </div>
-          </ProfileSection>
-        )}
-        
-        {/* Host Stats */}
-        <ProfileSection title="Host Stats">
-          <div className="space-y-0">
-            {hostStats.map((s, i) => (
-              <div key={i} className="flex items-center justify-between py-2.5 border-b border-border/20 last:border-b-0">
-                <span className="text-xs text-muted-foreground flex items-center gap-2.5">
-                  <span className="text-sm">{s.icon}</span>
-                  <span>{s.label}</span>
-                </span>
-                <span className="text-sm font-bold tabular-nums">{s.value}</span>
               </div>
-            ))}
-          </div>
-        </ProfileSection>
-        
-        {/* Past Meetups */}
-        <ProfileSection title="Past Meetups">
-          {pastMeetups.length > 0 ? (
-            <div className="space-y-2">
-              {pastMeetups.map((req) => (
-                <RequestRow key={req.id} req={req} onClick={() => navigate(`/request/${req.id}`)} />
-              ))}
-            </div>
-          ) : (
-            <div className="py-6 text-center">
-              <p className="text-sm text-muted-foreground mb-3">No meetups yet</p>
-              <Button onClick={() => navigate('/home')} variant="secondary" size="sm">
-                Join your first plan 👇
+              <Button onClick={() => navigate('/invite')} size="sm" className="w-full mt-3 gap-1.5">
+                <Share2 size={14} /> Share Invite Link
               </Button>
             </div>
-          )}
-        </ProfileSection>
-        
-        {/* My Requests */}
-        {myRequests.length > 0 && (
-          <ProfileSection title="My Requests" action="See all" onAction={() => {}}>
-            <div className="space-y-2">
-              {myRequests.slice(0, 3).map((req) => (
-                <RequestRow key={req.id} req={req} onClick={() => navigate(`/request/${req.id}`)} subtitle={`${req.seatsTaken}/${req.seatsTotal} spots • ${req.status}`} />
-              ))}
-            </div>
-          </ProfileSection>
-        )}
-        
-        {/* Saved Plans */}
-        {savedPlansList.length > 0 && (
-          <ProfileSection title="Saved Plans" icon="♡">
-            <div className="space-y-2">
-              {savedPlansList.map((req) => (
-                <RequestRow key={req.id} req={req} onClick={() => navigate(`/request/${req.id}`)} subtitle={`📍 ${req.location.name} • ${req.seatsTaken}/${req.seatsTotal} spots`} />
-              ))}
-            </div>
-          </ProfileSection>
-        )}
+
+            {/* Interests */}
+            {user.interests.length > 0 && (
+              <ProfileSection title="Interests" action="Edit" onAction={() => {}}>
+                <div className="flex flex-wrap gap-2">
+                  {user.interests.map((interest) => (
+                    <div key={interest} className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-medium bg-background/60 backdrop-blur-sm border border-border/40 transition-colors hover:border-primary/30">
+                      <span className="text-sm">{getCategoryEmoji(interest)}</span>
+                      <span>{getCategoryLabel(interest)}</span>
+                    </div>
+                  ))}
+                </div>
+              </ProfileSection>
+            )}
+
+            {/* Badges */}
+            {user.badges.length > 0 && (
+              <ProfileSection title="Badges">
+                <div className="flex flex-wrap gap-2">
+                  {user.badges.map((badge) => (
+                    <div key={badge} className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-accent/10 border border-accent/20">
+                      <span>{badgeLabels[badge]?.emoji}</span>
+                      <span>{badgeLabels[badge]?.label}</span>
+                    </div>
+                  ))}
+                </div>
+              </ProfileSection>
+            )}
+          </TabsContent>
+
+          {/* Activity Tab */}
+          <TabsContent value="activity" className="space-y-4 mt-4">
+            {/* Past Meetups */}
+            <ProfileSection title="Past Meetups">
+              {pastMeetups.length > 0 ? (
+                <div className="space-y-2">
+                  {pastMeetups.map((req) => (
+                    <RequestRow key={req.id} req={req} onClick={() => navigate(`/request/${req.id}`)} />
+                  ))}
+                </div>
+              ) : (
+                <div className="py-6 text-center">
+                  <p className="text-sm text-muted-foreground mb-3">No meetups yet</p>
+                  <Button onClick={() => navigate('/home')} variant="secondary" size="sm">
+                    Join your first plan 👇
+                  </Button>
+                </div>
+              )}
+            </ProfileSection>
+            
+            {/* My Requests */}
+            {myRequests.length > 0 && (
+              <ProfileSection title="My Requests" action="See all" onAction={() => {}}>
+                <div className="space-y-2">
+                  {myRequests.map((req) => (
+                    <RequestRow key={req.id} req={req} onClick={() => navigate(`/request/${req.id}`)} subtitle={`${req.seatsTaken}/${req.seatsTotal} spots • ${req.status}`} />
+                  ))}
+                </div>
+              </ProfileSection>
+            )}
+            
+            {/* Saved Plans */}
+            {savedPlansList.length > 0 && (
+              <ProfileSection title="Saved Plans" icon="♡">
+                <div className="space-y-2">
+                  {savedPlansList.map((req) => (
+                    <RequestRow key={req.id} req={req} onClick={() => navigate(`/request/${req.id}`)} subtitle={`📍 ${req.location.name} • ${req.seatsTaken}/${req.seatsTotal} spots`} />
+                  ))}
+                </div>
+              </ProfileSection>
+            )}
+
+            {activityCount === 0 && (
+              <div className="text-center py-12">
+                <span className="text-4xl block mb-3">📭</span>
+                <p className="text-sm text-muted-foreground">No activity yet</p>
+              </div>
+            )}
+          </TabsContent>
+
+          {/* Details Tab */}
+          <TabsContent value="details" className="space-y-4 mt-4">
+            {/* Host Stats */}
+            <ProfileSection title="Host Performance">
+              <div className="space-y-0">
+                {hostStats.map((s, i) => (
+                  <div key={i} className="flex items-center justify-between py-2.5 border-b border-border/20 last:border-b-0">
+                    <span className="text-xs text-muted-foreground flex items-center gap-2.5">
+                      <span className="text-sm">{s.icon}</span>
+                      <span>{s.label}</span>
+                    </span>
+                    <span className="text-sm font-bold tabular-nums">{s.value}</span>
+                  </div>
+                ))}
+              </div>
+            </ProfileSection>
+
+            <Button onClick={() => navigate('/credits')} variant="secondary" className="w-full" size="sm">
+              View Credits & Trust Level →
+            </Button>
+          </TabsContent>
+        </Tabs>
 
         {/* Bottom spacer */}
         <div className="h-2" />
