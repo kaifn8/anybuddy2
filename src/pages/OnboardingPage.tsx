@@ -236,51 +236,89 @@ export default function OnboardingPage() {
 
       case 'safe':
         return (
-          <div className="w-full max-w-[300px]">
-            {/* Safety visual — layered card */}
-            <div className="relative rounded-3xl overflow-hidden bg-gradient-to-b from-success/[0.08] via-background to-primary/[0.05] border border-success/15 p-5">
-              {/* Large shield */}
-              <div className="flex justify-center mb-5">
+          <div className="relative w-full max-w-[320px]">
+            <div className="relative rounded-[28px] overflow-hidden" style={{ height: 360 }}>
+              {/* Rich gradient background */}
+              <div className="absolute inset-0">
+                <div className="absolute inset-0 bg-gradient-to-br from-success/15 via-background to-primary/10" />
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-64 rounded-full bg-success/20 blur-[80px]" />
+                <div className="absolute bottom-0 right-0 w-40 h-40 rounded-full bg-primary/15 blur-[60px]" />
+              </div>
+              
+              {/* Subtle grid pattern */}
+              <div className="absolute inset-0 opacity-[0.02]" style={{
+                backgroundImage: 'linear-gradient(hsl(var(--foreground)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--foreground)) 1px, transparent 1px)',
+                backgroundSize: '24px 24px'
+              }} />
+              
+              {/* Glass overlay */}
+              <div className="absolute inset-0 bg-background/10 backdrop-blur-[1px]" />
+              
+              {/* Central shield with animated rings */}
+              <div className="absolute top-[30%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
+                {/* Protective rings */}
+                <div className="absolute w-40 h-40 -top-20 -left-20 rounded-full border-2 border-success/20 animate-pulse" />
+                <div className="absolute w-28 h-28 -top-14 -left-14 rounded-full border-2 border-success/30" style={{ animation: 'pulse 2s ease-in-out infinite', animationDelay: '0.5s' }} />
+                
+                {/* Main shield */}
                 <div className="relative">
-                  <div className="absolute inset-0 rounded-[1.75rem] bg-success/10 blur-xl scale-125" />
-                  <div className="relative w-20 h-20 rounded-[1.75rem] bg-gradient-to-br from-success/20 to-success/5 flex items-center justify-center border border-success/25 shadow-lg shadow-success/10">
-                    <ShieldCheck className="w-10 h-10 text-success" strokeWidth={1.5} />
+                  <div className="absolute inset-0 w-24 h-24 -m-2 rounded-[2rem] bg-success/30 blur-2xl animate-pulse" />
+                  <div className="relative w-20 h-20 rounded-[1.5rem] bg-gradient-to-br from-success via-success/90 to-success/70 flex items-center justify-center shadow-2xl shadow-success/40 border-4 border-background">
+                    <ShieldCheck className="w-10 h-10 text-success-foreground" strokeWidth={2} />
                   </div>
-                  <div className="absolute -top-1.5 -right-1.5 w-7 h-7 rounded-full bg-success flex items-center justify-center shadow-md shadow-success/30 border-2 border-background">
-                    <BadgeCheck size={14} className="text-success-foreground" />
+                  <div className="absolute -bottom-1 -right-1 w-7 h-7 rounded-full bg-background flex items-center justify-center shadow-lg border-2 border-success">
+                    <BadgeCheck size={14} className="text-success" />
                   </div>
                 </div>
               </div>
-
-              {/* Trust checklist */}
-              <div className="space-y-2">
-                {TRUST_FEATURES.map((feature, i) => (
-                  <div
-                    key={i}
-                    className="flex items-center gap-3 px-3.5 py-3 rounded-2xl bg-background/60 backdrop-blur-sm border border-border/20"
-                  >
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary/15 to-primary/5 flex items-center justify-center shrink-0 border border-primary/10">
-                      <feature.icon size={18} className="text-primary" />
-                    </div>
-                    <div className="flex-1">
-                      <p className="text-[12px] font-semibold">{feature.label}</p>
-                      <p className="text-[10px] text-muted-foreground leading-relaxed">{feature.desc}</p>
-                    </div>
-                    <div className="w-6 h-6 rounded-full bg-success/15 flex items-center justify-center border border-success/20">
-                      <span className="text-success text-[11px] font-bold">✓</span>
-                    </div>
+              
+              {/* Blocked message floating left */}
+              <div className="absolute top-[15%] left-[5%] z-20" style={{ animation: 'float 5s ease-in-out infinite' }}>
+                <div className="relative px-3 py-2 rounded-xl bg-destructive/10 border border-destructive/20 backdrop-blur-xl shadow-lg">
+                  <div className="flex items-center gap-2">
+                    <span className="text-destructive text-sm">🚫</span>
+                    <span className="text-[10px] text-destructive/80 font-medium line-through">Random DM</span>
                   </div>
-                ))}
-              </div>
-
-              {/* Bottom trust meter */}
-              <div className="mt-4 px-1">
-                <div className="flex items-center justify-between mb-1.5">
-                  <span className="text-[9px] font-semibold text-muted-foreground uppercase tracking-wider">Your safety score</span>
-                  <span className="text-[11px] font-bold text-success">Protected</span>
+                  <div className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-destructive flex items-center justify-center">
+                    <span className="text-[8px] text-destructive-foreground font-bold">✕</span>
+                  </div>
                 </div>
-                <div className="w-full h-2 rounded-full bg-foreground/5 overflow-hidden">
-                  <div className="h-full rounded-full bg-gradient-to-r from-success/60 to-success" style={{ width: '100%' }} />
+              </div>
+              
+              {/* Blocked message floating right */}
+              <div className="absolute top-[8%] right-[8%] z-20" style={{ animation: 'float 5s ease-in-out infinite', animationDelay: '1s' }}>
+                <div className="relative px-3 py-2 rounded-xl bg-destructive/10 border border-destructive/20 backdrop-blur-xl shadow-lg transform rotate-3">
+                  <div className="flex items-center gap-2">
+                    <span className="text-destructive text-sm">👻</span>
+                    <span className="text-[10px] text-destructive/80 font-medium line-through">Stalker</span>
+                  </div>
+                  <div className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-destructive flex items-center justify-center">
+                    <span className="text-[8px] text-destructive-foreground font-bold">✕</span>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Trust features list */}
+              <div className="absolute bottom-0 left-0 right-0 px-4 pt-3 pb-4 bg-gradient-to-t from-background/95 via-background/80 to-transparent">
+                <div className="space-y-2">
+                  {TRUST_FEATURES.map((feature, i) => (
+                    <div
+                      key={i}
+                      className="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-background/70 backdrop-blur-md border border-border/20 shadow-sm"
+                      style={{ animation: 'fade-in 0.4s ease-out forwards', animationDelay: `${i * 0.1}s` }}
+                    >
+                      <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-success/20 to-success/5 flex items-center justify-center shrink-0 border border-success/15">
+                        <feature.icon size={16} className="text-success" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-[11px] font-bold text-foreground">{feature.label}</p>
+                        <p className="text-[9px] text-muted-foreground">{feature.desc}</p>
+                      </div>
+                      <div className="w-5 h-5 rounded-full bg-success/15 flex items-center justify-center">
+                        <span className="text-success text-[10px]">✓</span>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
