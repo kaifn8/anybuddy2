@@ -71,51 +71,70 @@ export default function OnboardingPage() {
       case 'people':
         return (
           <div className="relative w-full max-w-[300px]">
-            {/* Map-style visual */}
-            <div className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-primary/[0.06] via-background to-secondary/[0.06] border border-border/20 p-5 pb-4">
-              {/* Decorative grid dots */}
-              <div className="absolute inset-0 opacity-[0.04]" style={{
-                backgroundImage: 'radial-gradient(circle, hsl(var(--foreground)) 1px, transparent 1px)',
-                backgroundSize: '20px 20px',
-              }} />
-              
-              {/* Location pulse rings */}
-              <div className="flex justify-center mb-4 relative">
-                <div className="absolute w-32 h-32 rounded-full border border-primary/10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-[ping_3s_ease-out_infinite]" />
-                <div className="absolute w-20 h-20 rounded-full border border-primary/15 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-[ping_3s_ease-out_1s_infinite]" />
-                
-                <div className="relative z-10 w-14 h-14 rounded-full bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center shadow-xl shadow-primary/30">
-                  <span className="text-xl text-primary-foreground font-bold">You</span>
+            {/* Faux map card */}
+            <div className="relative rounded-3xl overflow-hidden border border-border/25" style={{ height: 320 }}>
+              {/* Map background — soft topo-style */}
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/[0.04] via-muted/30 to-secondary/[0.04]" />
+              {/* Road/street lines */}
+              <svg className="absolute inset-0 w-full h-full opacity-[0.06]" viewBox="0 0 300 320">
+                <line x1="0" y1="160" x2="300" y2="160" stroke="hsl(var(--foreground))" strokeWidth="2" />
+                <line x1="150" y1="0" x2="150" y2="320" stroke="hsl(var(--foreground))" strokeWidth="2" />
+                <line x1="0" y1="80" x2="300" y2="80" stroke="hsl(var(--foreground))" strokeWidth="1" strokeDasharray="6 4" />
+                <line x1="0" y1="240" x2="300" y2="240" stroke="hsl(var(--foreground))" strokeWidth="1" strokeDasharray="6 4" />
+                <line x1="75" y1="0" x2="75" y2="320" stroke="hsl(var(--foreground))" strokeWidth="1" strokeDasharray="6 4" />
+                <line x1="225" y1="0" x2="225" y2="320" stroke="hsl(var(--foreground))" strokeWidth="1" strokeDasharray="6 4" />
+              </svg>
+
+              {/* Pulse rings from center */}
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                <div className="absolute w-48 h-48 -top-24 -left-24 rounded-full border border-primary/8 animate-[ping_4s_ease-out_infinite]" />
+                <div className="absolute w-32 h-32 -top-16 -left-16 rounded-full border border-primary/12 animate-[ping_4s_ease-out_1.5s_infinite]" />
+                <div className="absolute w-20 h-20 -top-10 -left-10 rounded-full bg-primary/[0.06]" />
+              </div>
+
+              {/* Center — You pin */}
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 flex flex-col items-center">
+                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center shadow-xl shadow-primary/30 border-[3px] border-background">
+                  <MapPin size={20} className="text-primary-foreground" />
+                </div>
+                <div className="mt-1 px-2.5 py-0.5 rounded-full bg-foreground/90 text-background text-[9px] font-bold shadow-md">
+                  You
                 </div>
               </div>
 
-              {/* People around you */}
-              <div className="grid grid-cols-3 gap-2">
-                {NEARBY_PEOPLE.map((person) => (
-                  <div key={person.name} className="flex flex-col items-center gap-1.5 py-2 px-1 rounded-2xl bg-background/50 backdrop-blur-sm border border-border/20">
+              {/* Person pins scattered on map */}
+              {NEARBY_PEOPLE.map((person, i) => {
+                const positions = [
+                  { top: '18%', left: '22%' },
+                  { top: '30%', right: '15%' },
+                  { bottom: '22%', left: '30%' },
+                ];
+                const pos = positions[i];
+                return (
+                  <div key={person.name} className="absolute z-10 flex flex-col items-center" style={pos}>
                     <div className="relative">
-                      <div className="w-11 h-11 rounded-full overflow-hidden bg-muted border-2 border-background shadow-md">
+                      <div className="w-10 h-10 rounded-full overflow-hidden border-[3px] border-background shadow-lg bg-muted">
                         <img src={person.avatar} alt={person.name} className="w-full h-full object-cover" />
                       </div>
-                      <span className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-success border-2 border-background" />
+                      <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-success border-2 border-background" />
                     </div>
-                    <p className="text-[10px] font-semibold text-foreground">{person.name}</p>
-                    <span className="text-[8px] text-primary font-medium bg-primary/10 px-1.5 py-0.5 rounded-full">{person.distance}</span>
+                    <div className="mt-1 px-2 py-0.5 rounded-lg bg-background/90 backdrop-blur-sm shadow-sm border border-border/20 flex items-center gap-1">
+                      <span className="text-[9px] font-semibold">{person.name}</span>
+                      <span className="text-[7px] text-primary font-medium">· {person.distance}</span>
+                    </div>
                   </div>
-                ))}
-              </div>
+                );
+              })}
 
-              {/* Activity tickers */}
-              <div className="mt-3 space-y-1.5">
-                {NEARBY_PEOPLE.map((person, i) => (
-                  <div key={i} className="flex items-center gap-2 px-3 py-2 rounded-xl bg-background/60 backdrop-blur-sm border border-border/15">
-                    <span className="w-1.5 h-1.5 rounded-full bg-success shrink-0 animate-pulse" />
-                    <p className="text-[10px] text-muted-foreground flex-1 truncate">
-                      <span className="font-semibold text-foreground">{person.name}</span> · {person.activity}
-                    </p>
-                    <span className="text-[8px] text-muted-foreground shrink-0">{person.distance}</span>
+              {/* Bottom overlay bar */}
+              <div className="absolute bottom-0 left-0 right-0 px-4 py-3 bg-gradient-to-t from-background/95 via-background/80 to-transparent">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-1.5">
+                    <span className="w-2 h-2 rounded-full bg-success animate-pulse" />
+                    <span className="text-[10px] font-semibold text-foreground">{NEARBY_PEOPLE.length} people nearby</span>
                   </div>
-                ))}
+                  <span className="text-[9px] text-primary font-semibold bg-primary/10 px-2 py-0.5 rounded-full">Within 1 km</span>
+                </div>
               </div>
             </div>
           </div>
