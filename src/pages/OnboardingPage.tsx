@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { MapPin, ShieldCheck, BadgeCheck, Zap, Users, Star, ArrowLeft } from 'lucide-react';
 
 const slides = [
-  { id: 'people', title: "Someone's waiting", description: "Right now, people near you want the same thing. Don't miss them." },
+  { id: 'people', title: "Friends busy?", description: "Find people nearby who are up for coffee, food, walks, or games right now." },
   { id: 'realtime', title: 'Gone in minutes', description: 'Post in 10 seconds. Get replies before your coffee cools.' },
   { id: 'safe', title: 'No creeps. Ever.', description: 'No random DMs. No strangers stalking. Just group hangs with real people.' },
   { id: 'credits', title: 'Give to get', description: 'Help others, earn credits. The more you give, the more you unlock.' },
@@ -70,120 +70,59 @@ export default function OnboardingPage() {
     switch (slide.id) {
       case 'people':
         return (
-          <div className="relative w-full max-w-[320px]">
-            {/* Premium glass card */}
-            <div className="relative rounded-[28px] overflow-hidden" style={{ height: 360 }}>
-              {/* Rich gradient mesh background */}
-              <div className="absolute inset-0">
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-background to-accent/15" />
-                <div className="absolute top-0 right-0 w-48 h-48 rounded-full bg-primary/30 blur-[60px]" />
-                <div className="absolute bottom-0 left-0 w-40 h-40 rounded-full bg-accent/25 blur-[50px]" />
-                <div className="absolute top-1/3 left-1/4 w-32 h-32 rounded-full bg-secondary/20 blur-[40px]" />
-              </div>
-              
-              {/* Dot pattern overlay */}
-              <div className="absolute inset-0 opacity-[0.03]" style={{
-                backgroundImage: 'radial-gradient(circle, hsl(var(--foreground)) 1px, transparent 1px)',
-                backgroundSize: '20px 20px'
-              }} />
-              
-              {/* Glass overlay */}
-              <div className="absolute inset-0 bg-background/20 backdrop-blur-[1px]" />
-              
-              {/* Animated connection lines */}
-              <svg className="absolute inset-0 w-full h-full z-[5]" viewBox="0 0 320 360">
-                <defs>
-                  <linearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="0" />
-                    <stop offset="50%" stopColor="hsl(var(--primary))" stopOpacity="0.4" />
-                    <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity="0" />
-                  </linearGradient>
-                </defs>
-                <path d="M160,160 Q80,100 60,60" fill="none" stroke="url(#lineGrad)" strokeWidth="1.5" strokeDasharray="4,4" className="animate-pulse" />
-                <path d="M160,160 Q220,90 260,50" fill="none" stroke="url(#lineGrad)" strokeWidth="1.5" strokeDasharray="4,4" className="animate-pulse" style={{ animationDelay: '0.5s' }} />
-                <path d="M160,160 Q100,200 50,240" fill="none" stroke="url(#lineGrad)" strokeWidth="1.5" strokeDasharray="4,4" className="animate-pulse" style={{ animationDelay: '1s' }} />
-              </svg>
-              
-              {/* Animated radar rings */}
-              <div className="absolute top-[44%] left-1/2 -translate-x-1/2 -translate-y-1/2">
-                <div className="absolute w-72 h-72 -top-36 -left-36 rounded-full border border-primary/8" style={{ animation: 'ping 4s cubic-bezier(0, 0, 0.2, 1) infinite' }} />
-                <div className="absolute w-52 h-52 -top-26 -left-26 rounded-full border border-primary/12" style={{ animation: 'ping 4s cubic-bezier(0, 0, 0.2, 1) infinite', animationDelay: '1.3s' }} />
-                <div className="absolute w-32 h-32 -top-16 -left-16 rounded-full border-2 border-primary/18" style={{ animation: 'ping 4s cubic-bezier(0, 0, 0.2, 1) infinite', animationDelay: '2.6s' }} />
-              </div>
+          <div className="w-full max-w-[320px]">
+            {/* Clean card */}
+            <div className="relative rounded-[28px] bg-gradient-to-b from-primary/8 via-background to-background border border-border/30 overflow-hidden px-5 pt-7 pb-5" style={{ height: 340 }}>
 
-              {/* Center — You indicator */}
-              <div className="absolute top-[44%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 flex flex-col items-center">
-                <div className="relative">
-                  {/* Glow effect */}
-                  <div className="absolute inset-0 w-18 h-18 -m-1 rounded-full bg-primary/40 blur-xl animate-pulse" />
-                  <div className="relative w-16 h-16 rounded-full bg-gradient-to-br from-primary via-primary to-primary/80 flex items-center justify-center shadow-2xl shadow-primary/50 border-4 border-background">
-                    <MapPin size={26} className="text-primary-foreground" strokeWidth={2.5} />
-                  </div>
-                  <div className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-success border-[3px] border-background flex items-center justify-center shadow-lg">
-                    <span className="text-[8px] text-success-foreground font-bold">✓</span>
-                  </div>
-                </div>
-                <div className="mt-2.5 px-4 py-1.5 rounded-full bg-foreground text-background text-[10px] font-bold shadow-xl">
-                  You're here
-                </div>
-              </div>
+              {/* Soft top glow */}
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-56 h-32 rounded-full bg-primary/20 blur-[50px] pointer-events-none" />
 
-              {/* Floating person cards - redesigned */}
-              {NEARBY_PEOPLE.map((person, i) => {
-                const configs = [
-                  { top: '8%', left: '5%', rotate: '-8deg', delay: '0s' },
-                  { top: '6%', right: '2%', rotate: '6deg', delay: '0.7s' },
-                  { bottom: '22%', left: '8%', rotate: '-4deg', delay: '1.4s' },
-                ];
-                const cfg = configs[i];
-                const colors = ['from-primary/10 to-primary/5', 'from-accent/10 to-accent/5', 'from-secondary/10 to-secondary/5'];
-                return (
-                  <div
-                    key={person.name}
-                    className="absolute z-10"
-                    style={{
-                      ...cfg,
-                      transform: `rotate(${cfg.rotate})`,
-                      animation: `float 5s ease-in-out infinite`,
-                      animationDelay: cfg.delay,
-                    }}
-                  >
-                    <div className={`flex items-center gap-2.5 px-3 py-2.5 rounded-2xl bg-gradient-to-br ${colors[i]} backdrop-blur-xl shadow-xl border border-background/50`}>
-                      <div className="relative shrink-0">
-                        <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-background shadow-lg ring-2 ring-primary/10">
-                          <img src={person.avatar} alt={person.name} className="w-full h-full object-cover" />
-                        </div>
-                        <span className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-success border-2 border-background animate-pulse shadow-sm" />
+              {/* Avatars row — centered, clean */}
+              <div className="flex justify-center gap-3 mb-5 relative z-10">
+                {NEARBY_PEOPLE.map((p, i) => (
+                  <div key={p.name} className="flex flex-col items-center gap-1.5"
+                    style={{ animation: 'fade-in 0.4s ease-out both', animationDelay: `${i * 0.12}s` }}>
+                    <div className="relative">
+                      <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-background shadow-md">
+                        <img src={p.avatar} alt={p.name} className="w-full h-full object-cover" />
                       </div>
-                      <div className="pr-1">
-                        <p className="text-[12px] font-bold text-foreground leading-tight">{person.name}</p>
-                        <p className="text-[10px] text-muted-foreground leading-tight mt-0.5">{person.activity}</p>
-                      </div>
+                      <span className="absolute bottom-0.5 right-0.5 w-3.5 h-3.5 rounded-full bg-success border-2 border-background" />
                     </div>
+                    <span className="text-[11px] font-semibold text-foreground">{p.name}</span>
                   </div>
-                );
-              })}
+                ))}
+              </div>
 
-              {/* Bottom glass bar - enhanced */}
-              <div className="absolute bottom-0 left-0 right-0 px-4 py-4 bg-gradient-to-t from-background/95 via-background/80 to-transparent backdrop-blur-md">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2.5">
-                    <div className="flex -space-x-2.5">
-                      {NEARBY_PEOPLE.map((p, i) => (
-                        <div key={i} className="w-7 h-7 rounded-full overflow-hidden border-2 border-background shadow-md ring-1 ring-primary/10">
-                          <img src={p.avatar} alt="" className="w-full h-full object-cover" />
-                        </div>
-                      ))}
+              {/* Activity pills */}
+              <div className="flex flex-wrap justify-center gap-2 mb-5 relative z-10">
+                {[
+                  { emoji: '☕', label: 'Coffee' },
+                  { emoji: '🍜', label: 'Food' },
+                  { emoji: '🚶', label: 'Walk' },
+                  { emoji: '🏸', label: 'Badminton' },
+                  { emoji: '🎮', label: 'Games' },
+                ].map((a, i) => (
+                  <span key={a.label}
+                    className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-background border border-border/40 text-[12px] font-medium text-foreground shadow-sm"
+                    style={{ animation: 'scale-in 0.3s ease-out both', animationDelay: `${0.2 + i * 0.07}s` }}>
+                    {a.emoji} {a.label}
+                  </span>
+                ))}
+              </div>
+
+              {/* Live strip */}
+              <div className="flex items-center justify-between px-4 py-3 rounded-2xl bg-background/80 border border-border/30 relative z-10 mt-auto">
+                <div className="flex -space-x-2">
+                  {NEARBY_PEOPLE.map((p, i) => (
+                    <div key={i} className="w-6 h-6 rounded-full overflow-hidden border-2 border-background">
+                      <img src={p.avatar} alt="" className="w-full h-full object-cover" />
                     </div>
-                    <div className="flex flex-col">
-                      <span className="text-[12px] font-bold text-foreground">{NEARBY_PEOPLE.length} waiting nearby</span>
-                      <span className="text-[9px] text-muted-foreground">Ready to meet now</span>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-success/15 border border-success/25 shadow-sm">
-                    <span className="w-2 h-2 rounded-full bg-success animate-pulse shadow-sm shadow-success/50" />
-                    <span className="text-[10px] text-success font-bold tracking-wide">LIVE</span>
-                  </div>
+                  ))}
+                </div>
+                <span className="text-[12px] font-semibold text-foreground">3 people nearby</span>
+                <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-success/15 border border-success/25">
+                  <span className="w-1.5 h-1.5 rounded-full bg-success animate-pulse" />
+                  <span className="text-[10px] text-success font-bold">LIVE</span>
                 </div>
               </div>
             </div>
