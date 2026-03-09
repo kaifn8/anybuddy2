@@ -92,6 +92,8 @@ interface AppState {
   creditHistory: CreditTransaction[];
   reviews: MeetupReview[];
   pendingVerifications: VerificationRequest[];
+  reports: UserReport[];
+  flaggedMessages: FlaggedMessage[];
   
   // Actions
   setUser: (user: User | null) => void;
