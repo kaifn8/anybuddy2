@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Heart, Share2, BadgeCheck } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import { formatDistanceToNow } from 'date-fns';
 import type { Request, Category } from '@/types/anybuddy';
 import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
@@ -131,16 +132,15 @@ export function RequestCard({ request, onJoin, onView, isJoined, className }: Re
           
           {/* Join button */}
           <div className="shrink-0">
-            <button
-              className={cn(
-                'tap-scale h-10 px-4 rounded-xl text-sm font-medium shadow-sm',
-                isJoined ? 'bg-secondary text-secondary-foreground' : 'bg-primary text-primary-foreground hover:bg-primary/90'
-              )}
+            <Button
+              variant={isJoined ? 'secondary' : 'default'}
+              size="sm"
+              className="tap-scale"
               onClick={handleJoinClick}
               disabled={seatsLeft === 0 && !isJoined}
             >
               {isJoined ? '✓ Joined' : seatsLeft === 0 ? 'Full' : 'Join Plan'}
-            </button>
+            </Button>
           </div>
         </div>
 
@@ -152,7 +152,7 @@ export function RequestCard({ request, onJoin, onView, isJoined, className }: Re
             <span className="text-[12px] text-muted-foreground font-medium hover:text-foreground transition-colors flex items-center gap-1">
               {request.userName}
               {(request.userTrust === 'trusted' || request.userTrust === 'anchor') && (
-                <BadgeCheck size={14} style={{ color: '#1d9bf0', fill: '#1d9bf0' }} />
+                <BadgeCheck size={16} className="text-primary" strokeWidth={2.5} />
               )}
               {request.userReliability && <span className="ml-0.5">• ⭐ {request.userReliability}% reliable</span>}
             </span>

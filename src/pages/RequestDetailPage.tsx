@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { TopBar } from '@/components/layout/TopBar';
 import { Send, Share2, BadgeCheck } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import { formatDistanceToNow } from 'date-fns';
 import { useAppStore } from '@/store/useAppStore';
 import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
@@ -102,7 +103,7 @@ export default function RequestDetailPage() {
                 <span className="text-[12px] text-muted-foreground font-medium flex items-center gap-1">
                   {request.userName}
                   {(request.userTrust === 'trusted' || request.userTrust === 'anchor') && (
-                    <BadgeCheck size={14} style={{ color: '#1d9bf0', fill: '#1d9bf0' }} />
+                    <BadgeCheck size={16} className="text-primary" strokeWidth={2.5} />
                   )}
                   {request.userReliability && <span className="ml-0.5">• ⭐ {request.userReliability}% reliable</span>}
                 </span>
@@ -191,10 +192,9 @@ export default function RequestDetailPage() {
           <div className="text-center">
             <span className="text-3xl block mb-3">🔒</span>
             <p className="text-sm text-muted-foreground mb-4">Join to unlock the chat</p>
-            <button className="bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-6 rounded-xl tap-scale text-sm font-medium shadow-sm"
-              onClick={() => navigate(`/join/${request.id}`)} disabled={seatsLeft === 0}>
+            <Button className="tap-scale" onClick={() => navigate(`/join/${request.id}`)} disabled={seatsLeft === 0}>
               {seatsLeft === 0 ? 'Request is full' : 'Join Plan'}
-            </button>
+            </Button>
           </div>
         </div>
       )}
