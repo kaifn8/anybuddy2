@@ -18,7 +18,7 @@ export default function InviteFriendsPage() {
   // Generate unique invite link (in real app, this would be from backend)
   const inviteCode = user?.id ? `${user.id.slice(0, 8)}` : 'ANYBUDDY';
   const inviteLink = `https://anybuddy.app/join/${inviteCode}`;
-  const inviteMessage = `Hey! Join me on AnyBuddy - the app to meet new people and join local activities. Use my invite code: ${inviteCode}`;
+  const inviteMessage = `Yo! I found people to hang with through this app. Join me: ${inviteLink}`;
   
   const invitesLeft = 3; // From user data
   
