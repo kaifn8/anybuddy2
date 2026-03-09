@@ -1,11 +1,10 @@
-import { MapPin, BadgeCheck, ShieldCheck, Settings } from 'lucide-react';
+import { MapPin, BadgeCheck, ShieldCheck } from 'lucide-react';
 import type { Badge, User } from '@/types/anybuddy';
 
 interface ProfileHeroProps {
   user: User & { badges: Badge[] };
   joinText: string;
   stats: { value: string | number; label: string }[];
-  onSettings: () => void;
 }
 
 export function ProfileHero({ user, joinText, stats, onSettings }: ProfileHeroProps) {
