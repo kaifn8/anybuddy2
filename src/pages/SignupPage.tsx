@@ -3,14 +3,26 @@ import { useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 import { useAppStore, createDefaultUser } from '@/store/useAppStore';
 import type { Category } from '@/types/anybuddy';
-import { getCategoryLabel, getCategoryEmoji } from '@/components/icons/CategoryIcon';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
+import { Check } from 'lucide-react';
 
 type Step = 'method' | 'phone' | 'otp' | 'name' | 'photo' | 'bio' | 'age' | 'interests' | 'zone';
 const steps: Step[] = ['method', 'phone', 'otp', 'name', 'photo', 'bio', 'age', 'interests', 'zone'];
 const ageRanges = ['18-24', '25-34', '35-44', '45-54', '55+'];
-const categories: Category[] = ['chai', 'explore', 'shopping', 'work', 'help', 'casual', 'sports', 'food', 'walk'];
+
+// Interest options with emoji and label
+const interestOptions: { id: Category; emoji: string; label: string }[] = [
+  { id: 'chai', emoji: '☕', label: 'Coffee / Chai' },
+  { id: 'food', emoji: '🍜', label: 'Food' },
+  { id: 'casual', emoji: '🍻', label: 'Drinks' },
+  { id: 'sports', emoji: '🏸', label: 'Sports' },
+  { id: 'walk', emoji: '🚶', label: 'Walks' },
+  { id: 'explore', emoji: '🌆', label: 'Explore' },
+  { id: 'shopping', emoji: '🛍', label: 'Shopping' },
+  { id: 'work', emoji: '💻', label: 'Work / Study' },
+  { id: 'help', emoji: '🎮', label: 'Games' },
+];
 const cities = [
   { name: 'Mumbai', emoji: '🌆', zones: ['Bandra', 'Andheri', 'Colaba', 'Juhu', 'Powai', 'Lower Parel', 'Worli', 'Dadar'] },
   { name: 'Navi Mumbai', emoji: '🏙️', zones: ['Vashi', 'Nerul', 'Kharghar', 'Belapur', 'Panvel', 'Airoli', 'Sanpada'] },
@@ -25,7 +37,7 @@ const stepConfig: Record<Step, { emoji: string; title: string; subtitle: string 
   photo: { emoji: '📸', title: 'Show your face', subtitle: 'People join plans from real humans' },
   bio: { emoji: '✍️', title: 'One line about you', subtitle: 'Make people want to hang with you' },
   age: { emoji: '🎂', title: 'Your crew age', subtitle: 'Match with people your vibe' },
-  interests: { emoji: '🎯', title: 'What gets you out?', subtitle: 'Pick 2+ to unlock your feed' },
+  interests: { emoji: '🎯', title: 'What are you usually up for?', subtitle: 'Pick at least 3' },
   zone: { emoji: '📍', title: 'Your turf', subtitle: 'Where most plans will happen' },
 };
 
@@ -82,7 +94,7 @@ export default function SignupPage() {
   };
   
   const handleComplete = () => {
-    if (interests.length >= 2 && zone) {
+    if (interests.length >= 3 && zone) {
       gsap.to(contentRef.current, { opacity: 0, duration: 0.2, onComplete: () => {
         setUser(createDefaultUser({
           id: `user_${Date.now()}`, firstName, phone, email, bio,
@@ -96,7 +108,13 @@ export default function SignupPage() {
   };
   
   const toggleInterest = (cat: Category) => {
-    setInterests(prev => prev.includes(cat) ? prev.filter(c => c !== cat) : [...prev, cat]);
+    setInterests(prev => {
+      if (prev.includes(cat)) {
+        return prev.filter(c => c !== cat);
+      }
+      if (prev.length >= 5) return prev; // Max 5
+      return [...prev, cat];
+    });
   };
   
   const stepIndex = steps.indexOf(step);
@@ -228,24 +246,85 @@ export default function SignupPage() {
           {/* Interests */}
           {step === 'interests' && (
             <div className="space-y-5">
-              <div className="grid grid-cols-3 gap-2">
-                {categories.map((cat) => {
-                  const selected = interests.includes(cat);
+              {/* Interest chips - 2 columns for larger tappable area */}
+              <div className="grid grid-cols-2 gap-2.5">
+                {interestOptions.map((item, idx) => {
+                  const selected = interests.includes(item.id);
+                  const isMaxed = interests.length >= 5 && !selected;
+                  
                   return (
-                    <Button key={cat} onClick={() => toggleInterest(cat)}
-                      variant={selected ? 'default' : 'secondary'}
-                      className="flex flex-col items-center gap-1 py-3 px-2 h-auto"
+                    <button
+                      key={`${item.id}-${idx}`}
+                      onClick={() => !isMaxed && toggleInterest(item.id)}
+                      disabled={isMaxed}
+                      className={cn(
+                        'relative flex items-center gap-3 px-4 py-3.5 rounded-2xl border-2 transition-all duration-200 tap-scale text-left',
+                        selected
+                          ? 'border-primary bg-primary/10 shadow-md shadow-primary/10'
+                          : isMaxed
+                            ? 'border-border/20 bg-muted/30 opacity-50 cursor-not-allowed'
+                            : 'border-border/30 bg-background/50 hover:border-border/50 hover:bg-background/80'
+                      )}
                     >
-                      <span className="text-lg">{getCategoryEmoji(cat)}</span>
-                      <span className="text-xs">{getCategoryLabel(cat)}</span>
-                    </Button>
+                      {/* Emoji */}
+                      <span className="text-2xl">{item.emoji}</span>
+                      
+                      {/* Label */}
+                      <span className={cn(
+                        'text-[13px] font-semibold flex-1',
+                        selected ? 'text-primary' : 'text-foreground'
+                      )}>
+                        {item.label}
+                      </span>
+                      
+                      {/* Checkmark for selected */}
+                      {selected && (
+                        <div className="w-5 h-5 rounded-full bg-primary flex items-center justify-center animate-scale-in">
+                          <Check size={12} className="text-primary-foreground" strokeWidth={3} />
+                        </div>
+                      )}
+                    </button>
                   );
                 })}
               </div>
-              <Button className="w-full h-12" onClick={() => interests.length >= 2 && goToStep('zone')} disabled={interests.length < 2}>Continue</Button>
-              {interests.length > 0 && interests.length < 2 && (
-                <p className="text-center text-2xs text-muted-foreground">Pick {2 - interests.length} more</p>
+
+              {/* Selection counter */}
+              <div className="flex items-center justify-center gap-2">
+                {[1, 2, 3].map((n) => (
+                  <div
+                    key={n}
+                    className={cn(
+                      'w-2.5 h-2.5 rounded-full transition-all duration-300',
+                      interests.length >= n ? 'bg-primary scale-100' : 'bg-muted-foreground/20 scale-75'
+                    )}
+                  />
+                ))}
+                <span className="text-[11px] text-muted-foreground ml-1.5">
+                  {interests.length < 3 
+                    ? `${3 - interests.length} more to go` 
+                    : interests.length < 5 
+                      ? `${interests.length} selected` 
+                      : 'Max selected'}
+                </span>
+              </div>
+
+              {/* Confirmation message when ready */}
+              {interests.length >= 3 && (
+                <div className="flex items-center gap-2 px-4 py-3 rounded-xl bg-success/10 border border-success/20 animate-fade-in">
+                  <span className="text-success">✓</span>
+                  <p className="text-[11px] text-success font-medium">
+                    Nice! We'll show you plans based on what you're into.
+                  </p>
+                </div>
               )}
+
+              <Button 
+                className="w-full h-12" 
+                onClick={() => interests.length >= 3 && goToStep('zone')} 
+                disabled={interests.length < 3}
+              >
+                Continue
+              </Button>
             </div>
           )}
           
@@ -317,7 +396,7 @@ export default function SignupPage() {
                 </div>
               )}
 
-              <Button className="w-full h-12" onClick={handleComplete} disabled={!zone || interests.length < 2}>Let's Go</Button>
+              <Button className="w-full h-12" onClick={handleComplete} disabled={!zone || interests.length < 3}>Let's Go</Button>
             </div>
           )}
         </div>
