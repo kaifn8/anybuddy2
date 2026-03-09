@@ -56,6 +56,21 @@ export default function HomePage() {
         '-=0.1'
       );
     }
+
+    // Subtle pulse animation for trending cards
+    if (trendingRef.current?.children) {
+      gsap.to(trendingRef.current.children, {
+        scale: 1.02,
+        duration: 2,
+        ease: 'sine.inOut',
+        repeat: -1,
+        yoyo: true,
+        stagger: {
+          each: 0.3,
+          repeat: -1,
+        }
+      });
+    }
   }, []);
   
   useEffect(() => {
