@@ -1,4 +1,4 @@
-import { MapPin, Calendar } from 'lucide-react';
+import { MapPin, Calendar, BadgeCheck, ShieldCheck } from 'lucide-react';
 import type { Badge, User } from '@/types/anybuddy';
 
 interface ProfileHeroProps {
@@ -7,50 +7,90 @@ interface ProfileHeroProps {
   badgeLabels: Record<Badge, { emoji: string; label: string }>;
 }
 
-export function ProfileHero({ user, joinText, badgeLabels }: ProfileHeroProps) {
-  const memberStatus = user.badges.includes('early_adopter') ? 'Early member' : 'New member';
+export function ProfileHero({ user, joinText }: ProfileHeroProps) {
+  const reliabilityColor =
+    user.reliabilityScore >= 90 ? 'text-success bg-success/10' :
+    user.reliabilityScore >= 70 ? 'text-warning bg-warning/10' :
+    'text-destructive bg-destructive/10';
 
   return (
     <div className="relative overflow-hidden rounded-3xl">
-      {/* Gradient background */}
+      {/* Background decoration */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary/8 via-transparent to-secondary/8" />
-      <div className="absolute top-0 right-0 w-32 h-32 rounded-full bg-primary/5 blur-2xl" />
-      <div className="absolute bottom-0 left-0 w-24 h-24 rounded-full bg-secondary/5 blur-2xl" />
-      
-      <div className="relative liquid-glass-heavy p-4 rounded-3xl">
-        {/* Avatar + Name row */}
-        <div className="flex items-center gap-3.5">
-          <div className="relative shrink-0">
-            <img 
+      <div className="absolute top-0 right-0 w-40 h-40 rounded-full bg-primary/6 blur-3xl" />
+      <div className="absolute bottom-0 left-0 w-32 h-32 rounded-full bg-secondary/6 blur-3xl" />
+
+      <div className="relative liquid-glass-heavy rounded-3xl px-5 pt-6 pb-5">
+
+        {/* Avatar — centered, large */}
+        <div className="flex flex-col items-center mb-4">
+          <div className="relative">
+            <img
               src={user.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.firstName}`}
-              alt={user.firstName} 
-              className="w-[64px] h-[64px] rounded-2xl object-cover border-2 border-border/30 shadow-lg" 
+              alt={user.firstName}
+              className="w-20 h-20 rounded-2xl object-cover border-2 border-white/30 shadow-xl"
             />
+            {/* Verification ring */}
             {user.isVerified && (
-              <span className="absolute -bottom-1 -right-1 text-sm bg-background rounded-full p-0.5 shadow-sm">✅</span>
+              <div className="absolute -bottom-1.5 -right-1.5 w-6 h-6 rounded-full bg-background flex items-center justify-center shadow-md">
+                <BadgeCheck size={16} className="text-primary" strokeWidth={2.5} />
+              </div>
             )}
           </div>
-          
-          <div className="flex-1 min-w-0">
-            <h2 className="text-lg font-bold truncate">{user.firstName}</h2>
-            {user.bio && (
-              <p className="text-xs text-muted-foreground mt-0.5 line-clamp-2 leading-relaxed">{user.bio}</p>
+
+          {/* Name + verification label */}
+          <div className="mt-3 text-center">
+            <div className="flex items-center justify-center gap-1.5">
+              <h2 className="text-xl font-bold tracking-tight">{user.firstName}</h2>
+            </div>
+            {user.isVerified ? (
+              <div className="inline-flex items-center gap-1 mt-1 px-2 py-0.5 rounded-full bg-primary/10 text-primary text-[10px] font-semibold">
+                <ShieldCheck size={10} />
+                Verified Member
+              </div>
+            ) : (
+              <div className="inline-flex items-center gap-1 mt-1 px-2 py-0.5 rounded-full bg-muted text-muted-foreground text-[10px] font-medium">
+                Not verified
+              </div>
             )}
           </div>
         </div>
-        
-        {/* Meta pills */}
-        <div className="flex items-center gap-3 mt-3 pt-3 border-t border-border/20">
-          <div className="flex items-center gap-1.5 text-muted-foreground">
-            <MapPin size={12} className="text-muted-foreground/60" />
-            <span className="text-[11px]">{user.zone ? `${user.zone}, ${user.city}` : user.city}</span>
+
+        {/* 3-column info grid */}
+        <div className="grid grid-cols-3 gap-2 mb-3">
+          {/* Reliability */}
+          <div className="flex flex-col items-center gap-1 p-2.5 rounded-2xl bg-background/40">
+            <span className={`text-base font-bold tabular-nums ${reliabilityColor} px-2 py-0.5 rounded-lg text-sm`}>
+              {user.reliabilityScore}%
+            </span>
+            <span className="text-[9px] text-muted-foreground font-medium uppercase tracking-wide">Reliable</span>
           </div>
-          <div className="w-px h-3 bg-border/40" />
-          <div className="flex items-center gap-1 text-muted-foreground">
-            <span className="text-[11px]">⭐</span>
-            <span className="text-[11px] font-medium">{memberStatus}</span>
+
+          {/* Location */}
+          <div className="flex flex-col items-center gap-1 p-2.5 rounded-2xl bg-background/40">
+            <MapPin size={16} className="text-primary" />
+            <span className="text-[10px] text-foreground font-semibold truncate w-full text-center leading-tight">
+              {user.zone || user.city}
+            </span>
+            <span className="text-[9px] text-muted-foreground font-medium uppercase tracking-wide">Location</span>
+          </div>
+
+          {/* Join date */}
+          <div className="flex flex-col items-center gap-1 p-2.5 rounded-2xl bg-background/40">
+            <Calendar size={16} className="text-secondary" />
+            <span className="text-[10px] text-foreground font-semibold truncate w-full text-center leading-tight">
+              {joinText.replace('Joined ', '')}
+            </span>
+            <span className="text-[9px] text-muted-foreground font-medium uppercase tracking-wide">Joined</span>
           </div>
         </div>
+
+        {/* Bio */}
+        {user.bio && (
+          <p className="text-xs text-muted-foreground text-center leading-relaxed px-2">
+            {user.bio}
+          </p>
+        )}
       </div>
     </div>
   );
