@@ -229,7 +229,7 @@ export default function HomePage() {
         <h3 className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">All plans</h3>
       </div>
       
-      <div ref={cardsRef} className="px-5 space-y-2">
+      <div ref={cardsRef} className="px-5 space-y-2 md:grid md:grid-cols-2 md:gap-3 md:space-y-0 xl:grid-cols-3">
         {filtered.map((request) => (
           <RequestCard
             key={request.id}
