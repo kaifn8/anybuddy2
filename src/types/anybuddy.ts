@@ -2,6 +2,18 @@ export type TrustLevel = 'seed' | 'solid' | 'trusted' | 'anchor';
 export type Urgency = 'now' | 'today' | 'week';
 export type Category = 'chai' | 'explore' | 'shopping' | 'work' | 'help' | 'casual' | 'sports' | 'food' | 'walk';
 export type VerificationStatus = 'unverified' | 'pending' | 'verified' | 'failed';
+export type JoinMode = 'auto' | 'approval';
+export type PlanVisibility = 'public' | 'request';
+
+export interface JoinRequest {
+  userId: string;
+  userName: string;
+  userAvatar?: string;
+  reliability?: number;
+  note?: string;
+  requestedAt: Date;
+  status: 'pending' | 'accepted' | 'declined';
+}
 
 export interface User {
   id: string;
@@ -32,6 +44,7 @@ export interface User {
   badges: Badge[];
   savedPlans: string[];
   loginMethod?: 'phone' | 'email' | 'google' | 'apple';
+  blockedUsers: string[];
 }
 
 export type Badge = 'verified_host' | 'top_host' | 'trusted_member' | 'early_adopter' | 'streak_7';
@@ -65,6 +78,9 @@ export interface Request {
   isRecurring?: boolean;
   recurringDay?: string;
   status: 'active' | 'completed' | 'cancelled' | 'expired';
+  joinMode: JoinMode;
+  visibility: PlanVisibility;
+  pendingJoinRequests: JoinRequest[];
 }
 
 export interface Participant {
