@@ -160,27 +160,6 @@ export default function ProfilePage() {
             ))}
           </div>
         </div>
-
-        {/* Saved Plans */}
-        {savedPlansList.length > 0 && (
-          <div>
-            <h3 className="text-xs font-semibold text-muted-foreground mb-2 uppercase">♡ Saved Plans</h3>
-            <div className="space-y-1.5">
-              {savedPlansList.map((req) => req && (
-                <button key={req.id} onClick={() => navigate(`/request/${req.id}`)}
-                  className="w-full flex items-center gap-3 bg-background/80 backdrop-blur-xl border border-border/50 p-4 rounded-3xl text-left tap-scale hover:bg-background/90 transition-colors"
-                  style={{ boxShadow: '0px 2px 10px rgba(0,0,0,0.05)' }}>
-                  <span className="text-lg">{getCategoryEmoji(req.category)}</span>
-                  <div className="flex-1 min-w-0">
-                    <p className="font-semibold text-[14px] truncate">{req.title}</p>
-                    <p className="text-[12px] text-muted-foreground mt-1">📍 {req.location.name} • {req.location.distance} km away</p>
-                    <p className="text-[12px] text-muted-foreground mt-0.5">{req.seatsTaken} of {req.seatsTotal} spots filled</p>
-                  </div>
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
         
         {/* Host stats */}
         <div className="liquid-glass p-4 rounded-3xl">

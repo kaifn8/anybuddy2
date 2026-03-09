@@ -57,19 +57,28 @@ export function TopBar({ showBack = false, title, hideChat = false, showSettings
           </span>
         )}
 
-        {/* Right: Chat emoji with badge */}
+        {/* Right: Chat or Settings */}
         <div className="w-20 flex items-center justify-end">
-          <button
-            onClick={() => navigate('/chats')}
-            className="relative tap-scale text-lg"
-          >
-            💬
-            {unreadChats > 0 && (
-              <span className="absolute -top-1 -right-1.5 w-4 h-4 rounded-full bg-destructive text-destructive-foreground text-[10px] font-bold flex items-center justify-center">
-                {unreadChats > 9 ? '9+' : unreadChats}
-              </span>
-            )}
-          </button>
+          {showSettings ? (
+            <button
+              onClick={() => navigate('/settings')}
+              className="tap-scale p-1"
+            >
+              <Settings className="w-5 h-5 text-foreground" />
+            </button>
+          ) : !hideChat ? (
+            <button
+              onClick={() => navigate('/chats')}
+              className="relative tap-scale text-lg"
+            >
+              💬
+              {unreadChats > 0 && (
+                <span className="absolute -top-1 -right-1.5 w-4 h-4 rounded-full bg-destructive text-destructive-foreground text-[10px] font-bold flex items-center justify-center">
+                  {unreadChats > 9 ? '9+' : unreadChats}
+                </span>
+              )}
+            </button>
+          ) : null}
         </div>
       </div>
     </header>
