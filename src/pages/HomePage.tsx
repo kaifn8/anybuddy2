@@ -164,43 +164,44 @@ export default function HomePage() {
       {/* Trending section */}
       {trending.length > 0 && (
         <div className="px-5 pt-3.5 mb-5">
-          <div className="relative rounded-3xl overflow-hidden p-4 pb-5" style={{
-            background: 'linear-gradient(145deg, hsl(var(--primary) / 0.12) 0%, hsl(25 90% 55% / 0.15) 35%, hsl(350 70% 55% / 0.1) 65%, hsl(var(--primary) / 0.06) 100%)',
-          }}>
-            {/* Ambient glow */}
-            <div className="absolute top-0 right-0 w-40 h-40 rounded-full bg-primary/15 blur-[60px] pointer-events-none" />
-            <div className="absolute bottom-0 left-0 w-32 h-32 rounded-full bg-destructive/10 blur-[50px] pointer-events-none" />
-            
-            <h3 className="text-[15px] font-bold text-foreground mb-3 flex items-center gap-1.5 relative z-10">
-              <span>🔥</span> Filling up fast
-            </h3>
-            <div ref={trendingRef} className="flex gap-3 overflow-x-auto scrollbar-hide -mx-1 px-1 pb-1 lg:flex-wrap relative z-10">
-              {trending.map((req, i) => {
-                const seatsLeft = req.seatsTotal - req.seatsTaken;
-                const fillPercent = Math.round((req.seatsTaken / req.seatsTotal) * 100);
-                return (
-                  <button key={req.id} onClick={() => navigate(`/request/${req.id}`)}
-                    className="shrink-0 tap-scale min-w-[200px] max-w-[220px] lg:min-w-[260px] lg:max-w-[300px] rounded-2xl overflow-hidden text-left bg-background/80 backdrop-blur-xl border border-border/30 shadow-sm">
-                    <div className="p-3.5">
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="text-2xl">{getCategoryEmoji(req.category)}</span>
-                        <span className="text-[10px] font-bold text-primary bg-primary/10 px-2 py-0.5 rounded-full">
-                          {req.seatsTaken}/{req.seatsTotal} joined
-                        </span>
-                      </div>
-                      <p className="text-[13px] font-semibold text-foreground truncate mb-1">{req.title}</p>
-                      <p className="text-[11px] text-muted-foreground mb-2.5">📍 {req.location.name}</p>
-                      <div className="w-full h-1.5 rounded-full bg-foreground/5 overflow-hidden">
-                        <div className="h-full rounded-full bg-primary/70 transition-all" style={{ width: `${fillPercent}%` }} />
-                      </div>
-                      <p className="text-[10px] text-muted-foreground mt-1">
-                        {seatsLeft === 0 ? '🔴 Full' : seatsLeft === 1 ? '🟡 1 spot left' : `${seatsLeft} spots left`}
-                      </p>
+          <h3 className="text-[15px] font-bold text-foreground mb-3.5 flex items-center gap-1.5">
+            <span>🔥</span> Filling up fast
+          </h3>
+          <div ref={trendingRef} className="flex gap-3.5 overflow-x-auto scrollbar-hide -mx-5 px-5 pb-1 lg:mx-0 lg:px-0 lg:flex-wrap">
+            {trending.map((req, i) => {
+              const seatsLeft = req.seatsTotal - req.seatsTaken;
+              const fillPercent = Math.round((req.seatsTaken / req.seatsTotal) * 100);
+              const tints = [
+                'linear-gradient(135deg, hsl(var(--primary) / 0.18) 0%, hsl(25 90% 55% / 0.22) 50%, hsl(350 70% 55% / 0.15) 100%)',
+                'linear-gradient(135deg, hsl(250 65% 58% / 0.18) 0%, hsl(var(--primary) / 0.22) 50%, hsl(280 55% 55% / 0.15) 100%)',
+                'linear-gradient(135deg, hsl(160 55% 42% / 0.18) 0%, hsl(175 60% 44% / 0.22) 50%, hsl(var(--primary) / 0.15) 100%)',
+              ];
+              return (
+                <button key={req.id} onClick={() => navigate(`/request/${req.id}`)}
+                  className="shrink-0 tap-scale min-w-[210px] max-w-[230px] lg:min-w-[260px] lg:max-w-[300px] rounded-2xl overflow-hidden text-left border border-border/20"
+                  style={{
+                    background: tints[i % tints.length],
+                    boxShadow: '0 4px 24px rgba(0,0,0,0.06)',
+                  }}>
+                  <div className="p-4">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-2xl">{getCategoryEmoji(req.category)}</span>
+                      <span className="text-[10px] font-bold text-primary bg-primary/10 px-2 py-0.5 rounded-full">
+                        {req.seatsTaken}/{req.seatsTotal} joined
+                      </span>
                     </div>
-                  </button>
-                );
-              })}
-            </div>
+                    <p className="text-[14px] font-semibold text-foreground truncate mb-1">{req.title}</p>
+                    <p className="text-[12px] text-muted-foreground mb-2.5">📍 {req.location.name}</p>
+                    <div className="w-full h-1.5 rounded-full bg-foreground/8 overflow-hidden">
+                      <div className="h-full rounded-full bg-primary/70 transition-all" style={{ width: `${fillPercent}%` }} />
+                    </div>
+                    <p className="text-[10px] text-muted-foreground mt-1">
+                      {seatsLeft === 0 ? '🔴 Full' : seatsLeft === 1 ? '🟡 1 spot left' : `${seatsLeft} spots left`}
+                    </p>
+                  </div>
+                </button>
+              );
+            })}
           </div>
         </div>
       )}
