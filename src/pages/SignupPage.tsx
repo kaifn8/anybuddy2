@@ -396,7 +396,7 @@ export default function SignupPage() {
                 </div>
               )}
 
-              <Button className="w-full h-12" onClick={handleComplete} disabled={!zone || interests.length < 2}>Let's Go</Button>
+              <Button className="w-full h-12" onClick={handleComplete} disabled={!zone || interests.length < 3}>Let's Go</Button>
             </div>
           )}
         </div>
