@@ -48,7 +48,12 @@ export default function RequestDetailPage() {
   const [showInfo, setShowInfo] = useState(false);
   const [showLeaveWarning, setShowLeaveWarning] = useState(false);
   const [reportTarget, setReportTarget] = useState<{ id: string; name: string; type: 'user' | 'plan' } | null>(null);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [pullDistance, setPullDistance] = useState(0);
+  const [typingUser, setTypingUser] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const chatContainerRef = useRef<HTMLDivElement>(null);
+  const pullStartY = useRef<number | null>(null);
 
   const request = requests.find(r => r.id === id);
   const isJoined = joinedRequests.includes(id || '');
