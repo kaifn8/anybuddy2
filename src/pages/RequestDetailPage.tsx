@@ -38,7 +38,7 @@ export default function RequestDetailPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const {
-    requests, joinedRequests, chatMessages, sendMessage, leaveRequest, user,
+    requests, joinedRequests, chatMessages, sendMessage, leaveRequest, user, refreshFeed,
     removeParticipant, blockUser, approveJoinRequest, declineJoinRequest, endPlanEarly,
   } = useAppStore();
 
