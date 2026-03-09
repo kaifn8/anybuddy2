@@ -61,9 +61,9 @@ export default function ProfilePage() {
     <div className="mobile-container min-h-screen bg-ambient pb-24">
       <TopBar showBack title="Profile" />
       
-      <div className="px-5 pt-5 space-y-4">
+      <div className="px-5 pt-5 space-y-5">
         {/* Profile card */}
-        <div className="liquid-glass-heavy p-5 text-center">
+        <div className="liquid-glass-heavy p-4 text-center rounded-3xl">
           <div className="relative inline-block">
             <img src={user.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.firstName}`}
               alt={user.firstName} className="w-20 h-20 rounded-full mx-auto border-3 border-white/40" />
@@ -73,10 +73,35 @@ export default function ProfilePage() {
           </div>
           <h2 className="text-title font-bold mt-3">{user.firstName}</h2>
           {user.bio && <p className="text-xs text-muted-foreground mt-1">{user.bio}</p>}
-          <div className="flex items-center justify-center mt-1.5"><TrustBadge level={user.trustLevel} size="md" /></div>
-          <p className="text-2xs text-muted-foreground mt-2">
-            📍 {user.zone ? `${user.zone}, ${user.city}` : user.city} · Joined {formatDistanceToNow(new Date(user.createdAt), { addSuffix: true })}
-          </p>
+          
+          {/* Member status */}
+          <div className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-primary/10 text-primary text-[11px] font-semibold mt-2">
+            {memberStatus}
+          </div>
+          
+          {/* Location and join date */}
+          <div className="mt-3 space-y-0.5">
+            <p className="text-[11px] text-muted-foreground/70">
+              📍 {user.zone ? `${user.zone}, ${user.city}` : user.city}
+            </p>
+            <p className="text-[11px] text-muted-foreground/70">{joinText}</p>
+          </div>
+        </div>
+        
+        {/* Profile actions */}
+        <div className="grid grid-cols-2 gap-3">
+          <Button variant="default" className="w-full" onClick={() => navigate('/edit-profile')}>
+            Edit Profile
+          </Button>
+          <Button variant="outline" className="w-full" onClick={() => navigate('/invite')}>
+            Invite Friends
+          </Button>
+        </div>
+        
+        {/* Invite count */}
+        <div className="liquid-glass p-3 rounded-2xl flex items-center justify-between">
+          <span className="text-xs font-medium text-muted-foreground">🎟 Invites left</span>
+          <span className="text-sm font-bold text-primary">3</span>
         </div>
         
         {/* Stats grid */}
