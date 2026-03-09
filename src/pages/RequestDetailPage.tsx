@@ -102,7 +102,7 @@ export default function RequestDetailPage() {
                 <span className="text-[12px] text-muted-foreground font-medium flex items-center gap-1">
                   {request.userName}
                   {(request.userTrust === 'trusted' || request.userTrust === 'anchor') && (
-                    <BadgeCheck size={14} className="text-blue-500 fill-blue-500" />
+                    <BadgeCheck size={14} style={{ color: '#1d9bf0', fill: '#1d9bf0' }} />
                   )}
                   {request.userReliability && <span className="ml-0.5">• ⭐ {request.userReliability}% reliable</span>}
                 </span>
