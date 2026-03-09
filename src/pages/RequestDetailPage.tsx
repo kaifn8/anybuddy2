@@ -351,61 +351,133 @@ export default function RequestDetailPage() {
 
           {/* ── Chat section (optional, collapsed) ── */}
           {(isJoined || isHost) && (
-            <div className="pb-4">
+            <div className="pb-6">
+              {/* Toggle header */}
               <button onClick={() => setShowChat(!showChat)}
-                className="w-full flex items-center justify-between py-3 px-1 tap-scale">
-                <div className="flex items-center gap-2">
-                  <MessageCircle size={16} className="text-muted-foreground" />
-                  <span className="text-sm font-semibold text-muted-foreground">Group Chat</span>
+                className="w-full flex items-center justify-between py-3.5 px-3 rounded-2xl liquid-glass tap-scale group transition-colors hover:bg-muted/40">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-xl bg-primary/10 flex items-center justify-center">
+                    <MessageCircle size={15} className="text-primary" />
+                  </div>
+                  <div className="text-left">
+                    <span className="text-sm font-semibold text-foreground">Group Chat</span>
+                    <p className="text-[10px] text-muted-foreground">
+                      {msgs.length === 0 ? 'No messages yet' : `${msgs.length} message${msgs.length > 1 ? 's' : ''}`}
+                    </p>
+                  </div>
                   {msgs.length > 0 && (
-                    <span className="text-[10px] bg-primary/10 text-primary px-1.5 py-0.5 rounded-full font-semibold">
+                    <span className="text-[10px] bg-primary text-primary-foreground px-1.5 py-0.5 rounded-full font-bold min-w-[18px] text-center">
                       {msgs.length}
                     </span>
                   )}
                 </div>
-                <ChevronDown size={16} className={cn('text-muted-foreground transition-transform', showChat && 'rotate-180')} />
+                <ChevronDown size={16} className={cn(
+                  'text-muted-foreground transition-transform duration-300',
+                  showChat && 'rotate-180'
+                )} />
               </button>
 
-              {showChat && (
-                <div className="liquid-glass rounded-2xl overflow-hidden">
-                  <div className="max-h-[300px] overflow-y-auto px-3.5 py-3 space-y-2">
+              {/* Chat body */}
+              <div className={cn(
+                'overflow-hidden transition-all duration-300 ease-out',
+                showChat ? 'max-h-[500px] opacity-100 mt-2' : 'max-h-0 opacity-0 mt-0'
+              )}>
+                <div className="liquid-glass-heavy rounded-2xl overflow-hidden border border-border/10">
+                  {/* Messages area */}
+                  <div className="max-h-[320px] overflow-y-auto px-4 py-3 space-y-3">
                     {msgs.length === 0 && (
-                      <p className="text-center text-xs text-muted-foreground py-6">No messages yet — use quick actions above or type below</p>
-                    )}
-                    {msgs.map((msg) => (
-                      <div key={msg.id} className={`flex ${msg.senderId === user?.id ? 'justify-end' : 'justify-start'}`}>
-                        <div className={cn(
-                          'max-w-[75%] rounded-2xl px-3.5 py-2',
-                          msg.senderId === 'system'
-                            ? 'liquid-glass-subtle text-muted-foreground text-center w-full text-xs'
-                            : msg.senderId === user?.id
-                            ? 'bg-primary text-primary-foreground rounded-br-md'
-                            : 'liquid-glass rounded-bl-md'
-                        )}>
-                          {msg.senderId !== user?.id && msg.senderId !== 'system' && (
-                            <p className="text-2xs font-semibold text-primary mb-0.5">{msg.senderName}</p>
-                          )}
-                          <p className="text-sm">{msg.message}</p>
+                      <div className="text-center py-10">
+                        <div className="w-12 h-12 rounded-2xl bg-muted/60 flex items-center justify-center mx-auto mb-3">
+                          <MessageCircle size={20} className="text-muted-foreground/50" />
                         </div>
+                        <p className="text-xs font-medium text-muted-foreground mb-1">No messages yet</p>
+                        <p className="text-[10px] text-muted-foreground/60">Use quick actions above or start a conversation</p>
                       </div>
-                    ))}
+                    )}
+                    {msgs.map((msg, i) => {
+                      const isMe = msg.senderId === user?.id;
+                      const isSystem = msg.senderId === 'system';
+                      const showAvatar = !isMe && !isSystem && (i === 0 || msgs[i - 1]?.senderId !== msg.senderId);
+                      const isLastInGroup = i === msgs.length - 1 || msgs[i + 1]?.senderId !== msg.senderId;
+                      const time = new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+                      if (isSystem) {
+                        return (
+                          <div key={msg.id} className="flex justify-center py-1">
+                            <span className="text-[10px] text-muted-foreground/60 bg-muted/40 px-3 py-1 rounded-full">
+                              {msg.message}
+                            </span>
+                          </div>
+                        );
+                      }
+
+                      return (
+                        <div key={msg.id} className={cn('flex gap-2', isMe ? 'justify-end' : 'justify-start')}>
+                          {/* Avatar for others */}
+                          {!isMe && (
+                            <div className="w-6 shrink-0">
+                              {showAvatar ? (
+                                <img
+                                  src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${msg.senderName}`}
+                                  alt={msg.senderName}
+                                  className="w-6 h-6 rounded-full"
+                                />
+                              ) : <div className="w-6" />}
+                            </div>
+                          )}
+
+                          <div className={cn('max-w-[72%]', isMe && 'items-end')}>
+                            {showAvatar && !isMe && (
+                              <p className="text-[10px] font-semibold text-primary mb-0.5 ml-1">{msg.senderName}</p>
+                            )}
+                            <div className={cn(
+                              'px-3.5 py-2 text-[13px] leading-relaxed',
+                              isMe
+                                ? 'bg-primary text-primary-foreground rounded-2xl rounded-br-lg'
+                                : 'bg-muted/60 text-foreground rounded-2xl rounded-bl-lg'
+                            )}>
+                              {msg.message}
+                            </div>
+                            {isLastInGroup && (
+                              <p className={cn(
+                                'text-[9px] text-muted-foreground/50 mt-0.5',
+                                isMe ? 'text-right mr-1' : 'ml-1'
+                              )}>
+                                {time}
+                              </p>
+                            )}
+                          </div>
+                        </div>
+                      );
+                    })}
                     <div ref={messagesEndRef} />
                   </div>
 
                   {/* Input */}
-                  <div className="p-2.5 border-t border-border/15">
-                    <div className="flex gap-2">
-                      <input placeholder="Type a message..." value={message} onChange={(e) => setMessage(e.target.value)}
+                  <div className="p-3 border-t border-border/10 bg-background/40 backdrop-blur-sm">
+                    <div className="flex gap-2 items-end">
+                      <input
+                        placeholder="Say something..."
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
                         onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-                        className="flex-1 rounded-full liquid-glass h-9 px-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20"
+                        className="flex-1 rounded-2xl bg-muted/50 h-10 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-muted-foreground/40"
                       />
-                      <Button className="rounded-full w-9 h-9 p-0 shrink-0" size="sm" onClick={handleSend} disabled={!message.trim()}>
-                        <Send size={14} />
+                      <Button
+                        className={cn(
+                          'rounded-2xl w-10 h-10 p-0 shrink-0 transition-all duration-200',
+                          !message.trim() && 'opacity-40 scale-90'
+                        )}
+                        size="sm"
+                        onClick={handleSend}
+                        disabled={!message.trim()}
+                      >
+                        <Send size={15} />
                       </Button>
                     </div>
                   </div>
                 </div>
-              )}
+              </div>
             </div>
           )}
         </div>
