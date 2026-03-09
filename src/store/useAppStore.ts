@@ -56,6 +56,31 @@ interface VerificationRequest {
   status: VerificationStatus;
 }
 
+export interface UserReport {
+  id: string;
+  reporterId: string;
+  reporterName: string;
+  targetId: string;
+  targetName: string;
+  targetType: 'user' | 'plan';
+  reason: string;
+  description: string;
+  status: 'pending' | 'reviewed' | 'dismissed';
+  createdAt: Date;
+}
+
+export interface FlaggedMessage {
+  id: string;
+  requestId: string;
+  requestTitle: string;
+  senderId: string;
+  senderName: string;
+  message: string;
+  flagReason: string;
+  flaggedAt: Date;
+  status: 'pending' | 'removed' | 'cleared';
+}
+
 interface AppState {
   user: User | null;
   isOnboarded: boolean;
