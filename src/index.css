@@ -332,7 +332,7 @@
   }
 
   .badge-week {
-    @apply font-semibold text-xs;
+    @apply font-semibold;
     background: hsla(var(--success) / 0.1);
     color: hsl(var(--success));
     padding: 0.25rem 0.625rem;
