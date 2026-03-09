@@ -168,11 +168,11 @@ export function RequestCard({ request, onJoin, onView, isJoined, className }: Re
         </div>
 
         {/* Host info + reliability on same row */}
-        <div className="flex items-center justify-between pt-3 border-t border-border/20">
+        <div className="flex items-center justify-between pt-2 border-t border-border/20">
           <button onClick={handleHostClick} className="flex items-center gap-1.5 tap-scale">
             <img src={request.userAvatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${request.userName}`}
-              alt={request.userName} className="w-5 h-5 rounded-full" />
-            <span className="text-[12px] text-muted-foreground font-medium hover:text-foreground transition-colors flex items-center gap-1">
+              alt={request.userName} className="w-4 h-4 rounded-full" />
+            <span className="text-[11px] text-muted-foreground font-medium hover:text-foreground transition-colors flex items-center gap-1">
               {request.userName}
               {(request.userTrust === 'trusted' || request.userTrust === 'anchor') && (
                 <BadgeCheck size={16} className="text-primary" strokeWidth={2.5} />
