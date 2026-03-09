@@ -87,12 +87,11 @@ export default function ProfilePage() {
 
         {/* Tabbed Navigation */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-3 h-11">
+          <TabsList className="grid w-full grid-cols-2 h-11">
             <TabsTrigger value="overview" className="text-xs">Overview</TabsTrigger>
             <TabsTrigger value="activity" className="text-xs">
               Activity {activityCount > 0 && <span className="ml-1 bg-primary/20 text-primary px-1.5 py-0.5 rounded-full text-[10px] font-bold">{activityCount}</span>}
             </TabsTrigger>
-            <TabsTrigger value="details" className="text-xs">Details</TabsTrigger>
           </TabsList>
 
           {/* Overview Tab */}
