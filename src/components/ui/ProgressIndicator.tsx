@@ -32,34 +32,37 @@ interface ProgressBarProps {
   size?: 'sm' | 'md' | 'lg';
 }
 
-export function ProgressBar({ 
-  value, max = 100, className, showLabel = false, size = 'md' 
-}: ProgressBarProps) {
-  const percentage = Math.min(100, (value / max) * 100);
-  
-  return (
-    <div className={cn('space-y-1.5', className)}>
-      {showLabel && (
-        <div className="flex justify-between text-xs text-muted-foreground">
-          <span>{value}</span>
-          <span>{max}</span>
+import React from 'react';
+
+export const ProgressBar = React.forwardRef<HTMLDivElement, ProgressBarProps>(
+  ({ value, max = 100, className, showLabel = false, size = 'md' }, ref) => {
+    const percentage = Math.min(100, (value / max) * 100);
+    
+    return (
+      <div ref={ref} className={cn('space-y-1.5', className)}>
+        {showLabel && (
+          <div className="flex justify-between text-xs text-muted-foreground">
+            <span>{value}</span>
+            <span>{max}</span>
+          </div>
+        )}
+        <div className={cn(
+          'w-full rounded-full overflow-hidden',
+          'bg-muted/50',
+          size === 'sm' && 'h-1',
+          size === 'md' && 'h-2',
+          size === 'lg' && 'h-3'
+        )}>
+          <div 
+            className="h-full rounded-full transition-all duration-500 ease-out"
+            style={{ 
+              width: `${percentage}%`,
+              background: 'linear-gradient(90deg, hsl(var(--primary)), hsl(var(--secondary)))'
+            }}
+          />
         </div>
-      )}
-      <div className={cn(
-        'w-full rounded-full overflow-hidden',
-        'bg-muted/50',
-        size === 'sm' && 'h-1',
-        size === 'md' && 'h-2',
-        size === 'lg' && 'h-3'
-      )}>
-        <div 
-          className="h-full rounded-full transition-all duration-500 ease-out"
-          style={{ 
-            width: `${percentage}%`,
-            background: 'linear-gradient(90deg, hsl(var(--primary)), hsl(var(--secondary)))'
-          }}
-        />
       </div>
-    </div>
-  );
-}
+    );
+  }
+);
+ProgressBar.displayName = 'ProgressBar';
