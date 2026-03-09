@@ -45,6 +45,8 @@ export default function HomePage() {
   const headerRef = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<HTMLDivElement>(null);
   const trendingRef = useRef<HTMLDivElement>(null);
+  const autoScrollRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const userInteractedRef = useRef(false);
   
   useEffect(() => {
     const tl = gsap.timeline();
