@@ -152,7 +152,7 @@ export function RequestCard({ request, onJoin, onView, isJoined, className }: Re
             <span className="text-[12px] text-muted-foreground font-medium hover:text-foreground transition-colors flex items-center gap-1">
               {request.userName}
               {(request.userTrust === 'trusted' || request.userTrust === 'anchor') && (
-                <BadgeCheck size={14} style={{ color: '#1d9bf0', fill: '#1d9bf0' }} />
+                <BadgeCheck size={16} className="text-primary" strokeWidth={2.5} />
               )}
               {request.userReliability && <span className="ml-0.5">• ⭐ {request.userReliability}% reliable</span>}
             </span>
