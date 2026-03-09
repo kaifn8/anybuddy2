@@ -1,11 +1,11 @@
 import { useNavigate } from 'react-router-dom';
 import { TopBar } from '@/components/layout/TopBar';
-import { format, formatDistanceToNow } from 'date-fns';
+import { format } from 'date-fns';
 import { BottomNav } from '@/components/layout/BottomNav';
-import { TrustBadge } from '@/components/ui/TrustBadge';
 import { getCategoryLabel, getCategoryEmoji } from '@/components/icons/CategoryIcon';
 import { useAppStore } from '@/store/useAppStore';
 import { Button } from '@/components/ui/button';
+import { Share2 } from 'lucide-react';
 import type { Badge, Request } from '@/types/anybuddy';
 
 const badgeLabels: Record<Badge, { emoji: string; label: string }> = {
