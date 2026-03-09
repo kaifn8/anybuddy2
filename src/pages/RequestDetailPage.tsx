@@ -17,6 +17,16 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
 
 const QUICK_ACTIONS = [
   { label: '🏃 On my way', message: "I'm on my way! 🏃" },
@@ -36,6 +46,7 @@ export default function RequestDetailPage() {
   const [showShare, setShowShare] = useState(false);
   const [showReport, setShowReport] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
+  const [showLeaveWarning, setShowLeaveWarning] = useState(false);
   const [reportTarget, setReportTarget] = useState<{ id: string; name: string; type: 'user' | 'plan' } | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -60,6 +71,7 @@ export default function RequestDetailPage() {
 
   const handleSend = () => { if (!message.trim() || !id) return; sendMessage(id, message.trim()); setMessage(''); };
   const handleLeave = () => { if (!id) return; leaveRequest(id); navigate('/home'); };
+  const handleLeaveClick = () => setShowLeaveWarning(true);
   const minutesToStart = (new Date(request.when).getTime() - Date.now()) / 60000;
   const canRemove = minutesToStart > 5 || minutesToStart < 0;
   const handleRemoveParticipant = (participantId: string, name: string) => {
@@ -363,7 +375,7 @@ export default function RequestDetailPage() {
                       <XCircle size={12} /> End plan
                     </button>
                   ) : (
-                    <button onClick={handleLeave} className="flex items-center gap-1.5 text-[12px] text-destructive/70 font-semibold tap-scale ml-auto">
+                    <button onClick={handleLeaveClick} className="flex items-center gap-1.5 text-[12px] text-destructive/70 font-semibold tap-scale ml-auto">
                       Leave plan
                     </button>
                   )}
@@ -380,6 +392,23 @@ export default function RequestDetailPage() {
           targetId={(reportTarget || { id: request.id }).id}
           targetName={(reportTarget || { name: request.title }).name}
           targetType={(reportTarget || { type: 'plan' as const }).type} />
+
+        <AlertDialog open={showLeaveWarning} onOpenChange={setShowLeaveWarning}>
+          <AlertDialogContent className="max-w-[320px] rounded-2xl">
+            <AlertDialogHeader>
+              <AlertDialogTitle className="text-base">Leave this plan?</AlertDialogTitle>
+              <AlertDialogDescription className="text-sm">
+                Your spot will be released and others can join. You won't be able to see the group chat anymore.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel className="rounded-xl">Stay</AlertDialogCancel>
+              <AlertDialogAction onClick={handleLeave} className="rounded-xl bg-destructive text-destructive-foreground hover:bg-destructive/90">
+                Leave plan
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
     );
   }
