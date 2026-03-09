@@ -30,9 +30,9 @@ const TRUST_FEATURES = [
 ];
 
 const EXAMPLE_PLANS = [
-  { emoji: '☕', title: 'Coffee in 20 min', time: '20 min', joined: 3 },
-  { emoji: '🏸', title: 'Badminton tonight', time: 'Today 7 PM', joined: 5 },
-  { emoji: '🚶', title: 'Walk at Marine Drive', time: '30 min', joined: 2 },
+  { emoji: '☕', title: 'Coffee in 20 min', time: '⏱ 20 min', joined: 3 },
+  { emoji: '🏸', title: 'Badminton — need 1 more', time: '🔥 Filling up', joined: 5 },
+  { emoji: '🚶', title: 'Marine Drive walk', time: '⚡ Starting soon', joined: 2 },
 ];
 
 export default function OnboardingPage() {
