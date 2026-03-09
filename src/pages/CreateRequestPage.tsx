@@ -96,13 +96,13 @@ export default function CreateRequestPage() {
           <label className="text-xs font-medium text-muted-foreground mb-2 block">Category</label>
           <div className="grid grid-cols-3 gap-2">
             {categories.map((cat) => (
-              <button key={cat} onClick={() => setCategory(cat)}
-                className={cn('flex flex-col items-center gap-1 py-2.5 px-2 rounded-xl text-xs font-semibold transition-all tap-scale',
-                  category === cat ? 'tahoe-btn-primary' : 'liquid-glass text-foreground'
-                )}>
+              <Button key={cat} onClick={() => setCategory(cat)}
+                variant={category === cat ? 'default' : 'secondary'}
+                className="flex flex-col items-center gap-1 py-2.5 px-2 h-auto text-xs"
+              >
                 <span>{getCategoryEmoji(cat)}</span>
                 <span>{getCategoryLabel(cat)}</span>
-              </button>
+              </Button>
             ))}
           </div>
         </div>
