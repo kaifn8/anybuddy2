@@ -59,21 +59,6 @@ export default function HomePage() {
       );
     }
 
-    // Subtle pulse animation for trending cards with glow
-    if (trendingRef.current?.children) {
-      gsap.to(trendingRef.current.children, {
-        scale: 1.02,
-        boxShadow: '0 8px 32px rgba(var(--primary-rgb, 255, 120, 30), 0.15), inset 0 1px 0 rgba(255,255,255,0.8)',
-        duration: 2,
-        ease: 'sine.inOut',
-        repeat: -1,
-        yoyo: true,
-        stagger: {
-          each: 0.3,
-          repeat: -1,
-        }
-      });
-    }
   }, []);
   
   // Auto-scroll trending section
@@ -183,9 +168,9 @@ export default function HomePage() {
               const seatsLeft = req.seatsTotal - req.seatsTaken;
               const fillPercent = Math.round((req.seatsTaken / req.seatsTotal) * 100);
               const tints = [
-                'linear-gradient(135deg, rgba(255,120,30,0.18) 0%, rgba(255,70,70,0.12) 100%)',
-                'linear-gradient(135deg, rgba(50,130,255,0.18) 0%, rgba(110,70,255,0.12) 100%)',
-                'linear-gradient(135deg, rgba(30,190,120,0.18) 0%, rgba(20,160,200,0.12) 100%)',
+                'linear-gradient(135deg, hsl(var(--primary) / 0.12) 0%, hsl(25 95% 60% / 0.18) 50%, hsl(350 80% 55% / 0.1) 100%)',
+                'linear-gradient(135deg, hsl(220 80% 55% / 0.12) 0%, hsl(260 70% 60% / 0.18) 50%, hsl(280 60% 55% / 0.1) 100%)',
+                'linear-gradient(135deg, hsl(160 60% 45% / 0.12) 0%, hsl(180 70% 45% / 0.18) 50%, hsl(200 65% 50% / 0.1) 100%)',
               ];
               return (
                 <button key={req.id} onClick={() => navigate(`/request/${req.id}`)}
