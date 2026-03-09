@@ -3,6 +3,7 @@ import { UrgencyBadge } from '@/components/ui/UrgencyBadge';
 import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
 import { formatDistanceToNow } from 'date-fns';
 import type { Request } from '@/types/anybuddy';
+import { Button } from '@/components/ui/button';
 
 interface JoinConfirmDialogProps {
   open: boolean;
