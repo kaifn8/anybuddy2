@@ -12,9 +12,9 @@ const slides = [
 ];
 
 const NEARBY_PEOPLE = [
-  { name: 'Aarav', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Aarav', activity: 'Looking for coffee ☕', distance: '0.3 km' },
-  { name: 'Priya', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Priya', activity: 'Up for a walk 🚶', distance: '0.5 km' },
-  { name: 'Rohan', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Rohan', activity: 'Playing badminton 🏸', distance: '0.8 km' },
+  { name: 'Aarav', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Aarav', activity: 'Wants coffee now ☕', distance: '0.3 km' },
+  { name: 'Priya', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Priya', activity: 'Looking for walk buddy 🚶', distance: '0.5 km' },
+  { name: 'Rohan', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Rohan', activity: 'Needs +1 for badminton 🏸', distance: '0.8 km' },
 ];
 
 const LIVE_ACTIVITY = [
