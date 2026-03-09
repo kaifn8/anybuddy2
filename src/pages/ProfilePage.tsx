@@ -42,7 +42,20 @@ export default function ProfilePage() {
   // Saved plans
   const savedPlansList = user.savedPlans
     .map(id => requests.find(r => r.id === id))
-    .filter(Boolean);
+    .filter(Boolean) as Request[];
+  
+  // Past meetups (completed requests the user joined)
+  const pastMeetups = requests.filter(r => 
+    r.status === 'completed' && r.participants.some(p => p.id === user.id)
+  ).slice(0, 3);
+  
+  // Determine member status
+  const memberStatus = user.badges.includes('early_adopter') ? '⭐ Early member' : '⭐ New member';
+  
+  // Format join date
+  const joinDate = new Date(user.createdAt);
+  const isToday = new Date().toDateString() === joinDate.toDateString();
+  const joinText = isToday ? 'Joined today' : `Joined ${format(joinDate, 'MMM d, yyyy')}`;
   
   return (
     <div className="mobile-container min-h-screen bg-ambient pb-24">
