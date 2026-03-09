@@ -279,22 +279,77 @@ export default function RequestDetailPage() {
         </div>
 
         {/* Message input — fixed at bottom */}
-        <div className="px-3 py-2.5 liquid-glass-nav">
-          <div className="flex gap-2 items-center max-w-md mx-auto">
-            <input
-              placeholder="Message..."
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-              className="flex-1 rounded-full bg-muted/40 h-10 px-4 text-[13px] focus:outline-none focus:ring-1 focus:ring-primary/15 transition-all placeholder:text-muted-foreground/35"
-            />
-            <button onClick={handleSend} disabled={!message.trim()}
-              className={cn(
-                'w-9 h-9 rounded-full bg-primary flex items-center justify-center shrink-0 transition-all duration-200 tap-scale',
-                !message.trim() ? 'opacity-30 scale-90' : 'opacity-100 scale-100'
+        <div className="px-3 py-3 liquid-glass-nav border-t border-border/10">
+          <div className="max-w-md mx-auto">
+            {/* Emoji quick reactions */}
+            <div className="flex items-center gap-1.5 mb-2.5 overflow-x-auto scrollbar-hide">
+              {['👍', '❤️', '😂', '🔥', '👏', '🙌', '💯', '✨'].map((emoji) => (
+                <button
+                  key={emoji}
+                  onClick={() => { if (id) sendMessage(id, emoji); }}
+                  className="w-8 h-8 rounded-full bg-muted/40 flex items-center justify-center shrink-0 tap-scale hover:bg-muted/60 transition-colors text-sm"
+                >
+                  {emoji}
+                </button>
+              ))}
+            </div>
+
+            {/* Input row */}
+            <div className="flex gap-2 items-end">
+              {/* Attachment buttons */}
+              <div className="flex gap-1 shrink-0 pb-1">
+                <button className="w-8 h-8 rounded-full bg-muted/30 flex items-center justify-center tap-scale hover:bg-muted/50 transition-colors">
+                  <Image size={16} className="text-muted-foreground" />
+                </button>
+              </div>
+
+              {/* Text input with emoji hint */}
+              <div className="flex-1 relative">
+                <textarea
+                  placeholder="Type a message..."
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                      e.preventDefault();
+                      handleSend();
+                    }
+                  }}
+                  rows={1}
+                  className="w-full rounded-2xl bg-muted/40 min-h-[44px] max-h-[120px] px-4 py-3 pr-10 text-[14px] resize-none focus:outline-none focus:ring-2 focus:ring-primary/20 focus:bg-muted/50 transition-all placeholder:text-muted-foreground/40 leading-[1.4]"
+                  style={{ height: message.split('\n').length > 1 ? 'auto' : '44px' }}
+                />
+                <button className="absolute right-3 bottom-3 tap-scale">
+                  <Smile size={18} className="text-muted-foreground/50 hover:text-muted-foreground transition-colors" />
+                </button>
+              </div>
+
+              {/* Send / Voice button */}
+              <div className="shrink-0 pb-1">
+                {message.trim() ? (
+                  <button
+                    onClick={handleSend}
+                    className="w-10 h-10 rounded-full bg-primary flex items-center justify-center tap-scale shadow-lg shadow-primary/25 transition-all duration-200 hover:scale-105 hover:shadow-xl hover:shadow-primary/30"
+                  >
+                    <Send size={16} className="text-primary-foreground ml-0.5" />
+                  </button>
+                ) : (
+                  <button className="w-10 h-10 rounded-full bg-muted/40 flex items-center justify-center tap-scale hover:bg-muted/60 transition-colors">
+                    <Mic size={18} className="text-muted-foreground" />
+                  </button>
+                )}
+              </div>
+            </div>
+
+            {/* Character count for long messages */}
+            {message.length > 100 && (
+              <p className={cn(
+                'text-[10px] text-right mt-1 transition-colors',
+                message.length > 450 ? 'text-destructive' : 'text-muted-foreground/50'
               )}>
-              <Send size={14} className="text-primary-foreground ml-0.5" />
-            </button>
+                {message.length}/500
+              </p>
+            )}
           </div>
         </div>
 
