@@ -140,7 +140,9 @@ export default function HomePage() {
   
   return (
     <div className="mobile-container min-h-screen bg-ambient pb-24 lg:pb-8">
-      <TopBar />
+      <div className="lg:hidden">
+        <TopBar />
+      </div>
       
       {/* Desktop welcome header */}
       <div className="hidden lg:flex items-center justify-between px-5 pt-4 pb-2">
