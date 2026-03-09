@@ -43,6 +43,19 @@ function getTimeIndicator(request: Request) {
   return null;
 }
 
+function getHotIndicator(request: Request) {
+  const seatsLeft = request.seatsTotal - request.seatsTaken;
+  const fillPercentage = (request.seatsTaken / request.seatsTotal) * 100;
+  
+  if (seatsLeft <= 2 && seatsLeft > 0) {
+    return { label: '🔥 Filling fast', color: 'text-destructive bg-destructive/10 border border-destructive/20' };
+  }
+  if (fillPercentage >= 70) {
+    return { label: '🔥 Popular', color: 'text-primary bg-primary/10 border border-primary/20' };
+  }
+  return null;
+}
+
 export function RequestCard({ request, onJoin, onView, isJoined, className }: RequestCardProps) {
   const navigate = useNavigate();
   const [showShare, setShowShare] = useState(false);
