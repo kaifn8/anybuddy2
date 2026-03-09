@@ -42,6 +42,7 @@ export default function SignupPage() {
   const [bio, setBio] = useState('');
   const [ageRange, setAgeRange] = useState('');
   const [interests, setInterests] = useState<Category[]>([]);
+  const [selectedCity, setSelectedCity] = useState('');
   const [zone, setZone] = useState('');
   
   const contentRef = useRef<HTMLDivElement>(null);
