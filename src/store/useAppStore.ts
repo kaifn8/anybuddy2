@@ -539,6 +539,8 @@ export const useAppStore = create<AppState>()(
         creditHistory: state.creditHistory, joinedRequests: state.joinedRequests,
         reviews: state.reviews, pendingVerifications: state.pendingVerifications,
         reports: state.reports, flaggedMessages: state.flaggedMessages,
+        adminWarnings: state.adminWarnings, pricingConfig: state.pricingConfig,
+        trustDiscounts: state.trustDiscounts,
       }),
     }
   )
