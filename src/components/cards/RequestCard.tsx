@@ -8,12 +8,6 @@ import { UrgencyBadge } from '@/components/ui/UrgencyBadge';
 import { ShareSheet } from '@/components/ShareSheet';
 import { useAppStore } from '@/store/useAppStore';
 import { cn } from '@/lib/utils';
-import type { Request, Category } from '@/types/anybuddy';
-import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
-import { UrgencyBadge } from '@/components/ui/UrgencyBadge';
-import { ShareSheet } from '@/components/ShareSheet';
-import { useAppStore } from '@/store/useAppStore';
-import { cn } from '@/lib/utils';
 
 interface RequestCardProps {
   request: Request;
