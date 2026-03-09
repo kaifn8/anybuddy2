@@ -54,8 +54,8 @@ export default function InviteFriendsPage() {
         <div className="liquid-glass-heavy p-4 rounded-3xl">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-semibold">Invites remaining</p>
-              <p className="text-2xs text-muted-foreground mt-0.5">Invite more friends to unlock rewards</p>
+              <p className="text-sm font-semibold">Invites left this week</p>
+              <p className="text-2xs text-muted-foreground mt-0.5">Use them or lose them 👀</p>
             </div>
             <div className="text-3xl font-bold text-primary">{invitesLeft}</div>
           </div>
