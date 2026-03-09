@@ -45,6 +45,7 @@ const App = () => (
           <Route path="/chats" element={<ChatsPage />} />
           <Route path="/notifications" element={<NotificationsPage />} />
           <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/invite" element={<InviteFriendsPage />} />
           <Route path="/admin" element={<AdminPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
