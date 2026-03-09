@@ -225,15 +225,8 @@ export default function HomePage() {
         </div>
 
         {/* Quick filters */}
-        <div className="flex gap-1.5 overflow-x-auto pb-2 -mx-5 px-5 scrollbar-hide mt-1.5">
+        <div className="flex gap-1.5 overflow-x-auto pb-2 -mx-5 px-5 scrollbar-hide mt-1.5 lg:mx-0 lg:px-0 lg:flex-wrap">
           {QUICK_FILTERS.map((f) => (
-            <button key={f.id} onClick={() => setQuickFilter(quickFilter === f.id ? null : f.id)}
-              className={cn('shrink-0 px-2.5 py-1 rounded-full text-[10px] font-semibold tap-scale transition-all',
-                quickFilter === f.id ? 'bg-primary text-primary-foreground' : 'bg-foreground/[0.03] text-muted-foreground'
-              )}>
-              {f.label}
-            </button>
-          ))}
             <button key={f.id} onClick={() => setQuickFilter(quickFilter === f.id ? null : f.id)}
               className={cn('shrink-0 px-2.5 py-1 rounded-full text-[10px] font-semibold tap-scale transition-all',
                 quickFilter === f.id ? 'bg-primary text-primary-foreground' : 'bg-foreground/[0.03] text-muted-foreground'
