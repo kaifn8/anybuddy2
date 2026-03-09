@@ -112,13 +112,6 @@ export default function RequestDetailPage() {
             </div>
           </div>
 
-          {/* Safety indicators - combined */}
-          <div className="text-[11px] text-muted-foreground/70 mb-3">
-            🛡 Public meetup
-            {(request.userTrust === 'trusted' || request.userTrust === 'anchor') && ' • Verified host'}
-            {request.liveShare && ' • 📡 Live location'}
-          </div>
-
           {/* Action row */}
           <div className="flex items-center gap-3 pt-3 border-t border-border/15">
             <button onClick={() => setShowShare(true)} className="flex items-center gap-1.5 text-[12px] text-primary font-semibold tap-scale">

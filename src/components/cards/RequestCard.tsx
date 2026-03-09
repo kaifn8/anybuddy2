@@ -169,13 +169,6 @@ export function RequestCard({ request, onJoin, onView, isJoined, className }: Re
             </button>
           </div>
         </div>
-
-        {/* Safety indicators - combined */}
-        <div className="mt-2 text-[11px] text-muted-foreground/70">
-          🛡 Public meetup
-          {(request.userTrust === 'trusted' || request.userTrust === 'anchor') && ' • Verified host'}
-          {request.liveShare && ' • 📡 Live location'}
-        </div>
       </div>
 
       <ShareSheet open={showShare} onClose={() => setShowShare(false)} title={request.title}
