@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { TopBar } from '@/components/layout/TopBar';
-import { Send, Share2, BadgeCheck } from 'lucide-react';
+import { Send, Share2, BadgeCheck, Flag } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { formatDistanceToNow } from 'date-fns';
 import { useAppStore } from '@/store/useAppStore';
@@ -9,6 +9,7 @@ import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
 import { UrgencyBadge } from '@/components/ui/UrgencyBadge';
 import { TrustBadge } from '@/components/ui/TrustBadge';
 import { ShareSheet } from '@/components/ShareSheet';
+import { ReportDialog } from '@/components/ReportDialog';
 
 export default function RequestDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -17,6 +18,7 @@ export default function RequestDetailPage() {
   
   const [message, setMessage] = useState('');
   const [showShare, setShowShare] = useState(false);
+  const [showReport, setShowReport] = useState(false);
   const [showParticipants, setShowParticipants] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   
@@ -119,6 +121,9 @@ export default function RequestDetailPage() {
             <button onClick={() => navigate('/map')} className="flex items-center gap-1.5 text-[12px] text-primary font-semibold tap-scale">
               📍 View on map
             </button>
+            <button onClick={() => setShowReport(true)} className="flex items-center gap-1.5 text-[12px] text-destructive/70 font-semibold tap-scale ml-auto">
+              <Flag size={12} /> Report
+            </button>
           </div>
         </div>
 
@@ -201,6 +206,14 @@ export default function RequestDetailPage() {
 
       <ShareSheet open={showShare} onClose={() => setShowShare(false)} title={request.title}
         text={`${request.title}\n📍 ${request.location.name}\nStarts in ${timeLeft}\nJoin here 👇`} />
+
+      <ReportDialog
+        open={showReport}
+        onClose={() => setShowReport(false)}
+        targetId={request.id}
+        targetName={request.title}
+        targetType="plan"
+      />
     </div>
   );
 }

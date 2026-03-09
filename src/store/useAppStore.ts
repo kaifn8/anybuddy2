@@ -56,6 +56,31 @@ interface VerificationRequest {
   status: VerificationStatus;
 }
 
+export interface UserReport {
+  id: string;
+  reporterId: string;
+  reporterName: string;
+  targetId: string;
+  targetName: string;
+  targetType: 'user' | 'plan';
+  reason: string;
+  description: string;
+  status: 'pending' | 'reviewed' | 'dismissed';
+  createdAt: Date;
+}
+
+export interface FlaggedMessage {
+  id: string;
+  requestId: string;
+  requestTitle: string;
+  senderId: string;
+  senderName: string;
+  message: string;
+  flagReason: string;
+  flaggedAt: Date;
+  status: 'pending' | 'removed' | 'cleared';
+}
+
 interface AppState {
   user: User | null;
   isOnboarded: boolean;
@@ -67,6 +92,8 @@ interface AppState {
   creditHistory: CreditTransaction[];
   reviews: MeetupReview[];
   pendingVerifications: VerificationRequest[];
+  reports: UserReport[];
+  flaggedMessages: FlaggedMessage[];
   
   // Actions
   setUser: (user: User | null) => void;
@@ -88,6 +115,11 @@ interface AppState {
   submitVerificationSelfie: (selfieUrl: string) => void;
   approveVerification: (userId: string) => void;
   rejectVerification: (userId: string) => void;
+  submitReport: (report: { targetId: string; targetName: string; targetType: 'user' | 'plan'; reason: string; description: string }) => void;
+  updateReportStatus: (reportId: string, status: 'reviewed' | 'dismissed') => void;
+  flagMessage: (requestId: string, messageId: string, reason: string) => void;
+  updateFlaggedMessage: (messageId: string, status: 'removed' | 'cleared') => void;
+  removePlan: (requestId: string) => void;
   reset: () => void;
 }
 
@@ -163,6 +195,8 @@ const initialState = {
   creditHistory: [] as CreditTransaction[],
   reviews: [] as MeetupReview[],
   pendingVerifications: [] as VerificationRequest[],
+  reports: [] as UserReport[],
+  flaggedMessages: [] as FlaggedMessage[],
 };
 
 export const useAppStore = create<AppState>()(
@@ -404,6 +438,55 @@ export const useAppStore = create<AppState>()(
         });
       },
       
+      submitReport: (report) => {
+        const { user, reports } = get();
+        if (!user) return;
+        const newReport: UserReport = {
+          id: `report_${Date.now()}`,
+          reporterId: user.id,
+          reporterName: user.firstName,
+          ...report,
+          status: 'pending',
+          createdAt: new Date(),
+        };
+        set({ reports: [newReport, ...reports] });
+      },
+
+      updateReportStatus: (reportId, status) => {
+        const { reports } = get();
+        set({ reports: reports.map(r => r.id === reportId ? { ...r, status } : r) });
+      },
+
+      flagMessage: (requestId, messageId, reason) => {
+        const { chatMessages, flaggedMessages, requests } = get();
+        const msgs = chatMessages[requestId] || [];
+        const msg = msgs.find(m => m.id === messageId);
+        const req = requests.find(r => r.id === requestId);
+        if (!msg) return;
+        const flagged: FlaggedMessage = {
+          id: `flag_${Date.now()}`,
+          requestId,
+          requestTitle: req?.title || 'Unknown plan',
+          senderId: msg.senderId,
+          senderName: msg.senderName,
+          message: msg.message,
+          flagReason: reason,
+          flaggedAt: new Date(),
+          status: 'pending',
+        };
+        set({ flaggedMessages: [flagged, ...flaggedMessages] });
+      },
+
+      updateFlaggedMessage: (messageId, status) => {
+        const { flaggedMessages } = get();
+        set({ flaggedMessages: flaggedMessages.map(m => m.id === messageId ? { ...m, status } : m) });
+      },
+
+      removePlan: (requestId) => {
+        const { requests } = get();
+        set({ requests: requests.map(r => r.id === requestId ? { ...r, status: 'cancelled' as const } : r) });
+      },
+      
       reset: () => set({ ...initialState, requests: generateInitialRequests(10) }),
     }),
     {
@@ -412,6 +495,7 @@ export const useAppStore = create<AppState>()(
         user: state.user, isOnboarded: state.isOnboarded,
         creditHistory: state.creditHistory, joinedRequests: state.joinedRequests,
         reviews: state.reviews, pendingVerifications: state.pendingVerifications,
+        reports: state.reports, flaggedMessages: state.flaggedMessages,
       }),
     }
   )

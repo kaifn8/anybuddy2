@@ -1,9 +1,12 @@
+import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { TopBar } from '@/components/layout/TopBar';
 import { useAppStore } from '@/store/useAppStore';
 import { TrustBadge } from '@/components/ui/TrustBadge';
 import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
 import { Button } from '@/components/ui/button';
+import { Flag } from 'lucide-react';
+import { ReportDialog } from '@/components/ReportDialog';
 const FAKE_REVIEWS = [
   { name: 'Priya', rating: 5, comment: 'Great host — very chill meetup!', ago: '2 days ago' },
   { name: 'Arjun', rating: 4, comment: 'Really fun, would do it again.', ago: '1 week ago' },
@@ -14,6 +17,7 @@ export default function HostProfilePage() {
   const { userId } = useParams<{ userId: string }>();
   const navigate = useNavigate();
   const { requests } = useAppStore();
+  const [showReport, setShowReport] = useState(false);
 
   const hostRequests = requests.filter(r => r.userId === userId);
   const host = hostRequests[0];
@@ -52,6 +56,9 @@ export default function HostProfilePage() {
           <div className="flex items-center justify-center gap-1 mt-2">
             <span className="text-xs text-muted-foreground">🛡️ Public meetup · ✅ Verified host</span>
           </div>
+          <button onClick={() => setShowReport(true)} className="flex items-center gap-1 mt-2 mx-auto text-[11px] text-destructive/60 font-medium tap-scale">
+            <Flag size={10} /> Report user
+          </button>
         </div>
 
         {/* Stats */}
@@ -112,6 +119,14 @@ export default function HostProfilePage() {
           </div>
         )}
       </div>
+
+      <ReportDialog
+        open={showReport}
+        onClose={() => setShowReport(false)}
+        targetId={host.userId}
+        targetName={host.userName}
+        targetType="user"
+      />
     </div>
   );
 }
