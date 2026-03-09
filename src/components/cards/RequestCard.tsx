@@ -147,10 +147,15 @@ export function RequestCard({ request, onJoin, onView, isJoined, className }: Re
         {/* Host info + reliability on same row */}
         <div className="flex items-center justify-between pt-3 border-t border-border/20">
           <button onClick={handleHostClick} className="flex items-center gap-1.5 tap-scale">
-            <img src={request.userAvatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${request.userName}`}
-              alt={request.userName} className="w-5 h-5 rounded-full" />
+            <div className="relative">
+              <img src={request.userAvatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${request.userName}`}
+                alt={request.userName} className="w-5 h-5 rounded-full" />
+              {(request.userTrust === 'trusted' || request.userTrust === 'anchor') && (
+                <span className="absolute -bottom-0.5 -right-0.5 text-[10px]">✅</span>
+              )}
+            </div>
             <span className="text-[12px] text-muted-foreground font-medium hover:text-foreground transition-colors">
-              👤 {request.userName}
+              {request.userName}
               {request.userReliability && <span className="ml-1.5">• ⭐ {request.userReliability}% reliable</span>}
             </span>
           </button>
@@ -163,13 +168,6 @@ export function RequestCard({ request, onJoin, onView, isJoined, className }: Re
               <Share2 size={14} className="text-muted-foreground" />
             </button>
           </div>
-        </div>
-
-        {/* Safety indicators - combined */}
-        <div className="mt-2 text-[11px] text-muted-foreground/70">
-          🛡 Public meetup
-          {(request.userTrust === 'trusted' || request.userTrust === 'anchor') && ' • Verified host'}
-          {request.liveShare && ' • 📡 Live location'}
         </div>
       </div>
 

@@ -97,21 +97,19 @@ export default function RequestDetailPage() {
 
               {/* Host info with reliability */}
               <div className="flex items-center gap-1.5">
-                <img src={request.userAvatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${request.userName}`}
-                  alt={request.userName} className="w-5 h-5 rounded-full" />
+                <div className="relative">
+                  <img src={request.userAvatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${request.userName}`}
+                    alt={request.userName} className="w-5 h-5 rounded-full" />
+                  {(request.userTrust === 'trusted' || request.userTrust === 'anchor') && (
+                    <span className="absolute -bottom-0.5 -right-0.5 text-[10px]">✅</span>
+                  )}
+                </div>
                 <span className="text-[12px] text-muted-foreground font-medium">
-                  👤 {request.userName}
+                  {request.userName}
                   {request.userReliability && <span className="ml-1.5">• ⭐ {request.userReliability}% reliable</span>}
                 </span>
               </div>
             </div>
-          </div>
-
-          {/* Safety indicators - combined */}
-          <div className="text-[11px] text-muted-foreground/70 mb-3">
-            🛡 Public meetup
-            {(request.userTrust === 'trusted' || request.userTrust === 'anchor') && ' • Verified host'}
-            {request.liveShare && ' • 📡 Live location'}
           </div>
 
           {/* Action row */}
