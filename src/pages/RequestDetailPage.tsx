@@ -66,6 +66,53 @@ export default function RequestDetailPage() {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [msgs]);
 
+  // Simulated typing indicator
+  useEffect(() => {
+    if (!isMember || !request) return;
+    const participants = request.participants || [];
+    if (participants.length === 0) return;
+    
+    const interval = setInterval(() => {
+      if (Math.random() > 0.6) {
+        const randomP = participants[Math.floor(Math.random() * participants.length)];
+        setTypingUser(randomP.name);
+        setTimeout(() => setTypingUser(null), 2000 + Math.random() * 1500);
+      }
+    }, 6000);
+    return () => clearInterval(interval);
+  }, [isMember, request]);
+
+  // Pull-to-refresh handlers
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    const container = chatContainerRef.current;
+    if (container && container.scrollTop <= 0) {
+      pullStartY.current = e.touches[0].clientY;
+    }
+  }, []);
+
+  const handleTouchMove = useCallback((e: React.TouchEvent) => {
+    if (pullStartY.current === null) return;
+    const delta = e.touches[0].clientY - pullStartY.current;
+    if (delta > 0 && delta < 120) {
+      setPullDistance(delta);
+    }
+  }, []);
+
+  const handleTouchEnd = useCallback(() => {
+    if (pullDistance > 60) {
+      setIsRefreshing(true);
+      setPullDistance(0);
+      // Simulate refresh
+      setTimeout(() => {
+        refreshFeed();
+        setIsRefreshing(false);
+      }, 1200);
+    } else {
+      setPullDistance(0);
+    }
+    pullStartY.current = null;
+  }, [pullDistance, refreshFeed]);
+
   if (!request) {
     return (
       <div className="mobile-container min-h-screen bg-ambient flex items-center justify-center">
