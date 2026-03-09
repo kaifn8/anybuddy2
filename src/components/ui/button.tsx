@@ -9,10 +9,10 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90 rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.12)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.15)]",
-        destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90 rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.12)]",
+        default: "text-white rounded-xl bg-gradient-to-b from-[hsla(211,100%,56%,0.92)] to-[hsla(211,100%,42%,0.96)] backdrop-blur-[12px] shadow-[0_2px_10px_rgba(0,0,0,0.15),inset_0_1px_0_rgba(255,255,255,0.25)] hover:from-[hsla(211,100%,60%,0.95)] hover:to-[hsla(211,100%,46%,0.98)] hover:-translate-y-px hover:shadow-[0_4px_14px_rgba(0,0,0,0.18),inset_0_1px_0_rgba(255,255,255,0.3)]",
+        destructive: "text-white rounded-xl bg-gradient-to-b from-[hsla(0,80%,55%,0.92)] to-[hsla(0,80%,42%,0.96)] shadow-[0_2px_10px_rgba(0,0,0,0.15),inset_0_1px_0_rgba(255,255,255,0.2)] hover:from-[hsla(0,80%,58%,0.95)] hover:to-[hsla(0,80%,45%,0.98)] hover:-translate-y-px",
         outline: "border border-input bg-background hover:bg-muted rounded-xl shadow-[0_1px_3px_rgba(0,0,0,0.08)]",
-        secondary: "bg-muted text-foreground hover:bg-muted/80 rounded-xl shadow-[0_1px_3px_rgba(0,0,0,0.08)]",
+        secondary: "text-foreground rounded-xl bg-gradient-to-b from-[hsla(0,0%,100%,0.7)] to-[hsla(0,0%,96%,0.7)] backdrop-blur-[16px] border border-white/40 shadow-[0_2px_8px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,0.6)] hover:from-[hsla(0,0%,100%,0.85)] hover:to-[hsla(0,0%,98%,0.85)] hover:-translate-y-px",
         ghost: "hover:bg-muted rounded-xl",
         link: "text-primary underline-offset-4 hover:underline",
       },
