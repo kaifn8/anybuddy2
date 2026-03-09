@@ -266,41 +266,53 @@ export default function OnboardingPage() {
 
       case 'credits':
         return (
-          <div className="w-full max-w-[300px]">
-            {/* Credits visual */}
-            <div className="flex justify-center mb-4">
-              <div className="flex items-center gap-3 px-5 py-3 rounded-2xl bg-gradient-to-r from-amber-500/15 via-amber-400/10 to-orange-500/15 border border-amber-500/20">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center shadow-lg shadow-amber-500/25">
-                  <Star className="w-5 h-5 text-white" fill="white" />
+          <div className="w-full max-w-[320px]">
+            <div className="relative rounded-[28px] bg-gradient-to-b from-primary/8 via-background to-background border border-border/30 overflow-hidden px-5 pt-6 pb-5" style={{ height: 340 }}>
+              
+              {/* Soft glow */}
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-56 h-32 rounded-full bg-primary/15 blur-[50px] pointer-events-none" />
+
+              {/* Credit card */}
+              <div className="relative z-10 flex items-center gap-3 px-4 py-3.5 rounded-2xl bg-gradient-to-r from-primary/10 to-primary/5 border border-primary/15 mb-4">
+                <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-primary to-primary/70 flex items-center justify-center shadow-lg shadow-primary/25">
+                  <Star className="w-5 h-5 text-primary-foreground" fill="currentColor" />
                 </div>
-                <div>
-                  <p className="text-[18px] font-bold text-amber-600">2.5 credits</p>
-                  <p className="text-[10px] text-muted-foreground">Starter balance</p>
+                <div className="flex-1">
+                  <p className="text-[18px] font-bold text-foreground">2.5 credits</p>
+                  <p className="text-[10px] text-muted-foreground">Your starter balance</p>
+                </div>
+                <div className="px-2.5 py-1 rounded-full bg-success/15 border border-success/25">
+                  <span className="text-[10px] text-success font-bold">FREE</span>
                 </div>
               </div>
-            </div>
-            
-            {/* Live plans */}
-            <p className="text-[10px] text-muted-foreground font-semibold mb-2.5 uppercase tracking-wide text-center">People nearby are doing</p>
-            <div className="space-y-2">
-              {EXAMPLE_PLANS.map((plan, i) => (
-                <div key={i} className="liquid-glass flex items-center gap-2.5 px-3 py-2.5 text-left" style={{ borderRadius: '0.75rem' }}>
-                  <div className="w-9 h-9 rounded-xl bg-muted/60 flex items-center justify-center">
-                    <span className="text-lg">{plan.emoji}</span>
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-[11px] font-semibold">{plan.title}</p>
-                    <div className="flex items-center gap-2 mt-0.5">
-                      <span className="text-[9px] text-muted-foreground">{plan.time}</span>
-                      <span className="text-[9px] text-primary font-medium">{plan.joined} joined</span>
+
+              {/* How it works steps */}
+              <p className="text-[10px] text-muted-foreground font-semibold mb-3 uppercase tracking-wider text-center relative z-10">How it works</p>
+              <div className="space-y-2 relative z-10">
+                {[
+                  { emoji: '📍', text: 'Join a plan nearby', detail: '-0.5 credits', detailColor: 'text-destructive' },
+                  { emoji: '✅', text: 'Show up on time', detail: '+1.0 credits', detailColor: 'text-success' },
+                  { emoji: '⭐', text: 'Get a good review', detail: '+0.5 bonus', detailColor: 'text-success' },
+                ].map((step, i) => (
+                  <div
+                    key={i}
+                    className="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-background/70 backdrop-blur-md border border-border/20 shadow-sm"
+                    style={{ animation: 'fade-in 0.4s ease-out forwards', animationDelay: `${i * 0.12}s` }}
+                  >
+                    <div className="w-8 h-8 rounded-lg bg-muted/60 flex items-center justify-center shrink-0">
+                      <span className="text-base">{step.emoji}</span>
                     </div>
+                    <p className="text-[11px] font-semibold text-foreground flex-1">{step.text}</p>
+                    <span className={`text-[11px] font-bold ${step.detailColor}`}>{step.detail}</span>
                   </div>
-                  <span className="flex items-center gap-1 text-[9px] text-success font-semibold">
-                    <span className="w-1.5 h-1.5 rounded-full bg-success animate-pulse" />
-                    Live
-                  </span>
-                </div>
-              ))}
+                ))}
+              </div>
+
+              {/* Bottom bar */}
+              <div className="flex items-center justify-center gap-2 mt-4 relative z-10">
+                <span className="w-2 h-2 rounded-full bg-success animate-pulse" />
+                <span className="text-[10px] font-semibold text-success">Reliable people unlock premium plans</span>
+              </div>
             </div>
           </div>
         );
