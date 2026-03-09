@@ -29,10 +29,10 @@ const QUICK_FILTERS = [
 ];
 
 const QUICK_CREATE: { emoji: string; title: string; category: Category }[] = [
-  { emoji: '☕', title: 'Coffee nearby', category: 'chai' },
-  { emoji: '🚶', title: 'Walk', category: 'walk' },
-  { emoji: '🍜', title: 'Dinner', category: 'food' },
-  { emoji: '🏸', title: 'Badminton', category: 'sports' },
+  { emoji: '☕', title: 'Grab coffee', category: 'chai' },
+  { emoji: '🚶', title: 'Go for walk', category: 'walk' },
+  { emoji: '🍜', title: 'Get food', category: 'food' },
+  { emoji: '🏸', title: 'Play sports', category: 'sports' },
 ];
 
 export default function HomePage() {
