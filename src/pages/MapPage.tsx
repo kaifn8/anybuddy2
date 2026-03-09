@@ -103,36 +103,26 @@ function FitBounds({ requests, selectedId }: { requests: Request[]; selectedId: 
   return null;
 }
 
-function LocateControl({ userPos, setUserPos }: { userPos: [number, number]; setUserPos: (pos: [number, number]) => void }) {
+function LocateControl({ setUserPos }: { setUserPos: (pos: [number, number]) => void }) {
   const map = useMap();
 
-  const handleLocate = () => {
-    if (!navigator.geolocation) return;
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        const latlng: [number, number] = [pos.coords.latitude, pos.coords.longitude];
-        setUserPos(latlng);
-        map.flyTo(latlng, 15, { duration: 0.8 });
-      },
-      () => {
-        // Fallback: just center on current position
-        map.flyTo(userPos, 15, { duration: 0.8 });
-      },
-      { enableHighAccuracy: true, timeout: 5000 }
-    );
-  };
+  useEffect(() => {
+    // Expose locate function on the map instance
+    (map as any)._locateMe = () => {
+      if (!navigator.geolocation) return;
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          const latlng: [number, number] = [pos.coords.latitude, pos.coords.longitude];
+          setUserPos(latlng);
+          map.flyTo(latlng, 15, { duration: 0.8 });
+        },
+        () => {},
+        { enableHighAccuracy: true, timeout: 5000 }
+      );
+    };
+  }, [map, setUserPos]);
 
-  return (
-    <div className="leaflet-bottom leaflet-right" style={{ pointerEvents: 'auto' }}>
-      <button
-        onClick={handleLocate}
-        className="absolute bottom-3 right-3 z-[1000] w-9 h-9 rounded-full bg-background/90 backdrop-blur-xl border border-border/50 shadow-lg flex items-center justify-center tap-scale hover:bg-background transition-colors"
-        aria-label="Locate me"
-      >
-        <Navigation size={16} className="text-primary" />
-      </button>
-    </div>
-  );
+  return null;
 }
 
 export default function MapPage() {
