@@ -81,6 +81,24 @@ export interface FlaggedMessage {
   status: 'pending' | 'removed' | 'cleared';
 }
 
+export interface PricingConfig {
+  base: number;
+  now: number;
+  today: number;
+  week: number;
+  joinEarn: number;
+  signupBonus: number;
+  referral: number;
+}
+
+const DEFAULT_PRICING_CONFIG: PricingConfig = {
+  base: 1, now: 0.5, today: 0.25, week: 0, joinEarn: 0.5, signupBonus: 3, referral: 1,
+};
+
+const DEFAULT_TRUST_DISCOUNTS: Record<TrustLevel, number> = {
+  seed: 0, solid: 10, trusted: 20, anchor: 35,
+};
+
 interface AppState {
   user: User | null;
   isOnboarded: boolean;
@@ -120,6 +138,13 @@ interface AppState {
   flagMessage: (requestId: string, messageId: string, reason: string) => void;
   updateFlaggedMessage: (messageId: string, status: 'removed' | 'cleared') => void;
   removePlan: (requestId: string) => void;
+  // Admin actions
+  adminWarnings: Record<string, string[]>;
+  pricingConfig: PricingConfig;
+  trustDiscounts: Record<TrustLevel, number>;
+  sendAdminWarning: (userId: string, userName: string, message: string) => void;
+  updatePricingConfig: (config: PricingConfig) => void;
+  updateTrustDiscounts: (discounts: Record<TrustLevel, number>) => void;
   reset: () => void;
 }
 
@@ -197,6 +222,9 @@ const initialState = {
   pendingVerifications: [] as VerificationRequest[],
   reports: [] as UserReport[],
   flaggedMessages: [] as FlaggedMessage[],
+  adminWarnings: {} as Record<string, string[]>,
+  pricingConfig: DEFAULT_PRICING_CONFIG,
+  trustDiscounts: DEFAULT_TRUST_DISCOUNTS,
 };
 
 export const useAppStore = create<AppState>()(
@@ -486,6 +514,21 @@ export const useAppStore = create<AppState>()(
         const { requests } = get();
         set({ requests: requests.map(r => r.id === requestId ? { ...r, status: 'cancelled' as const } : r) });
       },
+
+      sendAdminWarning: (userId, userName, message) => {
+        const { adminWarnings, addNotification } = get();
+        const existing = adminWarnings[userId] || [];
+        set({ adminWarnings: { ...adminWarnings, [userId]: [...existing, message] } });
+        addNotification({
+          type: 'message',
+          title: `⚠️ Warning sent to ${userName}`,
+          message,
+        });
+      },
+
+      updatePricingConfig: (config) => set({ pricingConfig: config }),
+
+      updateTrustDiscounts: (discounts) => set({ trustDiscounts: discounts }),
       
       reset: () => set({ ...initialState, requests: generateInitialRequests(10) }),
     }),
@@ -496,6 +539,8 @@ export const useAppStore = create<AppState>()(
         creditHistory: state.creditHistory, joinedRequests: state.joinedRequests,
         reviews: state.reviews, pendingVerifications: state.pendingVerifications,
         reports: state.reports, flaggedMessages: state.flaggedMessages,
+        adminWarnings: state.adminWarnings, pricingConfig: state.pricingConfig,
+        trustDiscounts: state.trustDiscounts,
       }),
     }
   )
