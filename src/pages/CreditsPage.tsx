@@ -115,8 +115,8 @@ export default function CreditsPage() {
             </div>
           ) : (
             <div className="text-center py-12 liquid-glass">
-              <span className="text-3xl block mb-2">🏁</span>
-              <p className="text-xs text-muted-foreground">No activity yet</p>
+              <span className="text-3xl block mb-2">👀</span>
+              <p className="text-xs text-muted-foreground">Join a plan to start earning</p>
             </div>
           )}
         </div>
