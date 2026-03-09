@@ -100,54 +100,54 @@ export function RequestCard({ request, onJoin, onView, isJoined, className }: Re
   return (
     <>
       <div
-        className={cn('bg-background/80 backdrop-blur-xl border border-border/50 rounded-3xl p-4 cursor-pointer tap-scale transition-colors hover:bg-background/90', className)}
+        className={cn('bg-background/80 backdrop-blur-xl border border-border/50 rounded-3xl p-3 cursor-pointer tap-scale transition-colors hover:bg-background/90', className)}
         style={{ boxShadow: '0px 2px 10px rgba(0,0,0,0.05)' }}
         onClick={onView}
       >
         {/* Status badges - time and hot indicator */}
         {(timeIndicator || hotIndicator) && (
-          <div className="flex items-center gap-2 mb-3">
+          <div className="flex items-center gap-1.5 mb-2">
             {timeIndicator && (
-              <div className={cn('inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-semibold', timeIndicator.color)}>
+              <div className={cn('inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold', timeIndicator.color)}>
                 {timeIndicator.label}
               </div>
             )}
             {hotIndicator && (
-              <div className={cn('inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-semibold', hotIndicator.color)}>
+              <div className={cn('inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold', hotIndicator.color)}>
                 {hotIndicator.label}
               </div>
             )}
           </div>
         )}
 
-        <div className="flex items-start gap-3 mb-3">
+        <div className="flex items-start gap-2.5 mb-2">
           {/* Category icon */}
-          <div className={cn('w-11 h-11 rounded-2xl border border-white/20 shadow-sm flex items-center justify-center text-2xl shrink-0', CATEGORY_COLORS[request.category])}>
+          <div className={cn('w-10 h-10 rounded-2xl border border-white/20 shadow-sm flex items-center justify-center text-xl shrink-0', CATEGORY_COLORS[request.category])}>
             {getCategoryEmoji(request.category)}
           </div>
           
           <div className="flex-1 min-w-0">
             {/* Title - main element */}
-            <h3 className="font-semibold text-[15px] text-foreground leading-tight line-clamp-2 mb-2">{request.title}</h3>
+            <h3 className="font-semibold text-[14px] text-foreground leading-tight line-clamp-2 mb-1.5">{request.title}</h3>
             
             {/* Location + Distance merged */}
-            <p className="text-[13px] text-muted-foreground font-medium mb-2">
+            <p className="text-[12px] text-muted-foreground font-medium mb-1.5">
               📍 {request.location.name} • {request.location.distance} km away
             </p>
 
             {/* Participant info with avatars */}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1.5">
               <div className="flex -space-x-1.5">
                 {attendeeAvatars.slice(0, 3).map((avatar, i) => (
-                  <img key={i} src={avatar} alt="" className="w-5 h-5 rounded-full border-2 border-background" />
+                  <img key={i} src={avatar} alt="" className="w-4 h-4 rounded-full border-2 border-background" />
                 ))}
                 {attendeeAvatars.length > 3 && (
-                  <div className="w-5 h-5 rounded-full bg-muted border-2 border-background flex items-center justify-center">
-                    <span className="text-[8px] font-bold text-muted-foreground">+{attendeeAvatars.length - 3}</span>
+                  <div className="w-4 h-4 rounded-full bg-muted border-2 border-background flex items-center justify-center">
+                    <span className="text-[7px] font-bold text-muted-foreground">+{attendeeAvatars.length - 3}</span>
                   </div>
                 )}
               </div>
-              <span className="text-[12px] text-muted-foreground font-medium">
+              <span className="text-[11px] text-muted-foreground font-medium">
                 {request.seatsTaken} of {request.seatsTotal} spots filled
               </span>
             </div>
@@ -168,25 +168,25 @@ export function RequestCard({ request, onJoin, onView, isJoined, className }: Re
         </div>
 
         {/* Host info + reliability on same row */}
-        <div className="flex items-center justify-between pt-3 border-t border-border/20">
+        <div className="flex items-center justify-between pt-2 border-t border-border/20">
           <button onClick={handleHostClick} className="flex items-center gap-1.5 tap-scale">
             <img src={request.userAvatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${request.userName}`}
-              alt={request.userName} className="w-5 h-5 rounded-full" />
-            <span className="text-[12px] text-muted-foreground font-medium hover:text-foreground transition-colors flex items-center gap-1">
+              alt={request.userName} className="w-4 h-4 rounded-full" />
+            <span className="text-[11px] text-muted-foreground font-medium hover:text-foreground transition-colors flex items-center gap-1">
               {request.userName}
               {(request.userTrust === 'trusted' || request.userTrust === 'anchor') && (
-                <BadgeCheck size={16} className="text-primary" strokeWidth={2.5} />
+                <BadgeCheck size={14} className="text-primary" strokeWidth={2.5} />
               )}
               {request.userReliability && <span className="ml-0.5">• ⭐ {request.userReliability}% reliable</span>}
             </span>
           </button>
           
-          <div className="flex items-center gap-2">
-            <button onClick={handleSaveClick} className="tap-scale p-1">
-              <Heart size={15} className={cn(isSaved ? 'fill-destructive text-destructive' : 'text-muted-foreground/40 hover:text-muted-foreground/60 transition-colors')} />
+          <div className="flex items-center gap-1.5">
+            <button onClick={handleSaveClick} className="tap-scale p-0.5">
+              <Heart size={14} className={cn(isSaved ? 'fill-destructive text-destructive' : 'text-muted-foreground/40 hover:text-muted-foreground/60 transition-colors')} />
             </button>
             <button onClick={handleShareClick} className="tap-scale hover:text-foreground transition-colors">
-              <Share2 size={14} className="text-muted-foreground" />
+              <Share2 size={13} className="text-muted-foreground" />
             </button>
           </div>
         </div>
