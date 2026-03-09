@@ -78,10 +78,10 @@ export function JoinConfirmDialog({ open, onClose, onConfirm, request }: JoinCon
         </div>
         <div className="flex gap-2 mt-2">
           <Button variant="secondary" onClick={onClose} className="flex-1 h-10 text-xs">
-            Cancel
+            Not now
           </Button>
           <Button onClick={onConfirm} className="flex-1 h-10 text-xs" disabled={seatsLeft === 0}>
-            {seatsLeft === 0 ? 'Full' : 'Confirm Join'}
+            {seatsLeft === 0 ? 'Too late 😔' : "I'm in →"}
           </Button>
         </div>
       </DialogContent>
