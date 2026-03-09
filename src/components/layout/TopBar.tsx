@@ -62,9 +62,9 @@ export function TopBar({ showBack = false, title, hideChat = false, showSettings
           {showSettings ? (
             <button
               onClick={() => navigate('/settings')}
-              className="tap-scale p-1"
+              className="tap-scale text-lg"
             >
-              <Settings className="w-5 h-5 text-foreground" />
+              ⚙️
             </button>
           ) : !hideChat ? (
             <button
