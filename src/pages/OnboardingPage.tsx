@@ -7,7 +7,7 @@ import { MapPin, ShieldCheck, BadgeCheck, Zap, Users, Star, ArrowLeft } from 'lu
 const slides = [
   { id: 'people', title: "Friends busy?", description: "Find people nearby who are up for coffee, food, walks, or games right now." },
   { id: 'realtime', title: 'Plans keep falling through?', description: 'Post in seconds. People nearby can join in minutes.' },
-  { id: 'safe', title: 'No DMs. No creeps.', description: 'Group-only hangouts. Verified people.\n\nJust show up and vibe.' },
+  { id: 'safe', title: 'No DMs. No creeps.', description: 'Group-only hangouts. Verified people.\nJust show up and vibe.' },
   { id: 'credits', title: 'Show up. Level up.', description: 'Every plan you join earns you credits.\n\nThe more reliable you are, the more you unlock.' },
 ];
 
