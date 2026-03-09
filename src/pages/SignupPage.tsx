@@ -22,7 +22,6 @@ const interestOptions: { id: Category; emoji: string; label: string }[] = [
   { id: 'shopping', emoji: '🛍', label: 'Shopping' },
   { id: 'work', emoji: '💻', label: 'Work / Study' },
   { id: 'help', emoji: '🎮', label: 'Games' },
-  { id: 'casual', emoji: '🎬', label: 'Movies / Culture' },
 ];
 const cities = [
   { name: 'Mumbai', emoji: '🌆', zones: ['Bandra', 'Andheri', 'Colaba', 'Juhu', 'Powai', 'Lower Parel', 'Worli', 'Dadar'] },
