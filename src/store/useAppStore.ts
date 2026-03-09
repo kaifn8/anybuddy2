@@ -48,6 +48,14 @@ const BIOS = [
   'Tech geek by day, cricket player by evening',
 ];
 
+interface VerificationRequest {
+  userId: string;
+  userName: string;
+  selfieUrl: string;
+  submittedAt: Date;
+  status: VerificationStatus;
+}
+
 interface AppState {
   user: User | null;
   isOnboarded: boolean;
@@ -58,6 +66,7 @@ interface AppState {
   notifications: Notification[];
   creditHistory: CreditTransaction[];
   reviews: MeetupReview[];
+  pendingVerifications: VerificationRequest[];
   
   // Actions
   setUser: (user: User | null) => void;
@@ -76,6 +85,9 @@ interface AppState {
   unsavePlan: (requestId: string) => void;
   submitReview: (review: Omit<MeetupReview, 'id' | 'timestamp'>) => void;
   completeMeetup: (requestId: string) => void;
+  submitVerificationSelfie: (selfieUrl: string) => void;
+  approveVerification: (userId: string) => void;
+  rejectVerification: (userId: string) => void;
   reset: () => void;
 }
 
