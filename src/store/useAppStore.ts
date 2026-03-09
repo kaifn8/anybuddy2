@@ -162,6 +162,7 @@ const initialState = {
   notifications: [] as Notification[],
   creditHistory: [] as CreditTransaction[],
   reviews: [] as MeetupReview[],
+  pendingVerifications: [] as VerificationRequest[],
 };
 
 export const useAppStore = create<AppState>()(
