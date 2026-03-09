@@ -103,24 +103,12 @@ function FitBounds({ requests, selectedId }: { requests: Request[]; selectedId: 
   return null;
 }
 
-function LocateControl({ setUserPos }: { setUserPos: (pos: [number, number]) => void }) {
+function LocateControl({ setUserPos, mapRef }: { setUserPos: (pos: [number, number]) => void; mapRef: React.MutableRefObject<any> }) {
   const map = useMap();
 
   useEffect(() => {
-    // Expose locate function on the map instance
-    (map as any)._locateMe = () => {
-      if (!navigator.geolocation) return;
-      navigator.geolocation.getCurrentPosition(
-        (pos) => {
-          const latlng: [number, number] = [pos.coords.latitude, pos.coords.longitude];
-          setUserPos(latlng);
-          map.flyTo(latlng, 15, { duration: 0.8 });
-        },
-        () => {},
-        { enableHighAccuracy: true, timeout: 5000 }
-      );
-    };
-  }, [map, setUserPos]);
+    mapRef.current = map;
+  }, [map, mapRef]);
 
   return null;
 }
