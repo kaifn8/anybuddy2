@@ -21,7 +21,7 @@ export const BottomNav = React.forwardRef<HTMLElement, object>(function BottomNa
   const unreadCount = notifications.filter(n => !n.read).length;
   
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50">
+    <nav ref={ref} className="fixed bottom-0 left-0 right-0 z-50">
       <div className="max-w-md mx-auto px-4 pb-2">
         <div className="flex items-center justify-around h-14 px-1" style={{ borderRadius: '1rem', background: 'rgba(230,240,255,0.85)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', border: '1px solid rgba(200,220,255,0.4)', boxShadow: '0 -2px 20px rgba(0,0,0,0.04)' }}>
           {navItems.map((item) => {
@@ -76,4 +76,5 @@ export const BottomNav = React.forwardRef<HTMLElement, object>(function BottomNa
       </div>
     </nav>
   );
-}
+});
+BottomNav.displayName = 'BottomNav';
