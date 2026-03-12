@@ -138,7 +138,7 @@ export function JoinConfirmDialog({ open, onClose, onConfirm, request }: JoinCon
           </div>
           {request.seatsTaken >= 2 && (
             <p className="text-[10px] text-success font-medium mt-1.5">
-              ✓ {request.seatsTaken} people already committed — you won't be alone
+              ✓ {request.seatsTaken} people already going
             </p>
           )}
         </div>
@@ -173,16 +173,16 @@ export function JoinConfirmDialog({ open, onClose, onConfirm, request }: JoinCon
                 Maybe later
               </Button>
               <Button onClick={handleReserve} className="flex-1 h-10 text-xs" disabled={seatsLeft === 0}>
-                {seatsLeft === 0 ? 'You missed it 😔' : seatsLeft === 1 ? 'Grab last spot →' : 'Reserve my spot →'}
+                {seatsLeft === 0 ? 'Full 😔' : seatsLeft === 1 ? 'Take the last spot →' : 'Reserve my spot →'}
               </Button>
             </>
           ) : (
             <>
               <Button variant="secondary" onClick={handleClose} className="flex-1 h-10 text-xs">
-                Let someone else have it
+                Nah, skip
               </Button>
               <Button onClick={handleConfirm} className="flex-1 h-10 text-xs" disabled={isConfirming}>
-                {isConfirming ? 'Locking you in...' : "Confirm — I'm showing up ✓"}
+                {isConfirming ? 'Joining...' : "I'm in ✓"}
               </Button>
             </>
           )}

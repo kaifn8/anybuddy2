@@ -68,7 +68,7 @@ function TrustProgressionCard({ trustLevel, completedJoins, reliabilityScore }: 
         {!nextLevel && (
           <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-primary/[0.06] border border-primary/15">
             <span className="text-sm">🏆</span>
-            <p className="text-[11px] text-primary font-semibold">You're in the top tier — enjoy priority access</p>
+            <p className="text-[11px] text-primary font-semibold">Max level — you get the best rates</p>
           </div>
         )}
       </div>
@@ -231,10 +231,10 @@ export default function ProfilePage() {
             {user.interests.length === 0 && user.badges.length === 0 && user.meetupsHosted === 0 && (
               <div className="text-center py-10">
                 <span className="text-4xl block mb-3">🌱</span>
-                <p className="text-sm font-medium text-foreground mb-1">Your profile is empty — people can't trust you yet</p>
-                <p className="text-xs text-muted-foreground">Join 1 plan to start building your reputation</p>
+                <p className="text-sm font-medium text-foreground mb-1">Nothing here yet</p>
+                <p className="text-xs text-muted-foreground">Join a plan to get started</p>
                 <Button onClick={() => navigate('/home')} variant="secondary" size="sm" className="mt-4">
-                  Find a plan nearby
+                  Browse plans
                 </Button>
               </div>
             )}
