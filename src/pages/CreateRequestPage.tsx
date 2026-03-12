@@ -1,4 +1,4 @@
-import { useState, useMemo, useRef, useEffect } from 'react';
+import { useState, useMemo, useRef, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 import { useAppStore } from '@/store/useAppStore';
@@ -6,7 +6,7 @@ import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
 import type { Category, Urgency } from '@/types/anybuddy';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { ChevronLeft, Pencil } from 'lucide-react';
+import { ChevronLeft, Pencil, Search, MapPin, Loader2, Navigation } from 'lucide-react';
 import { LocationMapPicker } from '@/components/LocationMap';
 
 // ── Template data ──────────────────────────────────────────────
