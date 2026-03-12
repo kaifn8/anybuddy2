@@ -196,66 +196,66 @@ export default function HomePage() {
           <h3 className="text-[15px] font-bold text-foreground mb-3.5 flex items-center gap-1.5">
             <span>🔥</span> Filling up fast
           </h3>
-          <div ref={trendingRef} className="flex gap-3 overflow-x-auto scrollbar-hide -mx-5 px-5 pb-1 lg:mx-0 lg:px-0 lg:flex-wrap">
+          <div ref={trendingRef} className="flex gap-3 overflow-x-auto scrollbar-hide -mx-5 px-5 pb-2 lg:mx-0 lg:px-0 lg:flex-wrap">
             {trending.map((req, i) => {
               const seatsLeft = req.seatsTotal - req.seatsTaken;
               const fillPercent = Math.round((req.seatsTaken / req.seatsTotal) * 100);
+              const gradients = [
+                'linear-gradient(160deg, #1a1a2e 0%, #16213e 35%, #0f3460 65%, #533483 100%)',
+                'linear-gradient(160deg, #0d1b2a 0%, #1b2838 35%, #1a4a5e 65%, #2d6a4f 100%)',
+                'linear-gradient(160deg, #1a1423 0%, #2d1b3d 35%, #4a1942 65%, #801336 100%)',
+              ];
               return (
                 <button key={req.id} onClick={() => navigate(`/request/${req.id}`)}
-                  className="shrink-0 tap-scale min-w-[200px] max-w-[220px] lg:min-w-[260px] lg:max-w-[300px] rounded-2xl overflow-hidden text-left relative"
+                  className="shrink-0 tap-scale min-w-[210px] max-w-[230px] lg:min-w-[260px] lg:max-w-[300px] overflow-hidden text-left relative"
                   style={{
-                    background: [
-                      'linear-gradient(145deg, hsl(240 30% 16%) 0%, hsl(260 40% 22%) 40%, hsl(280 45% 28%) 70%, hsl(320 50% 25%) 100%)',
-                      'linear-gradient(145deg, hsl(210 45% 14%) 0%, hsl(220 50% 20%) 40%, hsl(200 55% 26%) 70%, hsl(175 45% 22%) 100%)',
-                      'linear-gradient(145deg, hsl(20 40% 14%) 0%, hsl(15 50% 20%) 40%, hsl(350 45% 24%) 70%, hsl(330 40% 20%) 100%)',
-                    ][i % 3],
-                    boxShadow: '0 8px 32px rgba(0,0,0,0.2), 0 2px 8px rgba(0,0,0,0.1)',
+                    background: gradients[i % 3],
+                    borderRadius: '20px',
+                    boxShadow: '0 12px 40px -8px rgba(0,0,0,0.3)',
                   }}>
-                  {/* Subtle shimmer overlay */}
-                  <div className="absolute inset-0 opacity-[0.07] rounded-2xl" style={{
-                    background: 'linear-gradient(135deg, transparent 30%, rgba(255,255,255,0.4) 50%, transparent 70%)',
+                  {/* Noise texture overlay */}
+                  <div className="absolute inset-0 opacity-[0.03]" style={{
+                    backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 256 256\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\' opacity=\'1\'/%3E%3C/svg%3E")',
                   }} />
-                  <div className="p-3.5 relative z-10">
-                    {/* Top row */}
-                    <div className="flex items-center justify-between mb-2.5">
-                      <div className="w-10 h-10 rounded-xl bg-white/10 backdrop-blur-sm flex items-center justify-center text-xl">
-                        {getCategoryEmoji(req.category)}
-                      </div>
-                      <div className="flex items-center gap-1.5 bg-white/10 backdrop-blur-sm px-2 py-0.5 rounded-full">
-                        <span className="relative flex items-center justify-center">
-                          <span className="w-[5px] h-[5px] rounded-full bg-emerald-400" />
-                          <span className="absolute w-[5px] h-[5px] rounded-full bg-emerald-400 animate-ping opacity-60" />
-                        </span>
-                        <span className="text-[10px] font-bold text-emerald-300">Live</span>
+                  {/* Soft light reflection */}
+                  <div className="absolute top-0 left-0 right-0 h-[60%] opacity-[0.06]" style={{
+                    background: 'radial-gradient(ellipse at 30% 0%, rgba(255,255,255,0.8) 0%, transparent 60%)',
+                  }} />
+
+                  <div className="p-4 relative z-10">
+                    {/* Category + Live */}
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="text-2xl drop-shadow-lg">{getCategoryEmoji(req.category)}</span>
+                      <div className="flex items-center gap-1 px-2 py-[3px] rounded-full" style={{ background: 'rgba(255,255,255,0.08)' }}>
+                        <span className="w-[5px] h-[5px] rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.6)]" />
+                        <span className="text-[9px] font-semibold text-white/70 uppercase tracking-wider">Live</span>
                       </div>
                     </div>
 
-                    <p className="text-[13px] font-bold text-white truncate mb-0.5">{req.title}</p>
-                    <p className="text-[11px] text-white/50 mb-3 truncate">📍 {req.location.name} · ~{Math.round(req.location.distance * 12)}min</p>
+                    {/* Title */}
+                    <h4 className="text-[14px] font-bold text-white leading-tight truncate mb-1">{req.title}</h4>
+                    <p className="text-[11px] text-white/40 mb-4 truncate">{req.location.name}</p>
 
-                    {/* People joined */}
-                    <div className="flex items-center gap-2 mb-2.5">
-                      <div className="flex -space-x-1.5">
-                        {[req.userName, ...req.participants.map(p => p.name)].slice(0, 3).map((name, j) => (
-                          <img key={j} src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${name}`} alt="" className="w-5 h-5 rounded-full border-[1.5px] border-white/20" />
-                        ))}
+                    {/* Avatars + spots */}
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <div className="flex -space-x-2">
+                          {[req.userName, ...req.participants.map(p => p.name)].slice(0, 3).map((name, j) => (
+                            <img key={j} src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${name}`} alt=""
+                              className="w-6 h-6 rounded-full"
+                              style={{ border: '2px solid rgba(255,255,255,0.15)' }} />
+                          ))}
+                        </div>
+                        <span className="text-[10px] font-medium text-white/50">{req.seatsTaken}/{req.seatsTotal}</span>
                       </div>
-                      <span className="text-[10px] font-semibold text-white/70">{req.seatsTaken} joined</span>
+                      <span className="text-[10px] font-bold text-white/80 px-2.5 py-1 rounded-full" style={{
+                        background: seatsLeft <= 1
+                          ? 'linear-gradient(135deg, rgba(239,68,68,0.3), rgba(239,68,68,0.15))'
+                          : 'rgba(255,255,255,0.08)',
+                      }}>
+                        {seatsLeft === 0 ? 'Full' : seatsLeft === 1 ? '1 left' : `${seatsLeft} left`}
+                      </span>
                     </div>
-
-                    {/* Fill bar */}
-                    <div className="w-full h-1.5 rounded-full bg-white/10 overflow-hidden mb-1.5">
-                      <div
-                        className="h-full rounded-full transition-all"
-                        style={{
-                          width: `${fillPercent}%`,
-                          background: 'linear-gradient(90deg, rgba(255,255,255,0.5), rgba(255,255,255,0.8))',
-                        }}
-                      />
-                    </div>
-                    <p className="text-[10px] font-semibold text-white/50">
-                      {seatsLeft === 0 ? '🔴 Full' : seatsLeft === 1 ? '🟡 Last spot!' : `${seatsLeft} spots left`}
-                    </p>
                   </div>
                 </button>
               );
