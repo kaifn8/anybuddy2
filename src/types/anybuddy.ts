@@ -4,6 +4,7 @@ export type Category = 'chai' | 'explore' | 'shopping' | 'work' | 'help' | 'casu
 export type VerificationStatus = 'unverified' | 'pending' | 'verified' | 'failed';
 export type JoinMode = 'auto' | 'approval';
 export type PlanVisibility = 'public' | 'request';
+export type Gender = 'male' | 'female' | 'other';
 
 export interface JoinRequest {
   userId: string;
