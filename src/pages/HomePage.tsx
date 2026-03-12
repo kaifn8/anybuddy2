@@ -196,35 +196,65 @@ export default function HomePage() {
           <h3 className="text-[15px] font-bold text-foreground mb-3.5 flex items-center gap-1.5">
             <span>🔥</span> Filling up fast
           </h3>
-          <div ref={trendingRef} className="flex gap-3.5 overflow-x-auto scrollbar-hide -mx-5 px-5 pb-1 lg:mx-0 lg:px-0 lg:flex-wrap">
+          <div ref={trendingRef} className="flex gap-3 overflow-x-auto scrollbar-hide -mx-5 px-5 pb-1 lg:mx-0 lg:px-0 lg:flex-wrap">
             {trending.map((req, i) => {
               const seatsLeft = req.seatsTotal - req.seatsTaken;
               const fillPercent = Math.round((req.seatsTaken / req.seatsTotal) * 100);
-              const tints = [
-                'linear-gradient(135deg, hsl(var(--primary) / 0.25) 0%, hsl(25 90% 55% / 0.3) 50%, hsl(350 70% 55% / 0.2) 100%)',
-                'linear-gradient(135deg, hsl(250 65% 58% / 0.25) 0%, hsl(var(--primary) / 0.3) 50%, hsl(280 55% 55% / 0.2) 100%)',
-                'linear-gradient(135deg, hsl(160 55% 42% / 0.25) 0%, hsl(175 60% 44% / 0.3) 50%, hsl(var(--primary) / 0.2) 100%)',
-              ];
               return (
                 <button key={req.id} onClick={() => navigate(`/request/${req.id}`)}
-                  className="shrink-0 tap-scale min-w-[210px] max-w-[230px] lg:min-w-[260px] lg:max-w-[300px] rounded-2xl overflow-hidden text-left"
+                  className="shrink-0 tap-scale min-w-[200px] max-w-[220px] lg:min-w-[260px] lg:max-w-[300px] rounded-2xl overflow-hidden text-left"
                   style={{
-                    background: tints[i % tints.length],
+                    background: 'rgba(255,255,255,0.72)',
+                    backdropFilter: 'blur(32px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(32px) saturate(200%)',
+                    border: '1px solid rgba(255,255,255,0.6)',
+                    boxShadow: '0 2px 16px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.5)',
                   }}>
-                  <div className="p-4">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-2xl">{getCategoryEmoji(req.category)}</span>
-                      <span className="text-[10px] font-bold text-primary bg-primary/10 px-2 py-0.5 rounded-full">
-                        {req.seatsTaken}/{req.seatsTotal} joined
-                      </span>
+                  <div className="p-3.5">
+                    {/* Top row: emoji + urgency */}
+                    <div className="flex items-center justify-between mb-2.5">
+                      <div className="w-10 h-10 rounded-xl bg-primary/8 flex items-center justify-center text-xl">
+                        {getCategoryEmoji(req.category)}
+                      </div>
+                      <div className="flex items-center gap-1.5">
+                        <span className="relative flex items-center justify-center">
+                          <span className="w-[5px] h-[5px] rounded-full bg-success" />
+                          <span className="absolute w-[5px] h-[5px] rounded-full bg-success animate-ping opacity-60" />
+                        </span>
+                        <span className="text-[10px] font-bold text-success">Live</span>
+                      </div>
                     </div>
-                    <p className="text-[14px] font-semibold text-foreground truncate mb-1">{req.title}</p>
-                    <p className="text-[12px] text-muted-foreground mb-2.5">📍 {req.location.name}</p>
-                    <div className="w-full h-1.5 rounded-full bg-foreground/8 overflow-hidden">
-                      <div className="h-full rounded-full bg-primary/70 transition-all" style={{ width: `${fillPercent}%` }} />
+
+                    {/* Title */}
+                    <p className="text-[13px] font-bold text-foreground truncate mb-0.5">{req.title}</p>
+                    <p className="text-[11px] text-muted-foreground mb-3 truncate">📍 {req.location.name} · ~{Math.round(req.location.distance * 12)}min</p>
+
+                    {/* People joined */}
+                    <div className="flex items-center gap-2 mb-2.5">
+                      <div className="flex -space-x-1.5">
+                        {[req.userName, ...req.participants.map(p => p.name)].slice(0, 3).map((name, j) => (
+                          <img key={j} src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${name}`} alt="" className="w-5 h-5 rounded-full border-2 border-background" />
+                        ))}
+                      </div>
+                      <span className="text-[10px] font-semibold text-foreground">{req.seatsTaken} joined</span>
                     </div>
-                    <p className="text-[10px] text-muted-foreground mt-1">
-                      {seatsLeft === 0 ? '🔴 Full' : seatsLeft === 1 ? '🟡 1 spot left' : `${seatsLeft} spots left`}
+
+                    {/* Fill bar */}
+                    <div className="w-full h-1.5 rounded-full bg-foreground/6 overflow-hidden mb-1.5">
+                      <div
+                        className="h-full rounded-full transition-all"
+                        style={{
+                          width: `${fillPercent}%`,
+                          background: fillPercent >= 80
+                            ? 'linear-gradient(90deg, hsl(0 72% 55%), hsl(25 90% 55%))'
+                            : fillPercent >= 50
+                              ? 'linear-gradient(90deg, hsl(35 90% 52%), hsl(25 90% 55%))'
+                              : 'linear-gradient(90deg, hsl(var(--primary)), hsl(230 85% 60%))',
+                        }}
+                      />
+                    </div>
+                    <p className="text-[10px] font-semibold text-muted-foreground">
+                      {seatsLeft === 0 ? '🔴 Full' : seatsLeft === 1 ? '🟡 Last spot!' : `${seatsLeft} spots left`}
                     </p>
                   </div>
                 </button>
