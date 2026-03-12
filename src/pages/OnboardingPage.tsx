@@ -443,7 +443,7 @@ export default function OnboardingPage() {
           className="w-full h-11 text-[15px] font-semibold rounded-lg shadow-lg shadow-primary/20 transition-all active:scale-[0.98]"
           onClick={handleNext}
         >
-          {isLastSlide ? "Let's go 🚀" : 'Continue →'}
+          {isLastSlide ? "Don't miss out →" : 'Continue →'}
         </Button>
         
         {currentSlide < slides.length - 1 && (
