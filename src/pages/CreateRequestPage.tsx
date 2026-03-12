@@ -259,37 +259,15 @@ export default function CreateRequestPage() {
               )}
             </div>
 
-            {/* Location (auto) */}
-            {editingLocation ? (
-              <div className="space-y-2">
-                <div className="flex items-center gap-3 p-3.5 rounded-xl liquid-glass">
-                  <span className="text-lg">📍</span>
-                  <input
-                    autoFocus
-                    value={location}
-                    onChange={(e) => setLocation(e.target.value.slice(0, 60))}
-                    onBlur={() => setEditingLocation(false)}
-                    onKeyDown={(e) => e.key === 'Enter' && setEditingLocation(false)}
-                    className="flex-1 bg-transparent text-sm font-semibold focus:outline-none"
-                    placeholder="Enter location"
-                  />
-                </div>
-                <LocationMapPicker
-                  coords={locationCoords}
-                  onCoordsChange={setLocationCoords}
-                  height="160px"
-                />
-              </div>
-            ) : (
-              <button onClick={() => setEditingLocation(true)} className="w-full flex items-center gap-3 p-3.5 rounded-xl liquid-glass tap-scale">
-                <span className="text-lg">📍</span>
-                <div className="flex-1 text-left">
-                  <p className="text-sm font-semibold">{location}</p>
-                  <p className="text-[10px] text-muted-foreground">Tap to change location</p>
-                </div>
-                <Pencil size={14} className="text-muted-foreground shrink-0" />
-              </button>
-            )}
+            {/* Location */}
+            <LocationSearchField
+              location={location}
+              setLocation={setLocation}
+              locationCoords={locationCoords}
+              setLocationCoords={setLocationCoords}
+              editing={editingLocation}
+              setEditing={setEditingLocation}
+            />
 
             {/* Time — big tappable pills */}
             <div>
