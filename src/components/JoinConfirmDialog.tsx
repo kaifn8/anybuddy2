@@ -89,7 +89,7 @@ export function JoinConfirmDialog({ open, onClose, onConfirm, request }: JoinCon
         <DialogHeader>
           <DialogTitle className="text-sm font-bold flex items-center gap-2">
             <span>{getCategoryEmoji(request.category)}</span>
-            {isReserved ? '🔒 Seat reserved' : 'You in?'}
+            {isReserved ? '🔒 Your spot is held' : `${seatsLeft <= 2 ? '⚡ Going fast — ' : ''}You in?`}
           </DialogTitle>
           <DialogDescription className="sr-only">Confirm joining this plan</DialogDescription>
         </DialogHeader>
