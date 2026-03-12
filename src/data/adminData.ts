@@ -1,10 +1,11 @@
-import type { TrustLevel, Category, VerificationStatus } from '@/types/anybuddy';
+import type { TrustLevel, Category, VerificationStatus, Gender } from '@/types/anybuddy';
 
 export interface AdminUser {
   id: string;
   firstName: string;
   avatar: string;
   city: string;
+  gender?: Gender;
   zone?: string;
   trustLevel: TrustLevel;
   reliabilityScore: number;
@@ -45,6 +46,7 @@ const CITIES = ['Mumbai', 'Mumbai', 'Mumbai', 'Pune', 'Delhi'];
 const ZONES = ['Bandra', 'Andheri', 'Colaba', 'Juhu', 'Powai', 'Worli', 'Versova', 'Malad', 'Dadar', 'Lower Parel'];
 const TRUST_LEVELS: TrustLevel[] = ['seed', 'solid', 'trusted', 'anchor'];
 const VERIFICATION_STATUSES: VerificationStatus[] = ['unverified', 'pending', 'verified', 'failed'];
+const GENDERS: Gender[] = ['male', 'female', 'other'];
 
 const REPORT_REASONS = [
   'Inappropriate behavior', 'No-show', 'Spam', 'Fake profile', 
@@ -65,6 +67,7 @@ export function generateFakeUsers(count: number): AdminUser[] {
       firstName: name,
       avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${name}${i}`,
       city: CITIES[Math.floor(Math.random() * CITIES.length)],
+      gender: GENDERS[Math.floor(Math.random() * GENDERS.length)],
       zone: ZONES[Math.floor(Math.random() * ZONES.length)],
       trustLevel: trust,
       reliabilityScore: Math.floor(Math.random() * 30) + 70,

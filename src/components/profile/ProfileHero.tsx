@@ -1,5 +1,5 @@
 import { MapPin, BadgeCheck, ShieldCheck, Clock, AlertCircle } from 'lucide-react';
-import type { Badge, User, VerificationStatus } from '@/types/anybuddy';
+import type { Badge, User, VerificationStatus, Gender } from '@/types/anybuddy';
 
 interface ProfileHeroProps {
   user: User & { badges: Badge[] };
@@ -71,6 +71,11 @@ export function ProfileHero({ user, joinText, stats }: ProfileHeroProps) {
           </div>
 
           <h2 className="text-[22px] font-bold tracking-tight">{user.firstName}</h2>
+          {user.gender && (
+            <span className="text-[11px] text-muted-foreground font-medium mt-0.5 capitalize">
+              {user.gender === 'male' ? '👨' : user.gender === 'female' ? '👩' : '🧑'} {user.gender}
+            </span>
+          )}
           <VerificationPill status={verificationStatus} />
 
           {user.bio && (

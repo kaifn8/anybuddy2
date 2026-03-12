@@ -2,13 +2,13 @@ import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 import { useAppStore, createDefaultUser } from '@/store/useAppStore';
-import type { Category } from '@/types/anybuddy';
+import type { Category, Gender } from '@/types/anybuddy';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Check } from 'lucide-react';
 
-type Step = 'method' | 'phone' | 'otp' | 'name' | 'photo' | 'bio' | 'age' | 'interests' | 'zone';
-const steps: Step[] = ['method', 'phone', 'otp', 'name', 'photo', 'bio', 'age', 'interests', 'zone'];
+type Step = 'method' | 'phone' | 'otp' | 'name' | 'gender' | 'photo' | 'bio' | 'age' | 'interests' | 'zone';
+const steps: Step[] = ['method', 'phone', 'otp', 'name', 'gender', 'photo', 'bio', 'age', 'interests', 'zone'];
 const ageRanges = ['18-24', '25-34', '35-44', '45-54', '55+'];
 
 // Interest options with emoji and label
@@ -34,6 +34,7 @@ const stepConfig: Record<Step, { emoji: string; title: string; subtitle: string 
   phone: { emoji: '📱', title: 'Drop your number', subtitle: "Just to verify you're real. No calls, no spam." },
   otp: { emoji: '🔐', title: 'Enter code', subtitle: '' },
   name: { emoji: '😊', title: "What's your first name?", subtitle: "This is how people will say hi" },
+  gender: { emoji: '🧑', title: 'How do you identify?', subtitle: 'Helps others know who they\'re meeting' },
   photo: { emoji: '📸', title: 'Show your face', subtitle: 'People join plans from real humans' },
   bio: { emoji: '✍️', title: 'One line about you', subtitle: 'Make people want to hang with you' },
   age: { emoji: '🎂', title: 'Your crew age', subtitle: 'Match with people your vibe' },
@@ -51,6 +52,7 @@ export default function SignupPage() {
   const [email, setEmail] = useState('');
   const [otp, setOtp] = useState(['', '', '', '']);
   const [firstName, setFirstName] = useState('');
+  const [gender, setGender] = useState<Gender | ''>('');
   const [bio, setBio] = useState('');
   const [ageRange, setAgeRange] = useState('');
   const [interests, setInterests] = useState<Category[]>([]);
@@ -97,7 +99,7 @@ export default function SignupPage() {
     if (interests.length >= 3 && zone) {
       gsap.to(contentRef.current, { opacity: 0, duration: 0.2, onComplete: () => {
         setUser(createDefaultUser({
-          id: `user_${Date.now()}`, firstName, phone, email, bio,
+          id: `user_${Date.now()}`, firstName, phone, email, bio, gender: gender || undefined,
           ageRange, city: selectedCity || 'Mumbai', zone, interests, loginMethod,
           avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${firstName}`,
         }));
@@ -200,7 +202,37 @@ export default function SignupPage() {
             <div className="space-y-5">
               <input placeholder="Your first name" value={firstName} onChange={(e) => setFirstName(e.target.value)} autoFocus
                 className="w-full h-12 px-4 rounded-xl liquid-glass text-body font-medium focus:outline-none focus:ring-2 focus:ring-primary/20" />
-              <Button className="w-full h-12" onClick={() => firstName.trim() && goToStep('photo')} disabled={!firstName.trim()}>Continue</Button>
+              <Button className="w-full h-12" onClick={() => firstName.trim() && goToStep('gender')} disabled={!firstName.trim()}>Continue</Button>
+            </div>
+          )}
+          
+          {/* Gender */}
+          {step === 'gender' && (
+            <div className="space-y-5">
+              <div className="grid grid-cols-3 gap-2.5">
+                {([
+                  { id: 'male' as Gender, emoji: '👨', label: 'Male' },
+                  { id: 'female' as Gender, emoji: '👩', label: 'Female' },
+                  { id: 'other' as Gender, emoji: '🧑', label: 'Other' },
+                ]).map((g) => (
+                  <button key={g.id} onClick={() => setGender(g.id)}
+                    className={cn(
+                      'flex flex-col items-center gap-2 py-4 px-3 rounded-2xl border-2 transition-all tap-scale',
+                      gender === g.id
+                        ? 'border-primary bg-primary/10 shadow-md shadow-primary/10'
+                        : 'border-border/30 bg-background/50 hover:border-border/50'
+                    )}>
+                    <span className="text-3xl">{g.emoji}</span>
+                    <span className={cn('text-sm font-semibold', gender === g.id ? 'text-primary' : 'text-foreground')}>{g.label}</span>
+                    {gender === g.id && (
+                      <div className="w-5 h-5 rounded-full bg-primary flex items-center justify-center animate-scale-in">
+                        <Check size={12} className="text-primary-foreground" strokeWidth={3} />
+                      </div>
+                    )}
+                  </button>
+                ))}
+              </div>
+              <Button className="w-full h-12" onClick={() => gender && goToStep('photo')} disabled={!gender}>Continue</Button>
             </div>
           )}
           

@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import type { User, Request, Notification, CreditTransaction, Category, TrustLevel, Urgency, Participant, ChatMessage, MeetupReview, Badge, VerificationStatus } from '@/types/anybuddy';
+import type { User, Request, Notification, CreditTransaction, Category, TrustLevel, Urgency, Participant, ChatMessage, MeetupReview, Badge, VerificationStatus, Gender } from '@/types/anybuddy';
 
 const FAKE_NAMES = ['Priya', 'Arjun', 'Maya', 'Rohan', 'Zara', 'Aditya', 'Neha', 'Vikram', 'Ananya', 'Kabir', 'Riya', 'Dev', 'Simran', 'Rahul'];
 
@@ -159,6 +159,8 @@ interface AppState {
   reset: () => void;
 }
 
+const GENDERS: Gender[] = ['male', 'female', 'other'];
+
 const generateFakeRequest = (): Request => {
   const name = FAKE_NAMES[Math.floor(Math.random() * FAKE_NAMES.length)];
   const urgency = URGENCIES[Math.floor(Math.random() * URGENCIES.length)];
@@ -188,6 +190,7 @@ const generateFakeRequest = (): Request => {
     userId: `user_${Math.random().toString(36).substr(2, 9)}`,
     userName: name,
     userTrust: TRUST_LEVELS[Math.floor(Math.random() * TRUST_LEVELS.length)],
+    userGender: GENDERS[Math.floor(Math.random() * GENDERS.length)],
     userAvatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${name}`,
     userReliability: reliability,
     userHostRating: Math.round((3.5 + Math.random() * 1.5) * 10) / 10,
@@ -281,7 +284,7 @@ export const useAppStore = create<AppState>()(
         const newRequest: Request = {
           ...requestData, id: `req_${Date.now()}`, createdAt: new Date(),
           participants: [], userId: user.id, userName: user.firstName,
-          userTrust: user.trustLevel, userAvatar: user.avatar,
+          userTrust: user.trustLevel, userGender: user.gender, userAvatar: user.avatar,
           userReliability: user.reliabilityScore, userHostRating: user.hostRating,
         };
         set({
