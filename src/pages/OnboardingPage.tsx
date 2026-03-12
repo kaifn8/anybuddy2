@@ -24,9 +24,9 @@ const LIVE_ACTIVITY = [
 ];
 
 const TRUST_FEATURES = [
-  { icon: ShieldCheck, label: 'Verified humans', desc: 'No bots, no fakes' },
-  { icon: Users, label: 'Group-only', desc: 'Zero creepy DMs' },
-  { icon: BadgeCheck, label: 'Earn trust', desc: 'Show up, level up' },
+  { icon: ShieldCheck, label: 'Every person is verified', desc: 'Real names, real faces' },
+  { icon: Users, label: 'Groups only — no 1-on-1 DMs', desc: 'Designed to feel safe' },
+  { icon: BadgeCheck, label: 'Bad actors get removed', desc: 'Community-driven moderation' },
 ];
 
 const EXAMPLE_PLANS = [
