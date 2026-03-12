@@ -30,16 +30,16 @@ const cities = [
 ];
 
 const stepConfig: Record<Step, { emoji: string; title: string; subtitle: string }> = {
-  method: { emoji: '👋', title: "People nearby are waiting", subtitle: '30 seconds. Then you\'re in.' },
-  phone: { emoji: '📱', title: 'Quick verification', subtitle: "Keeps out bots and fake accounts. That's it." },
-  otp: { emoji: '🔐', title: 'Almost there', subtitle: '' },
-  name: { emoji: '😊', title: "What should people call you?", subtitle: "First impressions matter — this is yours" },
-  gender: { emoji: '🧑', title: 'Who are you?', subtitle: 'People feel safer knowing who they\'re meeting' },
-  photo: { emoji: '📸', title: 'Profiles with photos get 3x more joins', subtitle: 'Real face = real trust' },
-  bio: { emoji: '✍️', title: 'What makes you interesting?', subtitle: 'One line that makes someone want to meet you' },
-  age: { emoji: '🎂', title: 'Find your people', subtitle: 'We match you with your age group' },
+  method: { emoji: '👋', title: "Let's get you in", subtitle: '30 seconds. No spam, ever.' },
+  phone: { emoji: '📱', title: 'Drop your number', subtitle: "Quick check to keep out fakes." },
+  otp: { emoji: '🔐', title: 'Enter code', subtitle: '' },
+  name: { emoji: '😊', title: "What's your first name?", subtitle: "This is how people will see you" },
+  gender: { emoji: '🧑', title: 'How do you identify?', subtitle: 'Helps others know who they\'re meeting' },
+  photo: { emoji: '📸', title: 'Add a photo', subtitle: 'Real photos get way more joins' },
+  bio: { emoji: '✍️', title: 'One line about you', subtitle: 'Keep it casual — what are you into?' },
+  age: { emoji: '🎂', title: 'Age range', subtitle: 'So we show you the right crowd' },
   interests: { emoji: '🎯', title: 'What gets you out of the house?', subtitle: 'Pick at least 3 or more = better matches' },
-  zone: { emoji: '📍', title: 'Where do you hang out?', subtitle: 'We\'ll show you plans happening right here' },
+  zone: { emoji: '📍', title: 'Your area', subtitle: 'We\'ll show plans near you' },
 };
 
 export default function SignupPage() {
