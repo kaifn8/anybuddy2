@@ -56,6 +56,7 @@ export interface Request {
   userId: string;
   userName: string;
   userTrust: TrustLevel;
+  userGender?: Gender;
   userAvatar?: string;
   userReliability?: number;
   userHostRating?: number;
