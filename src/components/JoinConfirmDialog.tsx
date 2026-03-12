@@ -179,10 +179,10 @@ export function JoinConfirmDialog({ open, onClose, onConfirm, request }: JoinCon
           ) : (
             <>
               <Button variant="secondary" onClick={handleClose} className="flex-1 h-10 text-xs">
-                Let someone else have it
+                Nah, skip
               </Button>
               <Button onClick={handleConfirm} className="flex-1 h-10 text-xs" disabled={isConfirming}>
-                {isConfirming ? 'Locking you in...' : "Confirm — I'm showing up ✓"}
+                {isConfirming ? 'Joining...' : "I'm in ✓"}
               </Button>
             </>
           )}

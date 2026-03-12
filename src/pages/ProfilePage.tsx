@@ -231,10 +231,10 @@ export default function ProfilePage() {
             {user.interests.length === 0 && user.badges.length === 0 && user.meetupsHosted === 0 && (
               <div className="text-center py-10">
                 <span className="text-4xl block mb-3">🌱</span>
-                <p className="text-sm font-medium text-foreground mb-1">Your profile is empty — people can't trust you yet</p>
-                <p className="text-xs text-muted-foreground">Join 1 plan to start building your reputation</p>
+                <p className="text-sm font-medium text-foreground mb-1">Nothing here yet</p>
+                <p className="text-xs text-muted-foreground">Join a plan to get started</p>
                 <Button onClick={() => navigate('/home')} variant="secondary" size="sm" className="mt-4">
-                  Find a plan nearby
+                  Browse plans
                 </Button>
               </div>
             )}

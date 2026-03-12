@@ -291,7 +291,7 @@ export default function HomePage() {
       {/* Quick create bar at bottom of feed */}
       {filtered.length > 0 && (
         <div className="px-5 mt-5 mb-2">
-          <h3 className="text-xs font-semibold text-muted-foreground mb-2 uppercase">People are waiting for someone to start 👇</h3>
+          <h3 className="text-xs font-semibold text-muted-foreground mb-2 uppercase">Start something</h3>
           <div className="flex gap-2 overflow-x-auto scrollbar-hide -mx-5 px-5">
             {QUICK_CREATE.map((s, i) => (
               <button key={i} onClick={() => navigate('/create')}
