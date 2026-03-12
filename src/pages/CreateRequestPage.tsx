@@ -160,7 +160,7 @@ export default function CreateRequestPage() {
               <h3 className="text-sm font-bold">{title}</h3>
             </div>
             <div className="flex flex-wrap gap-3 text-xs text-muted-foreground">
-              <span>📍 {zone}</span>
+              <span>📍 {location}</span>
               <span>⏰ {timeLabel}</span>
               <span>👥 Need {seats} {seats === 1 ? 'person' : 'people'}</span>
             </div>
