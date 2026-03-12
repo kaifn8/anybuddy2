@@ -62,6 +62,8 @@ export default function CreateRequestPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isPosted, setIsPosted] = useState(false);
   const [editingTitle, setEditingTitle] = useState(false);
+  const [editingLocation, setEditingLocation] = useState(false);
+  const [location, setLocation] = useState(zone);
   const [postedRequestId, setPostedRequestId] = useState<string | null>(null);
 
   const pageRef = useRef<HTMLDivElement>(null);
