@@ -47,6 +47,7 @@ export interface User {
   savedPlans: string[];
   loginMethod?: 'phone' | 'email' | 'google' | 'apple';
   blockedUsers: string[];
+  isAdmin?: boolean;
 }
 
 export type Badge = 'verified_host' | 'top_host' | 'trusted_member' | 'early_adopter' | 'streak_7';
