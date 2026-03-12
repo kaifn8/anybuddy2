@@ -49,6 +49,11 @@ export default function HostProfilePage() {
           <img src={host.userAvatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${host.userName}`}
             alt={host.userName} className="w-20 h-20 rounded-full mx-auto border-3 border-white/40" />
           <h2 className="text-title font-bold mt-3">{host.userName}</h2>
+          {host.userGender && (
+            <span className="text-xs text-muted-foreground capitalize mt-0.5">
+              {host.userGender === 'male' ? '👨' : host.userGender === 'female' ? '👩' : '🧑'} {host.userGender}
+            </span>
+          )}
           <div className="flex items-center justify-center gap-2 mt-1.5">
             <TrustBadge level={host.userTrust} size="md" />
             <span className="text-2xs text-success font-semibold">🟢 Online</span>

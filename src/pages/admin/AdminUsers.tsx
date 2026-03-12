@@ -165,7 +165,10 @@ export default function AdminUsers() {
                       </span>
                     )}
                   </div>
-                  <p className="text-[10px] text-muted-foreground">{user.zone}, {user.city} · Joined {format(new Date(user.joinedAt), 'MMM d')}</p>
+                  <p className="text-[10px] text-muted-foreground">
+                    {user.gender && <span className="capitalize">{user.gender === 'male' ? '👨' : user.gender === 'female' ? '👩' : '🧑'} {user.gender} · </span>}
+                    {user.zone}, {user.city} · Joined {format(new Date(user.joinedAt), 'MMM d')}
+                  </p>
                 </div>
                 <div className="flex items-center gap-1.5 shrink-0">
                   <span className={cn('text-[9px] font-bold px-2 py-0.5 rounded-full capitalize', TRUST_COLORS[user.trustLevel])}>
