@@ -211,7 +211,7 @@ export default function HomePage() {
                   style={{
                     background: gradients[i % 3],
                     borderRadius: '20px',
-                    boxShadow: '0 12px 40px -8px rgba(0,0,0,0.3)',
+                    boxShadow: '0 4px 16px -4px rgba(0,0,0,0.15)',
                   }}>
                   {/* Noise texture overlay */}
                   <div className="absolute inset-0 opacity-[0.03]" style={{
