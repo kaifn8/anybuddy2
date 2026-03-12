@@ -159,6 +159,8 @@ interface AppState {
   reset: () => void;
 }
 
+const GENDERS: Gender[] = ['male', 'female', 'other'];
+
 const generateFakeRequest = (): Request => {
   const name = FAKE_NAMES[Math.floor(Math.random() * FAKE_NAMES.length)];
   const urgency = URGENCIES[Math.floor(Math.random() * URGENCIES.length)];
@@ -188,6 +190,7 @@ const generateFakeRequest = (): Request => {
     userId: `user_${Math.random().toString(36).substr(2, 9)}`,
     userName: name,
     userTrust: TRUST_LEVELS[Math.floor(Math.random() * TRUST_LEVELS.length)],
+    userGender: GENDERS[Math.floor(Math.random() * GENDERS.length)],
     userAvatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${name}`,
     userReliability: reliability,
     userHostRating: Math.round((3.5 + Math.random() * 1.5) * 10) / 10,
