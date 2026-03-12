@@ -68,7 +68,7 @@ function TrustProgressionCard({ trustLevel, completedJoins, reliabilityScore }: 
         {!nextLevel && (
           <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-primary/[0.06] border border-primary/15">
             <span className="text-sm">🏆</span>
-            <p className="text-[11px] text-primary font-semibold">Max level — you get the best rates</p>
+            <p className="text-[11px] text-primary font-semibold">Max level. You get the best rates.</p>
           </div>
         )}
       </div>

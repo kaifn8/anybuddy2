@@ -68,7 +68,7 @@ export default function JoinRequestPage() {
           releaseReservation(id);
           reservedRef.current = false;
           setIsReserved(false);
-          toast.error('⏰ Reservation expired — seat released');
+          toast.error('⏰ Reservation expired, seat released');
           return 0;
         }
         return prev - 1;
@@ -245,7 +245,7 @@ export default function JoinRequestPage() {
                 />
               </div>
               <p className="text-center text-xs text-muted-foreground">
-                🔒 Seat reserved — <span className={countdown <= 10 ? 'text-destructive font-bold' : 'font-semibold'}>{countdown}s</span> to confirm
+                🔒 Seat reserved · <span className={countdown <= 10 ? 'text-destructive font-bold' : 'font-semibold'}>{countdown}s</span> to confirm
               </p>
 
               <div className="flex gap-2">
@@ -258,7 +258,7 @@ export default function JoinRequestPage() {
                       <span className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                       Confirming...
                     </span>
-                  ) : "Confirm — I'm in ✓"}
+                  ) : "Confirm, I'm in ✓"}
                 </Button>
               </div>
             </div>

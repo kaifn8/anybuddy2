@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { MapPin, ShieldCheck, BadgeCheck, Zap, Users, Star, ArrowLeft } from 'lucide-react';
 
 const slides = [
-  { id: 'people', title: "Friends busy?", description: "People around you are free right now — for coffee, food, walks, or games. Jump in." },
+  { id: 'people', title: "Friends busy?", description: "People around you are free right now. Coffee, food, walks, games. Jump in." },
   { id: 'realtime', title: 'Plans fill up fast.', description: 'Post what you want to do.\nNearby people join in minutes.' },
   { id: 'safe', title: 'No DMs. No weirdos.', description: 'Group-only meetups. Verified people.\nShow up and vibe.' },
   { id: 'credits', title: 'Show up. Level up.', description: 'The more you show up, the cheaper it gets.\nReliable people get the best perks.' },
@@ -18,14 +18,14 @@ const NEARBY_PEOPLE = [
 ];
 
 const LIVE_ACTIVITY = [
-  { emoji: '☕', text: 'Aarav\'s coffee plan — only 1 spot left', time: 'Just now', color: 'bg-amber-500/20 text-amber-600' },
+  { emoji: '☕', text: 'Aarav\'s coffee plan, only 1 spot left', time: 'Just now', color: 'bg-amber-500/20 text-amber-600' },
   { emoji: '✋', text: 'Priya joined before you could!', time: '2 min ago', color: 'bg-emerald-500/20 text-emerald-600' },
-  { emoji: '🔥', text: '"Evening Run" full — you missed it', time: '5 min ago', color: 'bg-destructive/20 text-destructive' },
+  { emoji: '🔥', text: '"Evening Run" full, you missed it', time: '5 min ago', color: 'bg-destructive/20 text-destructive' },
 ];
 
 const TRUST_FEATURES = [
   { icon: ShieldCheck, label: 'Every person is verified', desc: 'Real names, real faces' },
-  { icon: Users, label: 'Groups only — no 1-on-1 DMs', desc: 'Designed to feel safe' },
+  { icon: Users, label: 'Groups only, no 1-on-1 DMs', desc: 'Designed to feel safe' },
   { icon: BadgeCheck, label: 'Bad actors get removed', desc: 'Community-driven moderation' },
 ];
 

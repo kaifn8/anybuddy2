@@ -366,7 +366,7 @@ export const useAppStore = create<AppState>()(
             addNotification({
               type: 'nearby',
               title: `New plan nearby`,
-              message: `${newReq.userName}: "${newReq.title}" — ${newReq.location.distance}km away`,
+              message: `${newReq.userName}: "${newReq.title}" · ${newReq.location.distance}km away`,
               requestId: newReq.id,
             });
           } else if (roll < 0.55) {
@@ -394,7 +394,7 @@ export const useAppStore = create<AppState>()(
               addNotification({
                 type: 'urgent',
                 title: '⚡ Plan starting soon!',
-                message: `"${urgentReq.title}" starts any minute — ${urgentReq.seatsTotal - urgentReq.seatsTaken} spots left`,
+                message: `"${urgentReq.title}" starts any minute, ${urgentReq.seatsTotal - urgentReq.seatsTaken} spots left`,
                 requestId: urgentReq.id,
               });
             }

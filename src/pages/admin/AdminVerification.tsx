@@ -40,7 +40,7 @@ export default function AdminVerification() {
         {pending.length === 0 ? (
           <div className="text-center py-12 rounded-2xl border border-border/20 bg-background/40">
             <span className="text-3xl block mb-2">✅</span>
-            <p className="text-xs text-muted-foreground">All caught up — no pending verifications</p>
+            <p className="text-xs text-muted-foreground">All caught up, no pending verifications</p>
           </div>
         ) : (
           <div className="space-y-2.5">

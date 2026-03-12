@@ -36,7 +36,7 @@ const stepConfig: Record<Step, { emoji: string; title: string; subtitle: string 
   name: { emoji: '😊', title: "What's your first name?", subtitle: "This is how people will see you" },
   gender: { emoji: '🧑', title: 'How do you identify?', subtitle: 'Helps others know who they\'re meeting' },
   photo: { emoji: '📸', title: 'Add a photo', subtitle: 'Real photos get way more joins' },
-  bio: { emoji: '✍️', title: 'One line about you', subtitle: 'Keep it casual — what are you into?' },
+  bio: { emoji: '✍️', title: 'One line about you', subtitle: 'Keep it casual. What are you into?' },
   age: { emoji: '🎂', title: 'Age range', subtitle: 'So we show you the right crowd' },
   interests: { emoji: '🎯', title: 'What gets you out of the house?', subtitle: 'Pick at least 3 or more = better matches' },
   zone: { emoji: '📍', title: 'Your area', subtitle: 'We\'ll show plans near you' },
