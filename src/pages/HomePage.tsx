@@ -3,9 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 import { TopBar } from '@/components/layout/TopBar';
 import { BottomNav } from '@/components/layout/BottomNav';
+import { PageTransition } from '@/components/layout/PageTransition';
 import { RequestCard } from '@/components/cards/RequestCard';
 import { JoinConfirmDialog } from '@/components/JoinConfirmDialog';
 import { useAppStore } from '@/store/useAppStore';
+import { useStaggerReveal } from '@/hooks/useStaggerReveal';
 import { cn } from '@/lib/utils';
 import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
 import type { Category, Request } from '@/types/anybuddy';
@@ -47,6 +49,20 @@ export default function HomePage() {
   const trendingRef = useRef<HTMLDivElement>(null);
   const autoScrollRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const userInteractedRef = useRef(false);
+  const hasAnimatedCards = useRef(false);
+
+  // Staggered card reveal
+  useEffect(() => {
+    const el = cardsRef.current;
+    if (!el) return;
+    const children = Array.from(el.children);
+    if (children.length === 0) return;
+    gsap.fromTo(
+      children,
+      { opacity: 0, y: 20, scale: 0.97 },
+      { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: 'power2.out', stagger: 0.07, clearProps: 'transform' }
+    );
+  }, [activeFilter, quickFilter]);
   
   // Removed startup animation per user request
   
@@ -139,7 +155,7 @@ export default function HomePage() {
 
   
   return (
-    <div className="mobile-container min-h-screen bg-ambient pb-24 lg:pb-8">
+    <PageTransition className="mobile-container min-h-screen bg-ambient pb-24 lg:pb-8">
       <div className="lg:hidden">
         <TopBar />
       </div>
@@ -253,7 +269,7 @@ export default function HomePage() {
         <h3 className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">All plans</h3>
       </div>
       
-      <div ref={cardsRef} className="px-5 space-y-2 md:grid md:grid-cols-2 md:gap-3 md:space-y-0 xl:grid-cols-3">
+      <div ref={cardsRef} className="px-5 space-y-2 md:grid md:grid-cols-2 md:gap-3 md:space-y-0 xl:grid-cols-3 stagger-container">
         {filtered.map((request) => (
           <RequestCard
             key={request.id}
@@ -314,6 +330,6 @@ export default function HomePage() {
       )}
       
       <BottomNav />
-    </div>
+    </PageTransition>
   );
 }

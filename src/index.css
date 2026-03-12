@@ -367,6 +367,28 @@
   .slide-up { animation: slide-up 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
   .fade-in { animation: fade-in 0.3s ease-out; }
   .scale-in { animation: scale-in 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+
+  /* Heart save pop animation */
+  .heart-pop {
+    animation: heart-pop 0.4s cubic-bezier(0.17, 0.89, 0.32, 1.49);
+  }
+
+  /* Join button success pulse */
+  .join-pulse {
+    animation: join-pulse 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* Shimmer loading effect */
+  .shimmer {
+    background: linear-gradient(
+      90deg,
+      hsl(var(--muted)) 0%,
+      hsl(var(--muted) / 0.4) 50%,
+      hsl(var(--muted)) 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s ease-in-out infinite;
+  }
 }
 
 /* Keyframes */
@@ -393,6 +415,24 @@
 @keyframes float {
   0%, 100% { transform: translateY(0) rotate(var(--rotate, 0deg)); }
   50% { transform: translateY(-6px) rotate(var(--rotate, 0deg)); }
+}
+
+@keyframes heart-pop {
+  0% { transform: scale(1); }
+  30% { transform: scale(1.35); }
+  60% { transform: scale(0.9); }
+  100% { transform: scale(1); }
+}
+
+@keyframes join-pulse {
+  0% { transform: scale(1); box-shadow: 0 0 0 0 hsl(var(--primary) / 0.4); }
+  50% { transform: scale(1.03); box-shadow: 0 0 0 6px hsl(var(--primary) / 0); }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 hsl(var(--primary) / 0); }
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
 }
 
 /* Responsive container */
