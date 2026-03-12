@@ -113,14 +113,14 @@ export function RequestCard({ request, onJoin, onView, isJoined, className }: Re
       >
         {/* Status badges - time and hot indicator */}
         {(timeIndicator || hotIndicator) && (
-          <div className="flex items-center gap-1.5 mb-2">
+          <div className="flex flex-wrap items-center gap-1.5 mb-2">
             {timeIndicator && (
-              <div className={cn('inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold', timeIndicator.color)}>
+              <div className={cn('inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold whitespace-nowrap', timeIndicator.color)}>
                 {timeIndicator.label}
               </div>
             )}
             {hotIndicator && (
-              <div className={cn('inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold', hotIndicator.color)}>
+              <div className={cn('inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold whitespace-nowrap', hotIndicator.color)}>
                 {hotIndicator.label}
               </div>
             )}
