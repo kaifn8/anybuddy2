@@ -52,6 +52,7 @@ export default function SignupPage() {
   const [email, setEmail] = useState('');
   const [otp, setOtp] = useState(['', '', '', '']);
   const [firstName, setFirstName] = useState('');
+  const [gender, setGender] = useState<Gender | ''>('');
   const [bio, setBio] = useState('');
   const [ageRange, setAgeRange] = useState('');
   const [interests, setInterests] = useState<Category[]>([]);
