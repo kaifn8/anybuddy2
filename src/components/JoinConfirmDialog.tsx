@@ -129,13 +129,18 @@ export function JoinConfirmDialog({ open, onClose, onConfirm, request }: JoinCon
             )}
           </div>
 
-          {/* Safety */}
+          {/* Safety + social proof */}
           <div className="flex items-center gap-2 mt-2 text-[10px] text-muted-foreground/60">
             <span>🛡️ Public meetup</span>
             {(request.userTrust === 'trusted' || request.userTrust === 'anchor') && (
               <span>· ✅ Verified host</span>
             )}
           </div>
+          {request.seatsTaken >= 2 && (
+            <p className="text-[10px] text-success font-medium mt-1.5">
+              ✓ {request.seatsTaken} people already committed — you won't be alone
+            </p>
+          )}
         </div>
 
         {/* Reservation countdown */}
