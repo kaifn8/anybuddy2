@@ -7,6 +7,7 @@ import type { Category, Urgency } from '@/types/anybuddy';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { ChevronLeft, Pencil } from 'lucide-react';
+import { LocationMapPicker } from '@/components/LocationMap';
 
 // ── Template data ──────────────────────────────────────────────
 interface QuickTemplate {
@@ -64,6 +65,7 @@ export default function CreateRequestPage() {
   const [editingTitle, setEditingTitle] = useState(false);
   const [editingLocation, setEditingLocation] = useState(false);
   const [location, setLocation] = useState(zone);
+  const [locationCoords, setLocationCoords] = useState({ lat: 19.0596, lng: 72.8295 });
   const [postedRequestId, setPostedRequestId] = useState<string | null>(null);
 
   const pageRef = useRef<HTMLDivElement>(null);
@@ -128,7 +130,7 @@ export default function CreateRequestPage() {
       userAvatar: user.avatar, userReliability: user.reliabilityScore,
       userHostRating: user.hostRating, title: title.trim(),
       category, urgency, when,
-      location: { name: location, distance: 0, coords: { lat: 19.0596, lng: 72.8295 } },
+      location: { name: location, distance: 0, coords: locationCoords },
       seatsTotal: seats, seatsTaken: 0, expiresAt,
       liveShare: false, status: 'active', joinMode: 'auto', visibility: 'public', pendingJoinRequests: [],
     });
@@ -259,16 +261,23 @@ export default function CreateRequestPage() {
 
             {/* Location (auto) */}
             {editingLocation ? (
-              <div className="flex items-center gap-3 p-3.5 rounded-xl liquid-glass">
-                <span className="text-lg">📍</span>
-                <input
-                  autoFocus
-                  value={location}
-                  onChange={(e) => setLocation(e.target.value.slice(0, 60))}
-                  onBlur={() => setEditingLocation(false)}
-                  onKeyDown={(e) => e.key === 'Enter' && setEditingLocation(false)}
-                  className="flex-1 bg-transparent text-sm font-semibold focus:outline-none"
-                  placeholder="Enter location"
+              <div className="space-y-2">
+                <div className="flex items-center gap-3 p-3.5 rounded-xl liquid-glass">
+                  <span className="text-lg">📍</span>
+                  <input
+                    autoFocus
+                    value={location}
+                    onChange={(e) => setLocation(e.target.value.slice(0, 60))}
+                    onBlur={() => setEditingLocation(false)}
+                    onKeyDown={(e) => e.key === 'Enter' && setEditingLocation(false)}
+                    className="flex-1 bg-transparent text-sm font-semibold focus:outline-none"
+                    placeholder="Enter location"
+                  />
+                </div>
+                <LocationMapPicker
+                  coords={locationCoords}
+                  onCoordsChange={setLocationCoords}
+                  height="160px"
                 />
               </div>
             ) : (
@@ -276,7 +285,7 @@ export default function CreateRequestPage() {
                 <span className="text-lg">📍</span>
                 <div className="flex-1 text-left">
                   <p className="text-sm font-semibold">{location}</p>
-                  <p className="text-[10px] text-muted-foreground">Tap to change</p>
+                  <p className="text-[10px] text-muted-foreground">Tap to change location</p>
                 </div>
                 <Pencil size={14} className="text-muted-foreground shrink-0" />
               </button>

@@ -3,8 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Send, Share2, BadgeCheck, Flag, MoreVertical, UserX, Ban, XCircle, MapPin, Clock, Users, Navigation, Info, X, ChevronUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { formatDistanceToNow } from 'date-fns';
-import { MapContainer, TileLayer, Marker } from 'react-leaflet';
-import L from 'leaflet';
+import { LocationMapPreview, formatWalkTime } from '@/components/LocationMap';
 import { useAppStore } from '@/store/useAppStore';
 import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
 import { UrgencyBadge } from '@/components/ui/UrgencyBadge';
@@ -392,46 +391,29 @@ export default function RequestDetailPage() {
                 </div>
 
                 {/* Map + directions */}
-                <div className="rounded-2xl overflow-hidden border border-border/10 bg-muted/30">
-                  <div className="h-40 relative">
-                    {request.location.coords && (
-                      <MapContainer
-                        center={[request.location.coords.lat, request.location.coords.lng]}
-                        zoom={15}
-                        style={{ height: '100%', width: '100%' }}
-                        zoomControl={false}
-                        attributionControl={false}
-                        dragging={false}
-                        scrollWheelZoom={false}
-                        doubleClickZoom={false}
-                        touchZoom={false}
-                      >
-                        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                        <Marker
-                          position={[request.location.coords.lat, request.location.coords.lng]}
-                          icon={L.divIcon({
-                            html: `<div style="width:32px;height:32px;border-radius:50%;background:hsl(213,94%,55%);display:flex;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(59,130,246,0.4);">
-                              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
-                            </div>`,
-                            className: '',
-                            iconSize: [32, 32],
-                            iconAnchor: [16, 32],
-                          })}
-                        />
-                      </MapContainer>
-                    )}
-                    {/* Location label */}
-                    <div className="absolute bottom-2 left-2 right-2 z-[1000] pointer-events-none">
-                      <div className="bg-background/80 backdrop-blur-md rounded-lg px-2.5 py-1.5 border border-border/20">
-                        <p className="text-[11px] font-semibold truncate">{request.location.name}</p>
-                        <p className="text-[10px] text-muted-foreground">{request.location.distance} km away</p>
+                {request.location.coords && (
+                  <LocationMapPreview
+                    coords={request.location.coords}
+                    locationName={request.location.name}
+                    distance={request.location.distance}
+                  />
+                )}
+
+                {/* Info rows - update distance to show walk time */}
+                <div className="space-y-3">
+                  {[
+                    { icon: <MapPin size={16} />, title: request.location.name, sub: `${request.location.distance} km · ${formatWalkTime(request.location.distance)}` },
+                    { icon: <Clock size={16} />, title: minsToStart <= 0 ? 'Happening now' : minsToStart < 60 ? `In ${minsToStart} min` : `${timeLeft} left`, sub: new Date(request.when).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) },
+                    { icon: <Users size={16} />, title: `${request.seatsTaken} of ${request.seatsTotal} going`, sub: seatsLeft === 0 ? 'Full' : `${seatsLeft} spot${seatsLeft > 1 ? 's' : ''} left` },
+                  ].map((row, i) => (
+                    <div key={i} className="flex items-center gap-3">
+                      <div className="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center shrink-0 text-primary">{row.icon}</div>
+                      <div>
+                        <p className="text-sm font-semibold">{row.title}</p>
+                        <p className="text-[11px] text-muted-foreground">{row.sub}</p>
                       </div>
                     </div>
-                  </div>
-                  <a href={mapsUrl} target="_blank" rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-2 py-2.5 text-sm font-semibold text-primary tap-scale hover:bg-muted/20 transition-colors">
-                    <Navigation size={15} /> Open in Maps
-                  </a>
+                  ))}
                 </div>
 
                 {/* Host */}
@@ -610,7 +592,7 @@ export default function RequestDetailPage() {
           </div>
           <div className="space-y-2.5">
             {[
-              { icon: <MapPin size={16} />, title: request.location.name, sub: `${request.location.distance} km away` },
+              { icon: <MapPin size={16} />, title: request.location.name, sub: `${request.location.distance} km · ${formatWalkTime(request.location.distance)}` },
               { icon: <Clock size={16} />, title: minsToStart <= 0 ? 'Happening now' : minsToStart < 60 ? `In ${minsToStart} min` : `${timeLeft} left`, sub: new Date(request.when).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) },
               { icon: <Users size={16} />, title: `${request.seatsTaken} of ${request.seatsTotal} going`, sub: seatsLeft === 0 ? 'Full' : `${seatsLeft} spot${seatsLeft > 1 ? 's' : ''} left` },
             ].map((row, i) => (
@@ -624,6 +606,16 @@ export default function RequestDetailPage() {
             ))}
           </div>
         </div>
+
+        {/* Map preview (blurred for non-members) */}
+        {request.location.coords && (
+          <LocationMapPreview
+            coords={request.location.coords}
+            locationName={request.location.name}
+            distance={request.location.distance}
+            showOpenInMaps={false}
+          />
+        )}
 
         {/* Host */}
         <div className="liquid-glass p-3.5 rounded-2xl">
