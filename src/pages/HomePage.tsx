@@ -192,11 +192,11 @@ export default function HomePage() {
 
       {/* Trending section */}
       {trending.length > 0 && (
-        <div className="px-5 pt-3.5 mb-5">
-          <h3 className="text-[15px] font-bold text-foreground mb-3.5 flex items-center gap-1.5">
+        <div className="pt-3.5 mb-3">
+          <h3 className="text-[15px] font-bold text-foreground mb-3.5 flex items-center gap-1.5 px-5">
             <span>🔥</span> Filling up fast
           </h3>
-          <div ref={trendingRef} className="flex gap-3 overflow-x-auto scrollbar-hide -mx-5 px-5 pb-2 lg:mx-0 lg:px-0 lg:flex-wrap">
+          <div ref={trendingRef} className="flex gap-3 overflow-x-auto scrollbar-hide px-5 pb-1 lg:flex-wrap">
             {trending.map((req, i) => {
               const seatsLeft = req.seatsTotal - req.seatsTaken;
               const fillPercent = Math.round((req.seatsTaken / req.seatsTotal) * 100);
