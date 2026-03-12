@@ -96,11 +96,11 @@ export const BottomNav = React.forwardRef<HTMLElement, object>(function BottomNa
           <div
             className="flex items-center justify-around h-[60px] rounded-[20px]"
             style={{
-              background: 'rgba(255,255,255,0.72)',
-              backdropFilter: 'blur(32px) saturate(200%)',
-              WebkitBackdropFilter: 'blur(32px) saturate(200%)',
-              border: '1px solid rgba(255,255,255,0.6)',
-              boxShadow: '0 -2px 24px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.5)',
+              background: 'hsl(var(--glass-bg-heavy))',
+              backdropFilter: 'blur(var(--glass-blur-heavy)) saturate(200%)',
+              WebkitBackdropFilter: 'blur(var(--glass-blur-heavy)) saturate(200%)',
+              border: '1px solid hsl(var(--glass-border))',
+              boxShadow: '0 -2px 24px hsl(var(--glass-shadow)), inset 0 1px 0 hsl(var(--glass-highlight))',
             }}
           >
             {navItems.map((item) => {
@@ -117,8 +117,8 @@ export const BottomNav = React.forwardRef<HTMLElement, object>(function BottomNa
                     <div
                       className="w-[52px] h-[52px] rounded-2xl flex items-center justify-center text-primary-foreground shadow-lg transition-transform group-active:scale-95"
                       style={{
-                        background: 'linear-gradient(135deg, hsl(211 100% 56%) 0%, hsl(230 85% 55%) 100%)',
-                        boxShadow: '0 4px 16px hsl(211 100% 50% / 0.35), inset 0 1px 0 rgba(255,255,255,0.2)',
+                        background: 'linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--secondary)) 100%)',
+                        boxShadow: '0 4px 16px hsl(var(--primary) / 0.35), inset 0 1px 0 hsl(var(--glass-highlight))',
                       }}
                     >
                       <span className="text-xl font-bold">✦</span>
@@ -148,7 +148,7 @@ export const BottomNav = React.forwardRef<HTMLElement, object>(function BottomNa
                           )}
                         />
                         {user && (
-                          <span className="absolute -bottom-0.5 -right-0.5 w-[7px] h-[7px] rounded-full bg-success border-[1.5px] border-white" />
+                          <span className="absolute -bottom-0.5 -right-0.5 w-[7px] h-[7px] rounded-full bg-success border-[1.5px] border-card" />
                         )}
                       </div>
                     ) : (
