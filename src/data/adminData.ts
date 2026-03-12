@@ -46,6 +46,7 @@ const CITIES = ['Mumbai', 'Mumbai', 'Mumbai', 'Pune', 'Delhi'];
 const ZONES = ['Bandra', 'Andheri', 'Colaba', 'Juhu', 'Powai', 'Worli', 'Versova', 'Malad', 'Dadar', 'Lower Parel'];
 const TRUST_LEVELS: TrustLevel[] = ['seed', 'solid', 'trusted', 'anchor'];
 const VERIFICATION_STATUSES: VerificationStatus[] = ['unverified', 'pending', 'verified', 'failed'];
+const GENDERS: Gender[] = ['male', 'female', 'other'];
 
 const REPORT_REASONS = [
   'Inappropriate behavior', 'No-show', 'Spam', 'Fake profile', 
