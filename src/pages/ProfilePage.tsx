@@ -56,10 +56,11 @@ export default function ProfilePage() {
   const isToday = new Date().toDateString() === joinDate.toDateString();
   const joinText = isToday ? 'Joined today' : `Joined ${format(joinDate, 'MMM yyyy')}`;
 
+  const totalJoins = user.meetupsAttended + user.completedJoins;
   const stats = [
-    { value: `${user.reliabilityScore}%`, label: 'Reliable' },
-    { value: user.meetupsAttended + user.completedJoins, label: 'Joined' },
-    { value: user.meetupsHosted, label: 'Hosted' },
+    { value: `${user.reliabilityScore}%`, label: 'Show-up rate' },
+    { value: totalJoins, label: 'Plans joined' },
+    { value: user.meetupsHosted, label: 'Plans hosted' },
   ];
 
   const activityCount = pastMeetups.length + myRequests.length + savedPlansList.length;
