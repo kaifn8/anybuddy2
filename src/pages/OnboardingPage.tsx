@@ -154,7 +154,7 @@ export default function OnboardingPage() {
                       <span className="text-[8px] font-bold text-muted-foreground">+5</span>
                     </div>
                   </div>
-                  <span className="text-[11px] font-semibold text-foreground">8 people nearby</span>
+                  <span className="text-[11px] font-semibold text-foreground">8 people waiting nearby</span>
                   <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-success/15 border border-success/25">
                     <span className="w-1.5 h-1.5 rounded-full bg-success animate-pulse" />
                     <span className="text-[10px] text-success font-bold tracking-wide">LIVE</span>
