@@ -75,6 +75,10 @@ export function RequestCard({ request, onJoin, onView, isJoined, className }: Re
   
   const handleJoinClick = (e: React.MouseEvent) => {
     e.stopPropagation();
+    // Trigger join pulse animation
+    const target = e.currentTarget as HTMLElement;
+    target.classList.add('join-pulse');
+    setTimeout(() => target.classList.remove('join-pulse'), 500);
     onJoin?.();
   };
 
