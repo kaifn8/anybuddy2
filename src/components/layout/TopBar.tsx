@@ -23,17 +23,17 @@ export function TopBar({ showBack = false, title, hideChat = false, showSettings
   }, 0);
 
   return (
-    <header
-      className="sticky top-0 z-40 h-[52px]"
-      style={{
-        background: 'rgba(255,255,255,0.65)',
-        backdropFilter: 'blur(28px) saturate(200%)',
-        WebkitBackdropFilter: 'blur(28px) saturate(200%)',
-        borderBottom: '0.5px solid rgba(0,0,0,0.06)',
-        boxShadow: '0 1px 8px rgba(0,0,0,0.03)',
-      }}
-    >
-      <div className="max-w-md md:max-w-2xl lg:max-w-4xl xl:max-w-5xl mx-auto flex items-center justify-between h-full px-4 lg:pl-64">
+    <header className="sticky top-0 z-40 px-3 pt-2 lg:pl-64">
+      <div
+        className="max-w-md md:max-w-2xl lg:max-w-4xl xl:max-w-5xl mx-auto flex items-center justify-between h-[48px] px-4 rounded-[16px]"
+        style={{
+          background: 'rgba(255,255,255,0.72)',
+          backdropFilter: 'blur(32px) saturate(200%)',
+          WebkitBackdropFilter: 'blur(32px) saturate(200%)',
+          border: '1px solid rgba(255,255,255,0.6)',
+          boxShadow: '0 2px 16px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.5)',
+        }}
+      >
         {/* Left */}
         <div className="w-20 flex items-center">
           {showBack ? (
