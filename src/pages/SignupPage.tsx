@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 import { useAppStore, createDefaultUser } from '@/store/useAppStore';
-import type { Category } from '@/types/anybuddy';
+import type { Category, Gender } from '@/types/anybuddy';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Check } from 'lucide-react';
