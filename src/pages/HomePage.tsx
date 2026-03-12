@@ -202,58 +202,58 @@ export default function HomePage() {
               const fillPercent = Math.round((req.seatsTaken / req.seatsTotal) * 100);
               return (
                 <button key={req.id} onClick={() => navigate(`/request/${req.id}`)}
-                  className="shrink-0 tap-scale min-w-[200px] max-w-[220px] lg:min-w-[260px] lg:max-w-[300px] rounded-2xl overflow-hidden text-left"
+                  className="shrink-0 tap-scale min-w-[200px] max-w-[220px] lg:min-w-[260px] lg:max-w-[300px] rounded-2xl overflow-hidden text-left relative"
                   style={{
-                    background: 'rgba(255,255,255,0.72)',
-                    backdropFilter: 'blur(32px) saturate(200%)',
-                    WebkitBackdropFilter: 'blur(32px) saturate(200%)',
-                    border: '1px solid rgba(255,255,255,0.6)',
-                    boxShadow: '0 2px 16px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.5)',
+                    background: [
+                      'linear-gradient(145deg, hsl(240 30% 16%) 0%, hsl(260 40% 22%) 40%, hsl(280 45% 28%) 70%, hsl(320 50% 25%) 100%)',
+                      'linear-gradient(145deg, hsl(210 45% 14%) 0%, hsl(220 50% 20%) 40%, hsl(200 55% 26%) 70%, hsl(175 45% 22%) 100%)',
+                      'linear-gradient(145deg, hsl(20 40% 14%) 0%, hsl(15 50% 20%) 40%, hsl(350 45% 24%) 70%, hsl(330 40% 20%) 100%)',
+                    ][i % 3],
+                    boxShadow: '0 8px 32px rgba(0,0,0,0.2), 0 2px 8px rgba(0,0,0,0.1)',
                   }}>
-                  <div className="p-3.5">
-                    {/* Top row: emoji + urgency */}
+                  {/* Subtle shimmer overlay */}
+                  <div className="absolute inset-0 opacity-[0.07] rounded-2xl" style={{
+                    background: 'linear-gradient(135deg, transparent 30%, rgba(255,255,255,0.4) 50%, transparent 70%)',
+                  }} />
+                  <div className="p-3.5 relative z-10">
+                    {/* Top row */}
                     <div className="flex items-center justify-between mb-2.5">
-                      <div className="w-10 h-10 rounded-xl bg-primary/8 flex items-center justify-center text-xl">
+                      <div className="w-10 h-10 rounded-xl bg-white/10 backdrop-blur-sm flex items-center justify-center text-xl">
                         {getCategoryEmoji(req.category)}
                       </div>
-                      <div className="flex items-center gap-1.5">
+                      <div className="flex items-center gap-1.5 bg-white/10 backdrop-blur-sm px-2 py-0.5 rounded-full">
                         <span className="relative flex items-center justify-center">
-                          <span className="w-[5px] h-[5px] rounded-full bg-success" />
-                          <span className="absolute w-[5px] h-[5px] rounded-full bg-success animate-ping opacity-60" />
+                          <span className="w-[5px] h-[5px] rounded-full bg-emerald-400" />
+                          <span className="absolute w-[5px] h-[5px] rounded-full bg-emerald-400 animate-ping opacity-60" />
                         </span>
-                        <span className="text-[10px] font-bold text-success">Live</span>
+                        <span className="text-[10px] font-bold text-emerald-300">Live</span>
                       </div>
                     </div>
 
-                    {/* Title */}
-                    <p className="text-[13px] font-bold text-foreground truncate mb-0.5">{req.title}</p>
-                    <p className="text-[11px] text-muted-foreground mb-3 truncate">📍 {req.location.name} · ~{Math.round(req.location.distance * 12)}min</p>
+                    <p className="text-[13px] font-bold text-white truncate mb-0.5">{req.title}</p>
+                    <p className="text-[11px] text-white/50 mb-3 truncate">📍 {req.location.name} · ~{Math.round(req.location.distance * 12)}min</p>
 
                     {/* People joined */}
                     <div className="flex items-center gap-2 mb-2.5">
                       <div className="flex -space-x-1.5">
                         {[req.userName, ...req.participants.map(p => p.name)].slice(0, 3).map((name, j) => (
-                          <img key={j} src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${name}`} alt="" className="w-5 h-5 rounded-full border-2 border-background" />
+                          <img key={j} src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${name}`} alt="" className="w-5 h-5 rounded-full border-[1.5px] border-white/20" />
                         ))}
                       </div>
-                      <span className="text-[10px] font-semibold text-foreground">{req.seatsTaken} joined</span>
+                      <span className="text-[10px] font-semibold text-white/70">{req.seatsTaken} joined</span>
                     </div>
 
                     {/* Fill bar */}
-                    <div className="w-full h-1.5 rounded-full bg-foreground/6 overflow-hidden mb-1.5">
+                    <div className="w-full h-1.5 rounded-full bg-white/10 overflow-hidden mb-1.5">
                       <div
                         className="h-full rounded-full transition-all"
                         style={{
                           width: `${fillPercent}%`,
-                          background: fillPercent >= 80
-                            ? 'linear-gradient(90deg, hsl(0 72% 55%), hsl(25 90% 55%))'
-                            : fillPercent >= 50
-                              ? 'linear-gradient(90deg, hsl(35 90% 52%), hsl(25 90% 55%))'
-                              : 'linear-gradient(90deg, hsl(var(--primary)), hsl(230 85% 60%))',
+                          background: 'linear-gradient(90deg, rgba(255,255,255,0.5), rgba(255,255,255,0.8))',
                         }}
                       />
                     </div>
-                    <p className="text-[10px] font-semibold text-muted-foreground">
+                    <p className="text-[10px] font-semibold text-white/50">
                       {seatsLeft === 0 ? '🔴 Full' : seatsLeft === 1 ? '🟡 Last spot!' : `${seatsLeft} spots left`}
                     </p>
                   </div>

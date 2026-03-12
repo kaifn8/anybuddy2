@@ -23,15 +23,15 @@ export function TopBar({ showBack = false, title, hideChat = false, showSettings
   }, 0);
 
   return (
-    <header className="sticky top-0 z-40 px-3 pt-2 lg:pl-64">
+    <header className="sticky top-0 z-40 px-4 pt-2.5 pb-1 lg:pl-64">
       <div
-        className="max-w-md md:max-w-2xl lg:max-w-4xl xl:max-w-5xl mx-auto flex items-center justify-between h-[48px] px-4 rounded-[16px]"
+        className="max-w-md md:max-w-2xl lg:max-w-4xl xl:max-w-5xl mx-auto flex items-center justify-between h-[46px] px-4"
         style={{
-          background: 'rgba(255,255,255,0.72)',
-          backdropFilter: 'blur(32px) saturate(200%)',
-          WebkitBackdropFilter: 'blur(32px) saturate(200%)',
-          border: '1px solid rgba(255,255,255,0.6)',
-          boxShadow: '0 2px 16px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.5)',
+          background: 'rgba(255,255,255,0.55)',
+          backdropFilter: 'blur(40px) saturate(180%)',
+          WebkitBackdropFilter: 'blur(40px) saturate(180%)',
+          borderRadius: '14px',
+          boxShadow: '0 4px 24px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.02)',
         }}
       >
         {/* Left */}
