@@ -54,16 +54,15 @@ export default function HomePage() {
   // Staggered card reveal
   useEffect(() => {
     const el = cardsRef.current;
-    if (!el || hasAnimatedCards.current) return;
+    if (!el) return;
     const children = Array.from(el.children);
     if (children.length === 0) return;
-    hasAnimatedCards.current = true;
     gsap.fromTo(
       children,
       { opacity: 0, y: 20, scale: 0.97 },
       { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: 'power2.out', stagger: 0.07, clearProps: 'transform' }
     );
-  }, [filtered]);
+  }, [activeFilter, quickFilter]);
   
   // Removed startup animation per user request
   
