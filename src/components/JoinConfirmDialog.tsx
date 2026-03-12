@@ -138,7 +138,7 @@ export function JoinConfirmDialog({ open, onClose, onConfirm, request }: JoinCon
           </div>
           {request.seatsTaken >= 2 && (
             <p className="text-[10px] text-success font-medium mt-1.5">
-              ✓ {request.seatsTaken} people already committed — you won't be alone
+              ✓ {request.seatsTaken} people already going
             </p>
           )}
         </div>
