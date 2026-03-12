@@ -1,15 +1,14 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { useAppStore } from '@/store/useAppStore';
-import { Button } from '@/components/ui/button';
 import React from 'react';
 
 const navItems = [
-  { emoji: '🏠', label: 'Feed', path: '/home' },
-  { emoji: '🗺️', label: 'Map', path: '/map' },
-  { emoji: '🪄', label: 'Post', path: '/create', isMain: true },
-  { emoji: '🔔', label: 'Alerts', path: '/notifications' },
-  { emoji: '👤', label: 'Me', path: '/profile' },
+  { icon: '🏠', activeIcon: '🏠', label: 'Feed', path: '/home' },
+  { icon: '🗺️', activeIcon: '🗺️', label: 'Map', path: '/map' },
+  { icon: '✦', label: 'Post', path: '/create', isMain: true },
+  { icon: '🔔', activeIcon: '🔔', label: 'Alerts', path: '/notifications' },
+  { icon: '👤', activeIcon: '👤', label: 'Me', path: '/profile' },
 ];
 
 export const BottomNav = React.forwardRef<HTMLElement, object>(function BottomNav(_props, ref) {
@@ -39,7 +38,7 @@ export const BottomNav = React.forwardRef<HTMLElement, object>(function BottomNa
                   onClick={() => navigate(item.path)}
                   className="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-primary text-primary-foreground font-semibold tap-scale mt-2 mb-1"
                 >
-                  <span className="text-lg">{item.emoji}</span>
+                  <span className="text-lg">{item.icon}</span>
                   <span className="text-sm">{item.label}</span>
                 </button>
               );
@@ -64,7 +63,7 @@ export const BottomNav = React.forwardRef<HTMLElement, object>(function BottomNa
                       className={cn('w-6 h-6 rounded-full border-2', isActive ? 'border-primary' : 'border-transparent')}
                     />
                   ) : (
-                    <span className="text-lg">{item.emoji}</span>
+                    <span className="text-lg">{item.icon}</span>
                   )}
                   {item.path === '/notifications' && unreadCount > 0 && (
                     <span className="absolute -top-1 -right-1.5 bg-destructive text-destructive-foreground text-[8px] rounded-full w-3.5 h-3.5 flex items-center justify-center font-bold">
@@ -89,25 +88,42 @@ export const BottomNav = React.forwardRef<HTMLElement, object>(function BottomNa
       </nav>
 
       {/* Mobile bottom nav — below lg */}
-      <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-50">
-        <div className="max-w-2xl mx-auto px-4 pb-2">
+      <nav
+        className="lg:hidden fixed bottom-0 left-0 right-0 z-50"
+        style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
+      >
+        <div className="max-w-md mx-auto px-3 pb-2">
           <div
-            className="flex items-center justify-around h-14 px-1 rounded-2xl border border-border/40 dark:border-white/10 bg-white/80 dark:bg-[rgb(18,18,24)]/85"
+            className="flex items-center justify-around h-[60px] rounded-[20px]"
             style={{
-              backdropFilter: 'blur(24px) saturate(180%)',
-              WebkitBackdropFilter: 'blur(24px) saturate(180%)',
-              boxShadow: '0 -4px 20px rgba(0,0,0,0.05)',
+              background: 'rgba(255,255,255,0.72)',
+              backdropFilter: 'blur(32px) saturate(200%)',
+              WebkitBackdropFilter: 'blur(32px) saturate(200%)',
+              border: '1px solid rgba(255,255,255,0.6)',
+              boxShadow: '0 -2px 24px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.5)',
             }}
           >
             {navItems.map((item) => {
               const isActive = location.pathname === item.path;
 
+              // Central "Post" button — floating pill
               if (item.isMain) {
                 return (
-                  <button key={item.path} onClick={() => navigate(item.path)} className="relative -mt-5 tap-scale">
-                    <Button className="rounded-2xl w-12 h-12 p-0">
-                      <span className="text-lg">{item.emoji}</span>
-                    </Button>
+                  <button
+                    key={item.path}
+                    onClick={() => navigate(item.path)}
+                    className="relative -mt-6 tap-scale group"
+                  >
+                    <div
+                      className="w-[52px] h-[52px] rounded-2xl flex items-center justify-center text-primary-foreground shadow-lg transition-transform group-active:scale-95"
+                      style={{
+                        background: 'linear-gradient(135deg, hsl(211 100% 56%) 0%, hsl(230 85% 55%) 100%)',
+                        boxShadow: '0 4px 16px hsl(211 100% 50% / 0.35), inset 0 1px 0 rgba(255,255,255,0.2)',
+                      }}
+                    >
+                      <span className="text-xl font-bold">✦</span>
+                    </div>
+                    <span className="block text-center text-[9px] font-semibold text-primary mt-0.5">Post</span>
                   </button>
                 );
               }
@@ -116,7 +132,7 @@ export const BottomNav = React.forwardRef<HTMLElement, object>(function BottomNa
                 <button
                   key={item.path}
                   onClick={() => navigate(item.path)}
-                  className="flex flex-col items-center gap-0.5 py-1 px-3 tap-scale"
+                  className="flex flex-col items-center justify-center gap-[2px] min-w-[48px] py-1 tap-scale relative"
                 >
                   <div className="relative">
                     {item.path === '/profile' ? (
@@ -125,25 +141,40 @@ export const BottomNav = React.forwardRef<HTMLElement, object>(function BottomNa
                           src={user?.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${user?.firstName || 'guest'}`}
                           alt="Profile"
                           className={cn(
-                            'w-6 h-6 rounded-full border-2 transition-opacity',
-                            isActive ? 'border-primary' : 'border-transparent opacity-40'
+                            'w-[22px] h-[22px] rounded-full transition-all',
+                            isActive
+                              ? 'ring-[2px] ring-primary ring-offset-1 ring-offset-background'
+                              : 'opacity-50 grayscale-[30%]'
                           )}
                         />
-                        {user && <span className="absolute -bottom-0.5 -right-0.5 w-2 h-2 rounded-full bg-success border border-background" />}
+                        {user && (
+                          <span className="absolute -bottom-0.5 -right-0.5 w-[7px] h-[7px] rounded-full bg-success border-[1.5px] border-white" />
+                        )}
                       </div>
                     ) : (
-                      <span className={cn('text-base', isActive ? '' : 'opacity-40')}>{item.emoji}</span>
+                      <span className={cn(
+                        'text-[20px] transition-all block',
+                        isActive ? 'scale-110' : 'opacity-45 grayscale-[20%]'
+                      )}>
+                        {item.icon}
+                      </span>
                     )}
                     {item.path === '/notifications' && unreadCount > 0 && (
-                      <span className="absolute -top-1 -right-1.5 bg-destructive text-destructive-foreground text-[8px] rounded-full w-3.5 h-3.5 flex items-center justify-center font-bold">
+                      <span className="absolute -top-1 -right-2 bg-destructive text-destructive-foreground text-[8px] rounded-full min-w-[15px] h-[15px] flex items-center justify-center font-bold px-[3px]">
                         {unreadCount > 9 ? '9+' : unreadCount}
                       </span>
                     )}
                   </div>
                   <span className={cn(
-                    'text-[10px] font-medium leading-none',
-                    isActive ? 'text-primary' : 'text-muted-foreground'
-                  )}>{item.label}</span>
+                    'text-[10px] font-medium leading-none transition-colors',
+                    isActive ? 'text-primary font-semibold' : 'text-muted-foreground/60'
+                  )}>
+                    {item.label}
+                  </span>
+                  {/* Active dot indicator */}
+                  {isActive && (
+                    <span className="absolute -bottom-0.5 w-1 h-1 rounded-full bg-primary" />
+                  )}
                 </button>
               );
             })}
