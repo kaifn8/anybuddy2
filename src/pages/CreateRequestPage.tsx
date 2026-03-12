@@ -206,7 +206,7 @@ export default function CreateRequestPage() {
                     <span className="text-2xl">{qs.emoji}</span>
                     <div className="flex-1">
                       <p className="text-sm font-semibold">{qs.text}</p>
-                      <p className="text-[10px] text-muted-foreground">📍 {zone} · 👥 {qs.seats} people</p>
+                      <p className="text-[10px] text-muted-foreground">📍 {location} · 👥 {qs.seats} people</p>
                     </div>
                     <span className="text-xs text-primary font-semibold">Go →</span>
                   </button>
