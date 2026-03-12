@@ -71,93 +71,108 @@ export default function OnboardingPage() {
       case 'people':
         return (
           <div className="w-full max-w-[320px]">
-            <div className="relative rounded-[28px] bg-gradient-to-b from-primary/12 via-primary/4 to-background border border-border/30 overflow-hidden" style={{ height: 360 }}>
+            <div className="relative rounded-[28px] overflow-hidden" style={{ height: 380 }}>
+              {/* Map-like background */}
+              <div className="absolute inset-0 bg-gradient-to-b from-[hsl(210_30%_95%)] via-[hsl(210_20%_97%)] to-background" />
+              
+              {/* Subtle street grid pattern */}
+              <div className="absolute inset-0 opacity-[0.06]" style={{
+                backgroundImage: `
+                  linear-gradient(0deg, hsl(var(--foreground)) 0.5px, transparent 0.5px),
+                  linear-gradient(90deg, hsl(var(--foreground)) 0.5px, transparent 0.5px)
+                `,
+                backgroundSize: '48px 48px',
+              }} />
+              
+              {/* Warm ambient glow behind center */}
+              <div className="absolute top-[35%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 rounded-full bg-primary/20 blur-[60px] pointer-events-none" />
 
-              {/* Ambient glows */}
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-40 rounded-full bg-primary/25 blur-[60px] pointer-events-none" />
-              <div className="absolute bottom-10 -left-10 w-32 h-32 rounded-full bg-success/15 blur-[40px] pointer-events-none" />
-              <div className="absolute top-20 -right-8 w-28 h-28 rounded-full bg-accent/15 blur-[35px] pointer-events-none" />
-
-              {/* Radar rings */}
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] h-[280px] pointer-events-none">
+              {/* Your location dot + ripple */}
+              <div className="absolute top-[38%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
                 {[0, 1, 2].map(i => (
-                  <div key={i} className="absolute inset-0 rounded-full border border-primary/8" 
-                    style={{ 
-                      transform: `scale(${0.4 + i * 0.3})`,
-                      animation: `pulse 3s ease-in-out ${i * 0.5}s infinite`,
-                      opacity: 1 - i * 0.25,
+                  <div key={i} className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-primary/15"
+                    style={{
+                      width: `${60 + i * 50}px`,
+                      height: `${60 + i * 50}px`,
+                      animation: `pulse 3s ease-in-out ${i * 0.6}s infinite`,
+                      opacity: 0.6 - i * 0.15,
                     }} />
                 ))}
-                {/* Center pin */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-primary/20 border-2 border-primary/40 flex items-center justify-center">
-                  <MapPin size={16} className="text-primary" />
+                <div className="relative w-12 h-12 rounded-full bg-primary shadow-[0_0_20px_hsl(var(--primary)/0.4)] flex items-center justify-center border-[3px] border-background">
+                  <span className="text-lg">📍</span>
                 </div>
+                <p className="absolute -bottom-5 left-1/2 -translate-x-1/2 text-[9px] font-bold text-primary whitespace-nowrap bg-background/80 px-2 py-0.5 rounded-full backdrop-blur-sm">You</p>
               </div>
 
-              {/* Floating avatar cards */}
-              <div className="relative z-10 h-full px-4 pt-6 pb-4 flex flex-col">
-                <div className="flex-1 relative">
-                  {NEARBY_PEOPLE.map((p, i) => {
-                    const positions = [
-                      { top: '8%', left: '8%', rotate: '-3deg' },
-                      { top: '5%', right: '6%', rotate: '2deg' },
-                      { top: '42%', left: '22%', rotate: '-1deg' },
-                    ];
-                    const pos = positions[i];
-                    return (
-                      <div key={p.name} className="absolute"
-                        style={{ ...pos, animation: `fade-in 0.5s ease-out both`, animationDelay: `${i * 0.15}s` }}>
-                        <div className="flex items-center gap-2.5 px-3 py-2.5 rounded-2xl bg-background/90 backdrop-blur-xl border border-border/40 shadow-lg"
-                          style={{ transform: `rotate(${pos.rotate})` }}>
-                          <div className="relative shrink-0">
-                            <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-background shadow-sm">
-                              <img src={p.avatar} alt={p.name} className="w-full h-full object-cover" />
-                            </div>
-                            <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-success border-2 border-background" />
-                          </div>
-                          <div>
-                            <p className="text-[11px] font-bold text-foreground leading-tight">{p.name}</p>
-                            <p className="text-[9px] text-muted-foreground">{p.activity}</p>
-                          </div>
+              {/* Person bubbles positioned around the center */}
+              {NEARBY_PEOPLE.map((p, i) => {
+                const positions = [
+                  { top: '10%', left: '10%' },
+                  { top: '12%', right: '8%' },
+                  { bottom: '32%', left: '6%' },
+                ];
+                const pos = positions[i];
+                return (
+                  <div key={p.name} className="absolute z-30"
+                    style={{ ...pos, animation: `fade-in 0.5s ease-out both, float 4s ease-in-out ${i * 0.8}s infinite`, animationDelay: `${i * 0.2}s` }}>
+                    <div className="flex items-center gap-2 pl-1 pr-3 py-1.5 rounded-full bg-background/95 backdrop-blur-xl border border-border/30 shadow-[0_4px_16px_hsl(var(--foreground)/0.08)]">
+                      <div className="relative shrink-0">
+                        <div className="w-8 h-8 rounded-full overflow-hidden border-2 border-background">
+                          <img src={p.avatar} alt={p.name} className="w-full h-full object-cover" />
                         </div>
+                        <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-success border-[1.5px] border-background" />
                       </div>
-                    );
-                  })}
-                </div>
+                      <div>
+                        <p className="text-[10px] font-bold text-foreground leading-none">{p.name}</p>
+                        <p className="text-[8px] text-muted-foreground mt-0.5">{p.distance}</p>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
 
-                {/* Activity pills row */}
-                <div className="flex flex-wrap justify-center gap-1.5 mb-3 relative z-10">
+              {/* Connection lines (decorative dashed) */}
+              <svg className="absolute inset-0 w-full h-full z-10 pointer-events-none" viewBox="0 0 320 380">
+                <line x1="160" y1="148" x2="75" y2="70" stroke="hsl(211 100% 50% / 0.12)" strokeWidth="1" strokeDasharray="4 4" />
+                <line x1="160" y1="148" x2="260" y2="75" stroke="hsl(211 100% 50% / 0.12)" strokeWidth="1" strokeDasharray="4 4" />
+                <line x1="160" y1="148" x2="60" y2="240" stroke="hsl(211 100% 50% / 0.12)" strokeWidth="1" strokeDasharray="4 4" />
+              </svg>
+
+              {/* Bottom section */}
+              <div className="absolute bottom-0 left-0 right-0 px-4 pb-4 pt-8 bg-gradient-to-t from-background via-background/90 to-transparent z-30">
+                {/* Activity row */}
+                <div className="flex justify-center gap-3 mb-3">
                   {[
-                    { emoji: '☕', label: 'Coffee' },
-                    { emoji: '🍜', label: 'Food' },
-                    { emoji: '🚶', label: 'Walk' },
-                    { emoji: '🏸', label: 'Sports' },
-                    { emoji: '🎮', label: 'Games' },
+                    { emoji: '☕', count: 3 },
+                    { emoji: '🚶', count: 2 },
+                    { emoji: '🏸', count: 4 },
+                    { emoji: '🍜', count: 1 },
                   ].map((a, i) => (
-                    <span key={a.label}
-                      className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-background/80 backdrop-blur-sm border border-border/30 text-[10px] font-semibold text-foreground shadow-sm"
-                      style={{ animation: 'scale-in 0.3s ease-out both', animationDelay: `${0.3 + i * 0.06}s` }}>
-                      {a.emoji} {a.label}
-                    </span>
+                    <div key={i} className="flex flex-col items-center gap-1"
+                      style={{ animation: 'scale-in 0.3s ease-out both', animationDelay: `${0.4 + i * 0.08}s` }}>
+                      <div className="w-10 h-10 rounded-2xl bg-background border border-border/40 flex items-center justify-center shadow-sm text-lg">
+                        {a.emoji}
+                      </div>
+                      <span className="text-[8px] font-bold text-muted-foreground">{a.count} plans</span>
+                    </div>
                   ))}
                 </div>
 
-                {/* Bottom live bar */}
-                <div className="flex items-center justify-between px-3.5 py-2.5 rounded-2xl bg-background/90 backdrop-blur-xl border border-border/30 shadow-md relative z-10">
+                {/* Live counter bar */}
+                <div className="flex items-center justify-between px-3.5 py-2.5 rounded-2xl bg-background/95 backdrop-blur-xl border border-border/30 shadow-[0_2px_12px_hsl(var(--foreground)/0.06)]">
                   <div className="flex -space-x-2">
                     {NEARBY_PEOPLE.map((p, i) => (
                       <div key={i} className="w-6 h-6 rounded-full overflow-hidden border-2 border-background shadow-sm">
                         <img src={p.avatar} alt="" className="w-full h-full object-cover" />
                       </div>
                     ))}
-                    <div className="w-6 h-6 rounded-full bg-muted border-2 border-background flex items-center justify-center">
-                      <span className="text-[8px] font-bold text-muted-foreground">+5</span>
+                    <div className="w-6 h-6 rounded-full bg-primary/10 border-2 border-background flex items-center justify-center">
+                      <span className="text-[8px] font-bold text-primary">+5</span>
                     </div>
                   </div>
-                  <span className="text-[11px] font-semibold text-foreground">8 people waiting nearby</span>
-                  <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-success/15 border border-success/25">
+                  <div className="flex items-center gap-1.5">
                     <span className="w-1.5 h-1.5 rounded-full bg-success animate-pulse" />
-                    <span className="text-[10px] text-success font-bold tracking-wide">LIVE NOW</span>
+                    <span className="text-[10px] text-foreground font-bold">8 active nearby</span>
                   </div>
                 </div>
               </div>
