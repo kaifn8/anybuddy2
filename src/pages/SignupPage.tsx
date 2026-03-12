@@ -34,6 +34,7 @@ const stepConfig: Record<Step, { emoji: string; title: string; subtitle: string 
   phone: { emoji: '📱', title: 'Drop your number', subtitle: "Just to verify you're real. No calls, no spam." },
   otp: { emoji: '🔐', title: 'Enter code', subtitle: '' },
   name: { emoji: '😊', title: "What's your first name?", subtitle: "This is how people will say hi" },
+  gender: { emoji: '🧑', title: 'How do you identify?', subtitle: 'Helps others know who they\'re meeting' },
   photo: { emoji: '📸', title: 'Show your face', subtitle: 'People join plans from real humans' },
   bio: { emoji: '✍️', title: 'One line about you', subtitle: 'Make people want to hang with you' },
   age: { emoji: '🎂', title: 'Your crew age', subtitle: 'Match with people your vibe' },
