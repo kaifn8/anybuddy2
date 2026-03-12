@@ -54,7 +54,7 @@ const App = () => (
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/invite" element={<InviteFriendsPage />} />
           <Route path="/settings" element={<SettingsPage />} />
-          <Route path="/admin" element={<AdminLayout />}>
+          <Route path="/admin" element={<ProtectedAdminRoute />}>
             <Route index element={<AdminDashboard />} />
             <Route path="users" element={<AdminUsers />} />
             <Route path="users/:userId" element={<AdminUserDetail />} />
