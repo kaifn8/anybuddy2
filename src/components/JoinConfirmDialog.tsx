@@ -173,7 +173,7 @@ export function JoinConfirmDialog({ open, onClose, onConfirm, request }: JoinCon
                 Maybe later
               </Button>
               <Button onClick={handleReserve} className="flex-1 h-10 text-xs" disabled={seatsLeft === 0}>
-                {seatsLeft === 0 ? 'You missed it 😔' : seatsLeft === 1 ? 'Grab last spot →' : 'Reserve my spot →'}
+                {seatsLeft === 0 ? 'Full 😔' : seatsLeft === 1 ? 'Take the last spot →' : 'Reserve my spot →'}
               </Button>
             </>
           ) : (
