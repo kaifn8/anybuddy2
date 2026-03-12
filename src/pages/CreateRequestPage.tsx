@@ -340,7 +340,7 @@ export default function CreateRequestPage() {
               <div className="space-y-2.5">
                 <div className="flex items-center gap-2.5 text-sm">
                   <span>📍</span>
-                  <span className="font-medium">{zone}</span>
+                  <span className="font-medium">{location}</span>
                   <span className="text-[10px] text-muted-foreground">Your area</span>
                 </div>
                 <div className="flex items-center gap-2.5 text-sm">
