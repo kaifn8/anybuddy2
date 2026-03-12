@@ -20,7 +20,7 @@ import NotificationsPage from "./pages/NotificationsPage";
 import ProfilePage from "./pages/ProfilePage";
 import InviteFriendsPage from "./pages/InviteFriendsPage";
 import SettingsPage from "./pages/SettingsPage";
-import AdminLayout from "./pages/admin/AdminLayout";
+import ProtectedAdminRoute from "./components/layout/ProtectedAdminRoute";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminUsers from "./pages/admin/AdminUsers";
 import AdminVerification from "./pages/admin/AdminVerification";
