@@ -273,7 +273,7 @@ export default function MapPage() {
                 <h3 className="text-[13px] font-semibold text-foreground truncate leading-tight">{req.title}</h3>
                 <div className="flex items-center gap-2 mt-1">
                   <UrgencyBadge urgency={req.urgency} />
-                  <span className="text-[10px] text-muted-foreground">📍 {req.location.distance}km</span>
+                   <span className="text-[10px] text-muted-foreground">📍 {req.location.distance}km · ~{Math.round(req.location.distance * 12)}min</span>
                 </div>
               </div>
 
