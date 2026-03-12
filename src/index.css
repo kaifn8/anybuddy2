@@ -367,6 +367,28 @@
   .slide-up { animation: slide-up 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
   .fade-in { animation: fade-in 0.3s ease-out; }
   .scale-in { animation: scale-in 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+
+  /* Heart save pop animation */
+  .heart-pop {
+    animation: heart-pop 0.4s cubic-bezier(0.17, 0.89, 0.32, 1.49);
+  }
+
+  /* Join button success pulse */
+  .join-pulse {
+    animation: join-pulse 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* Shimmer loading effect */
+  .shimmer {
+    background: linear-gradient(
+      90deg,
+      hsl(var(--muted)) 0%,
+      hsl(var(--muted) / 0.4) 50%,
+      hsl(var(--muted)) 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s ease-in-out infinite;
+  }
 }
 
 /* Keyframes */
