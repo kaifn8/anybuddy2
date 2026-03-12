@@ -92,6 +92,11 @@ export function RequestCard({ request, onJoin, onView, isJoined, className }: Re
     e.stopPropagation();
     if (isSaved) unsavePlan(request.id);
     else savePlan(request.id);
+    // Trigger heart pop animation
+    const target = e.currentTarget as HTMLElement;
+    target.classList.remove('heart-pop');
+    void target.offsetWidth; // reflow
+    target.classList.add('heart-pop');
   };
 
   // Generate fake attendee avatars from participants + host
