@@ -258,14 +258,29 @@ export default function CreateRequestPage() {
             </div>
 
             {/* Location (auto) */}
-            <div className="flex items-center gap-3 p-3.5 rounded-xl liquid-glass">
-              <span className="text-lg">📍</span>
-              <div className="flex-1">
-                <p className="text-sm font-semibold">{zone}</p>
-                <p className="text-[10px] text-muted-foreground">Your current area</p>
+            {editingLocation ? (
+              <div className="flex items-center gap-3 p-3.5 rounded-xl liquid-glass">
+                <span className="text-lg">📍</span>
+                <input
+                  autoFocus
+                  value={location}
+                  onChange={(e) => setLocation(e.target.value.slice(0, 60))}
+                  onBlur={() => setEditingLocation(false)}
+                  onKeyDown={(e) => e.key === 'Enter' && setEditingLocation(false)}
+                  className="flex-1 bg-transparent text-sm font-semibold focus:outline-none"
+                  placeholder="Enter location"
+                />
               </div>
-              <span className="text-xs text-primary/60">✓</span>
-            </div>
+            ) : (
+              <button onClick={() => setEditingLocation(true)} className="w-full flex items-center gap-3 p-3.5 rounded-xl liquid-glass tap-scale">
+                <span className="text-lg">📍</span>
+                <div className="flex-1 text-left">
+                  <p className="text-sm font-semibold">{location}</p>
+                  <p className="text-[10px] text-muted-foreground">Tap to change</p>
+                </div>
+                <Pencil size={14} className="text-muted-foreground shrink-0" />
+              </button>
+            )}
 
             {/* Time — big tappable pills */}
             <div>
