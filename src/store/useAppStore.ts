@@ -394,7 +394,7 @@ export const useAppStore = create<AppState>()(
               addNotification({
                 type: 'urgent',
                 title: '⚡ Plan starting soon!',
-                message: `"${urgentReq.title}" starts any minute — ${urgentReq.seatsTotal - urgentReq.seatsTaken} spots left`,
+                message: `"${urgentReq.title}" starts any minute, ${urgentReq.seatsTotal - urgentReq.seatsTaken} spots left`,
                 requestId: urgentReq.id,
               });
             }

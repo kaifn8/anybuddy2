@@ -125,7 +125,7 @@ export default function AdminModeration() {
             <div className="text-center py-12 rounded-2xl border border-border/20 bg-background/40">
               <span className="text-3xl block mb-2">✅</span>
               <p className="text-xs text-muted-foreground">
-                {reportFilter === 'all' ? 'No reports yet — users can report from plan details and host profiles' : `No ${reportFilter} reports`}
+                {reportFilter === 'all' ? 'No reports yet. Users can report from plan details and host profiles.' : `No ${reportFilter} reports`}
               </p>
             </div>
           ) : (

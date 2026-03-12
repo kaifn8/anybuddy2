@@ -258,7 +258,7 @@ export default function JoinRequestPage() {
                       <span className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                       Confirming...
                     </span>
-                  ) : "Confirm — I'm in ✓"}
+                  ) : "Confirm, I'm in ✓"}
                 </Button>
               </div>
             </div>
