@@ -34,15 +34,15 @@ function getTimeIndicator(request: Request) {
   const minutesLeft = (new Date(request.expiresAt).getTime() - Date.now()) / 60000;
   
   if (minutesLeft <= 5 && minutesLeft > 0) {
-    return { label: '⚡ Happening right now — join or miss it', color: 'text-warning bg-warning/10 border border-warning/20' };
+    return { label: '⚡ Happening now', color: 'text-warning bg-warning/10 border border-warning/20' };
   }
   if (minutesLeft <= 15 && minutesLeft > 0) {
     const mins = Math.round(minutesLeft);
-    return { label: `⏰ Only ${mins} min left to join`, color: 'text-destructive bg-destructive/10 border border-destructive/20' };
+    return { label: `⏰ ${mins} min left`, color: 'text-destructive bg-destructive/10 border border-destructive/20' };
   }
   if (minutesLeft <= 30 && minutesLeft > 0) {
     const mins = Math.round(minutesLeft);
-    return { label: `⚡ Starts in ${mins} min`, color: 'text-warning bg-warning/10 border border-warning/20' };
+    return { label: `⚡ In ${mins} min`, color: 'text-warning bg-warning/10 border border-warning/20' };
   }
   return null;
 }
@@ -52,13 +52,13 @@ function getHotIndicator(request: Request) {
   const fillPercentage = (request.seatsTaken / request.seatsTotal) * 100;
   
   if (seatsLeft === 1) {
-    return { label: '🔴 Last spot — someone else is looking at this', color: 'text-destructive bg-destructive/10 border border-destructive/20' };
+    return { label: '🔴 1 spot left', color: 'text-destructive bg-destructive/10 border border-destructive/20' };
   }
   if (seatsLeft === 2) {
-    return { label: '🔥 2 spots left — filling fast', color: 'text-destructive bg-destructive/10 border border-destructive/20' };
+    return { label: '🔥 2 spots left', color: 'text-destructive bg-destructive/10 border border-destructive/20' };
   }
   if (fillPercentage >= 70) {
-    return { label: `🔥 ${request.seatsTaken} people already in`, color: 'text-primary bg-primary/10 border border-primary/20' };
+    return { label: `🔥 ${request.seatsTaken} joined`, color: 'text-primary bg-primary/10 border border-primary/20' };
   }
   return null;
 }
