@@ -146,9 +146,9 @@ export function RequestCard({ request, onJoin, onView, isJoined, className }: Re
             {/* Title - main element */}
             <h3 className="font-semibold text-[14px] text-foreground leading-tight line-clamp-2 mb-1.5">{request.title}</h3>
             
-            {/* Location + Distance merged */}
+            {/* Location + Distance + Walk time */}
             <p className="text-[12px] text-muted-foreground font-medium mb-1.5 truncate">
-              📍 {request.location.name} • {request.location.distance} km away
+              📍 {request.location.name} • {request.location.distance} km • ~{Math.round(request.location.distance * 12)} min walk
             </p>
           </div>
         </div>
