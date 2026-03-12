@@ -128,7 +128,7 @@ export default function CreateRequestPage() {
       userAvatar: user.avatar, userReliability: user.reliabilityScore,
       userHostRating: user.hostRating, title: title.trim(),
       category, urgency, when,
-      location: { name: zone, distance: 0, coords: { lat: 19.0596, lng: 72.8295 } },
+      location: { name: location, distance: 0, coords: { lat: 19.0596, lng: 72.8295 } },
       seatsTotal: seats, seatsTaken: 0, expiresAt,
       liveShare: false, status: 'active', joinMode: 'auto', visibility: 'public', pendingJoinRequests: [],
     });
