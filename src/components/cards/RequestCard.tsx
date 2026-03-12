@@ -34,15 +34,15 @@ function getTimeIndicator(request: Request) {
   const minutesLeft = (new Date(request.expiresAt).getTime() - Date.now()) / 60000;
   
   if (minutesLeft <= 5 && minutesLeft > 0) {
-    return { label: '⚡ Happening right now — join or miss it', color: 'text-warning bg-warning/10 border border-warning/20' };
+    return { label: '⚡ Happening now', color: 'text-warning bg-warning/10 border border-warning/20' };
   }
   if (minutesLeft <= 15 && minutesLeft > 0) {
     const mins = Math.round(minutesLeft);
-    return { label: `⏰ Only ${mins} min left to join`, color: 'text-destructive bg-destructive/10 border border-destructive/20' };
+    return { label: `⏰ ${mins} min left`, color: 'text-destructive bg-destructive/10 border border-destructive/20' };
   }
   if (minutesLeft <= 30 && minutesLeft > 0) {
     const mins = Math.round(minutesLeft);
-    return { label: `⚡ Starts in ${mins} min`, color: 'text-warning bg-warning/10 border border-warning/20' };
+    return { label: `⚡ In ${mins} min`, color: 'text-warning bg-warning/10 border border-warning/20' };
   }
   return null;
 }
@@ -52,13 +52,13 @@ function getHotIndicator(request: Request) {
   const fillPercentage = (request.seatsTaken / request.seatsTotal) * 100;
   
   if (seatsLeft === 1) {
-    return { label: '🔴 Last spot — someone else is looking at this', color: 'text-destructive bg-destructive/10 border border-destructive/20' };
+    return { label: '🔴 1 spot left', color: 'text-destructive bg-destructive/10 border border-destructive/20' };
   }
   if (seatsLeft === 2) {
-    return { label: '🔥 2 spots left — filling fast', color: 'text-destructive bg-destructive/10 border border-destructive/20' };
+    return { label: '🔥 2 spots left', color: 'text-destructive bg-destructive/10 border border-destructive/20' };
   }
   if (fillPercentage >= 70) {
-    return { label: `🔥 ${request.seatsTaken} people already in`, color: 'text-primary bg-primary/10 border border-primary/20' };
+    return { label: `🔥 ${request.seatsTaken} joined`, color: 'text-primary bg-primary/10 border border-primary/20' };
   }
   return null;
 }
@@ -113,14 +113,14 @@ export function RequestCard({ request, onJoin, onView, isJoined, className }: Re
       >
         {/* Status badges - time and hot indicator */}
         {(timeIndicator || hotIndicator) && (
-          <div className="flex items-center gap-1.5 mb-2">
+          <div className="flex flex-wrap items-center gap-1.5 mb-2">
             {timeIndicator && (
-              <div className={cn('inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold', timeIndicator.color)}>
+              <div className={cn('inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold whitespace-nowrap', timeIndicator.color)}>
                 {timeIndicator.label}
               </div>
             )}
             {hotIndicator && (
-              <div className={cn('inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold', hotIndicator.color)}>
+              <div className={cn('inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold whitespace-nowrap', hotIndicator.color)}>
                 {hotIndicator.label}
               </div>
             )}
@@ -158,7 +158,7 @@ export function RequestCard({ request, onJoin, onView, isJoined, className }: Re
               )}
             </div>
             <span className="text-[11px] text-muted-foreground font-medium truncate">
-              {seatsLeft === 0 ? 'Everyone\'s in!' : seatsLeft === 1 ? 'Only 1 spot — decide now' : `${request.seatsTaken} joined · ${seatsLeft} spots left`}
+              {seatsLeft === 0 ? 'Full' : seatsLeft === 1 ? '1 spot left' : `${request.seatsTaken} joined · ${seatsLeft} left`}
             </span>
           </div>
 
