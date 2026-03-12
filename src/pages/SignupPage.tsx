@@ -7,8 +7,8 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Check } from 'lucide-react';
 
-type Step = 'method' | 'phone' | 'otp' | 'name' | 'photo' | 'bio' | 'age' | 'interests' | 'zone';
-const steps: Step[] = ['method', 'phone', 'otp', 'name', 'photo', 'bio', 'age', 'interests', 'zone'];
+type Step = 'method' | 'phone' | 'otp' | 'name' | 'gender' | 'photo' | 'bio' | 'age' | 'interests' | 'zone';
+const steps: Step[] = ['method', 'phone', 'otp', 'name', 'gender', 'photo', 'bio', 'age', 'interests', 'zone'];
 const ageRanges = ['18-24', '25-34', '35-44', '45-54', '55+'];
 
 // Interest options with emoji and label
