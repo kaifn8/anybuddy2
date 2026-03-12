@@ -51,11 +51,14 @@ function getHotIndicator(request: Request) {
   const seatsLeft = request.seatsTotal - request.seatsTaken;
   const fillPercentage = (request.seatsTaken / request.seatsTotal) * 100;
   
-  if (seatsLeft <= 2 && seatsLeft > 0) {
-    return { label: '🔥 Filling fast', color: 'text-destructive bg-destructive/10 border border-destructive/20' };
+  if (seatsLeft === 1) {
+    return { label: '🔴 Last spot — someone else is looking at this', color: 'text-destructive bg-destructive/10 border border-destructive/20' };
+  }
+  if (seatsLeft === 2) {
+    return { label: '🔥 2 spots left — filling fast', color: 'text-destructive bg-destructive/10 border border-destructive/20' };
   }
   if (fillPercentage >= 70) {
-    return { label: '🔥 Popular', color: 'text-primary bg-primary/10 border border-primary/20' };
+    return { label: `🔥 ${request.seatsTaken} people already in`, color: 'text-primary bg-primary/10 border border-primary/20' };
   }
   return null;
 }
