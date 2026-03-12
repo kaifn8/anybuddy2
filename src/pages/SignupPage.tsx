@@ -99,7 +99,7 @@ export default function SignupPage() {
     if (interests.length >= 3 && zone) {
       gsap.to(contentRef.current, { opacity: 0, duration: 0.2, onComplete: () => {
         setUser(createDefaultUser({
-          id: `user_${Date.now()}`, firstName, phone, email, bio,
+          id: `user_${Date.now()}`, firstName, phone, email, bio, gender: gender || undefined,
           ageRange, city: selectedCity || 'Mumbai', zone, interests, loginMethod,
           avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${firstName}`,
         }));
