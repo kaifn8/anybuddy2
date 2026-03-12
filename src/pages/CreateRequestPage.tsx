@@ -62,6 +62,8 @@ export default function CreateRequestPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isPosted, setIsPosted] = useState(false);
   const [editingTitle, setEditingTitle] = useState(false);
+  const [editingLocation, setEditingLocation] = useState(false);
+  const [location, setLocation] = useState(zone);
   const [postedRequestId, setPostedRequestId] = useState<string | null>(null);
 
   const pageRef = useRef<HTMLDivElement>(null);
@@ -126,7 +128,7 @@ export default function CreateRequestPage() {
       userAvatar: user.avatar, userReliability: user.reliabilityScore,
       userHostRating: user.hostRating, title: title.trim(),
       category, urgency, when,
-      location: { name: zone, distance: 0, coords: { lat: 19.0596, lng: 72.8295 } },
+      location: { name: location, distance: 0, coords: { lat: 19.0596, lng: 72.8295 } },
       seatsTotal: seats, seatsTaken: 0, expiresAt,
       liveShare: false, status: 'active', joinMode: 'auto', visibility: 'public', pendingJoinRequests: [],
     });
@@ -158,7 +160,7 @@ export default function CreateRequestPage() {
               <h3 className="text-sm font-bold">{title}</h3>
             </div>
             <div className="flex flex-wrap gap-3 text-xs text-muted-foreground">
-              <span>📍 {zone}</span>
+              <span>📍 {location}</span>
               <span>⏰ {timeLabel}</span>
               <span>👥 Need {seats} {seats === 1 ? 'person' : 'people'}</span>
             </div>
@@ -204,7 +206,7 @@ export default function CreateRequestPage() {
                     <span className="text-2xl">{qs.emoji}</span>
                     <div className="flex-1">
                       <p className="text-sm font-semibold">{qs.text}</p>
-                      <p className="text-[10px] text-muted-foreground">📍 {zone} · 👥 {qs.seats} people</p>
+                      <p className="text-[10px] text-muted-foreground">📍 {location} · 👥 {qs.seats} people</p>
                     </div>
                     <span className="text-xs text-primary font-semibold">Go →</span>
                   </button>
@@ -256,14 +258,29 @@ export default function CreateRequestPage() {
             </div>
 
             {/* Location (auto) */}
-            <div className="flex items-center gap-3 p-3.5 rounded-xl liquid-glass">
-              <span className="text-lg">📍</span>
-              <div className="flex-1">
-                <p className="text-sm font-semibold">{zone}</p>
-                <p className="text-[10px] text-muted-foreground">Your current area</p>
+            {editingLocation ? (
+              <div className="flex items-center gap-3 p-3.5 rounded-xl liquid-glass">
+                <span className="text-lg">📍</span>
+                <input
+                  autoFocus
+                  value={location}
+                  onChange={(e) => setLocation(e.target.value.slice(0, 60))}
+                  onBlur={() => setEditingLocation(false)}
+                  onKeyDown={(e) => e.key === 'Enter' && setEditingLocation(false)}
+                  className="flex-1 bg-transparent text-sm font-semibold focus:outline-none"
+                  placeholder="Enter location"
+                />
               </div>
-              <span className="text-xs text-primary/60">✓</span>
-            </div>
+            ) : (
+              <button onClick={() => setEditingLocation(true)} className="w-full flex items-center gap-3 p-3.5 rounded-xl liquid-glass tap-scale">
+                <span className="text-lg">📍</span>
+                <div className="flex-1 text-left">
+                  <p className="text-sm font-semibold">{location}</p>
+                  <p className="text-[10px] text-muted-foreground">Tap to change</p>
+                </div>
+                <Pencil size={14} className="text-muted-foreground shrink-0" />
+              </button>
+            )}
 
             {/* Time — big tappable pills */}
             <div>
@@ -323,7 +340,7 @@ export default function CreateRequestPage() {
               <div className="space-y-2.5">
                 <div className="flex items-center gap-2.5 text-sm">
                   <span>📍</span>
-                  <span className="font-medium">{zone}</span>
+                  <span className="font-medium">{location}</span>
                   <span className="text-[10px] text-muted-foreground">Your area</span>
                 </div>
                 <div className="flex items-center gap-2.5 text-sm">
