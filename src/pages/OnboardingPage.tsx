@@ -5,10 +5,10 @@ import { Button } from '@/components/ui/button';
 import { MapPin, ShieldCheck, BadgeCheck, Zap, Users, Star, ArrowLeft } from 'lucide-react';
 
 const slides = [
-  { id: 'people', title: "Everyone's busy.\nYou're not.", description: "127 people near you are looking for company right now. Don't sit this one out." },
-  { id: 'realtime', title: 'While you scroll,\nplans fill up.', description: '3 plans near you filled in the last hour.\nPost in seconds. People join in minutes.' },
-  { id: 'safe', title: 'No DMs. No weirdos.\nJust real people.', description: 'Group-only meetups. Verified humans.\nEvery person earns their trust score.' },
-  { id: 'credits', title: 'The more you show up,\nthe more doors open.', description: 'Reliable people get priority access,\nlower costs, and exclusive plans others can\'t see.' },
+  { id: 'people', title: "Friends busy?", description: "People around you are free right now — for coffee, food, walks, or games. Jump in." },
+  { id: 'realtime', title: 'Plans fill up fast.', description: 'Post what you want to do.\nNearby people join in minutes.' },
+  { id: 'safe', title: 'No DMs. No weirdos.', description: 'Group-only meetups. Verified people.\nShow up and vibe.' },
+  { id: 'credits', title: 'Show up. Level up.', description: 'The more you show up, the cheaper it gets.\nReliable people get the best perks.' },
 ];
 
 const NEARBY_PEOPLE = [
