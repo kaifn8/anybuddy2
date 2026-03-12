@@ -668,9 +668,10 @@ export const useAppStore = create<AppState>()(
     {
       name: 'anybuddy-storage',
       partialize: (state) => ({
-        user: state.user, isOnboarded: state.isOnboarded,
+        user: state.user ? { ...state.user, verificationSelfie: undefined } : state.user,
+        isOnboarded: state.isOnboarded,
         creditHistory: state.creditHistory, joinedRequests: state.joinedRequests,
-        reviews: state.reviews, pendingVerifications: state.pendingVerifications,
+        reviews: state.reviews,
         reports: state.reports, flaggedMessages: state.flaggedMessages,
         adminWarnings: state.adminWarnings, pricingConfig: state.pricingConfig,
         trustDiscounts: state.trustDiscounts,
