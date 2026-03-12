@@ -7,10 +7,74 @@ import { getCategoryLabel, getCategoryEmoji } from '@/components/icons/CategoryI
 import { useAppStore } from '@/store/useAppStore';
 import { Button } from '@/components/ui/button';
 import { Share2, ChevronRight } from 'lucide-react';
-import type { Badge, Request } from '@/types/anybuddy';
+import type { Badge, Request, TrustLevel } from '@/types/anybuddy';
 import { ProfileHero } from '@/components/profile/ProfileHero';
 import { VerificationCard } from '@/components/profile/VerificationCard';
 import { cn } from '@/lib/utils';
+
+const TRUST_PROGRESSION: { level: TrustLevel; label: string; emoji: string; requirement: string; joinsNeeded: number }[] = [
+  { level: 'seed', label: 'New', emoji: '🌱', requirement: 'Just getting started', joinsNeeded: 0 },
+  { level: 'solid', label: 'Solid', emoji: '🪨', requirement: '3 plans completed', joinsNeeded: 3 },
+  { level: 'trusted', label: 'Trusted', emoji: '⭐', requirement: '10 plans + 85% reliability', joinsNeeded: 10 },
+  { level: 'anchor', label: 'Star', emoji: '👑', requirement: '25 plans + 95% reliability', joinsNeeded: 25 },
+];
+
+function TrustProgressionCard({ trustLevel, completedJoins, reliabilityScore }: { trustLevel: TrustLevel; completedJoins: number; reliabilityScore: number }) {
+  const currentIndex = TRUST_PROGRESSION.findIndex(t => t.level === trustLevel);
+  const nextLevel = currentIndex < TRUST_PROGRESSION.length - 1 ? TRUST_PROGRESSION[currentIndex + 1] : null;
+  const current = TRUST_PROGRESSION[currentIndex];
+  
+  const progressToNext = nextLevel 
+    ? Math.min(100, (completedJoins / nextLevel.joinsNeeded) * 100)
+    : 100;
+
+  return (
+    <div className="rounded-2xl overflow-hidden border border-border/30 bg-background/60 backdrop-blur-sm">
+      <div className="px-4 pt-3.5 pb-3">
+        <div className="flex items-center justify-between mb-2.5">
+          <div className="flex items-center gap-2">
+            <span className="text-lg">{current.emoji}</span>
+            <div>
+              <p className="text-[13px] font-bold text-foreground">{current.label} member</p>
+              <p className="text-[10px] text-muted-foreground">{current.requirement}</p>
+            </div>
+          </div>
+          {nextLevel && (
+            <div className="text-right">
+              <p className="text-[10px] text-muted-foreground">Next: {nextLevel.emoji} {nextLevel.label}</p>
+              <p className="text-[10px] text-primary font-semibold">{nextLevel.joinsNeeded - completedJoins} more plans</p>
+            </div>
+          )}
+        </div>
+        
+        {nextLevel && (
+          <div className="space-y-1">
+            <div className="w-full h-2 rounded-full bg-muted/60 overflow-hidden">
+              <div 
+                className="h-full rounded-full bg-gradient-to-r from-primary to-primary/70 transition-all duration-500"
+                style={{ width: `${progressToNext}%` }}
+              />
+            </div>
+            <p className="text-[9px] text-muted-foreground text-center">
+              {nextLevel.level === 'trusted' && reliabilityScore < 85 
+                ? `Need ${85 - reliabilityScore}% more reliability`
+                : nextLevel.level === 'anchor' && reliabilityScore < 95
+                ? `Need ${95 - reliabilityScore}% more reliability`
+                : `${Math.round(progressToNext)}% to ${nextLevel.label}`}
+            </p>
+          </div>
+        )}
+        
+        {!nextLevel && (
+          <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-primary/[0.06] border border-primary/15">
+            <span className="text-sm">🏆</span>
+            <p className="text-[11px] text-primary font-semibold">You're in the top tier — enjoy priority access</p>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
 
 const badgeLabels: Record<Badge, { emoji: string; label: string }> = {
   verified_host: { emoji: '✅', label: 'Verified Host' },
@@ -56,10 +120,11 @@ export default function ProfilePage() {
   const isToday = new Date().toDateString() === joinDate.toDateString();
   const joinText = isToday ? 'Joined today' : `Joined ${format(joinDate, 'MMM yyyy')}`;
 
+  const totalJoins = user.meetupsAttended + user.completedJoins;
   const stats = [
-    { value: `${user.reliabilityScore}%`, label: 'Reliable' },
-    { value: user.meetupsAttended + user.completedJoins, label: 'Joined' },
-    { value: user.meetupsHosted, label: 'Hosted' },
+    { value: `${user.reliabilityScore}%`, label: 'Show-up rate' },
+    { value: totalJoins, label: 'Plans joined' },
+    { value: user.meetupsHosted, label: 'Plans hosted' },
   ];
 
   const activityCount = pastMeetups.length + myRequests.length + savedPlansList.length;
@@ -75,6 +140,9 @@ export default function ProfilePage() {
           joinText={joinText}
           stats={stats}
         />
+
+        {/* Trust progression */}
+        <TrustProgressionCard trustLevel={user.trustLevel} completedJoins={user.completedJoins} reliabilityScore={user.reliabilityScore} />
 
         {/* Selfie verification card */}
         <VerificationCard />
@@ -163,9 +231,10 @@ export default function ProfilePage() {
             {user.interests.length === 0 && user.badges.length === 0 && user.meetupsHosted === 0 && (
               <div className="text-center py-10">
                 <span className="text-4xl block mb-3">🌱</span>
-                <p className="text-sm text-muted-foreground">Start joining plans to build your profile</p>
+                <p className="text-sm font-medium text-foreground mb-1">Your profile is empty — people can't trust you yet</p>
+                <p className="text-xs text-muted-foreground">Join 1 plan to start building your reputation</p>
                 <Button onClick={() => navigate('/home')} variant="secondary" size="sm" className="mt-4">
-                  Browse plans
+                  Find a plan nearby
                 </Button>
               </div>
             )}

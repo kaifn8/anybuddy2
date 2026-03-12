@@ -89,7 +89,7 @@ export function JoinConfirmDialog({ open, onClose, onConfirm, request }: JoinCon
         <DialogHeader>
           <DialogTitle className="text-sm font-bold flex items-center gap-2">
             <span>{getCategoryEmoji(request.category)}</span>
-            {isReserved ? '🔒 Seat reserved' : 'You in?'}
+            {isReserved ? '🔒 Your spot is held' : `${seatsLeft <= 2 ? '⚡ Going fast — ' : ''}You in?`}
           </DialogTitle>
           <DialogDescription className="sr-only">Confirm joining this plan</DialogDescription>
         </DialogHeader>
@@ -129,13 +129,18 @@ export function JoinConfirmDialog({ open, onClose, onConfirm, request }: JoinCon
             )}
           </div>
 
-          {/* Safety */}
+          {/* Safety + social proof */}
           <div className="flex items-center gap-2 mt-2 text-[10px] text-muted-foreground/60">
             <span>🛡️ Public meetup</span>
             {(request.userTrust === 'trusted' || request.userTrust === 'anchor') && (
               <span>· ✅ Verified host</span>
             )}
           </div>
+          {request.seatsTaken >= 2 && (
+            <p className="text-[10px] text-success font-medium mt-1.5">
+              ✓ {request.seatsTaken} people already committed — you won't be alone
+            </p>
+          )}
         </div>
 
         {/* Reservation countdown */}
@@ -165,19 +170,19 @@ export function JoinConfirmDialog({ open, onClose, onConfirm, request }: JoinCon
           {!isReserved ? (
             <>
               <Button variant="secondary" onClick={handleClose} className="flex-1 h-10 text-xs">
-                Not now
+                Maybe later
               </Button>
               <Button onClick={handleReserve} className="flex-1 h-10 text-xs" disabled={seatsLeft === 0}>
-                {seatsLeft === 0 ? 'Too late 😔' : 'Reserve seat →'}
+                {seatsLeft === 0 ? 'You missed it 😔' : seatsLeft === 1 ? 'Grab last spot →' : 'Reserve my spot →'}
               </Button>
             </>
           ) : (
             <>
               <Button variant="secondary" onClick={handleClose} className="flex-1 h-10 text-xs">
-                Release
+                Let someone else have it
               </Button>
               <Button onClick={handleConfirm} className="flex-1 h-10 text-xs" disabled={isConfirming}>
-                {isConfirming ? 'Confirming...' : "I'm in ✓"}
+                {isConfirming ? 'Locking you in...' : "Confirm — I'm showing up ✓"}
               </Button>
             </>
           )}

@@ -5,28 +5,28 @@ import { Button } from '@/components/ui/button';
 import { MapPin, ShieldCheck, BadgeCheck, Zap, Users, Star, ArrowLeft } from 'lucide-react';
 
 const slides = [
-  { id: 'people', title: "Friends busy?", description: "Find people nearby who are up for coffee, food, walks, or games right now." },
-  { id: 'realtime', title: 'Plans keep falling through?', description: 'Post in seconds. People nearby can join in minutes.' },
-  { id: 'safe', title: 'No DMs. No creeps.', description: 'Group-only hangouts. Verified people.\nJust show up and vibe.' },
-  { id: 'credits', title: 'Show up. Level up.', description: 'Every plan you join earns you credits.\nThe more reliable you are, the more you unlock.' },
+  { id: 'people', title: "Everyone's busy.\nYou're not.", description: "127 people near you are looking for company right now. Don't sit this one out." },
+  { id: 'realtime', title: 'While you scroll,\nplans fill up.', description: '3 plans near you filled in the last hour.\nPost in seconds. People join in minutes.' },
+  { id: 'safe', title: 'No DMs. No weirdos.\nJust real people.', description: 'Group-only meetups. Verified humans.\nEvery person earns their trust score.' },
+  { id: 'credits', title: 'The more you show up,\nthe more doors open.', description: 'Reliable people get priority access,\nlower costs, and exclusive plans others can\'t see.' },
 ];
 
 const NEARBY_PEOPLE = [
-  { name: 'Aarav', avatar: 'https://api.dicebear.com/9.x/lorelei/svg?seed=Felix&backgroundColor=b6e3f4', activity: 'Wants coffee now ☕', distance: '0.3 km' },
-  { name: 'Priya', avatar: 'https://api.dicebear.com/9.x/lorelei/svg?seed=Aneka&backgroundColor=ffd5dc', activity: 'Looking for walk buddy 🚶', distance: '0.5 km' },
-  { name: 'Rohan', avatar: 'https://api.dicebear.com/9.x/lorelei/svg?seed=Leo&backgroundColor=c0aede', activity: 'Needs +1 for badminton 🏸', distance: '0.8 km' },
+  { name: 'Aarav', avatar: 'https://api.dicebear.com/9.x/lorelei/svg?seed=Felix&backgroundColor=b6e3f4', activity: 'Waiting for a coffee buddy ☕', distance: '0.3 km' },
+  { name: 'Priya', avatar: 'https://api.dicebear.com/9.x/lorelei/svg?seed=Aneka&backgroundColor=ffd5dc', activity: 'Hoping someone joins her walk 🚶', distance: '0.5 km' },
+  { name: 'Rohan', avatar: 'https://api.dicebear.com/9.x/lorelei/svg?seed=Leo&backgroundColor=c0aede', activity: 'Needs 1 more for badminton 🏸', distance: '0.8 km' },
 ];
 
 const LIVE_ACTIVITY = [
-  { emoji: '☕', text: 'Aarav needs coffee buddy — 2 spots left', time: 'Just now', color: 'bg-amber-500/20 text-amber-600' },
-  { emoji: '✋', text: 'Priya joined your plan!', time: '2 min ago', color: 'bg-emerald-500/20 text-emerald-600' },
-  { emoji: '🔥', text: '"Evening Run" filling up fast', time: '5 min ago', color: 'bg-blue-500/20 text-blue-600' },
+  { emoji: '☕', text: 'Aarav\'s coffee plan — only 1 spot left', time: 'Just now', color: 'bg-amber-500/20 text-amber-600' },
+  { emoji: '✋', text: 'Priya joined before you could!', time: '2 min ago', color: 'bg-emerald-500/20 text-emerald-600' },
+  { emoji: '🔥', text: '"Evening Run" full — you missed it', time: '5 min ago', color: 'bg-destructive/20 text-destructive' },
 ];
 
 const TRUST_FEATURES = [
-  { icon: ShieldCheck, label: 'Verified humans', desc: 'No bots, no fakes' },
-  { icon: Users, label: 'Group-only', desc: 'Zero creepy DMs' },
-  { icon: BadgeCheck, label: 'Earn trust', desc: 'Show up, level up' },
+  { icon: ShieldCheck, label: 'Every person is verified', desc: 'Real names, real faces' },
+  { icon: Users, label: 'Groups only — no 1-on-1 DMs', desc: 'Designed to feel safe' },
+  { icon: BadgeCheck, label: 'Bad actors get removed', desc: 'Community-driven moderation' },
 ];
 
 const EXAMPLE_PLANS = [
@@ -154,10 +154,10 @@ export default function OnboardingPage() {
                       <span className="text-[8px] font-bold text-muted-foreground">+5</span>
                     </div>
                   </div>
-                  <span className="text-[11px] font-semibold text-foreground">8 people nearby</span>
+                  <span className="text-[11px] font-semibold text-foreground">8 people waiting nearby</span>
                   <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-success/15 border border-success/25">
                     <span className="w-1.5 h-1.5 rounded-full bg-success animate-pulse" />
-                    <span className="text-[10px] text-success font-bold tracking-wide">LIVE</span>
+                    <span className="text-[10px] text-success font-bold tracking-wide">LIVE NOW</span>
                   </div>
                 </div>
               </div>
@@ -376,7 +376,7 @@ export default function OnboardingPage() {
                       <span key={i} className="text-sm">{m}</span>
                     ))}
                   </div>
-                  <span className="text-[10px] font-semibold text-foreground/80">Top contributors unlock exclusive plans</span>
+                  <span className="text-[10px] font-semibold text-foreground/80">Top 10% unlock plans others can't see</span>
                 </div>
               </div>
             </div>
@@ -443,7 +443,7 @@ export default function OnboardingPage() {
           className="w-full h-11 text-[15px] font-semibold rounded-lg shadow-lg shadow-primary/20 transition-all active:scale-[0.98]"
           onClick={handleNext}
         >
-          {isLastSlide ? "Let's go 🚀" : 'Continue →'}
+          {isLastSlide ? "Don't miss out →" : 'Continue →'}
         </Button>
         
         {currentSlide < slides.length - 1 && (
@@ -451,7 +451,7 @@ export default function OnboardingPage() {
             className="w-full mt-3 py-2.5 text-sm font-semibold text-muted-foreground/60 hover:text-muted-foreground tap-scale transition-colors rounded-xl"
             onClick={handleSkip}
           >
-            Skip for now
+            I'll figure it out
           </button>
         )}
       </div>

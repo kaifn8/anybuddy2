@@ -34,7 +34,11 @@ function getTimeIndicator(request: Request) {
   const minutesLeft = (new Date(request.expiresAt).getTime() - Date.now()) / 60000;
   
   if (minutesLeft <= 5 && minutesLeft > 0) {
-    return { label: '⚡ Happening now', color: 'text-warning bg-warning/10 border border-warning/20' };
+    return { label: '⚡ Happening right now — join or miss it', color: 'text-warning bg-warning/10 border border-warning/20' };
+  }
+  if (minutesLeft <= 15 && minutesLeft > 0) {
+    const mins = Math.round(minutesLeft);
+    return { label: `⏰ Only ${mins} min left to join`, color: 'text-destructive bg-destructive/10 border border-destructive/20' };
   }
   if (minutesLeft <= 30 && minutesLeft > 0) {
     const mins = Math.round(minutesLeft);
@@ -47,11 +51,14 @@ function getHotIndicator(request: Request) {
   const seatsLeft = request.seatsTotal - request.seatsTaken;
   const fillPercentage = (request.seatsTaken / request.seatsTotal) * 100;
   
-  if (seatsLeft <= 2 && seatsLeft > 0) {
-    return { label: '🔥 Filling fast', color: 'text-destructive bg-destructive/10 border border-destructive/20' };
+  if (seatsLeft === 1) {
+    return { label: '🔴 Last spot — someone else is looking at this', color: 'text-destructive bg-destructive/10 border border-destructive/20' };
+  }
+  if (seatsLeft === 2) {
+    return { label: '🔥 2 spots left — filling fast', color: 'text-destructive bg-destructive/10 border border-destructive/20' };
   }
   if (fillPercentage >= 70) {
-    return { label: '🔥 Popular', color: 'text-primary bg-primary/10 border border-primary/20' };
+    return { label: `🔥 ${request.seatsTaken} people already in`, color: 'text-primary bg-primary/10 border border-primary/20' };
   }
   return null;
 }
@@ -151,7 +158,7 @@ export function RequestCard({ request, onJoin, onView, isJoined, className }: Re
               )}
             </div>
             <span className="text-[11px] text-muted-foreground font-medium truncate">
-              {request.seatsTaken} of {request.seatsTotal} spots filled
+              {seatsLeft === 0 ? 'Everyone\'s in!' : seatsLeft === 1 ? 'Only 1 spot — decide now' : `${request.seatsTaken} joined · ${seatsLeft} spots left`}
             </span>
           </div>
 
@@ -162,7 +169,7 @@ export function RequestCard({ request, onJoin, onView, isJoined, className }: Re
             onClick={handleJoinClick}
             disabled={seatsLeft === 0 && !isJoined}
           >
-            {isJoined ? '✓ Joined' : seatsLeft === 0 ? 'Full' : 'Join'}
+            {isJoined ? '✓ You\'re in' : seatsLeft === 0 ? 'Missed it' : seatsLeft <= 2 ? 'Join now' : 'Join'}
           </Button>
         </div>
 
