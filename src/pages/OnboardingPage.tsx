@@ -376,7 +376,7 @@ export default function OnboardingPage() {
                       <span key={i} className="text-sm">{m}</span>
                     ))}
                   </div>
-                  <span className="text-[10px] font-semibold text-foreground/80">Top 10% unlock plans others can't see</span>
+                  <span className="text-[10px] font-semibold text-foreground/80">Regulars get perks others don't</span>
                 </div>
               </div>
             </div>
