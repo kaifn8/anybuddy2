@@ -451,7 +451,7 @@ export default function OnboardingPage() {
             className="w-full mt-3 py-2.5 text-sm font-semibold text-muted-foreground/60 hover:text-muted-foreground tap-scale transition-colors rounded-xl"
             onClick={handleSkip}
           >
-            Skip for now
+            I'll figure it out
           </button>
         )}
       </div>
