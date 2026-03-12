@@ -1,4 +1,4 @@
-import type { TrustLevel, Category, VerificationStatus } from '@/types/anybuddy';
+import type { TrustLevel, Category, VerificationStatus, Gender } from '@/types/anybuddy';
 
 export interface AdminUser {
   id: string;
