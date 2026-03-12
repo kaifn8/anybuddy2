@@ -267,9 +267,9 @@ export default function HomePage() {
         {filtered.length === 0 && (
           <div className="pt-8">
             <div className="text-center mb-6">
-              <span className="text-4xl block mb-3">😔</span>
-              <p className="text-sm font-medium text-foreground mb-1">Nothing happening... yet</p>
-              <p className="text-xs text-muted-foreground">Be the first. Someone's probably waiting.</p>
+              <span className="text-4xl block mb-3">🙋</span>
+              <p className="text-sm font-medium text-foreground mb-1">Someone nearby is hoping you'll start something</p>
+              <p className="text-xs text-muted-foreground">The first person to post always gets the most joins.</p>
             </div>
             
             <div>
