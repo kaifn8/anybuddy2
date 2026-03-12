@@ -366,7 +366,7 @@ export const useAppStore = create<AppState>()(
             addNotification({
               type: 'nearby',
               title: `New plan nearby`,
-              message: `${newReq.userName}: "${newReq.title}" — ${newReq.location.distance}km away`,
+              message: `${newReq.userName}: "${newReq.title}" · ${newReq.location.distance}km away`,
               requestId: newReq.id,
             });
           } else if (roll < 0.55) {
