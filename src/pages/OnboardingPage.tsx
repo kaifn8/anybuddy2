@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { MapPin, ShieldCheck, BadgeCheck, Zap, Users, Star, ArrowLeft } from 'lucide-react';
 
 const slides = [
-  { id: 'people', title: "Friends busy?", description: "People around you are free right now — for coffee, food, walks, or games. Jump in." },
+  { id: 'people', title: "Friends busy?", description: "People around you are free right now. Coffee, food, walks, games. Jump in." },
   { id: 'realtime', title: 'Plans fill up fast.', description: 'Post what you want to do.\nNearby people join in minutes.' },
   { id: 'safe', title: 'No DMs. No weirdos.', description: 'Group-only meetups. Verified people.\nShow up and vibe.' },
   { id: 'credits', title: 'Show up. Level up.', description: 'The more you show up, the cheaper it gets.\nReliable people get the best perks.' },
