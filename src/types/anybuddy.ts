@@ -22,6 +22,7 @@ export interface User {
   phone: string;
   email?: string;
   bio?: string;
+  gender?: Gender;
   ageRange: string;
   city: string;
   zone?: string;
