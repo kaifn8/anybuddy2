@@ -77,6 +77,9 @@ export default function ProfilePage() {
           stats={stats}
         />
 
+        {/* Trust progression */}
+        <TrustProgressionCard trustLevel={user.trustLevel} completedJoins={user.completedJoins} reliabilityScore={user.reliabilityScore} />
+
         {/* Selfie verification card */}
         <VerificationCard />
 
