@@ -30,16 +30,16 @@ const cities = [
 ];
 
 const stepConfig: Record<Step, { emoji: string; title: string; subtitle: string }> = {
-  method: { emoji: '👋', title: "Let's get you in", subtitle: 'Takes 30 seconds. No spam, ever.' },
-  phone: { emoji: '📱', title: 'Drop your number', subtitle: "Just to verify you're real. No calls, no spam." },
-  otp: { emoji: '🔐', title: 'Enter code', subtitle: '' },
-  name: { emoji: '😊', title: "What's your first name?", subtitle: "This is how people will say hi" },
-  gender: { emoji: '🧑', title: 'How do you identify?', subtitle: 'Helps others know who they\'re meeting' },
-  photo: { emoji: '📸', title: 'Show your face', subtitle: 'People join plans from real humans' },
-  bio: { emoji: '✍️', title: 'One line about you', subtitle: 'Make people want to hang with you' },
-  age: { emoji: '🎂', title: 'Your crew age', subtitle: 'Match with people your vibe' },
-  interests: { emoji: '🎯', title: 'What are you usually up for?', subtitle: 'Pick at least 3' },
-  zone: { emoji: '📍', title: 'Your turf', subtitle: 'Where most plans will happen' },
+  method: { emoji: '👋', title: "People nearby are waiting", subtitle: '30 seconds. Then you\'re in.' },
+  phone: { emoji: '📱', title: 'Quick verification', subtitle: "Keeps out bots and fake accounts. That's it." },
+  otp: { emoji: '🔐', title: 'Almost there', subtitle: '' },
+  name: { emoji: '😊', title: "What should people call you?", subtitle: "First impressions matter — this is yours" },
+  gender: { emoji: '🧑', title: 'Who are you?', subtitle: 'People feel safer knowing who they\'re meeting' },
+  photo: { emoji: '📸', title: 'Profiles with photos get 3x more joins', subtitle: 'Real face = real trust' },
+  bio: { emoji: '✍️', title: 'What makes you interesting?', subtitle: 'One line that makes someone want to meet you' },
+  age: { emoji: '🎂', title: 'Find your people', subtitle: 'We match you with your age group' },
+  interests: { emoji: '🎯', title: 'What gets you out of the house?', subtitle: 'Pick at least 3 — more = better matches' },
+  zone: { emoji: '📍', title: 'Where do you hang out?', subtitle: 'We\'ll show you plans happening right here' },
 };
 
 export default function SignupPage() {
