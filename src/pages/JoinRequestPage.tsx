@@ -245,7 +245,7 @@ export default function JoinRequestPage() {
                 />
               </div>
               <p className="text-center text-xs text-muted-foreground">
-                🔒 Seat reserved — <span className={countdown <= 10 ? 'text-destructive font-bold' : 'font-semibold'}>{countdown}s</span> to confirm
+                🔒 Seat reserved · <span className={countdown <= 10 ? 'text-destructive font-bold' : 'font-semibold'}>{countdown}s</span> to confirm
               </p>
 
               <div className="flex gap-2">
