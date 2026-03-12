@@ -158,7 +158,7 @@ export function RequestCard({ request, onJoin, onView, isJoined, className }: Re
               )}
             </div>
             <span className="text-[11px] text-muted-foreground font-medium truncate">
-              {seatsLeft === 0 ? 'Everyone\'s in!' : seatsLeft === 1 ? 'Only 1 spot — decide now' : `${request.seatsTaken} joined · ${seatsLeft} spots left`}
+              {seatsLeft === 0 ? 'Full' : seatsLeft === 1 ? '1 spot left' : `${request.seatsTaken} joined · ${seatsLeft} left`}
             </span>
           </div>
 
