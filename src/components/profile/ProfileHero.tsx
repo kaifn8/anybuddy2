@@ -1,5 +1,5 @@
 import { MapPin, BadgeCheck, ShieldCheck, Clock, AlertCircle } from 'lucide-react';
-import type { Badge, User, VerificationStatus } from '@/types/anybuddy';
+import type { Badge, User, VerificationStatus, Gender } from '@/types/anybuddy';
 
 interface ProfileHeroProps {
   user: User & { badges: Badge[] };
