@@ -68,7 +68,7 @@ export default function JoinRequestPage() {
           releaseReservation(id);
           reservedRef.current = false;
           setIsReserved(false);
-          toast.error('⏰ Reservation expired — seat released');
+          toast.error('⏰ Reservation expired, seat released');
           return 0;
         }
         return prev - 1;
