@@ -592,7 +592,7 @@ export default function RequestDetailPage() {
           </div>
           <div className="space-y-2.5">
             {[
-              { icon: <MapPin size={16} />, title: request.location.name, sub: `${request.location.distance} km away` },
+              { icon: <MapPin size={16} />, title: request.location.name, sub: `${request.location.distance} km · ${formatWalkTime(request.location.distance)}` },
               { icon: <Clock size={16} />, title: minsToStart <= 0 ? 'Happening now' : minsToStart < 60 ? `In ${minsToStart} min` : `${timeLeft} left`, sub: new Date(request.when).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) },
               { icon: <Users size={16} />, title: `${request.seatsTaken} of ${request.seatsTotal} going`, sub: seatsLeft === 0 ? 'Full' : `${seatsLeft} spot${seatsLeft > 1 ? 's' : ''} left` },
             ].map((row, i) => (
@@ -606,6 +606,16 @@ export default function RequestDetailPage() {
             ))}
           </div>
         </div>
+
+        {/* Map preview (blurred for non-members) */}
+        {request.location.coords && (
+          <LocationMapPreview
+            coords={request.location.coords}
+            locationName={request.location.name}
+            distance={request.location.distance}
+            showOpenInMaps={false}
+          />
+        )}
 
         {/* Host */}
         <div className="liquid-glass p-3.5 rounded-2xl">

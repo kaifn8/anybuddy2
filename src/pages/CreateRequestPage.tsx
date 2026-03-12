@@ -7,6 +7,7 @@ import type { Category, Urgency } from '@/types/anybuddy';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { ChevronLeft, Pencil } from 'lucide-react';
+import { LocationMapPicker } from '@/components/LocationMap';
 
 // ── Template data ──────────────────────────────────────────────
 interface QuickTemplate {
