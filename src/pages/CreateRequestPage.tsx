@@ -49,6 +49,205 @@ const SEAT_OPTIONS = [1, 2, 3, 4];
 
 type Step = 'pick' | 'customize' | 'preview';
 
+// Popular places for quick selection
+const POPULAR_PLACES = [
+  { name: 'Carter Road', area: 'Bandra West', lat: 19.0596, lng: 72.8295 },
+  { name: 'Marine Drive', area: 'Churchgate', lat: 19.0748, lng: 72.8234 },
+  { name: 'Powai Lake', area: 'Powai', lat: 19.1272, lng: 72.9070 },
+  { name: 'Juhu Beach', area: 'Juhu', lat: 19.0988, lng: 72.8267 },
+  { name: 'Linking Road', area: 'Bandra', lat: 19.0620, lng: 72.8365 },
+  { name: 'Colaba Causeway', area: 'Colaba', lat: 18.9220, lng: 72.8327 },
+  { name: 'Andheri Station', area: 'Andheri', lat: 19.1197, lng: 72.8464 },
+  { name: 'BKC', area: 'Bandra East', lat: 19.0660, lng: 72.8694 },
+];
+
+interface LocationSearchFieldProps {
+  location: string;
+  setLocation: (val: string) => void;
+  locationCoords: { lat: number; lng: number };
+  setLocationCoords: (val: { lat: number; lng: number }) => void;
+  editing: boolean;
+  setEditing: (val: boolean) => void;
+}
+
+function LocationSearchField({ location, setLocation, locationCoords, setLocationCoords, editing, setEditing }: LocationSearchFieldProps) {
+  const [query, setQuery] = useState('');
+  const [searchResults, setSearchResults] = useState<{ name: string; area: string; lat: number; lng: number }[]>([]);
+  const [isSearching, setIsSearching] = useState(false);
+  const [isLocating, setIsLocating] = useState(false);
+  const [showResults, setShowResults] = useState(false);
+  const searchTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const searchLocation = useCallback(async (q: string) => {
+    if (q.length < 2) { setSearchResults([]); setShowResults(false); return; }
+    setIsSearching(true);
+    try {
+      const res = await fetch(
+        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(q + ' Mumbai')}&limit=5&addressdetails=1`
+      );
+      const data = await res.json();
+      const results = data.map((item: any) => ({
+        name: item.address?.road || item.address?.suburb || item.display_name.split(',')[0],
+        area: item.address?.suburb || item.address?.city_district || item.address?.city || '',
+        lat: parseFloat(item.lat),
+        lng: parseFloat(item.lon),
+      }));
+      setSearchResults(results);
+      setShowResults(true);
+    } catch {
+      setSearchResults([]);
+    } finally {
+      setIsSearching(false);
+    }
+  }, []);
+
+  const handleQueryChange = (val: string) => {
+    setQuery(val);
+    if (searchTimeout.current) clearTimeout(searchTimeout.current);
+    searchTimeout.current = setTimeout(() => searchLocation(val), 400);
+  };
+
+  const selectPlace = (place: { name: string; area: string; lat: number; lng: number }) => {
+    setLocation(place.area ? `${place.name}, ${place.area}` : place.name);
+    setLocationCoords({ lat: place.lat, lng: place.lng });
+    setShowResults(false);
+    setQuery('');
+    setEditing(false);
+  };
+
+  const detectLocation = () => {
+    if (!navigator.geolocation) return;
+    setIsLocating(true);
+    navigator.geolocation.getCurrentPosition(
+      async (pos) => {
+        const { latitude, longitude } = pos.coords;
+        setLocationCoords({ lat: latitude, lng: longitude });
+        try {
+          const res = await fetch(
+            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&addressdetails=1`
+          );
+          const data = await res.json();
+          const name = data.address?.road || data.address?.suburb || 'Your location';
+          const area = data.address?.suburb || data.address?.city_district || '';
+          setLocation(area ? `${name}, ${area}` : name);
+        } catch {
+          setLocation('Your location');
+        }
+        setIsLocating(false);
+        setEditing(false);
+      },
+      () => setIsLocating(false),
+      { enableHighAccuracy: true, timeout: 8000 }
+    );
+  };
+
+  const filteredPopular = query.length > 0
+    ? POPULAR_PLACES.filter(p => p.name.toLowerCase().includes(query.toLowerCase()) || p.area.toLowerCase().includes(query.toLowerCase()))
+    : POPULAR_PLACES;
+
+  if (!editing) {
+    return (
+      <button onClick={() => { setEditing(true); setTimeout(() => inputRef.current?.focus(), 100); }}
+        className="w-full flex items-center gap-3 p-3.5 rounded-xl liquid-glass tap-scale">
+        <span className="text-lg">📍</span>
+        <div className="flex-1 text-left">
+          <p className="text-sm font-semibold text-foreground">{location}</p>
+          <p className="text-[10px] text-muted-foreground">Tap to change location</p>
+        </div>
+        <Pencil size={14} className="text-muted-foreground shrink-0" />
+      </button>
+    );
+  }
+
+  return (
+    <div className="space-y-2.5">
+      {/* Search input */}
+      <div className="flex items-center gap-2.5 p-3 rounded-xl liquid-glass">
+        <Search size={16} className="text-muted-foreground shrink-0" />
+        <input
+          ref={inputRef}
+          autoFocus
+          value={query}
+          onChange={(e) => handleQueryChange(e.target.value)}
+          className="flex-1 bg-transparent text-sm font-medium focus:outline-none placeholder:text-muted-foreground/50"
+          placeholder="Search for a place..."
+        />
+        {isSearching && <Loader2 size={14} className="text-muted-foreground animate-spin shrink-0" />}
+      </div>
+
+      {/* Auto-detect button */}
+      <button onClick={detectLocation} disabled={isLocating}
+        className="w-full flex items-center gap-2.5 p-3 rounded-xl liquid-glass tap-scale text-left">
+        <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+          {isLocating ? <Loader2 size={14} className="text-primary animate-spin" /> : <Navigation size={14} className="text-primary" />}
+        </div>
+        <div>
+          <p className="text-[12px] font-semibold text-foreground">{isLocating ? 'Detecting...' : 'Use current location'}</p>
+          <p className="text-[10px] text-muted-foreground">Auto-detect via GPS</p>
+        </div>
+      </button>
+
+      {/* Search results */}
+      {showResults && searchResults.length > 0 && (
+        <div className="space-y-1">
+          <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider px-1">Results</p>
+          {searchResults.map((place, i) => (
+            <button key={i} onClick={() => selectPlace(place)}
+              className="w-full flex items-center gap-2.5 p-2.5 rounded-lg tap-scale text-left hover:bg-muted/30 transition-colors">
+              <MapPin size={14} className="text-primary shrink-0" />
+              <div>
+                <p className="text-[12px] font-semibold text-foreground">{place.name}</p>
+                {place.area && <p className="text-[10px] text-muted-foreground">{place.area}</p>}
+              </div>
+            </button>
+          ))}
+        </div>
+      )}
+
+      {/* Popular places */}
+      {(!showResults || searchResults.length === 0) && (
+        <div className="space-y-1.5">
+          <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider px-1">Popular spots</p>
+          <div className="grid grid-cols-2 gap-1.5">
+            {filteredPopular.slice(0, 6).map((place) => (
+              <button key={place.name} onClick={() => selectPlace(place)}
+                className="flex items-center gap-2 p-2.5 rounded-lg liquid-glass tap-scale text-left">
+                <MapPin size={12} className="text-primary shrink-0" />
+                <div className="min-w-0">
+                  <p className="text-[11px] font-semibold text-foreground truncate">{place.name}</p>
+                  <p className="text-[9px] text-muted-foreground">{place.area}</p>
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Map picker */}
+      <LocationMapPicker
+        coords={locationCoords}
+        onCoordsChange={(coords) => {
+          setLocationCoords(coords);
+          fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${coords.lat}&lon=${coords.lng}&addressdetails=1`)
+            .then(r => r.json())
+            .then(data => {
+              const name = data.address?.road || data.address?.suburb || 'Selected location';
+              const area = data.address?.suburb || data.address?.city_district || '';
+              setLocation(area ? `${name}, ${area}` : name);
+            })
+            .catch(() => setLocation('Selected location'));
+        }}
+        height="140px"
+      />
+
+      <button onClick={() => setEditing(false)} className="w-full text-center text-xs text-primary font-semibold tap-scale py-1">
+        Done
+      </button>
+    </div>
+  );
+}
+
 export default function CreateRequestPage() {
   const navigate = useNavigate();
   const { user, createRequest, updateCredits } = useAppStore();
