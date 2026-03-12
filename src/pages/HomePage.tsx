@@ -316,6 +316,6 @@ export default function HomePage() {
       )}
       
       <BottomNav />
-    </div>
+    </PageTransition>
   );
 }
