@@ -67,6 +67,7 @@ export function generateFakeUsers(count: number): AdminUser[] {
       firstName: name,
       avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${name}${i}`,
       city: CITIES[Math.floor(Math.random() * CITIES.length)],
+      gender: GENDERS[Math.floor(Math.random() * GENDERS.length)],
       zone: ZONES[Math.floor(Math.random() * ZONES.length)],
       trustLevel: trust,
       reliabilityScore: Math.floor(Math.random() * 30) + 70,

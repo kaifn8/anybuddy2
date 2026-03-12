@@ -202,7 +202,37 @@ export default function SignupPage() {
             <div className="space-y-5">
               <input placeholder="Your first name" value={firstName} onChange={(e) => setFirstName(e.target.value)} autoFocus
                 className="w-full h-12 px-4 rounded-xl liquid-glass text-body font-medium focus:outline-none focus:ring-2 focus:ring-primary/20" />
-              <Button className="w-full h-12" onClick={() => firstName.trim() && goToStep('photo')} disabled={!firstName.trim()}>Continue</Button>
+              <Button className="w-full h-12" onClick={() => firstName.trim() && goToStep('gender')} disabled={!firstName.trim()}>Continue</Button>
+            </div>
+          )}
+          
+          {/* Gender */}
+          {step === 'gender' && (
+            <div className="space-y-5">
+              <div className="grid grid-cols-3 gap-2.5">
+                {([
+                  { id: 'male' as Gender, emoji: '👨', label: 'Male' },
+                  { id: 'female' as Gender, emoji: '👩', label: 'Female' },
+                  { id: 'other' as Gender, emoji: '🧑', label: 'Other' },
+                ]).map((g) => (
+                  <button key={g.id} onClick={() => setGender(g.id)}
+                    className={cn(
+                      'flex flex-col items-center gap-2 py-4 px-3 rounded-2xl border-2 transition-all tap-scale',
+                      gender === g.id
+                        ? 'border-primary bg-primary/10 shadow-md shadow-primary/10'
+                        : 'border-border/30 bg-background/50 hover:border-border/50'
+                    )}>
+                    <span className="text-3xl">{g.emoji}</span>
+                    <span className={cn('text-sm font-semibold', gender === g.id ? 'text-primary' : 'text-foreground')}>{g.label}</span>
+                    {gender === g.id && (
+                      <div className="w-5 h-5 rounded-full bg-primary flex items-center justify-center animate-scale-in">
+                        <Check size={12} className="text-primary-foreground" strokeWidth={3} />
+                      </div>
+                    )}
+                  </button>
+                ))}
+              </div>
+              <Button className="w-full h-12" onClick={() => gender && goToStep('photo')} disabled={!gender}>Continue</Button>
             </div>
           )}
           

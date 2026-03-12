@@ -173,6 +173,9 @@ export function RequestCard({ request, onJoin, onView, isJoined, className }: Re
               alt={request.userName} className="w-4 h-4 rounded-full" />
             <span className="text-[11px] text-muted-foreground font-medium hover:text-foreground transition-colors flex items-center gap-1">
               {request.userName}
+              {request.userGender && (
+                <span className="text-[10px]">{request.userGender === 'male' ? '👨' : request.userGender === 'female' ? '👩' : '🧑'}</span>
+              )}
               {(request.userTrust === 'trusted' || request.userTrust === 'anchor') && (
                 <BadgeCheck size={14} className="text-primary" strokeWidth={2.5} />
               )}

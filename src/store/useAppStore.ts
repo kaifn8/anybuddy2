@@ -284,7 +284,7 @@ export const useAppStore = create<AppState>()(
         const newRequest: Request = {
           ...requestData, id: `req_${Date.now()}`, createdAt: new Date(),
           participants: [], userId: user.id, userName: user.firstName,
-          userTrust: user.trustLevel, userAvatar: user.avatar,
+          userTrust: user.trustLevel, userGender: user.gender, userAvatar: user.avatar,
           userReliability: user.reliabilityScore, userHostRating: user.hostRating,
         };
         set({
