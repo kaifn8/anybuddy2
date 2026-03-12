@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Flag } from 'lucide-react';
 import { ReportDialog } from '@/components/ReportDialog';
 const FAKE_REVIEWS = [
-  { name: 'Priya', rating: 5, comment: 'Great host — very chill meetup!', ago: '2 days ago' },
+  { name: 'Priya', rating: 5, comment: 'Great host, very chill meetup!', ago: '2 days ago' },
   { name: 'Arjun', rating: 4, comment: 'Really fun, would do it again.', ago: '1 week ago' },
   { name: 'Maya', rating: 5, comment: 'Super organized and on time 👍', ago: '2 weeks ago' },
 ];

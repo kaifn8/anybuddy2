@@ -25,7 +25,7 @@ const LIVE_ACTIVITY = [
 
 const TRUST_FEATURES = [
   { icon: ShieldCheck, label: 'Every person is verified', desc: 'Real names, real faces' },
-  { icon: Users, label: 'Groups only — no 1-on-1 DMs', desc: 'Designed to feel safe' },
+  { icon: Users, label: 'Groups only, no 1-on-1 DMs', desc: 'Designed to feel safe' },
   { icon: BadgeCheck, label: 'Bad actors get removed', desc: 'Community-driven moderation' },
 ];
 
