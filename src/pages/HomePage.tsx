@@ -330,7 +330,8 @@ export default function HomePage() {
         />
       )}
       
-      <BottomNav />
     </PageTransition>
+    <BottomNav />
+    </>
   );
 }
