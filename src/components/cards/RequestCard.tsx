@@ -169,7 +169,7 @@ export function RequestCard({ request, onJoin, onView, isJoined, className }: Re
             onClick={handleJoinClick}
             disabled={seatsLeft === 0 && !isJoined}
           >
-            {isJoined ? '✓ You\'re in' : seatsLeft === 0 ? 'Missed it' : seatsLeft <= 2 ? 'Join now' : 'Join'}
+            {isJoined ? '✓ You\'re in' : seatsLeft === 0 ? 'Missed it' : 'Join'}
           </Button>
         </div>
 
