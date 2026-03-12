@@ -34,7 +34,11 @@ function getTimeIndicator(request: Request) {
   const minutesLeft = (new Date(request.expiresAt).getTime() - Date.now()) / 60000;
   
   if (minutesLeft <= 5 && minutesLeft > 0) {
-    return { label: '⚡ Happening now', color: 'text-warning bg-warning/10 border border-warning/20' };
+    return { label: '⚡ Happening right now — join or miss it', color: 'text-warning bg-warning/10 border border-warning/20' };
+  }
+  if (minutesLeft <= 15 && minutesLeft > 0) {
+    const mins = Math.round(minutesLeft);
+    return { label: `⏰ Only ${mins} min left to join`, color: 'text-destructive bg-destructive/10 border border-destructive/20' };
   }
   if (minutesLeft <= 30 && minutesLeft > 0) {
     const mins = Math.round(minutesLeft);
