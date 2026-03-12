@@ -5,6 +5,7 @@ export interface AdminUser {
   firstName: string;
   avatar: string;
   city: string;
+  gender?: Gender;
   zone?: string;
   trustLevel: TrustLevel;
   reliabilityScore: number;
