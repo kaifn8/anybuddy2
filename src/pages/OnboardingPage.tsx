@@ -18,9 +18,9 @@ const NEARBY_PEOPLE = [
 ];
 
 const LIVE_ACTIVITY = [
-  { emoji: '☕', text: 'Aarav needs coffee buddy — 2 spots left', time: 'Just now', color: 'bg-amber-500/20 text-amber-600' },
-  { emoji: '✋', text: 'Priya joined your plan!', time: '2 min ago', color: 'bg-emerald-500/20 text-emerald-600' },
-  { emoji: '🔥', text: '"Evening Run" filling up fast', time: '5 min ago', color: 'bg-blue-500/20 text-blue-600' },
+  { emoji: '☕', text: 'Aarav\'s coffee plan — only 1 spot left', time: 'Just now', color: 'bg-amber-500/20 text-amber-600' },
+  { emoji: '✋', text: 'Priya joined before you could!', time: '2 min ago', color: 'bg-emerald-500/20 text-emerald-600' },
+  { emoji: '🔥', text: '"Evening Run" full — you missed it', time: '5 min ago', color: 'bg-destructive/20 text-destructive' },
 ];
 
 const TRUST_FEATURES = [
