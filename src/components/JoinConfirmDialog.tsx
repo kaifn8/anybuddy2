@@ -7,6 +7,7 @@ import type { Request } from '@/types/anybuddy';
 import { Button } from '@/components/ui/button';
 import { useAppStore } from '@/store/useAppStore';
 import { toast } from 'sonner';
+import { GradientAvatar } from '@/components/ui/GradientAvatar';
 
 const RESERVATION_SECONDS = 45;
 
@@ -74,9 +75,9 @@ export function JoinConfirmDialog({ open, onClose, onConfirm, request }: JoinCon
     onClose();
   };
 
-  const avatars = [
-    request.userAvatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${request.userName}`,
-    ...request.participants.map(p => p.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${p.name}`),
+  const attendeeNames = [
+    request.userName,
+    ...request.participants.map(p => p.name),
   ];
 
   const countdownPercent = (countdown / RESERVATION_SECONDS) * 100;
@@ -116,8 +117,8 @@ export function JoinConfirmDialog({ open, onClose, onConfirm, request }: JoinCon
           {/* Attendees */}
           <div className="flex items-center gap-2 mt-3 pt-2.5 border-t border-border/15">
             <div className="flex -space-x-1.5">
-              {avatars.slice(0, 4).map((a, i) => (
-                <img key={i} src={a} alt="" className="w-5 h-5 rounded-full border-2 border-background" />
+              {attendeeNames.slice(0, 4).map((name, i) => (
+                <GradientAvatar key={i} name={name} size={20} showInitials={false} className="border-2 border-background" />
               ))}
             </div>
             <span className="text-2xs text-muted-foreground">{request.seatsTaken} {request.seatsTaken === 1 ? 'person' : 'people'} going</span>
@@ -125,8 +126,7 @@ export function JoinConfirmDialog({ open, onClose, onConfirm, request }: JoinCon
 
           {/* Host */}
           <div className="flex items-center gap-2 mt-2.5">
-            <img src={request.userAvatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${request.userName}`}
-              alt={request.userName} className="w-5 h-5 rounded-full" />
+            <GradientAvatar name={request.userName} size={20} showInitials={false} />
             <span className="text-xs font-medium">{request.userName}</span>
             {request.userReliability && (
               <span className="text-2xs text-success font-semibold">{request.userReliability}% reliable</span>

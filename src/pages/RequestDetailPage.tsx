@@ -12,6 +12,7 @@ import { ShareSheet } from '@/components/ShareSheet';
 import { ReportDialog } from '@/components/ReportDialog';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
+import { GradientAvatar } from '@/components/ui/GradientAvatar';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -232,8 +233,7 @@ export default function RequestDetailPage() {
               )}>
                 <div className="w-7 shrink-0">
                   {showName && !isMe ? (
-                    <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${msg.senderName}`}
-                      alt="" className="w-7 h-7 rounded-full" />
+                    <GradientAvatar name={msg.senderName} size={28} showInitials={false} />
                   ) : null}
                 </div>
                 <div className={cn('max-w-[72%]', isMe ? 'items-end' : 'items-start')}>
@@ -262,8 +262,7 @@ export default function RequestDetailPage() {
           {typingUser && (
             <div className="flex items-end gap-2 mb-2 animate-fade-in">
               <div className="w-7 shrink-0">
-                <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${typingUser}`}
-                  alt="" className="w-7 h-7 rounded-full" />
+                <GradientAvatar name={typingUser} size={28} showInitials={false} />
               </div>
               <div>
                 <p className="text-[10px] font-medium text-muted-foreground ml-1 mb-1">{typingUser}</p>

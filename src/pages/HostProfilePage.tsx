@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Flag } from 'lucide-react';
 import { BlueTick } from '@/components/ui/BlueTick';
 import { ReportDialog } from '@/components/ReportDialog';
+import { GradientAvatar } from '@/components/ui/GradientAvatar';
 const FAKE_REVIEWS = [
   { name: 'Priya', rating: 5, comment: 'Great host, very chill meetup!', ago: '2 days ago' },
   { name: 'Arjun', rating: 4, comment: 'Really fun, would do it again.', ago: '1 week ago' },
@@ -47,8 +48,7 @@ export default function HostProfilePage() {
       <div className="px-5 pt-5 space-y-4">
         {/* Profile card — glass */}
         <div className="liquid-glass-heavy p-5 text-center">
-          <img src={host.userAvatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${host.userName}`}
-            alt={host.userName} className="w-20 h-20 rounded-full mx-auto border-3 border-background" />
+          <GradientAvatar name={host.userName} size={80} className="mx-auto border-3 border-background text-2xl" />
           <h2 className="text-title font-bold mt-3">{host.userName}</h2>
           {host.userGender && (
             <span className="text-xs text-muted-foreground capitalize mt-0.5">
@@ -90,8 +90,7 @@ export default function HostProfilePage() {
               <div key={i} className="liquid-glass p-3" style={{ borderRadius: '0.75rem' }}>
                 <div className="flex items-center justify-between mb-1">
                   <div className="flex items-center gap-1.5">
-                    <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${review.name}`}
-                      alt={review.name} className="w-5 h-5 rounded-full" />
+                    <GradientAvatar name={review.name} size={20} showInitials={false} />
                     <span className="text-xs font-semibold">{review.name}</span>
                   </div>
                   <span className="text-[10px] text-muted-foreground">{review.ago}</span>

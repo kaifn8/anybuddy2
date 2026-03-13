@@ -9,6 +9,7 @@ import { format } from 'date-fns';
 import { useAppStore } from '@/store/useAppStore';
 import { toast } from 'sonner';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import { GradientAvatar } from '@/components/ui/GradientAvatar';
 
 const TRUST_COLORS: Record<TrustLevel, string> = {
   seed: 'bg-muted text-muted-foreground',
@@ -143,7 +144,7 @@ export default function AdminUsers() {
             >
               <div className="flex items-center gap-3">
                 <div className="relative shrink-0">
-                  <img src={user.avatar} alt={user.firstName} className={cn("w-10 h-10 rounded-full", user.isBanned && "opacity-40 grayscale")} />
+                  <GradientAvatar name={user.firstName} size={40} className={cn(user.isBanned && "opacity-40 grayscale")} />
                   {user.isBanned && (
                     <div className="absolute -top-0.5 -right-0.5 w-4 h-4 rounded-full bg-destructive flex items-center justify-center">
                       <Ban size={8} className="text-destructive-foreground" />

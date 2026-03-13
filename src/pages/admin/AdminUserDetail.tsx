@@ -10,6 +10,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { cn } from '@/lib/utils';
 import { format, formatDistanceToNow, isAfter, subDays } from 'date-fns';
 import { toast } from 'sonner';
+import { GradientAvatar } from '@/components/ui/GradientAvatar';
 import { generateFakeUsers } from '@/data/adminData';
 import {
   generateConversationsForUser,
@@ -131,7 +132,7 @@ export default function AdminUserDetail() {
       {/* User summary card */}
       <div className="rounded-2xl border border-border/20 bg-background/60 backdrop-blur-sm p-4 mb-5">
         <div className="flex items-center gap-3">
-          <img src={user.avatar} alt={user.firstName} className="w-12 h-12 rounded-full" />
+          <GradientAvatar name={user.firstName} size={48} />
           <div className="flex-1 min-w-0">
             <h2 className="text-base font-bold">{user.firstName}</h2>
             <p className="text-[10px] text-muted-foreground">{user.zone}, {user.city} · ID: {user.id.slice(0, 12)}…</p>
@@ -251,7 +252,7 @@ export default function AdminUserDetail() {
                 >
                   <div className="flex items-center gap-3">
                     <div className="relative shrink-0">
-                      <img src={other.avatar} alt={other.name} className="w-9 h-9 rounded-full" />
+                      <GradientAvatar name={other.name} size={36} showInitials={false} />
                       {conv.isFlagged && (
                         <div className="absolute -top-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-warning flex items-center justify-center">
                           <Flag size={7} className="text-warning-foreground" />
@@ -323,7 +324,7 @@ export default function AdminUserDetail() {
             <div className="flex items-center gap-2 mb-2">
               <div className="flex -space-x-2">
                 {selectedConv.participants.map(p => (
-                  <img key={p.id} src={p.avatar} alt={p.name} className="w-7 h-7 rounded-full border-2 border-background" />
+                  <GradientAvatar key={p.id} name={p.name} size={28} showInitials={false} className="border-2 border-background" />
                 ))}
               </div>
               <div className="flex-1 min-w-0">
