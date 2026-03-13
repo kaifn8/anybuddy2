@@ -26,7 +26,7 @@ const STATUS_CONFIG: Record<VerificationStatus, {
     bgColor: 'bg-warning/10',
   },
   verified: {
-    emoji: '✅',
+    emoji: '🔵',
     title: 'Verified',
     description: 'Identity confirmed via selfie verification.',
     color: 'text-primary',

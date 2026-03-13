@@ -79,7 +79,7 @@ function TrustProgressionCard({ trustLevel, completedJoins, reliabilityScore }: 
 }
 
 const badgeConfig: Record<Badge, { emoji: string; label: string }> = {
-  verified_host: { emoji: '✅', label: 'Verified Host' },
+  verified_host: { emoji: '🔵', label: 'Verified Host' },
   top_host: { emoji: '🏆', label: 'Top Host' },
   trusted_member: { emoji: '🛡️', label: 'Trusted Member' },
   early_adopter: { emoji: '⭐', label: 'Early Adopter' },
