@@ -42,7 +42,7 @@ export const BottomNav = React.forwardRef<HTMLElement, object>(function BottomNa
               return (
                 <button key={item.path} onClick={() => navigate(item.path)}
                   className="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-primary text-primary-foreground font-semibold tap-scale mt-3 mb-1">
-                  <span className="text-base">{item.emoji}</span>
+                  <Plus size={18} strokeWidth={2.5} />
                   <span className="text-sm">Create Plan</span>
                 </button>
               );
