@@ -305,7 +305,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
   );
 }
 
-function StatTile({ icon: Icon, label, value }: { icon: React.ComponentType<{ size?: number; className?: string }>; label: string; value: string }) {
+function StatTile({ icon: Icon, label, value }: { icon: LucideIcon; label: string; value: string }) {
   return (
     <div className="liquid-glass flex items-center gap-2.5 p-3" style={{ borderRadius: '1rem' }}>
       <Icon size={16} className="text-muted-foreground" />
