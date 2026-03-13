@@ -7,6 +7,7 @@ import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
 import { UrgencyBadge } from '@/components/ui/UrgencyBadge';
 import { ShareSheet } from '@/components/ShareSheet';
 import { GradientAvatar } from '@/components/ui/GradientAvatar';
+import { BlueTick } from '@/components/ui/BlueTick';
 import { useAppStore } from '@/store/useAppStore';
 import { cn } from '@/lib/utils';
 
