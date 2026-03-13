@@ -60,7 +60,7 @@ export default function HostProfilePage() {
             <span className="text-2xs text-success font-semibold">🟢 Online</span>
           </div>
           <div className="flex items-center justify-center gap-1 mt-2">
-            <span className="text-xs text-muted-foreground">🛡️ Public meetup · <span className="inline-flex items-center gap-0.5">Verified host</span></span>
+            <span className="text-xs text-muted-foreground inline-flex items-center gap-1">🛡️ Public meetup · <BlueTick size={12} /> Verified host</span>
           </div>
           <button onClick={() => setShowReport(true)} className="flex items-center gap-1 mt-2 mx-auto text-[11px] text-destructive/60 font-medium tap-scale">
             <Flag size={10} /> Report user
