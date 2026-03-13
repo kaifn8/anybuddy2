@@ -116,8 +116,8 @@ export function JoinConfirmDialog({ open, onClose, onConfirm, request }: JoinCon
           {/* Attendees */}
           <div className="flex items-center gap-2 mt-3 pt-2.5 border-t border-border/15">
             <div className="flex -space-x-1.5">
-              {avatars.slice(0, 4).map((a, i) => (
-                <img key={i} src={a} alt="" className="w-5 h-5 rounded-full border-2 border-background" />
+              {attendeeNames.slice(0, 4).map((name, i) => (
+                <GradientAvatar key={i} name={name} size={20} showInitials={false} className="border-2 border-background" />
               ))}
             </div>
             <span className="text-2xs text-muted-foreground">{request.seatsTaken} {request.seatsTaken === 1 ? 'person' : 'people'} going</span>
