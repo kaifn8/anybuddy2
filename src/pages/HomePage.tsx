@@ -24,7 +24,7 @@ const FILTERS: { id: Category | 'all'; label: string; emoji: string }[] = [
   { id: 'casual', label: 'Chill', emoji: '' },
 ];
 
-const filterIcons: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
+const filterIcons: Record<string, LucideIcon> = {
   all: TrendingUp,
   chai: Coffee,
   sports: Dumbbell,
