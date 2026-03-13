@@ -6,6 +6,7 @@ import { TrustBadge } from '@/components/ui/TrustBadge';
 import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
 import { Button } from '@/components/ui/button';
 import { Flag } from 'lucide-react';
+import { BlueTick } from '@/components/ui/BlueTick';
 import { ReportDialog } from '@/components/ReportDialog';
 const FAKE_REVIEWS = [
   { name: 'Priya', rating: 5, comment: 'Great host, very chill meetup!', ago: '2 days ago' },
