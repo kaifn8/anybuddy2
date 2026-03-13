@@ -7,6 +7,7 @@ import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
 import { UrgencyBadge } from '@/components/ui/UrgencyBadge';
 import { ShareSheet } from '@/components/ShareSheet';
 import { GradientAvatar } from '@/components/ui/GradientAvatar';
+import { BlueTick } from '@/components/ui/BlueTick';
 import { useAppStore } from '@/store/useAppStore';
 import { cn } from '@/lib/utils';
 
@@ -169,7 +170,7 @@ export function RequestCard({ request, onJoin, onView, isJoined, className }: Re
             <span className="text-[11px] text-muted-foreground font-medium hover:text-foreground transition-colors flex items-center gap-1">
               {request.userName}
               {(request.userTrust === 'trusted' || request.userTrust === 'anchor') && (
-                <span className="text-[10px]">✅</span>
+                <BlueTick size={12} className="ml-0.5" />
               )}
               {request.userReliability && (
                 <span className="ml-0.5 flex items-center gap-0.5 opacity-60">· ⭐ {request.userReliability}%</span>

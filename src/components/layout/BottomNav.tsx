@@ -7,7 +7,7 @@ import React from 'react';
 const navItems = [
   { emoji: '🏠', label: 'Feed', path: '/home' },
   { emoji: '🗺️', label: 'Map', path: '/map' },
-  { emoji: '➕', label: 'Post', path: '/create', isMain: true },
+  { emoji: '🎉', label: 'Post', path: '/create', isMain: true },
   { emoji: '🔔', label: 'Alerts', path: '/notifications' },
   { emoji: '👤', label: 'Me', path: '/profile' },
 ];
@@ -101,7 +101,7 @@ export const BottomNav = React.forwardRef<HTMLElement, object>(function BottomNa
                         background: 'linear-gradient(145deg, hsl(var(--primary)) 0%, hsl(211 100% 42%) 100%)',
                         boxShadow: '0 4px 16px hsl(var(--primary) / 0.3), 0 1px 3px hsl(var(--primary) / 0.2), inset 0 1px 0 hsla(0 0% 100% / 0.15)',
                       }}>
-                      <span className="text-[20px]">➕</span>
+                      <span className="text-[20px]">🎉</span>
                     </div>
                     <span className="block text-center text-[9px] font-bold text-primary mt-1 tracking-tight">Post</span>
                   </button>
