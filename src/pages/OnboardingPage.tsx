@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 import { Button } from '@/components/ui/button';
-import { MapPin, ShieldCheck, BadgeCheck, Zap, Users, Star, ArrowLeft } from 'lucide-react';
+import { GradientAvatar } from '@/components/ui/GradientAvatar';
 
 const slides = [
   { id: 'people', title: "Friends busy?", description: "People around you are free right now. Coffee, food, walks, games. Jump in." },
@@ -12,27 +12,21 @@ const slides = [
 ];
 
 const NEARBY_PEOPLE = [
-  { name: 'Aarav', avatar: 'https://api.dicebear.com/9.x/lorelei/svg?seed=Felix&backgroundColor=b6e3f4', activity: 'Waiting for a coffee buddy ☕', distance: '0.3 km' },
-  { name: 'Priya', avatar: 'https://api.dicebear.com/9.x/lorelei/svg?seed=Aneka&backgroundColor=ffd5dc', activity: 'Hoping someone joins her walk 🚶', distance: '0.5 km' },
-  { name: 'Rohan', avatar: 'https://api.dicebear.com/9.x/lorelei/svg?seed=Leo&backgroundColor=c0aede', activity: 'Needs 1 more for badminton 🏸', distance: '0.8 km' },
+  { name: 'Aarav', activity: '☕ Coffee buddy', distance: '0.3 km' },
+  { name: 'Priya', activity: '🚶 Walk partner', distance: '0.5 km' },
+  { name: 'Rohan', activity: '🏸 Badminton', distance: '0.8 km' },
 ];
 
 const LIVE_ACTIVITY = [
-  { emoji: '☕', text: 'Aarav\'s coffee plan, only 1 spot left', time: 'Just now', color: 'bg-amber-500/20 text-amber-600' },
-  { emoji: '✋', text: 'Priya joined before you could!', time: '2 min ago', color: 'bg-emerald-500/20 text-emerald-600' },
-  { emoji: '🔥', text: '"Evening Run" full, you missed it', time: '5 min ago', color: 'bg-destructive/20 text-destructive' },
+  { emoji: '☕', text: "Aarav's coffee plan — 1 spot left", time: 'Just now', accent: 'primary' },
+  { emoji: '✋', text: 'Priya joined before you!', time: '2 min ago', accent: 'success' },
+  { emoji: '🔥', text: '"Evening Run" is full', time: '5 min ago', accent: 'destructive' },
 ];
 
 const TRUST_FEATURES = [
-  { icon: ShieldCheck, label: 'Every person is verified', desc: 'Real names, real faces' },
-  { icon: Users, label: 'Groups only, no 1-on-1 DMs', desc: 'Designed to feel safe' },
-  { icon: BadgeCheck, label: 'Bad actors get removed', desc: 'Community-driven moderation' },
-];
-
-const EXAMPLE_PLANS = [
-  { emoji: '☕', title: 'Coffee in 20 min', time: '⏱ 20 min', joined: 3 },
-  { emoji: '🏸', title: 'Badminton — need 1 more', time: '🔥 Filling up', joined: 5 },
-  { emoji: '🚶', title: 'Marine Drive walk', time: '⚡ Starting soon', joined: 2 },
+  { emoji: '🛡️', label: 'Every person is verified', desc: 'Real names, real faces' },
+  { emoji: '👥', label: 'Groups only, no 1-on-1 DMs', desc: 'Designed to feel safe' },
+  { emoji: '🚫', label: 'Bad actors get removed', desc: 'Community-driven moderation' },
 ];
 
 export default function OnboardingPage() {
@@ -47,8 +41,8 @@ export default function OnboardingPage() {
   const isLastSlide = currentSlide === slides.length - 1;
   
   useEffect(() => {
-    gsap.fromTo(visualRef.current, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' });
-    gsap.fromTo(textRef.current, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.4, delay: 0.15, ease: 'power2.out' });
+    gsap.fromTo(visualRef.current, { opacity: 0, y: 24, scale: 0.97 }, { opacity: 1, y: 0, scale: 1, duration: 0.6, ease: 'power3.out' });
+    gsap.fromTo(textRef.current, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.45, delay: 0.18, ease: 'power2.out' });
   }, [currentSlide]);
   
   const handleNext = () => {
@@ -66,61 +60,78 @@ export default function OnboardingPage() {
     gsap.to(containerRef.current, { opacity: 0, duration: 0.2, onComplete: () => navigate('/signup') });
   };
 
+  const handleBack = () => {
+    if (currentSlide > 0) {
+      gsap.to([visualRef.current, textRef.current], {
+        opacity: 0, y: 12, duration: 0.15,
+        onComplete: () => setCurrentSlide(prev => prev - 1),
+      });
+    }
+  };
+
   const renderVisual = () => {
     switch (slide.id) {
+      /* ═══════════════════════════════════
+         SLIDE 1 — Map radar with people
+         ═══════════════════════════════════ */
       case 'people':
         return (
           <div className="w-full max-w-[320px]">
-            <div className="relative rounded-[28px] overflow-hidden" style={{ height: 380 }}>
-              {/* Map-like background */}
-              <div className="absolute inset-0 bg-gradient-to-b from-[hsl(210_30%_95%)] via-[hsl(210_20%_97%)] to-background" />
+            <div className="relative rounded-[28px] overflow-hidden" style={{ height: 390 }}>
+              {/* Ambient gradient background */}
+              <div className="absolute inset-0 bg-gradient-to-b from-primary/8 via-background to-background" />
               
-              {/* Subtle street grid pattern */}
-              <div className="absolute inset-0 opacity-[0.06]" style={{
+              {/* Subtle map grid */}
+              <div className="absolute inset-0 opacity-[0.04]" style={{
                 backgroundImage: `
                   linear-gradient(0deg, hsl(var(--foreground)) 0.5px, transparent 0.5px),
                   linear-gradient(90deg, hsl(var(--foreground)) 0.5px, transparent 0.5px)
                 `,
-                backgroundSize: '48px 48px',
+                backgroundSize: '52px 52px',
               }} />
-              
-              {/* Warm ambient glow behind center */}
-              <div className="absolute top-[35%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 rounded-full bg-primary/20 blur-[60px] pointer-events-none" />
 
-              {/* Your location dot + ripple */}
-              <div className="absolute top-[38%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
+              {/* Warm glow behind center */}
+              <div className="absolute top-[32%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-56 h-56 rounded-full blur-[80px] pointer-events-none" style={{
+                background: 'radial-gradient(circle, hsl(var(--primary) / 0.2) 0%, transparent 70%)',
+              }} />
+
+              {/* Radar rings */}
+              <div className="absolute top-[35%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
                 {[0, 1, 2].map(i => (
-                  <div key={i} className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-primary/15"
+                  <div key={i} className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full"
                     style={{
-                      width: `${60 + i * 50}px`,
-                      height: `${60 + i * 50}px`,
-                      animation: `pulse 3s ease-in-out ${i * 0.6}s infinite`,
-                      opacity: 0.6 - i * 0.15,
+                      width: `${70 + i * 56}px`,
+                      height: `${70 + i * 56}px`,
+                      border: '1px solid hsl(var(--primary) / 0.12)',
+                      animation: `pulse 3s ease-in-out ${i * 0.5}s infinite`,
+                      opacity: 0.7 - i * 0.15,
                     }} />
                 ))}
-                <div className="relative w-12 h-12 rounded-full bg-primary shadow-[0_0_20px_hsl(var(--primary)/0.4)] flex items-center justify-center border-[3px] border-background">
-                  <span className="text-lg">📍</span>
+                {/* Your dot */}
+                <div className="relative w-14 h-14 rounded-full flex items-center justify-center" style={{
+                  background: 'linear-gradient(145deg, hsl(var(--primary)) 0%, hsl(211 100% 40%) 100%)',
+                  boxShadow: '0 0 28px hsl(var(--primary) / 0.35), inset 0 1px 0 hsla(0 0% 100% / 0.2)',
+                }}>
+                  <span className="text-xl">📍</span>
                 </div>
-                <p className="absolute -bottom-5 left-1/2 -translate-x-1/2 text-[9px] font-bold text-primary whitespace-nowrap bg-background/80 px-2 py-0.5 rounded-full backdrop-blur-sm">You</p>
+                <p className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[9px] font-bold text-primary whitespace-nowrap liquid-glass px-2.5 py-0.5" style={{ borderRadius: '100px' }}>You</p>
               </div>
 
-              {/* Person bubbles positioned around the center */}
+              {/* People bubbles — liquid glass cards */}
               {NEARBY_PEOPLE.map((p, i) => {
                 const positions = [
-                  { top: '10%', left: '10%' },
-                  { top: '12%', right: '8%' },
-                  { bottom: '32%', left: '6%' },
+                  { top: '8%', left: '5%' },
+                  { top: '10%', right: '4%' },
+                  { bottom: '35%', left: '3%' },
                 ];
                 const pos = positions[i];
                 return (
-                  <div key={p.name} className="absolute z-30"
-                    style={{ ...pos, animation: `fade-in 0.5s ease-out both, float 4s ease-in-out ${i * 0.8}s infinite`, animationDelay: `${i * 0.2}s` }}>
-                    <div className="flex items-center gap-2 pl-1 pr-3 py-1.5 rounded-full bg-background/95 backdrop-blur-xl border border-border/30 shadow-[0_4px_16px_hsl(var(--foreground)/0.08)]">
+                  <div key={p.name} className="absolute z-20"
+                    style={{ ...pos, animation: `fade-in 0.5s ease-out both, float 4.5s ease-in-out ${i * 0.7}s infinite`, animationDelay: `${i * 0.15}s` }}>
+                    <div className="flex items-center gap-2.5 pl-1.5 pr-3.5 py-1.5 liquid-glass" style={{ borderRadius: '100px' }}>
                       <div className="relative shrink-0">
-                        <div className="w-8 h-8 rounded-full overflow-hidden border-2 border-background">
-                          <img src={p.avatar} alt={p.name} className="w-full h-full object-cover" />
-                        </div>
-                        <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-success border-[1.5px] border-background" />
+                        <GradientAvatar name={p.name} size={30} showInitials={false} />
+                        <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full border-[1.5px] border-background" style={{ background: 'hsl(var(--success))' }} />
                       </div>
                       <div>
                         <p className="text-[10px] font-bold text-foreground leading-none">{p.name}</p>
@@ -131,17 +142,17 @@ export default function OnboardingPage() {
                 );
               })}
 
-              {/* Connection lines (decorative dashed) */}
-              <svg className="absolute inset-0 w-full h-full z-10 pointer-events-none" viewBox="0 0 320 380">
-                <line x1="160" y1="148" x2="75" y2="70" stroke="hsl(211 100% 50% / 0.12)" strokeWidth="1" strokeDasharray="4 4" />
-                <line x1="160" y1="148" x2="260" y2="75" stroke="hsl(211 100% 50% / 0.12)" strokeWidth="1" strokeDasharray="4 4" />
-                <line x1="160" y1="148" x2="60" y2="240" stroke="hsl(211 100% 50% / 0.12)" strokeWidth="1" strokeDasharray="4 4" />
+              {/* Dashed connection lines */}
+              <svg className="absolute inset-0 w-full h-full z-[5] pointer-events-none" viewBox="0 0 320 390">
+                <line x1="160" y1="140" x2="72" y2="60" stroke="hsl(211 100% 50% / 0.1)" strokeWidth="1" strokeDasharray="4 4" />
+                <line x1="160" y1="140" x2="265" y2="68" stroke="hsl(211 100% 50% / 0.1)" strokeWidth="1" strokeDasharray="4 4" />
+                <line x1="160" y1="140" x2="55" y2="240" stroke="hsl(211 100% 50% / 0.1)" strokeWidth="1" strokeDasharray="4 4" />
               </svg>
 
               {/* Bottom section */}
-              <div className="absolute bottom-0 left-0 right-0 px-4 pb-4 pt-8 bg-gradient-to-t from-background via-background/90 to-transparent z-30">
-                {/* Activity row */}
-                <div className="flex justify-center gap-3 mb-3">
+              <div className="absolute bottom-0 left-0 right-0 px-4 pb-4 pt-10 bg-gradient-to-t from-background via-background/90 to-transparent z-30">
+                {/* Activity chips */}
+                <div className="flex justify-center gap-2.5 mb-3">
                   {[
                     { emoji: '☕', count: 3 },
                     { emoji: '🚶', count: 2 },
@@ -150,7 +161,7 @@ export default function OnboardingPage() {
                   ].map((a, i) => (
                     <div key={i} className="flex flex-col items-center gap-1"
                       style={{ animation: 'scale-in 0.3s ease-out both', animationDelay: `${0.4 + i * 0.08}s` }}>
-                      <div className="w-10 h-10 rounded-2xl bg-background border border-border/40 flex items-center justify-center shadow-sm text-lg">
+                      <div className="w-11 h-11 rounded-2xl liquid-glass flex items-center justify-center text-lg">
                         {a.emoji}
                       </div>
                       <span className="text-[8px] font-bold text-muted-foreground">{a.count} plans</span>
@@ -158,20 +169,18 @@ export default function OnboardingPage() {
                   ))}
                 </div>
 
-                {/* Live counter bar */}
-                <div className="flex items-center justify-between px-3.5 py-2.5 rounded-2xl bg-background/95 backdrop-blur-xl border border-border/30 shadow-[0_2px_12px_hsl(var(--foreground)/0.06)]">
+                {/* Live counter */}
+                <div className="flex items-center justify-between px-3.5 py-2.5 liquid-glass-heavy" style={{ borderRadius: '1rem' }}>
                   <div className="flex -space-x-2">
                     {NEARBY_PEOPLE.map((p, i) => (
-                      <div key={i} className="w-6 h-6 rounded-full overflow-hidden border-2 border-background shadow-sm">
-                        <img src={p.avatar} alt="" className="w-full h-full object-cover" />
-                      </div>
+                      <GradientAvatar key={i} name={p.name} size={24} showInitials={false} className="border-2 border-background" />
                     ))}
-                    <div className="w-6 h-6 rounded-full bg-primary/10 border-2 border-background flex items-center justify-center">
+                    <div className="w-6 h-6 rounded-full flex items-center justify-center border-2 border-background" style={{ background: 'hsl(var(--primary) / 0.12)' }}>
                       <span className="text-[8px] font-bold text-primary">+5</span>
                     </div>
                   </div>
                   <div className="flex items-center gap-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-success animate-pulse" />
+                    <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: 'hsl(var(--success))' }} />
                     <span className="text-[10px] text-foreground font-bold">8 active nearby</span>
                   </div>
                 </div>
@@ -180,34 +189,55 @@ export default function OnboardingPage() {
           </div>
         );
 
+      /* ═══════════════════════════════════
+         SLIDE 2 — Real-time notifications
+         ═══════════════════════════════════ */
       case 'realtime':
         return (
-          <div className="w-full max-w-[300px] space-y-2.5">
-            {/* Phone mockup with notifications */}
-            <div className="relative rounded-3xl bg-gradient-to-b from-muted/50 to-muted/30 p-4 border border-border/30">
-              <div className="absolute -top-2 -right-2">
-                <div className="w-5 h-5 rounded-full bg-destructive flex items-center justify-center animate-bounce">
-                  <span className="text-[10px] text-white font-bold">3</span>
+          <div className="w-full max-w-[300px]">
+            {/* Phone mockup */}
+            <div className="relative rounded-[28px] overflow-hidden" style={{
+              background: 'hsla(var(--glass-bg) / 0.3)',
+              backdropFilter: 'blur(var(--glass-blur-heavy)) saturate(200%)',
+              WebkitBackdropFilter: 'blur(var(--glass-blur-heavy)) saturate(200%)',
+              border: '0.5px solid hsla(var(--glass-border) / 0.4)',
+              boxShadow: '0 8px 40px hsla(var(--glass-shadow-lg)), inset 0 0.5px 0 hsla(var(--glass-highlight))',
+            }}>
+              {/* Notch */}
+              <div className="flex justify-center pt-2 pb-3">
+                <div className="w-20 h-5 rounded-full bg-foreground/10" />
+              </div>
+
+              {/* Notification badge */}
+              <div className="absolute top-2 right-3">
+                <div className="w-6 h-6 rounded-full flex items-center justify-center animate-bounce" style={{
+                  background: 'hsl(var(--destructive))',
+                  boxShadow: '0 2px 8px hsl(var(--destructive) / 0.4)',
+                }}>
+                  <span className="text-[10px] font-bold" style={{ color: 'hsl(var(--destructive-foreground))' }}>3</span>
                 </div>
               </div>
               
-              <div className="space-y-2">
+              <div className="px-3 pb-4 space-y-2">
                 {LIVE_ACTIVITY.map((item, i) => (
                   <div
                     key={i}
-                    className="liquid-glass flex items-start gap-2.5 px-3 py-2.5"
+                    className="liquid-glass flex items-start gap-2.5 px-3 py-3"
                     style={{ 
-                      borderRadius: '0.75rem',
-                      animationDelay: `${i * 0.1}s`
+                      borderRadius: '1rem',
+                      animation: 'fade-in 0.4s ease-out both',
+                      animationDelay: `${i * 0.12}s`,
                     }}
                   >
-                    <div className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 ${item.color}`}>
+                    <div className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0" style={{
+                      background: `hsl(var(--${item.accent}) / 0.12)`,
+                    }}>
                       <span className="text-base">{item.emoji}</span>
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-[11px] font-medium leading-tight">{item.text}</p>
+                      <p className="text-[11px] font-semibold leading-tight text-foreground">{item.text}</p>
                       <p className="text-[9px] text-muted-foreground mt-0.5 flex items-center gap-1">
-                        <Zap size={8} className="text-primary" />
+                        <span className="text-[8px]">⚡</span>
                         {item.time}
                       </p>
                     </div>
@@ -217,95 +247,121 @@ export default function OnboardingPage() {
             </div>
             
             {/* Live indicator */}
-            <div className="flex items-center justify-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-success animate-pulse" />
-              <span className="text-[10px] font-semibold text-success">Live updates every second</span>
+            <div className="flex items-center justify-center gap-2 mt-3">
+              <span className="w-2 h-2 rounded-full animate-pulse" style={{ background: 'hsl(var(--success))' }} />
+              <span className="text-[10px] font-semibold" style={{ color: 'hsl(var(--success))' }}>Live updates every second</span>
             </div>
           </div>
         );
 
+      /* ═══════════════════════════════════
+         SLIDE 3 — Safety shield
+         ═══════════════════════════════════ */
       case 'safe':
         return (
           <div className="relative w-full max-w-[320px]">
-            <div className="relative rounded-[28px] overflow-hidden" style={{ height: 360 }}>
-              {/* Rich gradient background */}
+            <div className="relative rounded-[28px] overflow-hidden" style={{ height: 370 }}>
+              {/* Ambient background */}
               <div className="absolute inset-0">
-                <div className="absolute inset-0 bg-gradient-to-br from-success/15 via-background to-primary/10" />
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-64 rounded-full bg-success/20 blur-[80px]" />
-                <div className="absolute bottom-0 right-0 w-40 h-40 rounded-full bg-primary/15 blur-[60px]" />
+                <div className="absolute inset-0 bg-gradient-to-br from-success/10 via-background to-primary/6" />
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-64 rounded-full blur-[90px]" style={{ background: 'hsl(var(--success) / 0.15)' }} />
+                <div className="absolute bottom-0 right-0 w-40 h-40 rounded-full blur-[70px]" style={{ background: 'hsl(var(--primary) / 0.1)' }} />
               </div>
-              
-              {/* Subtle grid pattern */}
-              <div className="absolute inset-0 opacity-[0.02]" style={{
-                backgroundImage: 'linear-gradient(hsl(var(--foreground)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--foreground)) 1px, transparent 1px)',
-                backgroundSize: '24px 24px'
+
+              {/* Subtle dot grid */}
+              <div className="absolute inset-0 opacity-[0.03]" style={{
+                backgroundImage: 'radial-gradient(hsl(var(--foreground)) 0.5px, transparent 0.5px)',
+                backgroundSize: '16px 16px',
               }} />
               
-              {/* Glass overlay */}
-              <div className="absolute inset-0 bg-background/10 backdrop-blur-[1px]" />
-              
-              {/* Central shield with animated rings */}
-              <div className="absolute top-[30%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
+              {/* Central shield */}
+              <div className="absolute top-[26%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
                 {/* Protective rings */}
-                <div className="absolute w-40 h-40 -top-20 -left-20 rounded-full border-2 border-success/20 animate-pulse" />
-                <div className="absolute w-28 h-28 -top-14 -left-14 rounded-full border-2 border-success/30" style={{ animation: 'pulse 2s ease-in-out infinite', animationDelay: '0.5s' }} />
+                {[0, 1].map(i => (
+                  <div key={i} className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full"
+                    style={{
+                      width: `${100 + i * 48}px`,
+                      height: `${100 + i * 48}px`,
+                      border: `1.5px solid hsl(var(--success) / ${0.2 - i * 0.07})`,
+                      animation: `pulse ${2.5 + i * 0.5}s ease-in-out infinite`,
+                      animationDelay: `${i * 0.4}s`,
+                    }} />
+                ))}
                 
-                {/* Main shield */}
+                {/* Shield orb */}
                 <div className="relative">
-                  <div className="absolute inset-0 w-24 h-24 -m-2 rounded-[2rem] bg-success/30 blur-2xl animate-pulse" />
-                  <div className="relative w-20 h-20 rounded-[1.5rem] bg-gradient-to-br from-success via-success/90 to-success/70 flex items-center justify-center shadow-2xl shadow-success/40 border-4 border-background">
-                    <ShieldCheck className="w-10 h-10 text-success-foreground" strokeWidth={2} />
+                  <div className="absolute inset-0 w-24 h-24 -m-2 rounded-full blur-3xl animate-pulse" style={{ background: 'hsl(var(--success) / 0.25)' }} />
+                  <div className="relative w-20 h-20 rounded-[1.5rem] flex items-center justify-center border-4 border-background" style={{
+                    background: 'linear-gradient(145deg, hsl(var(--success)) 0%, hsl(152 55% 34%) 100%)',
+                    boxShadow: '0 8px 32px hsl(var(--success) / 0.35), inset 0 1px 0 hsla(0 0% 100% / 0.2)',
+                  }}>
+                    <span className="text-[36px]">🛡️</span>
                   </div>
-                  <div className="absolute -bottom-1 -right-1 w-7 h-7 rounded-full bg-background flex items-center justify-center shadow-lg border-2 border-success">
-                    <BadgeCheck size={14} className="text-success" />
+                  {/* Checkmark badge */}
+                  <div className="absolute -bottom-1 -right-1 w-7 h-7 rounded-full flex items-center justify-center border-2" style={{
+                    background: 'hsl(var(--success))',
+                    borderColor: 'hsl(var(--background))',
+                    boxShadow: '0 2px 8px hsl(var(--success) / 0.3)',
+                  }}>
+                    <span className="text-[12px]">✓</span>
                   </div>
                 </div>
               </div>
               
-              {/* Blocked message floating left */}
-              <div className="absolute top-[15%] left-[5%] z-20" style={{ animation: 'float 5s ease-in-out infinite' }}>
-                <div className="relative px-3 py-2 rounded-xl bg-destructive/10 border border-destructive/20 backdrop-blur-xl shadow-lg">
+              {/* Blocked message floaters */}
+              <div className="absolute top-[12%] left-[5%] z-20" style={{ animation: 'float 5s ease-in-out infinite' }}>
+                <div className="relative px-3 py-2 liquid-glass" style={{ borderRadius: '0.75rem', borderColor: 'hsl(var(--destructive) / 0.2)' }}>
                   <div className="flex items-center gap-2">
-                    <span className="text-destructive text-sm">🚫</span>
-                    <span className="text-[10px] text-destructive/80 font-medium line-through">Random DM</span>
+                    <span className="text-sm">🚫</span>
+                    <span className="text-[10px] font-medium line-through" style={{ color: 'hsl(var(--destructive) / 0.7)' }}>Random DM</span>
                   </div>
-                  <div className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-destructive flex items-center justify-center">
-                    <span className="text-[8px] text-destructive-foreground font-bold">✕</span>
+                  <div className="absolute -top-1 -right-1 w-4 h-4 rounded-full flex items-center justify-center" style={{
+                    background: 'hsl(var(--destructive))',
+                  }}>
+                    <span className="text-[8px] font-bold" style={{ color: 'hsl(var(--destructive-foreground))' }}>✕</span>
                   </div>
                 </div>
               </div>
               
-              {/* Blocked message floating right */}
-              <div className="absolute top-[8%] right-[8%] z-20" style={{ animation: 'float 5s ease-in-out infinite', animationDelay: '1s' }}>
-                <div className="relative px-3 py-2 rounded-xl bg-destructive/10 border border-destructive/20 backdrop-blur-xl shadow-lg transform rotate-3">
+              <div className="absolute top-[6%] right-[6%] z-20" style={{ animation: 'float 5s ease-in-out 1s infinite' }}>
+                <div className="relative px-3 py-2 liquid-glass transform rotate-3" style={{ borderRadius: '0.75rem', borderColor: 'hsl(var(--destructive) / 0.2)' }}>
                   <div className="flex items-center gap-2">
-                    <span className="text-destructive text-sm">👻</span>
-                    <span className="text-[10px] text-destructive/80 font-medium line-through">Stalker</span>
+                    <span className="text-sm">👻</span>
+                    <span className="text-[10px] font-medium line-through" style={{ color: 'hsl(var(--destructive) / 0.7)' }}>Stalker</span>
                   </div>
-                  <div className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-destructive flex items-center justify-center">
-                    <span className="text-[8px] text-destructive-foreground font-bold">✕</span>
+                  <div className="absolute -top-1 -right-1 w-4 h-4 rounded-full flex items-center justify-center" style={{
+                    background: 'hsl(var(--destructive))',
+                  }}>
+                    <span className="text-[8px] font-bold" style={{ color: 'hsl(var(--destructive-foreground))' }}>✕</span>
                   </div>
                 </div>
               </div>
               
-              {/* Trust features list */}
-              <div className="absolute bottom-0 left-0 right-0 px-4 pt-3 pb-4 bg-gradient-to-t from-background/95 via-background/80 to-transparent">
+              {/* Trust features */}
+              <div className="absolute bottom-0 left-0 right-0 px-4 pt-4 pb-4 bg-gradient-to-t from-background/95 via-background/80 to-transparent z-30">
                 <div className="space-y-2">
                   {TRUST_FEATURES.map((feature, i) => (
                     <div
                       key={i}
-                      className="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-background/70 backdrop-blur-md border border-border/20 shadow-sm"
-                      style={{ animation: 'fade-in 0.4s ease-out forwards', animationDelay: `${i * 0.1}s` }}
+                      className="flex items-center gap-3 px-3 py-2.5 liquid-glass"
+                      style={{
+                        borderRadius: '0.875rem',
+                        animation: 'fade-in 0.4s ease-out forwards',
+                        animationDelay: `${i * 0.1}s`,
+                      }}
                     >
-                      <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-success/20 to-success/5 flex items-center justify-center shrink-0 border border-success/15">
-                        <feature.icon size={16} className="text-success" />
+                      <div className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0" style={{
+                        background: 'hsl(var(--success) / 0.12)',
+                        border: '0.5px solid hsl(var(--success) / 0.15)',
+                      }}>
+                        <span className="text-base">{feature.emoji}</span>
                       </div>
                       <div className="flex-1 min-w-0">
                         <p className="text-[11px] font-bold text-foreground">{feature.label}</p>
                         <p className="text-[9px] text-muted-foreground">{feature.desc}</p>
                       </div>
-                      <div className="w-5 h-5 rounded-full bg-success/15 flex items-center justify-center">
-                        <span className="text-success text-[10px]">✓</span>
+                      <div className="w-5 h-5 rounded-full flex items-center justify-center" style={{ background: 'hsl(var(--success) / 0.15)' }}>
+                        <span className="text-[10px]" style={{ color: 'hsl(var(--success))' }}>✓</span>
                       </div>
                     </div>
                   ))}
@@ -315,69 +371,83 @@ export default function OnboardingPage() {
           </div>
         );
 
+      /* ═══════════════════════════════════
+         SLIDE 4 — Credits / Level up
+         ═══════════════════════════════════ */
       case 'credits':
         return (
           <div className="w-full max-w-[320px]">
-            <div className="relative rounded-[28px] overflow-hidden" style={{ height: 370 }}>
-              {/* Rich gradient background */}
+            <div className="relative rounded-[28px] overflow-hidden" style={{ height: 380 }}>
+              {/* Ambient gradient */}
               <div className="absolute inset-0">
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/12 via-background to-amber-500/8" />
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-48 rounded-full bg-primary/20 blur-[70px]" />
-                <div className="absolute bottom-0 right-0 w-44 h-44 rounded-full bg-amber-400/15 blur-[60px]" />
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/8 via-background to-accent/6" />
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-48 rounded-full blur-[80px]" style={{ background: 'hsl(var(--primary) / 0.15)' }} />
+                <div className="absolute bottom-0 right-0 w-44 h-44 rounded-full blur-[70px]" style={{ background: 'hsl(var(--accent) / 0.12)' }} />
               </div>
 
-              {/* Subtle grid */}
-              <div className="absolute inset-0 opacity-[0.02]" style={{
-                backgroundImage: 'linear-gradient(hsl(var(--foreground)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--foreground)) 1px, transparent 1px)',
-                backgroundSize: '24px 24px'
+              {/* Dot pattern */}
+              <div className="absolute inset-0 opacity-[0.03]" style={{
+                backgroundImage: 'radial-gradient(hsl(var(--foreground)) 0.5px, transparent 0.5px)',
+                backgroundSize: '16px 16px',
               }} />
 
               <div className="relative z-10 px-5 pt-5 pb-4 h-full flex flex-col">
-                {/* Animated credit counter */}
+                {/* Credit orb */}
                 <div className="flex justify-center mb-4">
                   <div className="relative">
-                    <div className="absolute inset-0 w-20 h-20 rounded-[1.5rem] bg-primary/25 blur-2xl animate-pulse" />
-                    <div className="relative w-16 h-16 rounded-[1.25rem] bg-gradient-to-br from-primary via-primary/90 to-primary/70 flex items-center justify-center shadow-2xl shadow-primary/30 border-4 border-background">
-                      <Star className="w-7 h-7 text-primary-foreground" fill="currentColor" />
+                    <div className="absolute inset-0 w-20 h-20 -m-2 rounded-full blur-3xl animate-pulse" style={{ background: 'hsl(var(--primary) / 0.2)' }} />
+                    <div className="relative w-16 h-16 rounded-[1.25rem] flex items-center justify-center border-4 border-background" style={{
+                      background: 'linear-gradient(145deg, hsl(var(--primary)) 0%, hsl(211 100% 38%) 100%)',
+                      boxShadow: '0 8px 32px hsl(var(--primary) / 0.3), inset 0 1px 0 hsla(0 0% 100% / 0.2)',
+                    }}>
+                      <span className="text-[28px]">⭐</span>
                     </div>
-                    {/* Floating +1 badge */}
-                    <div className="absolute -top-2 -right-3 px-2 py-0.5 rounded-full bg-success text-success-foreground text-[10px] font-bold shadow-lg" style={{ animation: 'float 3s ease-in-out infinite' }}>
+                    {/* Floating +1 */}
+                    <div className="absolute -top-2 -right-3 px-2 py-0.5 rounded-full text-[10px] font-bold" style={{
+                      background: 'hsl(var(--success))',
+                      color: 'hsl(var(--success-foreground))',
+                      boxShadow: '0 2px 8px hsl(var(--success) / 0.3)',
+                      animation: 'float 3s ease-in-out infinite',
+                    }}>
                       +1.0
                     </div>
                   </div>
                 </div>
 
                 {/* Balance display */}
-                <div className="text-center mb-4">
-                  <p className="text-[28px] font-bold text-foreground tracking-tight">2.5</p>
-                  <p className="text-[11px] text-muted-foreground font-medium -mt-0.5">starter credits</p>
+                <div className="text-center mb-5">
+                  <p className="text-[30px] font-bold text-foreground tracking-tight leading-none">2.5</p>
+                  <p className="text-[11px] text-muted-foreground font-medium mt-1">starter credits</p>
                 </div>
 
-                {/* Journey visualization - connected steps */}
+                {/* Journey steps — connected */}
                 <div className="flex-1 flex flex-col justify-center">
                   <div className="relative">
-                    {/* Connecting line */}
-                    <div className="absolute left-[19px] top-5 bottom-5 w-[2px] bg-gradient-to-b from-primary/30 via-success/40 to-success/30 rounded-full" />
+                    {/* Vertical line */}
+                    <div className="absolute left-[19px] top-5 bottom-5 w-[2px] rounded-full" style={{
+                      background: 'linear-gradient(to bottom, hsl(var(--primary) / 0.25), hsl(var(--success) / 0.3), hsl(var(--accent) / 0.25))',
+                    }} />
                     
                     <div className="space-y-3">
                       {[
-                        { emoji: '📍', text: 'Join a plan', detail: '-0.5', color: 'bg-primary/12 border-primary/20', dotColor: 'bg-primary' },
-                        { emoji: '🤝', text: 'Show up on time', detail: '+1.0', color: 'bg-success/12 border-success/20', dotColor: 'bg-success' },
-                        { emoji: '⭐', text: 'Earn a great review', detail: '+0.5', color: 'bg-amber-500/12 border-amber-500/20', dotColor: 'bg-amber-500' },
+                        { emoji: '📍', text: 'Join a plan', detail: '-0.5', accent: 'primary' },
+                        { emoji: '🤝', text: 'Show up on time', detail: '+1.0', accent: 'success' },
+                        { emoji: '⭐', text: 'Earn a great review', detail: '+0.5', accent: 'accent' },
                       ].map((step, i) => (
                         <div
                           key={i}
                           className="flex items-center gap-3 relative"
                           style={{ animation: 'fade-in 0.4s ease-out forwards', animationDelay: `${i * 0.15}s` }}
                         >
-                          {/* Step dot */}
-                          <div className={`w-10 h-10 rounded-xl ${step.color} border flex items-center justify-center shrink-0 backdrop-blur-sm relative z-10`}>
+                          <div className="w-10 h-10 rounded-xl liquid-glass flex items-center justify-center shrink-0 relative z-10" style={{
+                            borderColor: `hsl(var(--${step.accent}) / 0.2)`,
+                          }}>
                             <span className="text-base">{step.emoji}</span>
                           </div>
                           <p className="text-[12px] font-semibold text-foreground flex-1">{step.text}</p>
-                          <span className={`text-[13px] font-bold tabular-nums ${
-                            step.detail.startsWith('+') ? 'text-success' : 'text-muted-foreground'
-                          }`}>{step.detail}</span>
+                          <span className={`text-[13px] font-bold tabular-nums`} style={{
+                            color: step.detail.startsWith('+') ? 'hsl(var(--success))' : 'hsl(var(--muted-foreground))',
+                          }}>{step.detail}</span>
                         </div>
                       ))}
                     </div>
@@ -385,7 +455,7 @@ export default function OnboardingPage() {
                 </div>
 
                 {/* Bottom tagline */}
-                <div className="flex items-center justify-center gap-2 mt-3 px-3 py-2 rounded-xl bg-background/60 backdrop-blur-md border border-border/15">
+                <div className="flex items-center justify-center gap-2 mt-3 px-3 py-2.5 liquid-glass" style={{ borderRadius: '0.875rem' }}>
                   <div className="flex -space-x-1.5">
                     {['🥇', '🥈', '🥉'].map((m, i) => (
                       <span key={i} className="text-sm">{m}</span>
@@ -403,25 +473,16 @@ export default function OnboardingPage() {
     }
   };
   
-  const handleBack = () => {
-    if (currentSlide > 0) {
-      gsap.to([visualRef.current, textRef.current], {
-        opacity: 0, y: 12, duration: 0.15,
-        onComplete: () => setCurrentSlide(prev => prev - 1),
-      });
-    }
-  };
-  
   return (
     <div ref={containerRef} className="mobile-container min-h-screen flex flex-col bg-ambient">
-      {/* Top bar with back button */}
+      {/* Back button */}
       {currentSlide > 0 && (
         <div className="px-4 pt-4">
           <button 
             onClick={handleBack}
             className="flex items-center gap-1.5 text-muted-foreground tap-scale py-2 pr-3"
           >
-            <ArrowLeft size={18} />
+            <span className="text-sm">←</span>
             <span className="text-sm font-medium">Back</span>
           </button>
         </div>
@@ -434,7 +495,7 @@ export default function OnboardingPage() {
         </div>
         
         <div ref={textRef} className="text-center max-w-[280px]">
-          <h2 className="text-[22px] font-bold text-foreground mb-2">{slide.title}</h2>
+          <h2 className="text-[22px] font-bold text-foreground mb-2 tracking-tight">{slide.title}</h2>
           <p className="text-sm text-muted-foreground leading-relaxed whitespace-pre-line">{slide.description}</p>
         </div>
       </div>
@@ -447,15 +508,20 @@ export default function OnboardingPage() {
             <button
               key={i}
               onClick={() => setCurrentSlide(i)}
-              className={`h-1.5 rounded-full transition-all duration-300 ${
-                i === currentSlide ? 'w-6 bg-primary' : 'w-1.5 bg-muted-foreground/20'
-              }`}
+              className="h-1.5 rounded-full transition-all duration-300"
+              style={{
+                width: i === currentSlide ? 24 : 6,
+                background: i === currentSlide ? 'hsl(var(--primary))' : 'hsl(var(--muted-foreground) / 0.2)',
+              }}
             />
           ))}
         </div>
         
         <Button 
-          className="w-full h-11 text-[15px] font-semibold rounded-lg shadow-lg shadow-primary/20 transition-all active:scale-[0.98]"
+          className="w-full h-12 text-[15px] font-semibold rounded-2xl transition-all active:scale-[0.98]"
+          style={{
+            boxShadow: '0 4px 20px hsl(var(--primary) / 0.25)',
+          }}
           onClick={handleNext}
         >
           {isLastSlide ? "Let's go →" : 'Continue →'}
@@ -463,7 +529,7 @@ export default function OnboardingPage() {
         
         {currentSlide < slides.length - 1 && (
           <button 
-            className="w-full mt-3 py-2.5 text-sm font-semibold text-muted-foreground/60 hover:text-muted-foreground tap-scale transition-colors rounded-xl"
+            className="w-full mt-3 py-2.5 text-sm font-semibold text-muted-foreground/50 hover:text-muted-foreground tap-scale transition-colors rounded-xl"
             onClick={handleSkip}
           >
             I'll figure it out
