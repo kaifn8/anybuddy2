@@ -1,4 +1,3 @@
-import { Zap, Sun, Calendar } from 'lucide-react';
 import type { Urgency } from '@/types/anybuddy';
 import { cn } from '@/lib/utils';
 
@@ -8,10 +7,10 @@ interface UrgencyBadgeProps {
   size?: 'sm' | 'md';
 }
 
-const iconMap = {
-  now: Zap,
-  today: Sun,
-  week: Calendar,
+const emojiMap = {
+  now: '⚡',
+  today: '☀️',
+  week: '📅',
 };
 
 const styleMap = {
@@ -27,8 +26,6 @@ const labelMap: Record<Urgency, string> = {
 };
 
 export function UrgencyBadge({ urgency, className, size = 'sm' }: UrgencyBadgeProps) {
-  const Icon = iconMap[urgency];
-  
   return (
     <div className={cn(
       'inline-flex items-center gap-1 rounded-full font-medium whitespace-nowrap shrink-0',
@@ -36,7 +33,7 @@ export function UrgencyBadge({ urgency, className, size = 'sm' }: UrgencyBadgePr
       styleMap[urgency],
       className
     )}>
-      <Icon size={size === 'sm' ? 10 : 12} strokeWidth={2.5} />
+      <span className={size === 'sm' ? 'text-[10px]' : 'text-[12px]'}>{emojiMap[urgency]}</span>
       <span>{labelMap[urgency]}</span>
     </div>
   );

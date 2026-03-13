@@ -1,40 +1,39 @@
 import { useState, useRef } from 'react';
-import { Camera, ShieldCheck, Clock, AlertCircle, CheckCircle2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAppStore } from '@/store/useAppStore';
 import { cn } from '@/lib/utils';
 import type { VerificationStatus } from '@/types/anybuddy';
 
 const STATUS_CONFIG: Record<VerificationStatus, {
-  icon: React.ReactNode;
+  emoji: string;
   title: string;
   description: string;
   color: string;
   bgColor: string;
 }> = {
   unverified: {
-    icon: <Camera size={16} />,
+    emoji: '📸',
     title: 'Get verified',
     description: 'Upload a selfie to verify your identity. Builds trust.',
     color: 'text-muted-foreground',
     bgColor: 'bg-muted/50',
   },
   pending: {
-    icon: <Clock size={16} />,
+    emoji: '⏳',
     title: 'Verification pending',
     description: 'Your selfie is under review. We\'ll notify you.',
     color: 'text-warning',
     bgColor: 'bg-warning/10',
   },
   verified: {
-    icon: <CheckCircle2 size={16} />,
+    emoji: '✅',
     title: 'Verified',
     description: 'Identity confirmed via selfie verification.',
     color: 'text-primary',
     bgColor: 'bg-primary/10',
   },
   failed: {
-    icon: <AlertCircle size={16} />,
+    emoji: '⚠️',
     title: 'Verification failed',
     description: 'Please try again with a clear photo.',
     color: 'text-destructive',
@@ -76,7 +75,7 @@ export function VerificationCard() {
       {/* Header */}
       <div className="flex items-center gap-3">
         <div className={cn('w-9 h-9 rounded-xl liquid-glass flex items-center justify-center shrink-0', config.color)} style={{ borderRadius: '0.625rem' }}>
-          {config.icon}
+          <span className="text-base">{config.emoji}</span>
         </div>
         <div className="flex-1 min-w-0">
           <p className={cn('text-[13px] font-semibold', status === 'verified' ? 'text-primary' : 'text-foreground')}>
@@ -106,8 +105,7 @@ export function VerificationCard() {
             className="mt-3 w-full h-9 text-[12px]"
             onClick={() => fileRef.current?.click()}
           >
-            <Camera size={14} className="mr-1.5" />
-            {status === 'failed' ? 'Try again' : 'Take a selfie'}
+            📸 {status === 'failed' ? 'Try again' : 'Take a selfie'}
           </Button>
         </>
       )}
@@ -124,8 +122,7 @@ export function VerificationCard() {
               Retake
             </Button>
             <Button size="sm" className="flex-1 h-9 text-[12px]" onClick={handleSubmit}>
-              <ShieldCheck size={14} className="mr-1" />
-              Submit
+              🛡️ Submit
             </Button>
           </div>
         </div>

@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Heart, Share2, BadgeCheck, Users, MapPin, Clock, Star, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { formatDistanceToNow } from 'date-fns';
-import type { Request, Category } from '@/types/anybuddy';
+import type { Request } from '@/types/anybuddy';
 import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
 import { UrgencyBadge } from '@/components/ui/UrgencyBadge';
 import { ShareSheet } from '@/components/ShareSheet';
@@ -23,15 +22,15 @@ function getTimeIndicator(request: Request) {
   const minutesLeft = (new Date(request.expiresAt).getTime() - Date.now()) / 60000;
   
   if (minutesLeft <= 5 && minutesLeft > 0) {
-    return { label: 'Happening now', color: 'text-warning bg-warning/8', icon: Clock };
+    return { label: 'Happening now', color: 'text-warning bg-warning/8', emoji: '⏰' };
   }
   if (minutesLeft <= 15 && minutesLeft > 0) {
     const mins = Math.round(minutesLeft);
-    return { label: `${mins} min left`, color: 'text-destructive bg-destructive/8', icon: Clock };
+    return { label: `${mins} min left`, color: 'text-destructive bg-destructive/8', emoji: '⏰' };
   }
   if (minutesLeft <= 30 && minutesLeft > 0) {
     const mins = Math.round(minutesLeft);
-    return { label: `In ${mins} min`, color: 'text-warning bg-warning/8', icon: Clock };
+    return { label: `In ${mins} min`, color: 'text-warning bg-warning/8', emoji: '⏰' };
   }
   return null;
 }
@@ -41,13 +40,13 @@ function getHotIndicator(request: Request) {
   const fillPercentage = (request.seatsTaken / request.seatsTotal) * 100;
   
   if (seatsLeft === 1) {
-    return { label: '1 spot left', color: 'text-destructive bg-destructive/8', icon: Users };
+    return { label: '1 spot left', color: 'text-destructive bg-destructive/8', emoji: '👥' };
   }
   if (seatsLeft === 2) {
-    return { label: '2 spots left', color: 'text-destructive bg-destructive/8', icon: Users };
+    return { label: '2 spots left', color: 'text-destructive bg-destructive/8', emoji: '👥' };
   }
   if (fillPercentage >= 70) {
-    return { label: `${request.seatsTaken} joined`, color: 'text-primary bg-primary/8', icon: Users };
+    return { label: `${request.seatsTaken} joined`, color: 'text-primary bg-primary/8', emoji: '👥' };
   }
   return null;
 }
@@ -106,12 +105,12 @@ export function RequestCard({ request, onJoin, onView, isJoined, className }: Re
           <div className="flex flex-wrap items-center gap-1.5 mb-3">
             {timeIndicator && (
               <div className={cn('inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold whitespace-nowrap', timeIndicator.color)}>
-                <timeIndicator.icon size={10} /> {timeIndicator.label}
+                <span className="text-[10px]">{timeIndicator.emoji}</span> {timeIndicator.label}
               </div>
             )}
             {hotIndicator && (
               <div className={cn('inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold whitespace-nowrap', hotIndicator.color)}>
-                <hotIndicator.icon size={10} /> {hotIndicator.label}
+                <span className="text-[10px]">{hotIndicator.emoji}</span> {hotIndicator.label}
               </div>
             )}
           </div>
@@ -126,7 +125,7 @@ export function RequestCard({ request, onJoin, onView, isJoined, className }: Re
           <div className="flex-1 min-w-0">
             <h3 className="font-bold text-[15px] text-foreground leading-snug line-clamp-2 mb-1.5 tracking-tight">{request.title}</h3>
             <p className="text-[12px] text-muted-foreground font-medium truncate flex items-center gap-1">
-              <MapPin size={11} className="shrink-0" /> {request.location.name} · {request.location.distance} km
+              <span className="text-[11px]">📍</span> {request.location.name} · {request.location.distance} km
             </p>
           </div>
         </div>
@@ -159,7 +158,7 @@ export function RequestCard({ request, onJoin, onView, isJoined, className }: Re
             onClick={handleJoinClick}
             disabled={seatsLeft === 0 && !isJoined}
           >
-            {isJoined ? '✓ Joined' : seatsLeft === 0 ? 'Full' : <>Join <ArrowRight size={12} /></>}
+            {isJoined ? '✓ Joined' : seatsLeft === 0 ? 'Full' : <>Join →</>}
           </Button>
         </div>
 
@@ -170,20 +169,22 @@ export function RequestCard({ request, onJoin, onView, isJoined, className }: Re
             <span className="text-[11px] text-muted-foreground font-medium hover:text-foreground transition-colors flex items-center gap-1">
               {request.userName}
               {(request.userTrust === 'trusted' || request.userTrust === 'anchor') && (
-                <BadgeCheck size={13} className="text-primary" strokeWidth={2.5} />
+                <span className="text-[10px]">✅</span>
               )}
               {request.userReliability && (
-                <span className="ml-0.5 flex items-center gap-0.5 opacity-60">· <Star size={9} /> {request.userReliability}%</span>
+                <span className="ml-0.5 flex items-center gap-0.5 opacity-60">· ⭐ {request.userReliability}%</span>
               )}
             </span>
           </button>
           
           <div className="flex items-center gap-2">
             <button onClick={handleSaveClick} className="tap-scale p-1 -m-1 rounded-full hover:bg-muted/50 transition-colors">
-              <Heart size={14} className={cn(isSaved ? 'fill-destructive text-destructive' : 'text-muted-foreground/30 hover:text-muted-foreground/50 transition-colors')} />
+              <span className={cn('text-[14px]', isSaved ? '' : 'opacity-30 hover:opacity-50 transition-opacity')}>
+                {isSaved ? '❤️' : '🤍'}
+              </span>
             </button>
             <button onClick={handleShareClick} className="tap-scale p-1 -m-1 rounded-full hover:bg-muted/50 transition-colors">
-              <Share2 size={13} className="text-muted-foreground/30 hover:text-muted-foreground/50 transition-colors" />
+              <span className="text-[13px] opacity-30 hover:opacity-50 transition-opacity">📤</span>
             </button>
           </div>
         </div>
