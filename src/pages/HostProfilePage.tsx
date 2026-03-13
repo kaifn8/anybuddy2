@@ -48,8 +48,7 @@ export default function HostProfilePage() {
       <div className="px-5 pt-5 space-y-4">
         {/* Profile card — glass */}
         <div className="liquid-glass-heavy p-5 text-center">
-          <img src={host.userAvatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${host.userName}`}
-            alt={host.userName} className="w-20 h-20 rounded-full mx-auto border-3 border-background" />
+          <GradientAvatar name={host.userName} size={80} className="mx-auto border-3 border-background text-2xl" />
           <h2 className="text-title font-bold mt-3">{host.userName}</h2>
           {host.userGender && (
             <span className="text-xs text-muted-foreground capitalize mt-0.5">
