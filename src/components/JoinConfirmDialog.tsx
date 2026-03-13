@@ -74,9 +74,9 @@ export function JoinConfirmDialog({ open, onClose, onConfirm, request }: JoinCon
     onClose();
   };
 
-  const avatars = [
-    request.userAvatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${request.userName}`,
-    ...request.participants.map(p => p.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${p.name}`),
+  const attendeeNames = [
+    request.userName,
+    ...request.participants.map(p => p.name),
   ];
 
   const countdownPercent = (countdown / RESERVATION_SECONDS) * 100;
