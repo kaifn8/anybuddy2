@@ -12,7 +12,7 @@ import { ProfileHero } from '@/components/profile/ProfileHero';
 import { VerificationCard } from '@/components/profile/VerificationCard';
 import { cn } from '@/lib/utils';
 
-const TRUST_PROGRESSION: { level: TrustLevel; label: string; icon: React.ComponentType<{ size?: number; className?: string }>; requirement: string; joinsNeeded: number }[] = [
+const TRUST_PROGRESSION: { level: TrustLevel; label: string; icon: LucideIcon; requirement: string; joinsNeeded: number }[] = [
   { level: 'seed', label: 'New', icon: Sparkles, requirement: 'Just getting started', joinsNeeded: 0 },
   { level: 'solid', label: 'Solid', icon: Shield, requirement: '3 plans completed', joinsNeeded: 3 },
   { level: 'trusted', label: 'Trusted', icon: Star, requirement: '10 plans + 85% reliability', joinsNeeded: 10 },
