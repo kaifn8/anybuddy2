@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { TopBar } from '@/components/layout/TopBar';
 import { BottomNav } from '@/components/layout/BottomNav';
 import { useAppStore } from '@/store/useAppStore';
-import { ChevronRight, Moon, Globe, Bell, Mail, MapPin, Lock, HelpCircle, Bug, Star, LogOut, Zap, UserPlus } from 'lucide-react';
+import { ChevronRight, Moon, Globe, Bell, Mail, MapPin, Lock, HelpCircle, Bug, Star, LogOut, Zap, UserPlus, type LucideIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
 import { Separator } from '@/components/ui/separator';
