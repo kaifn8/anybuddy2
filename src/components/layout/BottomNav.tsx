@@ -21,7 +21,7 @@ export const BottomNav = React.forwardRef<HTMLElement, object>(function BottomNa
   return (
     <>
       {/* Desktop sidebar — lg and up */}
-      <nav ref={ref} className="hidden lg:flex fixed left-0 top-0 bottom-0 w-60 z-50 flex-col border-r border-border/30 bg-background/80 backdrop-blur-xl">
+      <nav ref={ref} className="hidden lg:flex fixed left-0 top-0 bottom-0 w-60 z-50 flex-col liquid-glass-nav" style={{ borderRight: '0.5px solid hsla(var(--glass-border))', borderBottom: 'none' }}>
         <div className="px-5 h-14 flex items-center">
           <span className="text-[20px]" style={{ fontFamily: "'Pacifico', cursive" }}>
             any<span className="text-primary">buddy</span>
