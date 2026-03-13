@@ -37,7 +37,6 @@ export const BottomNav = React.forwardRef<HTMLElement, object>(function BottomNa
         <div className="flex-1 flex flex-col gap-0.5 px-3 pt-2">
           {navItems.map((item) => {
             const isActive = location.pathname === item.path;
-            const Icon = item.icon;
 
             if (item.isMain) {
               return (
