@@ -208,7 +208,7 @@ function SettingsToggle({
 function SettingsLink({
   icon: Icon, iconBg, label, value, onClick, soon,
 }: {
-  icon: React.ComponentType<{ size?: number; className?: string }>; iconBg: string; label: string;
+  icon: LucideIcon; iconBg: string; label: string;
   value?: string; onClick?: () => void; soon?: boolean;
 }) {
   return (
