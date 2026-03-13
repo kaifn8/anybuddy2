@@ -186,7 +186,7 @@ export default function HomePage() {
               return (
                 <button key={req.id} onClick={() => navigate(`/request/${req.id}`)}
                   className="shrink-0 liquid-glass-trending tap-scale min-w-[220px] max-w-[240px] lg:min-w-[280px] lg:max-w-[320px] text-left relative overflow-hidden snap-start">
-                  <div className="absolute inset-0 opacity-[0.04]" style={{
+                  <div className="absolute inset-0 opacity-[0.06]" style={{
                     background: `radial-gradient(ellipse at 20% 10%, hsl(var(--primary)), transparent 70%)`,
                   }} />
                   <div className="relative z-10" style={{ padding: '1.125rem' }}>
