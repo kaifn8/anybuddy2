@@ -125,8 +125,7 @@ export function JoinConfirmDialog({ open, onClose, onConfirm, request }: JoinCon
 
           {/* Host */}
           <div className="flex items-center gap-2 mt-2.5">
-            <img src={request.userAvatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${request.userName}`}
-              alt={request.userName} className="w-5 h-5 rounded-full" />
+            <GradientAvatar name={request.userName} size={20} showInitials={false} />
             <span className="text-xs font-medium">{request.userName}</span>
             {request.userReliability && (
               <span className="text-2xs text-success font-semibold">{request.userReliability}% reliable</span>

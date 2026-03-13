@@ -90,8 +90,7 @@ export default function HostProfilePage() {
               <div key={i} className="liquid-glass p-3" style={{ borderRadius: '0.75rem' }}>
                 <div className="flex items-center justify-between mb-1">
                   <div className="flex items-center gap-1.5">
-                    <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${review.name}`}
-                      alt={review.name} className="w-5 h-5 rounded-full" />
+                    <GradientAvatar name={review.name} size={20} showInitials={false} />
                     <span className="text-xs font-semibold">{review.name}</span>
                   </div>
                   <span className="text-[10px] text-muted-foreground">{review.ago}</span>

@@ -262,8 +262,7 @@ export default function RequestDetailPage() {
           {typingUser && (
             <div className="flex items-end gap-2 mb-2 animate-fade-in">
               <div className="w-7 shrink-0">
-                <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${typingUser}`}
-                  alt="" className="w-7 h-7 rounded-full" />
+                <GradientAvatar name={typingUser} size={28} showInitials={false} />
               </div>
               <div>
                 <p className="text-[10px] font-medium text-muted-foreground ml-1 mb-1">{typingUser}</p>

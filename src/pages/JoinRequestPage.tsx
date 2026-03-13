@@ -167,7 +167,7 @@ export default function JoinRequestPage() {
                 </div>
                 <h2 className="text-body font-bold mt-1.5 mb-2.5">{request.title}</h2>
                 <div className="flex items-center gap-2.5">
-                  <img src={request.userAvatar} alt={request.userName} className="w-7 h-7 rounded-full" />
+                  <GradientAvatar name={request.userName} size={28} showInitials={false} />
                   <div>
                     <p className="text-sm font-semibold">{request.userName}</p>
                     <TrustBadge level={request.userTrust} size="sm" />

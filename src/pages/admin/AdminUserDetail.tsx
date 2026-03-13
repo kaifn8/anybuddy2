@@ -323,7 +323,7 @@ export default function AdminUserDetail() {
             <div className="flex items-center gap-2 mb-2">
               <div className="flex -space-x-2">
                 {selectedConv.participants.map(p => (
-                  <img key={p.id} src={p.avatar} alt={p.name} className="w-7 h-7 rounded-full border-2 border-background" />
+                  <GradientAvatar key={p.id} name={p.name} size={28} showInitials={false} className="border-2 border-background" />
                 ))}
               </div>
               <div className="flex-1 min-w-0">
