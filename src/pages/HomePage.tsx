@@ -175,13 +175,10 @@ export default function HomePage() {
       {/* Trending */}
       {trending.length > 0 && (
         <div className="pt-5 mb-1">
-          <div className="flex items-center justify-between px-5 mb-4">
+          <div className="flex items-center px-5 mb-4">
             <h3 className="text-[15px] font-bold text-foreground flex items-center gap-2 tracking-tight">
               📈 Filling up fast
             </h3>
-            <button className="text-[11px] font-semibold text-primary tap-scale flex items-center gap-0.5">
-              See all ›
-            </button>
           </div>
           <div ref={trendingRef} className="flex gap-3 overflow-x-auto scrollbar-hide px-5 pb-4 lg:flex-wrap snap-x snap-mandatory">
             {trending.map((req) => {
