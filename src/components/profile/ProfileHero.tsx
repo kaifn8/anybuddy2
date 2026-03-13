@@ -10,7 +10,7 @@ interface ProfileHeroProps {
 function VerificationPill({ status }: { status: VerificationStatus }) {
   if (status === 'verified') {
     return (
-      <div className="flex items-center gap-1 px-2.5 py-[3px] rounded-full bg-primary/10 text-primary text-[10px] font-semibold">
+      <div className="flex items-center gap-1 px-2.5 py-[3px] rounded-full bg-primary/8 text-primary text-[10px] font-bold">
         <ShieldCheck size={10} />
         Verified
       </div>
@@ -18,7 +18,7 @@ function VerificationPill({ status }: { status: VerificationStatus }) {
   }
   if (status === 'pending') {
     return (
-      <div className="flex items-center gap-1 px-2.5 py-[3px] rounded-full bg-warning/15 text-warning text-[10px] font-semibold">
+      <div className="flex items-center gap-1 px-2.5 py-[3px] rounded-full bg-warning/10 text-warning text-[10px] font-bold">
         <Clock size={10} />
         Pending
       </div>
@@ -26,7 +26,7 @@ function VerificationPill({ status }: { status: VerificationStatus }) {
   }
   if (status === 'failed') {
     return (
-      <div className="flex items-center gap-1 px-2.5 py-[3px] rounded-full bg-destructive/15 text-destructive text-[10px] font-semibold">
+      <div className="flex items-center gap-1 px-2.5 py-[3px] rounded-full bg-destructive/10 text-destructive text-[10px] font-bold">
         <AlertCircle size={10} />
         Failed
       </div>
@@ -44,18 +44,17 @@ export function ProfileHero({ user, joinText, stats }: ProfileHeroProps) {
 
   return (
     <div className="relative overflow-hidden liquid-glass-heavy">
-      {/* Soft gradient accent at top */}
-      <div className="absolute top-0 left-0 right-0 h-28 opacity-[0.06]" style={{
-        background: 'linear-gradient(180deg, hsl(var(--primary)) 0%, transparent 100%)',
+      {/* Subtle ambient glow */}
+      <div className="absolute top-0 left-0 right-0 h-32 opacity-[0.04]" style={{
+        background: 'radial-gradient(ellipse at 50% 0%, hsl(var(--primary)), transparent 70%)',
       }} />
 
       <div className="relative z-10">
-        {/* Profile content */}
-        <div className="flex flex-col items-center px-6 pt-7 pb-5">
-          {/* Avatar */}
-          <div className="relative mb-3.5">
-            <div className="w-[84px] h-[84px] rounded-full p-[2.5px]" style={{
-              background: 'linear-gradient(135deg, hsl(var(--primary) / 0.3), hsl(var(--secondary) / 0.2))',
+        <div className="flex flex-col items-center px-6 pt-8 pb-6">
+          {/* Avatar — refined ring */}
+          <div className="relative mb-4">
+            <div className="w-[88px] h-[88px] rounded-full p-[2px]" style={{
+              background: 'linear-gradient(145deg, hsl(var(--primary) / 0.25), hsl(var(--secondary) / 0.15), hsl(var(--primary) / 0.1))',
             }}>
               <div className="w-full h-full rounded-full overflow-hidden liquid-glass" style={{ borderRadius: '50%' }}>
                 <img
@@ -66,8 +65,8 @@ export function ProfileHero({ user, joinText, stats }: ProfileHeroProps) {
               </div>
             </div>
             {verificationStatus === 'verified' && (
-              <div className="absolute -bottom-0.5 -right-0.5 w-6 h-6 rounded-full flex items-center justify-center bg-primary shadow-md" style={{
-                boxShadow: '0 2px 8px hsl(var(--primary) / 0.35), 0 0 0 2px hsl(var(--background))',
+              <div className="absolute -bottom-0.5 -right-0.5 w-6 h-6 rounded-full flex items-center justify-center bg-primary" style={{
+                boxShadow: '0 2px 8px hsl(var(--primary) / 0.3), 0 0 0 2px hsl(var(--background))',
               }}>
                 <BadgeCheck size={13} className="text-primary-foreground" strokeWidth={2.5} />
               </div>
@@ -75,13 +74,13 @@ export function ProfileHero({ user, joinText, stats }: ProfileHeroProps) {
           </div>
 
           {/* Name */}
-          <h2 className="text-[22px] font-bold tracking-tight text-foreground">{user.firstName}</h2>
+          <h2 className="text-[24px] font-bold tracking-tight text-foreground">{user.firstName}</h2>
 
-          {/* Meta row */}
-          <div className="flex items-center gap-2 mt-1.5">
+          {/* Meta */}
+          <div className="flex items-center gap-2 mt-2">
             {user.gender && (
               <span className="text-[11px] font-medium capitalize text-muted-foreground">
-                {user.gender === 'male' ? '👨' : user.gender === 'female' ? '👩' : '🧑'} {user.gender}
+                {user.gender}
               </span>
             )}
             <VerificationPill status={verificationStatus} />
@@ -89,32 +88,32 @@ export function ProfileHero({ user, joinText, stats }: ProfileHeroProps) {
 
           {/* Bio */}
           {user.bio && (
-            <p className="text-[12px] text-center mt-3 leading-[1.6] max-w-[250px] text-muted-foreground">
+            <p className="text-[13px] text-center mt-3.5 leading-[1.65] max-w-[260px] text-muted-foreground">
               {user.bio}
             </p>
           )}
 
           {/* Location + join date */}
-          <div className="flex items-center gap-3 mt-3 text-muted-foreground/60">
+          <div className="flex items-center gap-3 mt-3.5 text-muted-foreground/50">
             <div className="flex items-center gap-1">
               <MapPin size={10} />
-              <span className="text-[10.5px] font-medium">{user.zone ? `${user.zone}, ${user.city}` : user.city}</span>
+              <span className="text-[11px] font-medium">{user.zone ? `${user.zone}, ${user.city}` : user.city}</span>
             </div>
-            <span className="w-px h-2.5 bg-border" />
-            <span className="text-[10.5px] font-medium">{joinText}</span>
+            <span className="w-px h-2.5 bg-border/50" />
+            <span className="text-[11px] font-medium">{joinText}</span>
           </div>
         </div>
 
-        {/* Stats — glass row */}
-        <div className="mx-4 mb-4 grid grid-cols-3 overflow-hidden rounded-2xl liquid-glass" style={{ borderRadius: '1rem' }}>
+        {/* Stats */}
+        <div className="mx-5 mb-5 grid grid-cols-3 overflow-hidden rounded-[1rem] liquid-glass" style={{ borderRadius: '1rem' }}>
           {stats.map((stat, i) => (
-            <div key={i} className="flex flex-col items-center py-3.5 gap-1" style={{
+            <div key={i} className="flex flex-col items-center py-4 gap-1" style={{
               borderRight: i < 2 ? '0.5px solid hsla(var(--glass-border))' : undefined,
             }}>
-              <span className="text-[18px] font-bold tabular-nums text-foreground">
+              <span className="text-[20px] font-bold tabular-nums text-foreground tracking-tight">
                 {stat.value}
               </span>
-              <span className="text-[8.5px] font-semibold uppercase tracking-[0.08em] text-muted-foreground">
+              <span className="text-[8px] font-bold uppercase tracking-[0.1em] text-muted-foreground/60">
                 {stat.label}
               </span>
             </div>

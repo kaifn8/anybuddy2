@@ -24,27 +24,27 @@ export function TopBar({ showBack = false, title, hideChat = false, showSettings
 
   return (
     <header className="sticky top-0 z-40 lg:pl-64 liquid-glass-nav">
-      <div className="max-w-md md:max-w-2xl lg:max-w-4xl xl:max-w-5xl mx-auto flex items-center justify-between h-[50px] px-5">
+      <div className="max-w-md md:max-w-2xl lg:max-w-4xl xl:max-w-5xl mx-auto flex items-center justify-between h-[48px] px-5">
         {/* Left */}
         <div className="w-20 flex items-center">
           {showBack ? (
             <button onClick={() => navigate(-1)} className="tap-scale w-8 h-8 rounded-full liquid-glass flex items-center justify-center" style={{ borderRadius: '50%' }}>
-              <ArrowLeft className="w-[18px] h-[18px] text-foreground" />
+              <ArrowLeft className="w-4 h-4 text-foreground" />
             </button>
           ) : (
             <div className="flex items-center gap-1.5">
               <span className="relative flex items-center justify-center">
-                <span className="w-[5px] h-[5px] rounded-full bg-success" />
-                <span className="absolute w-[5px] h-[5px] rounded-full bg-success animate-ping opacity-60" />
+                <span className="w-[4px] h-[4px] rounded-full bg-success" />
+                <span className="absolute w-[4px] h-[4px] rounded-full bg-success animate-ping opacity-50" />
               </span>
-              <span className="text-[10px] font-semibold text-success tracking-wide">{activeCount} live</span>
+              <span className="text-[10px] font-bold text-success tracking-wide">{activeCount} live</span>
             </div>
           )}
         </div>
 
         {/* Center */}
         {title ? (
-          <span className="text-[15px] font-semibold text-foreground tracking-tight">{title}</span>
+          <span className="text-[15px] font-bold text-foreground tracking-tight">{title}</span>
         ) : (
           <>
             <span className="text-[20px] lg:hidden" style={{ fontFamily: "'Pacifico', cursive" }}>
@@ -55,22 +55,22 @@ export function TopBar({ showBack = false, title, hideChat = false, showSettings
         )}
 
         {/* Right */}
-        <div className="w-20 flex items-center justify-end gap-1">
+        <div className="w-20 flex items-center justify-end gap-1.5">
           {showSettings ? (
             <button
               onClick={() => navigate('/settings')}
               className="tap-scale w-8 h-8 rounded-full liquid-glass flex items-center justify-center" style={{ borderRadius: '50%' }}
             >
-              <Settings size={16} className="text-muted-foreground" />
+              <Settings size={15} strokeWidth={1.6} className="text-muted-foreground" />
             </button>
           ) : !hideChat ? (
             <button
               onClick={() => navigate('/chats')}
               className="relative tap-scale w-8 h-8 rounded-full liquid-glass flex items-center justify-center" style={{ borderRadius: '50%' }}
             >
-              <MessageSquare size={16} className="text-muted-foreground" />
+              <MessageSquare size={15} strokeWidth={1.6} className="text-muted-foreground" />
               {unreadChats > 0 && (
-                <span className="absolute -top-0.5 -right-0.5 min-w-[15px] h-[15px] rounded-full bg-destructive text-destructive-foreground text-[8px] font-bold flex items-center justify-center px-[3px]">
+                <span className="absolute -top-0.5 -right-0.5 min-w-[14px] h-[14px] rounded-full bg-destructive text-destructive-foreground text-[7px] font-bold flex items-center justify-center px-[2px]">
                   {unreadChats > 9 ? '9+' : unreadChats}
                 </span>
               )}

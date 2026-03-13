@@ -45,24 +45,24 @@ export default function NotificationsPage() {
     return (
       <button onClick={() => handleClick(n)}
         className={cn(
-          'w-full liquid-glass-interactive flex items-start gap-3 py-3 px-3 text-left mb-1.5',
-          !n.read && 'ring-1 ring-primary/10'
+          'w-full liquid-glass-interactive flex items-start gap-3.5 py-3.5 px-3.5 text-left mb-2',
+          !n.read && 'ring-1 ring-primary/8'
         )}>
-        <div className="w-8 h-8 rounded-xl liquid-glass flex items-center justify-center shrink-0 mt-0.5" style={{ borderRadius: '0.625rem' }}>
-          <Icon size={15} className="text-muted-foreground" />
+        <div className="w-9 h-9 rounded-[0.625rem] liquid-glass flex items-center justify-center shrink-0 mt-0.5" style={{ borderRadius: '0.625rem' }}>
+          <Icon size={15} className="text-muted-foreground" strokeWidth={1.6} />
         </div>
         <div className="flex-1 min-w-0">
-          <p className={cn('text-sm leading-snug', n.read ? 'font-normal text-muted-foreground' : 'font-semibold text-foreground')}>{n.title}</p>
-          <p className="text-2xs text-muted-foreground mt-0.5 line-clamp-2">{n.message}</p>
-          <p className="text-2xs text-muted-foreground/50 mt-1">{formatDistanceToNow(new Date(n.timestamp), { addSuffix: true })}</p>
+          <p className={cn('text-[13px] leading-snug tracking-tight', n.read ? 'font-medium text-muted-foreground' : 'font-bold text-foreground')}>{n.title}</p>
+          <p className="text-[11px] text-muted-foreground mt-1 line-clamp-2 leading-relaxed">{n.message}</p>
+          <p className="text-[10px] text-muted-foreground/40 mt-1.5 font-medium">{formatDistanceToNow(new Date(n.timestamp), { addSuffix: true })}</p>
         </div>
-        {!n.read && <div className="w-2 h-2 rounded-full bg-primary shrink-0 mt-2" />}
+        {!n.read && <div className="w-2 h-2 rounded-full bg-primary shrink-0 mt-2.5" />}
       </button>
     );
   };
 
   const SectionHeader = ({ label }: { label: string }) => (
-    <p className="text-2xs font-semibold text-muted-foreground/70 uppercase tracking-wider pt-4 pb-1.5">{label}</p>
+    <p className="section-label pt-5 pb-2">{label}</p>
   );
 
   const handleShare = async () => {
@@ -83,20 +83,20 @@ export default function NotificationsPage() {
       <TopBar showBack title="Notifications" />
       
       {unreadCount > 0 && (
-        <div className="flex justify-end px-5 pt-1">
-          <button onClick={markAllRead} className="text-2xs text-primary font-semibold tap-scale flex items-center gap-1">
+        <div className="flex justify-end px-5 pt-2">
+          <button onClick={markAllRead} className="text-[11px] text-primary font-bold tap-scale flex items-center gap-1">
             <CheckCheck size={12} /> Mark all read
           </button>
         </div>
       )}
 
       {allRead && (
-        <div className="text-center px-5 pt-4 pb-2">
-          <div className="w-12 h-12 rounded-2xl liquid-glass flex items-center justify-center mx-auto mb-2">
+        <div className="text-center px-5 pt-6 pb-3">
+          <div className="w-14 h-14 rounded-[1.125rem] liquid-glass flex items-center justify-center mx-auto mb-3">
             <Sparkles size={22} className="text-primary" />
           </div>
-          <p className="text-sm font-semibold text-foreground">You're all caught up!</p>
-          <p className="text-2xs text-muted-foreground mt-0.5">No new notifications right now</p>
+          <p className="text-base font-bold text-foreground tracking-tight">All caught up</p>
+          <p className="text-sm text-muted-foreground mt-1">No new notifications right now</p>
         </div>
       )}
       
@@ -123,12 +123,12 @@ export default function NotificationsPage() {
             )}
           </div>
         ) : (
-          <div className="text-center py-16">
-            <div className="w-16 h-16 rounded-3xl liquid-glass flex items-center justify-center mx-auto mb-4">
-              <Bell size={28} className="text-muted-foreground" />
+          <div className="text-center py-20">
+            <div className="w-16 h-16 rounded-[1.25rem] liquid-glass flex items-center justify-center mx-auto mb-5">
+              <Bell size={26} className="text-muted-foreground" />
             </div>
-            <p className="text-sm font-medium text-foreground mb-2">No updates yet</p>
-            <div className="text-xs text-muted-foreground space-y-1.5 mb-6">
+            <p className="text-base font-bold text-foreground mb-2 tracking-tight">No updates yet</p>
+            <div className="text-sm text-muted-foreground space-y-1.5 mb-8 leading-relaxed">
               <p>You'll get notified when:</p>
               <p>Someone joins your plan</p>
               <p>A plan starts soon nearby</p>
@@ -140,13 +140,13 @@ export default function NotificationsPage() {
           </div>
         )}
 
-        {/* Invite Friends */}
-        <div className="mt-6 mb-4 p-4 liquid-glass-heavy text-center">
-          <div className="w-10 h-10 rounded-xl liquid-glass flex items-center justify-center mx-auto mb-2">
-            <Share2 size={18} className="text-primary" />
+        {/* Invite */}
+        <div className="mt-8 mb-4 p-5 liquid-glass-heavy text-center">
+          <div className="w-11 h-11 rounded-[0.75rem] liquid-glass flex items-center justify-center mx-auto mb-3" style={{ borderRadius: '0.75rem' }}>
+            <Share2 size={17} className="text-primary" />
           </div>
-          <p className="text-sm font-semibold text-foreground">Invite friends to AnyBuddy</p>
-          <p className="text-2xs text-muted-foreground mt-1 mb-3">More friends = more plans nearby</p>
+          <p className="text-[15px] font-bold text-foreground tracking-tight">Invite friends to AnyBuddy</p>
+          <p className="text-sm text-muted-foreground mt-1.5 mb-4">More friends = more plans nearby</p>
           <Button onClick={handleShare} size="sm" className="mx-auto gap-1.5">
             <Share2 size={14} /> Share Invite Link
           </Button>

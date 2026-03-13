@@ -30,34 +30,37 @@ function TrustProgressionCard({ trustLevel, completedJoins, reliabilityScore }: 
     : 100;
 
   return (
-    <div className="liquid-glass-heavy p-4">
-      <div className="flex items-center justify-between mb-3">
-        <div className="flex items-center gap-2.5">
-          <div className="w-10 h-10 rounded-xl liquid-glass flex items-center justify-center" style={{ borderRadius: '0.75rem' }}>
+    <div className="liquid-glass-heavy p-5">
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center gap-3">
+          <div className="w-11 h-11 rounded-[0.75rem] liquid-glass flex items-center justify-center" style={{ borderRadius: '0.75rem' }}>
             <CurrentIcon size={20} className="text-primary" />
           </div>
           <div>
-            <p className="text-[13px] font-bold text-foreground">{current.label} member</p>
-            <p className="text-[10px] text-muted-foreground">{current.requirement}</p>
+            <p className="text-[14px] font-bold text-foreground tracking-tight">{current.label} member</p>
+            <p className="text-[11px] text-muted-foreground mt-0.5">{current.requirement}</p>
           </div>
         </div>
         {nextLevel && (
           <div className="text-right">
             <p className="text-[10px] text-muted-foreground">Next: {nextLevel.label}</p>
-            <p className="text-[10px] text-primary font-bold">{nextLevel.joinsNeeded - completedJoins} more plans</p>
+            <p className="text-[11px] text-primary font-bold">{nextLevel.joinsNeeded - completedJoins} more</p>
           </div>
         )}
       </div>
       
       {nextLevel && (
-        <div className="space-y-1.5">
-          <div className="w-full h-[5px] rounded-full overflow-hidden bg-muted/50">
+        <div className="space-y-2">
+          <div className="w-full h-[5px] rounded-full overflow-hidden bg-muted/40">
             <div 
-              className="h-full rounded-full transition-all duration-700 bg-primary"
-              style={{ width: `${progressToNext}%` }}
+              className="h-full rounded-full transition-all duration-700"
+              style={{ 
+                width: `${progressToNext}%`,
+                background: 'linear-gradient(90deg, hsl(var(--primary)), hsl(var(--primary) / 0.7))'
+              }}
             />
           </div>
-          <p className="text-[9px] text-muted-foreground text-center">
+          <p className="text-[10px] text-muted-foreground/60 text-center font-medium">
             {nextLevel.level === 'trusted' && reliabilityScore < 85 
               ? `Need ${85 - reliabilityScore}% more reliability`
               : nextLevel.level === 'anchor' && reliabilityScore < 95
@@ -68,9 +71,9 @@ function TrustProgressionCard({ trustLevel, completedJoins, reliabilityScore }: 
       )}
       
       {!nextLevel && (
-        <div className="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-primary/8">
+        <div className="flex items-center gap-2.5 px-3.5 py-3 rounded-[0.875rem] bg-primary/6" style={{ borderRadius: '0.875rem' }}>
           <Trophy size={14} className="text-primary" />
-          <p className="text-[11px] text-primary font-semibold">Max level reached. You get the best rates.</p>
+          <p className="text-[12px] text-primary font-semibold">Max level reached — you get the best rates.</p>
         </div>
       )}
     </div>
@@ -101,10 +104,11 @@ export default function ProfilePage() {
     return (
       <div className="mobile-container min-h-screen bg-ambient flex items-center justify-center">
         <div className="text-center px-8">
-          <div className="w-16 h-16 rounded-3xl liquid-glass flex items-center justify-center mx-auto mb-4">
-            <User size={28} className="text-muted-foreground" />
+          <div className="w-16 h-16 rounded-[1.25rem] liquid-glass flex items-center justify-center mx-auto mb-5">
+            <User size={26} className="text-muted-foreground" />
           </div>
-          <p className="text-sm text-muted-foreground mb-5">Sign in to view your profile</p>
+          <p className="text-base font-semibold text-foreground mb-1.5 tracking-tight">Sign in to view your profile</p>
+          <p className="text-sm text-muted-foreground mb-6">Your plans, badges, and stats all in one place</p>
           <Button onClick={() => navigate('/signup')} className="h-11 px-8">Sign In</Button>
         </div>
       </div>
@@ -137,43 +141,42 @@ export default function ProfilePage() {
       <div className="mobile-container min-h-screen bg-ambient pb-28">
         <TopBar title="Profile" hideChat showSettings />
 
-        <div className="px-4 pt-2 space-y-3">
+        <div className="px-5 pt-3 space-y-3">
           <ProfileHero user={user} joinText={joinText} stats={stats} />
           <TrustProgressionCard trustLevel={user.trustLevel} completedJoins={user.completedJoins} reliabilityScore={user.reliabilityScore} />
           <VerificationCard />
 
-          {/* Invite nudge — glass */}
+          {/* Invite nudge */}
           <button
             onClick={() => navigate('/invite')}
-            className="w-full liquid-glass-interactive flex items-center gap-3 px-4 py-3.5 text-left"
+            className="w-full liquid-glass-interactive flex items-center gap-3 px-4 py-4 text-left"
           >
-            <div className="w-9 h-9 rounded-xl liquid-glass flex items-center justify-center" style={{ borderRadius: '0.625rem' }}>
+            <div className="w-10 h-10 rounded-[0.75rem] liquid-glass flex items-center justify-center" style={{ borderRadius: '0.75rem' }}>
               <Gift size={18} className="text-primary" />
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-[13px] font-semibold text-foreground">Bring your crew</p>
-              <p className="text-[10px] text-muted-foreground">3 friends = double credits</p>
+              <p className="text-[14px] font-bold text-foreground tracking-tight">Bring your crew</p>
+              <p className="text-[11px] text-muted-foreground mt-0.5">3 friends = double credits</p>
             </div>
-            <ArrowUpRight size={15} className="text-muted-foreground/40 shrink-0" />
+            <ArrowUpRight size={14} className="text-muted-foreground/30 shrink-0" />
           </button>
 
-          {/* Tabs — glass */}
-          <div className="flex gap-1 p-1 rounded-[16px] liquid-glass" style={{ borderRadius: '1rem' }}>
+          {/* Tabs */}
+          <div className="flex gap-1 p-1 rounded-[1rem] liquid-glass" style={{ borderRadius: '1rem' }}>
             {(['overview', 'activity'] as const).map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
                 className={cn(
-                  'flex-1 py-2 text-xs font-semibold transition-all tap-scale capitalize rounded-xl',
+                  'flex-1 py-2.5 text-xs font-semibold transition-all tap-scale capitalize',
                   activeTab === tab
-                    ? 'text-foreground liquid-glass-heavy'
-                    : 'text-muted-foreground hover:text-foreground'
+                    ? 'text-foreground liquid-glass-heavy rounded-[0.75rem]'
+                    : 'text-muted-foreground hover:text-foreground rounded-xl'
                 )}
-                style={activeTab === tab ? { borderRadius: '0.75rem' } : undefined}
               >
                 {tab}
                 {tab === 'activity' && activityCount > 0 && (
-                  <span className="ml-1.5 inline-flex items-center justify-center w-4 h-4 rounded-full bg-primary/15 text-primary text-[9px] font-bold">
+                  <span className="ml-1.5 inline-flex items-center justify-center w-4 h-4 rounded-full bg-primary/10 text-primary text-[9px] font-bold">
                     {activityCount}
                   </span>
                 )}
@@ -183,7 +186,7 @@ export default function ProfilePage() {
 
           {/* ── Overview ── */}
           {activeTab === 'overview' && (
-            <div className="space-y-4 pb-2">
+            <div className="space-y-5 pb-2">
               {user.interests.length > 0 && (
                 <Section title="Interests">
                   <div className="flex flex-wrap gap-2">
@@ -205,7 +208,7 @@ export default function ProfilePage() {
                       if (!config) return null;
                       const Icon = config.icon;
                       return (
-                        <div key={badge} className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-xl bg-primary/8 text-primary liquid-glass" style={{ borderRadius: '0.75rem' }}>
+                        <div key={badge} className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-[0.75rem] bg-primary/6 text-primary liquid-glass" style={{ borderRadius: '0.75rem' }}>
                           <Icon size={13} />
                           <span>{config.label}</span>
                         </div>
@@ -217,7 +220,7 @@ export default function ProfilePage() {
 
               {user.meetupsHosted > 0 && (
                 <Section title="Host Stats">
-                  <div className="grid grid-cols-2 gap-2">
+                  <div className="grid grid-cols-2 gap-2.5">
                     <StatTile
                       icon={CheckCircle}
                       label="Success rate"
@@ -229,13 +232,13 @@ export default function ProfilePage() {
               )}
 
               {user.interests.length === 0 && user.badges.length === 0 && user.meetupsHosted === 0 && (
-                <div className="text-center py-10">
-                  <div className="w-14 h-14 rounded-2xl liquid-glass flex items-center justify-center mx-auto mb-3">
-                    <Sparkles size={24} className="text-muted-foreground" />
+                <div className="text-center py-12">
+                  <div className="w-16 h-16 rounded-[1.25rem] liquid-glass flex items-center justify-center mx-auto mb-4">
+                    <Sparkles size={26} className="text-muted-foreground" />
                   </div>
-                  <p className="text-sm font-medium text-foreground mb-1">Nothing here yet</p>
-                  <p className="text-xs text-muted-foreground">Join a plan to get started</p>
-                  <Button onClick={() => navigate('/home')} variant="secondary" size="sm" className="mt-4">
+                  <p className="text-base font-semibold text-foreground mb-1.5 tracking-tight">Nothing here yet</p>
+                  <p className="text-sm text-muted-foreground">Join a plan to get started</p>
+                  <Button onClick={() => navigate('/home')} variant="secondary" size="sm" className="mt-5">
                     Browse plans
                   </Button>
                 </div>
@@ -245,7 +248,7 @@ export default function ProfilePage() {
 
           {/* ── Activity ── */}
           {activeTab === 'activity' && (
-            <div className="space-y-4 pb-2">
+            <div className="space-y-5 pb-2">
               <Section title="Past Meetups">
                 {pastMeetups.length > 0 ? (
                   <div className="space-y-2">
@@ -299,7 +302,7 @@ export default function ProfilePage() {
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div>
-      <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-2 px-0.5">{title}</p>
+      <p className="section-label mb-2.5 px-0.5">{title}</p>
       {children}
     </div>
   );
@@ -307,11 +310,11 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 
 function StatTile({ icon: Icon, label, value }: { icon: LucideIcon; label: string; value: string }) {
   return (
-    <div className="liquid-glass flex items-center gap-2.5 p-3" style={{ borderRadius: '1rem' }}>
-      <Icon size={16} className="text-muted-foreground" />
+    <div className="liquid-glass flex items-center gap-3 p-3.5" style={{ borderRadius: '1rem' }}>
+      <Icon size={15} className="text-muted-foreground shrink-0" />
       <div>
-        <p className="text-sm font-bold tabular-nums text-foreground">{value}</p>
-        <p className="text-[10px] text-muted-foreground">{label}</p>
+        <p className="text-[15px] font-bold tabular-nums text-foreground tracking-tight">{value}</p>
+        <p className="text-[10px] text-muted-foreground mt-0.5">{label}</p>
       </div>
     </div>
   );
@@ -319,11 +322,11 @@ function StatTile({ icon: Icon, label, value }: { icon: LucideIcon; label: strin
 
 function EmptyState({ icon: Icon, message, children }: { icon: LucideIcon; message: string; children?: React.ReactNode }) {
   return (
-    <div className="text-center py-8">
-      <div className="w-12 h-12 rounded-2xl liquid-glass flex items-center justify-center mx-auto mb-2">
+    <div className="text-center py-10">
+      <div className="w-14 h-14 rounded-[1.125rem] liquid-glass flex items-center justify-center mx-auto mb-3">
         <Icon size={22} className="text-muted-foreground" />
       </div>
-      <p className="text-xs text-muted-foreground mb-3">{message}</p>
+      <p className="text-sm text-muted-foreground mb-4">{message}</p>
       {children}
     </div>
   );
@@ -332,15 +335,15 @@ function EmptyState({ icon: Icon, message, children }: { icon: LucideIcon; messa
 function RequestRow({ req, onClick, subtitle }: { req: Request; onClick: () => void; subtitle?: string }) {
   return (
     <button onClick={onClick}
-      className="w-full liquid-glass-interactive flex items-center gap-3 p-3 text-left">
-      <div className="w-9 h-9 rounded-xl liquid-glass flex items-center justify-center shrink-0 text-lg" style={{ borderRadius: '0.625rem' }}>
+      className="w-full liquid-glass-interactive flex items-center gap-3 p-3.5 text-left">
+      <div className="w-10 h-10 rounded-[0.75rem] liquid-glass flex items-center justify-center shrink-0 text-lg" style={{ borderRadius: '0.75rem' }}>
         {getCategoryEmoji(req.category)}
       </div>
       <div className="flex-1 min-w-0">
-        <p className="font-semibold text-[13px] truncate group-hover:text-primary transition-colors text-foreground">{req.title}</p>
+        <p className="font-bold text-[13px] truncate text-foreground tracking-tight">{req.title}</p>
         <p className="text-[11px] text-muted-foreground mt-0.5">{subtitle || `${req.seatsTaken} people joined`}</p>
       </div>
-      <ChevronRight size={15} className="text-muted-foreground/30 shrink-0" />
+      <ChevronRight size={14} className="text-muted-foreground/25 shrink-0" />
     </button>
   );
 }
