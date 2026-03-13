@@ -251,7 +251,7 @@ export default function AdminUserDetail() {
                 >
                   <div className="flex items-center gap-3">
                     <div className="relative shrink-0">
-                      <img src={other.avatar} alt={other.name} className="w-9 h-9 rounded-full" />
+                      <GradientAvatar name={other.name} size={36} showInitials={false} />
                       {conv.isFlagged && (
                         <div className="absolute -top-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-warning flex items-center justify-center">
                           <Flag size={7} className="text-warning-foreground" />
