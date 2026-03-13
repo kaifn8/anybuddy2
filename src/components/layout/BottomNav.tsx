@@ -2,15 +2,15 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { useAppStore } from '@/store/useAppStore';
 import { GradientAvatar } from '@/components/ui/GradientAvatar';
-import { Plus, Home, MapPin, Bell } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import React from 'react';
 
 const navItems = [
-  { icon: Home, label: 'Home', path: '/home' },
-  { icon: MapPin, label: 'Map', path: '/map' },
-  { icon: Plus, label: 'Post', path: '/create', isMain: true },
-  { icon: Bell, label: 'Alerts', path: '/notifications' },
-  { icon: null, label: 'Me', path: '/profile' },
+  { emoji: '🏠', label: 'Home', path: '/home' },
+  { emoji: '🗺️', label: 'Map', path: '/map' },
+  { emoji: '+', label: 'Post', path: '/create', isMain: true },
+  { emoji: '🔔', label: 'Alerts', path: '/notifications' },
+  { emoji: '👤', label: 'Me', path: '/profile' },
 ];
 
 export const BottomNav = React.forwardRef<HTMLElement, object>(function BottomNav(_props, ref) {
