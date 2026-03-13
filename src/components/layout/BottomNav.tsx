@@ -101,7 +101,7 @@ export const BottomNav = React.forwardRef<HTMLElement, object>(function BottomNa
                         background: 'linear-gradient(145deg, hsl(var(--primary)) 0%, hsl(211 100% 42%) 100%)',
                         boxShadow: '0 4px 16px hsl(var(--primary) / 0.3), 0 1px 3px hsl(var(--primary) / 0.2), inset 0 1px 0 hsla(0 0% 100% / 0.15)',
                       }}>
-                      <span className="text-[20px]">➕</span>
+                      <span className="text-[20px]">🎉</span>
                     </div>
                     <span className="block text-center text-[9px] font-bold text-primary mt-1 tracking-tight">Post</span>
                   </button>

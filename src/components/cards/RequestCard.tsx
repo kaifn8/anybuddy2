@@ -169,7 +169,7 @@ export function RequestCard({ request, onJoin, onView, isJoined, className }: Re
             <span className="text-[11px] text-muted-foreground font-medium hover:text-foreground transition-colors flex items-center gap-1">
               {request.userName}
               {(request.userTrust === 'trusted' || request.userTrust === 'anchor') && (
-                <span className="text-[10px]">✅</span>
+                <svg className="w-3.5 h-3.5 inline-block ml-0.5" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="11" fill="hsl(var(--primary))"/><path d="M6.5 11.5L9.5 14.5L15.5 8.5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
               )}
               {request.userReliability && (
                 <span className="ml-0.5 flex items-center gap-0.5 opacity-60">· ⭐ {request.userReliability}%</span>
