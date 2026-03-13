@@ -9,31 +9,44 @@ import { JoinConfirmDialog } from '@/components/JoinConfirmDialog';
 import { useAppStore } from '@/store/useAppStore';
 import { cn } from '@/lib/utils';
 import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
+import { MapPin, Zap, TrendingUp, Sparkles, Coffee, Footprints, UtensilsCrossed, Dumbbell, type LucideIcon } from 'lucide-react';
 import type { Category, Request } from '@/types/anybuddy';
 
 const FILTERS: { id: Category | 'all'; label: string; emoji: string }[] = [
-  { id: 'all', label: 'All', emoji: '🔥' },
-  { id: 'chai', label: 'Coffee', emoji: '☕' },
-  { id: 'sports', label: 'Sports', emoji: '🏸' },
-  { id: 'food', label: 'Food', emoji: '🍜' },
-  { id: 'explore', label: 'Explore', emoji: '🧭' },
-  { id: 'work', label: 'Cowork', emoji: '💻' },
-  { id: 'walk', label: 'Walk', emoji: '🚶' },
-  { id: 'help', label: 'Help', emoji: '🤝' },
-  { id: 'casual', label: 'Chill', emoji: '✨' },
+  { id: 'all', label: 'All', emoji: '' },
+  { id: 'chai', label: 'Coffee', emoji: '' },
+  { id: 'sports', label: 'Sports', emoji: '' },
+  { id: 'food', label: 'Food', emoji: '' },
+  { id: 'explore', label: 'Explore', emoji: '' },
+  { id: 'work', label: 'Cowork', emoji: '' },
+  { id: 'walk', label: 'Walk', emoji: '' },
+  { id: 'help', label: 'Help', emoji: '' },
+  { id: 'casual', label: 'Chill', emoji: '' },
 ];
+
+const filterIcons: Record<string, LucideIcon> = {
+  all: TrendingUp,
+  chai: Coffee,
+  sports: Dumbbell,
+  food: UtensilsCrossed,
+  explore: MapPin,
+  work: Sparkles,
+  walk: Footprints,
+  help: Sparkles,
+  casual: Sparkles,
+};
 
 const QUICK_FILTERS = [
-  { id: 'near', label: '📍 Closest first', sort: (a: Request, b: Request) => a.location.distance - b.location.distance },
-  { id: 'soon', label: '⚡ Starting now', sort: (a: Request, b: Request) => new Date(a.expiresAt).getTime() - new Date(b.expiresAt).getTime() },
-  { id: 'popular', label: '🔥 Filling fast', sort: (a: Request, b: Request) => b.seatsTaken - a.seatsTaken },
+  { id: 'near', label: 'Closest first', icon: MapPin, sort: (a: Request, b: Request) => a.location.distance - b.location.distance },
+  { id: 'soon', label: 'Starting now', icon: Zap, sort: (a: Request, b: Request) => new Date(a.expiresAt).getTime() - new Date(b.expiresAt).getTime() },
+  { id: 'popular', label: 'Filling fast', icon: TrendingUp, sort: (a: Request, b: Request) => b.seatsTaken - a.seatsTaken },
 ];
 
-const QUICK_CREATE: { emoji: string; title: string; category: Category }[] = [
-  { emoji: '☕', title: 'Grab coffee', category: 'chai' },
-  { emoji: '🚶', title: 'Go for walk', category: 'walk' },
-  { emoji: '🍜', title: 'Get food', category: 'food' },
-  { emoji: '🏸', title: 'Play sports', category: 'sports' },
+const QUICK_CREATE: { icon: LucideIcon; title: string; category: Category }[] = [
+  { icon: Coffee, title: 'Grab coffee', category: 'chai' },
+  { icon: Footprints, title: 'Go for walk', category: 'walk' },
+  { icon: UtensilsCrossed, title: 'Get food', category: 'food' },
+  { icon: Dumbbell, title: 'Play sports', category: 'sports' },
 ];
 
 export default function HomePage() {
@@ -159,12 +172,12 @@ export default function HomePage() {
       <div className="hidden lg:flex items-center justify-between px-5 pt-4 pb-2">
         <div>
           <h1 className="text-xl font-bold text-foreground">
-            {user ? `Hey ${user.firstName} 👋` : 'Discover plans nearby'}
+            {user ? `Hey ${user.firstName}` : 'Discover plans nearby'}
           </h1>
           <p className="text-sm text-muted-foreground mt-0.5">Find people to hang out with right now</p>
         </div>
         <button onClick={() => navigate('/create')} className="hidden lg:flex items-center gap-2 tahoe-btn-primary px-4 py-2.5 text-sm tap-scale">
-          🪄 Create a plan
+          <Sparkles size={16} /> Create a plan
         </button>
       </div>
       
@@ -188,7 +201,7 @@ export default function HomePage() {
       {trending.length > 0 && (
         <div className="pt-3.5 mb-3">
           <h3 className="text-[15px] font-bold text-foreground mb-3.5 flex items-center gap-1.5 px-5">
-            <span>🔥</span> Filling up fast
+            <TrendingUp size={16} className="text-primary" /> Filling up fast
           </h3>
           <div ref={trendingRef} className="flex gap-3 overflow-x-auto scrollbar-hide px-5 pb-3 lg:flex-wrap">
             {trending.map((req, i) => {
@@ -213,7 +226,9 @@ export default function HomePage() {
 
                     {/* Title */}
                     <h4 className="text-[14px] font-bold text-foreground leading-tight truncate mb-1">{req.title}</h4>
-                    <p className="text-[11px] text-muted-foreground mb-4 truncate">{req.location.name}</p>
+                    <p className="text-[11px] text-muted-foreground mb-4 truncate flex items-center gap-1">
+                      <MapPin size={10} /> {req.location.name}
+                    </p>
 
                     {/* Avatars + spots */}
                     <div className="flex items-center justify-between">
@@ -245,32 +260,38 @@ export default function HomePage() {
 
 
 
-      {/* Category filters — glass pills */}
+      {/* Category filters — glass pills with icons */}
       <div className="px-5 pb-1">
         <div className="flex gap-1.5 overflow-x-auto pb-1.5 -mx-5 px-5 scrollbar-hide lg:mx-0 lg:px-0 lg:flex-wrap">
-          {FILTERS.map((cat) => (
-            <button key={cat.id} onClick={() => setActiveFilter(cat.id)}
-              className={cn('shrink-0 px-2.5 py-1 rounded-full text-[11px] font-medium tap-scale transition-all flex items-center gap-1',
-                activeFilter === cat.id
-                  ? 'glass-pill-active'
-                  : 'glass-pill-inactive'
-              )}>
-              <span className="text-[11px]">{cat.emoji}</span>
-              <span>{cat.label}</span>
-            </button>
-          ))}
+          {FILTERS.map((cat) => {
+            const Icon = filterIcons[cat.id] || Sparkles;
+            return (
+              <button key={cat.id} onClick={() => setActiveFilter(cat.id)}
+                className={cn('shrink-0 px-2.5 py-1 rounded-full text-[11px] font-medium tap-scale transition-all flex items-center gap-1',
+                  activeFilter === cat.id
+                    ? 'glass-pill-active'
+                    : 'glass-pill-inactive'
+                )}>
+                <Icon size={12} />
+                <span>{cat.label}</span>
+              </button>
+            );
+          })}
         </div>
 
         {/* Quick filters — glass pills */}
         <div className="flex gap-1.5 overflow-x-auto pb-2 -mx-5 px-5 scrollbar-hide mt-1.5 lg:mx-0 lg:px-0 lg:flex-wrap">
-          {QUICK_FILTERS.map((f) => (
-            <button key={f.id} onClick={() => setQuickFilter(quickFilter === f.id ? null : f.id)}
-              className={cn('shrink-0 px-2.5 py-1 rounded-full text-[10px] font-semibold tap-scale transition-all',
-                quickFilter === f.id ? 'glass-pill-active' : 'glass-pill-inactive'
-              )}>
-              {f.label}
-            </button>
-          ))}
+          {QUICK_FILTERS.map((f) => {
+            const Icon = f.icon;
+            return (
+              <button key={f.id} onClick={() => setQuickFilter(quickFilter === f.id ? null : f.id)}
+                className={cn('shrink-0 px-2.5 py-1 rounded-full text-[10px] font-semibold tap-scale transition-all flex items-center gap-1',
+                  quickFilter === f.id ? 'glass-pill-active' : 'glass-pill-inactive'
+                )}>
+                <Icon size={11} /> {f.label}
+              </button>
+            );
+          })}
         </div>
       </div>
 
@@ -293,7 +314,9 @@ export default function HomePage() {
         {filtered.length === 0 && (
           <div className="pt-8">
              <div className="text-center mb-6">
-              <span className="text-4xl block mb-3">🫤</span>
+              <div className="w-14 h-14 rounded-2xl liquid-glass flex items-center justify-center mx-auto mb-3">
+                <Sparkles size={24} className="text-muted-foreground" />
+              </div>
               <p className="text-sm font-medium text-foreground mb-1">Nothing here yet</p>
               <p className="text-xs text-muted-foreground">Be the first to post — someone's probably free.</p>
             </div>
@@ -301,13 +324,16 @@ export default function HomePage() {
             <div>
               <h3 className="text-xs font-semibold text-muted-foreground mb-2 px-1">START SOMETHING</h3>
               <div className="grid grid-cols-2 gap-2">
-                {QUICK_CREATE.map((s, i) => (
-                  <button key={i} onClick={() => navigate('/create')}
-                    className="liquid-glass-interactive p-3 text-left flex items-center gap-2">
-                    <span className="text-xl">{s.emoji}</span>
-                    <span className="text-xs font-semibold">{s.title}</span>
-                  </button>
-                ))}
+                {QUICK_CREATE.map((s, i) => {
+                  const Icon = s.icon;
+                  return (
+                    <button key={i} onClick={() => navigate('/create')}
+                      className="liquid-glass-interactive p-3 text-left flex items-center gap-2">
+                      <Icon size={20} className="text-primary" />
+                      <span className="text-xs font-semibold">{s.title}</span>
+                    </button>
+                  );
+                })}
               </div>
             </div>
           </div>
@@ -319,13 +345,16 @@ export default function HomePage() {
         <div className="px-5 mt-5 mb-2">
           <h3 className="text-xs font-semibold text-muted-foreground mb-2 uppercase">Start something</h3>
           <div className="flex gap-2 overflow-x-auto scrollbar-hide -mx-5 px-5">
-            {QUICK_CREATE.map((s, i) => (
-              <button key={i} onClick={() => navigate('/create')}
-                className="shrink-0 liquid-glass-interactive px-3.5 py-2 flex items-center gap-1.5" style={{ borderRadius: '0.75rem' }}>
-                <span className="text-sm">{s.emoji}</span>
-                <span className="text-2xs font-semibold">{s.title}</span>
-              </button>
-            ))}
+            {QUICK_CREATE.map((s, i) => {
+              const Icon = s.icon;
+              return (
+                <button key={i} onClick={() => navigate('/create')}
+                  className="shrink-0 liquid-glass-interactive px-3.5 py-2 flex items-center gap-1.5" style={{ borderRadius: '0.75rem' }}>
+                  <Icon size={14} className="text-primary" />
+                  <span className="text-2xs font-semibold">{s.title}</span>
+                </button>
+              );
+            })}
           </div>
         </div>
       )}

@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, MessageSquare, Settings } from 'lucide-react';
 import { useAppStore } from '@/store/useAppStore';
 
 interface TopBarProps {
@@ -61,14 +61,14 @@ export function TopBar({ showBack = false, title, hideChat = false, showSettings
               onClick={() => navigate('/settings')}
               className="tap-scale w-8 h-8 rounded-full liquid-glass flex items-center justify-center" style={{ borderRadius: '50%' }}
             >
-              <span className="text-[15px]">⚙️</span>
+              <Settings size={16} className="text-muted-foreground" />
             </button>
           ) : !hideChat ? (
             <button
               onClick={() => navigate('/chats')}
               className="relative tap-scale w-8 h-8 rounded-full liquid-glass flex items-center justify-center" style={{ borderRadius: '50%' }}
             >
-              <span className="text-[15px]">💬</span>
+              <MessageSquare size={16} className="text-muted-foreground" />
               {unreadChats > 0 && (
                 <span className="absolute -top-0.5 -right-0.5 min-w-[15px] h-[15px] rounded-full bg-destructive text-destructive-foreground text-[8px] font-bold flex items-center justify-center px-[3px]">
                   {unreadChats > 9 ? '9+' : unreadChats}

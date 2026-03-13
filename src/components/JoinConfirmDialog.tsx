@@ -7,6 +7,7 @@ import type { Request } from '@/types/anybuddy';
 import { Button } from '@/components/ui/button';
 import { useAppStore } from '@/store/useAppStore';
 import { toast } from 'sonner';
+import { MapPin, Clock, Users, Shield, BadgeCheck, Lock, ArrowRight, Check } from 'lucide-react';
 
 const RESERVATION_SECONDS = 45;
 
@@ -36,7 +37,6 @@ export function JoinConfirmDialog({ open, onClose, onConfirm, request }: JoinCon
     setIsConfirming(false);
   }, [request.id, releaseReservation]);
 
-  // Cleanup on close or unmount
   useEffect(() => { if (!open) cleanup(); }, [open, cleanup]);
   useEffect(() => () => cleanup(), [cleanup]);
 
@@ -50,7 +50,7 @@ export function JoinConfirmDialog({ open, onClose, onConfirm, request }: JoinCon
       setCountdown(prev => {
         if (prev <= 1) {
           cleanup();
-          toast.error('⏰ Reservation expired');
+          toast.error('Reservation expired');
           return 0;
         }
         return prev - 1;
@@ -61,7 +61,6 @@ export function JoinConfirmDialog({ open, onClose, onConfirm, request }: JoinCon
   const handleConfirm = () => {
     if (timerRef.current) { clearInterval(timerRef.current); timerRef.current = null; }
     setIsConfirming(true);
-    // Release temp seat, the real join action will re-add
     releaseReservation(request.id);
     reservedRef.current = false;
     setTimeout(() => {
@@ -89,7 +88,11 @@ export function JoinConfirmDialog({ open, onClose, onConfirm, request }: JoinCon
         <DialogHeader>
           <DialogTitle className="text-sm font-bold flex items-center gap-2">
             <span>{getCategoryEmoji(request.category)}</span>
-            {isReserved ? '🔒 Your spot is held' : `${seatsLeft <= 2 ? '⚡ Going fast! ' : ''}You in?`}
+            {isReserved ? (
+              <span className="flex items-center gap-1.5"><Lock size={14} /> Your spot is held</span>
+            ) : (
+              <span>{seatsLeft <= 2 ? 'Going fast! ' : ''}You in?</span>
+            )}
           </DialogTitle>
           <DialogDescription className="sr-only">Confirm joining this plan</DialogDescription>
         </DialogHeader>
@@ -100,12 +103,14 @@ export function JoinConfirmDialog({ open, onClose, onConfirm, request }: JoinCon
           </div>
           <h3 className="text-sm font-semibold leading-snug">{request.title}</h3>
           
-          <p className="text-2xs text-muted-foreground mt-1.5">📍 {request.location.name} · {request.location.distance}km away</p>
+          <p className="text-2xs text-muted-foreground mt-1.5 flex items-center gap-1">
+            <MapPin size={10} /> {request.location.name} · {request.location.distance}km away
+          </p>
           
           <div className="flex items-center gap-3 mt-2 text-2xs text-muted-foreground">
-            <span>⏱ {timeLeft} left to join</span>
-            <span className={seatsLeft <= 2 ? 'text-destructive font-semibold' : ''}>
-              👥 {seatsLeft === 0 ? 'Full!' : seatsLeft === 1 ? 'Last spot!' : `${seatsLeft} spots`}
+            <span className="flex items-center gap-1"><Clock size={10} /> {timeLeft} left to join</span>
+            <span className={`flex items-center gap-1 ${seatsLeft <= 2 ? 'text-destructive font-semibold' : ''}`}>
+              <Users size={10} /> {seatsLeft === 0 ? 'Full!' : seatsLeft === 1 ? 'Last spot!' : `${seatsLeft} spots`}
             </span>
           </div>
 
@@ -131,14 +136,14 @@ export function JoinConfirmDialog({ open, onClose, onConfirm, request }: JoinCon
 
           {/* Safety + social proof */}
           <div className="flex items-center gap-2 mt-2 text-[10px] text-muted-foreground/60">
-            <span>🛡️ Public meetup</span>
+            <span className="flex items-center gap-0.5"><Shield size={9} /> Public meetup</span>
             {(request.userTrust === 'trusted' || request.userTrust === 'anchor') && (
-              <span>· ✅ Verified host</span>
+              <span className="flex items-center gap-0.5">· <BadgeCheck size={9} /> Verified host</span>
             )}
           </div>
           {request.seatsTaken >= 2 && (
-            <p className="text-[10px] text-success font-medium mt-1.5">
-              ✓ {request.seatsTaken} people already going
+            <p className="text-[10px] text-success font-medium mt-1.5 flex items-center gap-1">
+              <Check size={10} /> {request.seatsTaken} people already going
             </p>
           )}
         </div>
@@ -172,8 +177,8 @@ export function JoinConfirmDialog({ open, onClose, onConfirm, request }: JoinCon
               <Button variant="secondary" onClick={handleClose} className="flex-1 h-10 text-xs">
                 Maybe later
               </Button>
-              <Button onClick={handleReserve} className="flex-1 h-10 text-xs" disabled={seatsLeft === 0}>
-                {seatsLeft === 0 ? 'Full 😔' : seatsLeft === 1 ? 'Take the last spot →' : 'Reserve my spot →'}
+              <Button onClick={handleReserve} className="flex-1 h-10 text-xs gap-1" disabled={seatsLeft === 0}>
+                {seatsLeft === 0 ? 'Full' : seatsLeft === 1 ? 'Take the last spot' : 'Reserve my spot'} <ArrowRight size={14} />
               </Button>
             </>
           ) : (
@@ -181,8 +186,8 @@ export function JoinConfirmDialog({ open, onClose, onConfirm, request }: JoinCon
               <Button variant="secondary" onClick={handleClose} className="flex-1 h-10 text-xs">
                 Nah, skip
               </Button>
-              <Button onClick={handleConfirm} className="flex-1 h-10 text-xs" disabled={isConfirming}>
-                {isConfirming ? 'Joining...' : "I'm in ✓"}
+              <Button onClick={handleConfirm} className="flex-1 h-10 text-xs gap-1" disabled={isConfirming}>
+                {isConfirming ? 'Joining...' : "I'm in"} <Check size={14} />
               </Button>
             </>
           )}

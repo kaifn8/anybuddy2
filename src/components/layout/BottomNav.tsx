@@ -1,14 +1,15 @@
 import { useLocation, useNavigate } from 'react-router-dom';
+import { Home, Map, Plus, Bell, User, Settings } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useAppStore } from '@/store/useAppStore';
 import React from 'react';
 
 const navItems = [
-  { icon: '🏠', activeIcon: '🏠', label: 'Feed', path: '/home' },
-  { icon: '🗺️', activeIcon: '🗺️', label: 'Map', path: '/map' },
-  { icon: '✦', label: 'Post', path: '/create', isMain: true },
-  { icon: '🔔', activeIcon: '🔔', label: 'Alerts', path: '/notifications' },
-  { icon: '👤', activeIcon: '👤', label: 'Me', path: '/profile' },
+  { icon: Home, label: 'Feed', path: '/home' },
+  { icon: Map, label: 'Map', path: '/map' },
+  { icon: Plus, label: 'Post', path: '/create', isMain: true },
+  { icon: Bell, label: 'Alerts', path: '/notifications' },
+  { icon: User, label: 'Me', path: '/profile' },
 ];
 
 export const BottomNav = React.forwardRef<HTMLElement, object>(function BottomNav(_props, ref) {
@@ -30,6 +31,7 @@ export const BottomNav = React.forwardRef<HTMLElement, object>(function BottomNa
         <div className="flex-1 flex flex-col gap-1 px-3 pt-2">
           {navItems.map((item) => {
             const isActive = location.pathname === item.path;
+            const Icon = item.icon;
 
             if (item.isMain) {
               return (
@@ -38,7 +40,7 @@ export const BottomNav = React.forwardRef<HTMLElement, object>(function BottomNa
                   onClick={() => navigate(item.path)}
                   className="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-primary text-primary-foreground font-semibold tap-scale mt-2 mb-1"
                 >
-                  <span className="text-lg">{item.icon}</span>
+                  <Icon size={18} />
                   <span className="text-sm">{item.label}</span>
                 </button>
               );
@@ -63,7 +65,7 @@ export const BottomNav = React.forwardRef<HTMLElement, object>(function BottomNa
                       className={cn('w-6 h-6 rounded-full border-2', isActive ? 'border-primary' : 'border-transparent')}
                     />
                   ) : (
-                    <span className="text-lg">{item.icon}</span>
+                    <Icon size={20} />
                   )}
                   {item.path === '/notifications' && unreadCount > 0 && (
                     <span className="absolute -top-1 -right-1.5 bg-destructive text-destructive-foreground text-[8px] rounded-full w-3.5 h-3.5 flex items-center justify-center font-bold">
@@ -81,7 +83,7 @@ export const BottomNav = React.forwardRef<HTMLElement, object>(function BottomNa
             onClick={() => navigate('/settings')}
             className="flex items-center gap-3 px-3 py-2.5 rounded-xl tap-scale text-muted-foreground hover:bg-muted/50 w-full text-left"
           >
-            <span className="text-lg">⚙️</span>
+            <Settings size={20} />
             <span className="text-sm">Settings</span>
           </button>
         </div>
@@ -96,15 +98,16 @@ export const BottomNav = React.forwardRef<HTMLElement, object>(function BottomNa
           <div
             className="flex items-center justify-around h-[60px] rounded-[20px]"
             style={{
-              background: 'hsl(var(--glass-bg-heavy))',
+              background: 'hsla(var(--glass-bg-heavy))',
               backdropFilter: 'blur(var(--glass-blur-heavy)) saturate(200%)',
               WebkitBackdropFilter: 'blur(var(--glass-blur-heavy)) saturate(200%)',
-              border: '1px solid hsl(var(--glass-border))',
-              boxShadow: '0 -2px 24px hsl(var(--glass-shadow)), inset 0 1px 0 hsl(var(--glass-highlight))',
+              border: '0.5px solid hsla(var(--glass-border))',
+              boxShadow: '0 -2px 24px hsla(var(--glass-shadow)), inset 0 1px 0 hsla(var(--glass-highlight))',
             }}
           >
             {navItems.map((item) => {
               const isActive = location.pathname === item.path;
+              const Icon = item.icon;
 
               // Central "Post" button — floating pill
               if (item.isMain) {
@@ -118,10 +121,10 @@ export const BottomNav = React.forwardRef<HTMLElement, object>(function BottomNa
                       className="w-[52px] h-[52px] rounded-2xl flex items-center justify-center text-primary-foreground shadow-lg transition-transform group-active:scale-95"
                       style={{
                         background: 'linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--secondary)) 100%)',
-                        boxShadow: '0 4px 16px hsl(var(--primary) / 0.35), inset 0 1px 0 hsl(var(--glass-highlight))',
+                        boxShadow: '0 4px 16px hsl(var(--primary) / 0.35), inset 0 1px 0 hsla(var(--glass-highlight))',
                       }}
                     >
-                      <span className="text-xl font-bold">✦</span>
+                      <Plus size={22} strokeWidth={2.5} />
                     </div>
                     <span className="block text-center text-[9px] font-semibold text-primary mt-0.5">Post</span>
                   </button>
@@ -152,12 +155,14 @@ export const BottomNav = React.forwardRef<HTMLElement, object>(function BottomNa
                         )}
                       </div>
                     ) : (
-                      <span className={cn(
-                        'text-[20px] transition-all block',
-                        isActive ? 'scale-110' : 'opacity-45 grayscale-[20%]'
-                      )}>
-                        {item.icon}
-                      </span>
+                      <Icon
+                        size={20}
+                        strokeWidth={isActive ? 2.2 : 1.8}
+                        className={cn(
+                          'transition-all',
+                          isActive ? 'text-primary scale-110' : 'text-muted-foreground/50'
+                        )}
+                      />
                     )}
                     {item.path === '/notifications' && unreadCount > 0 && (
                       <span className="absolute -top-1 -right-2 bg-destructive text-destructive-foreground text-[8px] rounded-full min-w-[15px] h-[15px] flex items-center justify-center font-bold px-[3px]">
