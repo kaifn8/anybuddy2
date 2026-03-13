@@ -14,18 +14,6 @@ import { cn } from '@/lib/utils';
 import type { Category, Request } from '@/types/anybuddy';
 import { Button } from '@/components/ui/button';
 
-const CATEGORY_TINTS: Record<Category, string> = {
-  chai: 'bg-amber-500/15 border-amber-400/30',
-  food: 'bg-orange-500/15 border-orange-400/30',
-  sports: 'bg-emerald-500/15 border-emerald-400/30',
-  explore: 'bg-blue-500/15 border-blue-400/30',
-  work: 'bg-slate-500/15 border-slate-400/30',
-  walk: 'bg-teal-500/15 border-teal-400/30',
-  help: 'bg-rose-500/15 border-rose-400/30',
-  shopping: 'bg-purple-500/15 border-purple-400/30',
-  casual: 'bg-violet-500/15 border-violet-400/30',
-};
-
 const MUMBAI_CENTER: [number, number] = [19.0760, 72.8777];
 
 function createEmojiIcon(emoji: string, isSelected = false) {
@@ -38,10 +26,10 @@ function createEmojiIcon(emoji: string, isSelected = false) {
       align-items: center;
       justify-content: center;
       font-size: ${isSelected ? '18px' : '14px'};
-      background: ${isSelected ? 'hsla(213, 94%, 55%, 0.9)' : 'hsla(0, 0%, 100%, 0.85)'};
-      backdrop-filter: blur(8px);
-      border: 2px solid ${isSelected ? 'hsla(213, 94%, 65%, 0.8)' : 'hsla(0, 0%, 100%, 0.4)'};
-      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      background: ${isSelected ? 'hsla(213, 94%, 55%, 0.9)' : 'hsla(0, 0%, 100%, 0.7)'};
+      backdrop-filter: blur(12px);
+      border: 1px solid ${isSelected ? 'hsla(213, 94%, 65%, 0.8)' : 'hsla(0, 0%, 100%, 0.5)'};
+      box-shadow: 0 4px 16px rgba(0,0,0,0.12), inset 0 0.5px 0 rgba(255,255,255,0.6);
       transition: all 0.2s;
     ">${emoji}</div>`,
     className: '',
@@ -54,8 +42,9 @@ const userIcon = L.divIcon({
   html: `<div style="
     width: 24px; height: 24px; border-radius: 50%;
     background: hsla(213, 94%, 55%, 0.2);
+    backdrop-filter: blur(8px);
     display: flex; align-items: center; justify-content: center;
-  "><div style="width: 12px; height: 12px; border-radius: 50%; background: hsl(213, 94%, 55%); box-shadow: 0 0 6px hsla(213, 94%, 55%, 0.5);"></div></div>`,
+  "><div style="width: 12px; height: 12px; border-radius: 50%; background: hsl(213, 94%, 55%); box-shadow: 0 0 8px hsla(213, 94%, 55%, 0.5);"></div></div>`,
   className: '',
   iconSize: [24, 24],
   iconAnchor: [12, 12],
@@ -65,7 +54,6 @@ function FitBounds({ requests, selectedId }: { requests: Request[]; selectedId: 
   const map = useMap();
   
   useEffect(() => {
-    // If a specific item is selected, fly to it
     if (selectedId) {
       const selected = requests.find(r => r.id === selectedId);
       if (selected?.location.coords) {
@@ -74,7 +62,6 @@ function FitBounds({ requests, selectedId }: { requests: Request[]; selectedId: 
       return;
     }
 
-    // Otherwise fit bounds to all markers
     const validRequests = requests.filter(r => r.location.coords);
     if (validRequests.length === 0) {
       map.setView(MUMBAI_CENTER, 13);
@@ -90,7 +77,6 @@ function FitBounds({ requests, selectedId }: { requests: Request[]; selectedId: 
     const bounds = L.latLngBounds(
       validRequests.map(r => [r.location.coords!.lat, r.location.coords!.lng] as [number, number])
     );
-    // Add user location to bounds
     bounds.extend(MUMBAI_CENTER);
     
     map.flyToBounds(bounds, { 
@@ -163,12 +149,12 @@ export default function MapPage() {
     <div className="mobile-container min-h-screen bg-ambient pb-24 flex flex-col">
       <TopBar showBack title="Nearby Plans" />
 
-      {/* Category filters */}
+      {/* Category filters — glass pills */}
       <div className="flex gap-2 px-5 py-2.5 overflow-x-auto scrollbar-hide z-[1000] relative">
         {filters.map((f) => (
           <button key={f.id} onClick={() => { setFilter(f.id); setSelectedId(null); }}
             className={cn('h-9 px-3 rounded-full flex items-center gap-1.5 tap-scale text-sm transition-all whitespace-nowrap',
-              filter === f.id ? 'bg-primary text-primary-foreground shadow-lg' : 'liquid-glass'
+              filter === f.id ? 'glass-pill-active' : 'glass-pill-inactive'
             )}>
             <span>{f.emoji}</span>
             <span className="text-xs font-medium">{f.label}</span>
@@ -177,11 +163,11 @@ export default function MapPage() {
       </div>
 
       {/* Map */}
-      <div className="relative mx-5 rounded-2xl overflow-hidden z-0" style={{ height: '280px' }}>
+      <div className="relative mx-5 rounded-2xl overflow-hidden z-0 liquid-glass" style={{ height: '280px', borderRadius: '1.25rem', padding: 0 }}>
         <MapContainer
           center={MUMBAI_CENTER}
           zoom={13}
-          style={{ height: '100%', width: '100%', borderRadius: '1rem' }}
+          style={{ height: '100%', width: '100%', borderRadius: '1.25rem' }}
           zoomControl={false}
           attributionControl={false}
         >
@@ -208,7 +194,7 @@ export default function MapPage() {
           })}
         </MapContainer>
 
-        {/* Locate me button */}
+        {/* Locate me button — glass */}
         <button
           onClick={() => {
             const map = mapRef.current;
@@ -223,7 +209,8 @@ export default function MapPage() {
               { enableHighAccuracy: true, timeout: 5000 }
             );
           }}
-          className="absolute bottom-3 right-3 z-[1000] w-9 h-9 rounded-full bg-background/90 backdrop-blur-xl border border-border/50 shadow-lg flex items-center justify-center tap-scale hover:bg-background transition-colors"
+          className="absolute bottom-3 right-3 z-[1000] w-9 h-9 rounded-full liquid-glass flex items-center justify-center tap-scale"
+          style={{ borderRadius: '50%' }}
           aria-label="Locate me"
         >
           <Navigation size={16} className="text-primary" />
@@ -231,7 +218,7 @@ export default function MapPage() {
 
         {activeRequests.length === 0 && (
           <div className="absolute inset-0 flex items-center justify-center z-[500] pointer-events-none">
-            <div className="text-center liquid-glass-heavy p-4 rounded-xl">
+            <div className="text-center liquid-glass-heavy p-4">
               <span className="text-3xl block mb-2">🗺️</span>
               <p className="text-xs text-muted-foreground">No plans nearby</p>
             </div>
@@ -251,24 +238,22 @@ export default function MapPage() {
         )}
       </div>
 
-      {/* Events list */}
+      {/* Events list — glass cards */}
       <div className="flex-1 overflow-y-auto px-5 space-y-2 pb-2">
         {(selectedId ? activeRequests.filter(r => r.id === selectedId) : activeRequests).map((req) => (
           <div
             key={req.id}
             className={cn(
-              "backdrop-blur-xl bg-background/80 border border-border/50 rounded-2xl p-3 tap-scale transition-all shadow-sm",
-              selectedId === req.id && "ring-1 ring-primary/50 bg-background/95 shadow-md"
+              "liquid-glass-interactive p-3 transition-all",
+              selectedId === req.id && "ring-1 ring-primary/30"
             )}
             onClick={() => setSelectedId(selectedId === req.id ? null : req.id)}
           >
             <div className="flex items-center gap-3">
-              {/* Icon */}
-              <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center text-lg shrink-0 border", CATEGORY_TINTS[req.category])}>
+              <div className="w-10 h-10 rounded-xl liquid-glass flex items-center justify-center text-lg shrink-0" style={{ borderRadius: '0.75rem' }}>
                 {getCategoryEmoji(req.category)}
               </div>
 
-              {/* Content */}
               <div className="flex-1 min-w-0">
                 <h3 className="text-[13px] font-semibold text-foreground truncate leading-tight">{req.title}</h3>
                 <div className="flex items-center gap-2 mt-1">
@@ -277,7 +262,6 @@ export default function MapPage() {
                 </div>
               </div>
 
-              {/* Join button only */}
               <Button
                 onClick={(e) => { e.stopPropagation(); handleJoinFromMap(req); }}
                 size="sm"
@@ -287,7 +271,6 @@ export default function MapPage() {
               </Button>
             </div>
 
-            {/* Footer row */}
             <div className="flex items-center justify-between mt-2.5 pt-2 border-t border-border/10">
               <div className="flex items-center gap-3 text-[10px] text-muted-foreground">
                 <span>👥 {req.seatsTotal - req.seatsTaken} spots left</span>

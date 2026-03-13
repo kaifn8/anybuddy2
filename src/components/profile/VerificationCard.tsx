@@ -72,14 +72,10 @@ export function VerificationCard() {
   const showUpload = status === 'unverified' || status === 'failed';
 
   return (
-    <div className="rounded-[20px] p-4 transition-all" style={{
-      background: 'hsl(var(--glass-bg))',
-      backdropFilter: 'blur(var(--glass-blur))',
-      boxShadow: '0 2px 12px hsl(var(--glass-shadow)), 0 0 0 1px hsl(var(--glass-border))',
-    }}>
+    <div className="liquid-glass-heavy p-4 transition-all">
       {/* Header */}
       <div className="flex items-center gap-3">
-        <div className={cn('w-9 h-9 rounded-xl flex items-center justify-center shrink-0', config.bgColor, config.color)}>
+        <div className={cn('w-9 h-9 rounded-xl liquid-glass flex items-center justify-center shrink-0', config.color)} style={{ borderRadius: '0.625rem' }}>
           {config.icon}
         </div>
         <div className="flex-1 min-w-0">
@@ -94,7 +90,7 @@ export function VerificationCard() {
 
       {/* Selfie preview (pending state) */}
       {status === 'pending' && user.verificationSelfie && (
-        <div className="mt-3 flex items-center gap-3 p-2.5 rounded-xl bg-muted/30">
+        <div className="mt-3 flex items-center gap-3 p-2.5 liquid-glass" style={{ borderRadius: '0.75rem' }}>
           <img src={user.verificationSelfie} alt="Verification selfie" className="w-10 h-10 rounded-lg object-cover" />
           <p className="text-[11px] text-muted-foreground">Selfie submitted for review</p>
         </div>
@@ -119,7 +115,7 @@ export function VerificationCard() {
       {/* Preview + confirm */}
       {showUpload && preview && (
         <div className="mt-3 space-y-2.5">
-          <div className="flex items-center gap-3 p-2.5 rounded-xl bg-muted/30">
+          <div className="flex items-center gap-3 p-2.5 liquid-glass" style={{ borderRadius: '0.75rem' }}>
             <img src={preview} alt="Selfie preview" className="w-12 h-12 rounded-lg object-cover" />
             <p className="text-[11px] text-muted-foreground flex-1">Looking good! Used only for verification.</p>
           </div>

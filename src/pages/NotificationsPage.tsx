@@ -38,10 +38,12 @@ export default function NotificationsPage() {
   const NotifItem = ({ n }: { n: typeof notifications[0] }) => (
     <button onClick={() => handleClick(n)}
       className={cn(
-        'w-full flex items-start gap-3 py-3 px-1 text-left transition-all tap-scale border-b border-border/30 last:border-b-0',
-        !n.read && 'bg-primary/[0.03]'
+        'w-full liquid-glass-interactive flex items-start gap-3 py-3 px-3 text-left mb-1.5',
+        !n.read && 'ring-1 ring-primary/10'
       )}>
-      <span className="text-base shrink-0 mt-0.5">{emojiMap[n.type] || '🔔'}</span>
+      <div className="w-8 h-8 rounded-xl liquid-glass flex items-center justify-center shrink-0 mt-0.5" style={{ borderRadius: '0.625rem' }}>
+        <span className="text-sm">{emojiMap[n.type] || '🔔'}</span>
+      </div>
       <div className="flex-1 min-w-0">
         <p className={cn('text-sm leading-snug', n.read ? 'font-normal text-muted-foreground' : 'font-semibold text-foreground')}>{n.title}</p>
         <p className="text-2xs text-muted-foreground mt-0.5 line-clamp-2">{n.message}</p>
@@ -125,7 +127,7 @@ export default function NotificationsPage() {
         )}
 
         {/* Invite Friends */}
-        <div className="mt-6 mb-4 p-4 rounded-2xl liquid-glass text-center">
+        <div className="mt-6 mb-4 p-4 liquid-glass-heavy text-center">
           <span className="text-2xl block mb-2">👋</span>
           <p className="text-sm font-semibold text-foreground">Invite friends to AnyBuddy</p>
           <p className="text-2xs text-muted-foreground mt-1 mb-3">More friends = more plans nearby. Share the love!</p>

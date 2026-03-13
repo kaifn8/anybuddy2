@@ -23,12 +23,12 @@ export function TopBar({ showBack = false, title, hideChat = false, showSettings
   }, 0);
 
   return (
-    <header className="sticky top-0 z-40 lg:pl-64">
+    <header className="sticky top-0 z-40 lg:pl-64 liquid-glass-nav">
       <div className="max-w-md md:max-w-2xl lg:max-w-4xl xl:max-w-5xl mx-auto flex items-center justify-between h-[50px] px-5">
         {/* Left */}
         <div className="w-20 flex items-center">
           {showBack ? (
-            <button onClick={() => navigate(-1)} className="tap-scale w-8 h-8 rounded-full flex items-center justify-center hover:bg-foreground/5 transition-colors">
+            <button onClick={() => navigate(-1)} className="tap-scale w-8 h-8 rounded-full liquid-glass flex items-center justify-center" style={{ borderRadius: '50%' }}>
               <ArrowLeft className="w-[18px] h-[18px] text-foreground" />
             </button>
           ) : (
@@ -59,14 +59,14 @@ export function TopBar({ showBack = false, title, hideChat = false, showSettings
           {showSettings ? (
             <button
               onClick={() => navigate('/settings')}
-              className="tap-scale w-8 h-8 rounded-full flex items-center justify-center hover:bg-foreground/5 transition-colors"
+              className="tap-scale w-8 h-8 rounded-full liquid-glass flex items-center justify-center" style={{ borderRadius: '50%' }}
             >
               <span className="text-[15px]">⚙️</span>
             </button>
           ) : !hideChat ? (
             <button
               onClick={() => navigate('/chats')}
-              className="relative tap-scale w-8 h-8 rounded-full flex items-center justify-center hover:bg-foreground/5 transition-colors"
+              className="relative tap-scale w-8 h-8 rounded-full liquid-glass flex items-center justify-center" style={{ borderRadius: '50%' }}
             >
               <span className="text-[15px]">💬</span>
               {unreadChats > 0 && (

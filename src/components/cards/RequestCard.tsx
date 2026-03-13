@@ -18,18 +18,6 @@ interface RequestCardProps {
   className?: string;
 }
 
-const CATEGORY_COLORS: Record<Category, string> = {
-  chai: 'bg-amber-100 border-amber-200',
-  food: 'bg-orange-100 border-orange-200',
-  sports: 'bg-emerald-100 border-emerald-200',
-  explore: 'bg-blue-100 border-blue-200',
-  work: 'bg-slate-100 border-slate-200',
-  walk: 'bg-teal-100 border-teal-200',
-  help: 'bg-rose-100 border-rose-200',
-  shopping: 'bg-purple-100 border-purple-200',
-  casual: 'bg-violet-100 border-violet-200',
-};
-
 function getTimeIndicator(request: Request) {
   const minutesLeft = (new Date(request.expiresAt).getTime() - Date.now()) / 60000;
   
@@ -75,7 +63,6 @@ export function RequestCard({ request, onJoin, onView, isJoined, className }: Re
   
   const handleJoinClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    // Trigger join pulse animation
     const target = e.currentTarget as HTMLElement;
     target.classList.add('join-pulse');
     setTimeout(() => target.classList.remove('join-pulse'), 500);
@@ -96,19 +83,16 @@ export function RequestCard({ request, onJoin, onView, isJoined, className }: Re
     e.stopPropagation();
     if (isSaved) unsavePlan(request.id);
     else savePlan(request.id);
-    // Trigger heart pop animation
     const target = e.currentTarget as HTMLElement;
     target.classList.remove('heart-pop');
-    void target.offsetWidth; // reflow
+    void target.offsetWidth;
     target.classList.add('heart-pop');
   };
 
-  // Generate fake attendee avatars from participants + host
   const attendeeAvatars = [
     request.userAvatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${request.userName}`,
     ...request.participants.map(p => p.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${p.name}`),
   ];
-  // Fill up to seatsTaken with generated avatars
   while (attendeeAvatars.length < request.seatsTaken) {
     attendeeAvatars.push(`https://api.dicebear.com/7.x/avataaars/svg?seed=user${attendeeAvatars.length}`);
   }
@@ -116,11 +100,10 @@ export function RequestCard({ request, onJoin, onView, isJoined, className }: Re
   return (
     <>
       <div
-        className={cn('bg-background/80 backdrop-blur-xl border border-border/50 rounded-3xl p-3 cursor-pointer tap-scale transition-colors hover:bg-background/90', className)}
-        style={{ boxShadow: '0px 2px 10px rgba(0,0,0,0.05)' }}
+        className={cn('liquid-glass-card p-3', className)}
         onClick={onView}
       >
-        {/* Status badges - time and hot indicator */}
+        {/* Status badges */}
         {(timeIndicator || hotIndicator) && (
           <div className="flex flex-wrap items-center gap-1.5 mb-2">
             {timeIndicator && (
@@ -137,23 +120,20 @@ export function RequestCard({ request, onJoin, onView, isJoined, className }: Re
         )}
 
         <div className="flex items-start gap-2.5 mb-2">
-          {/* Category icon */}
-          <div className={cn('w-10 h-10 rounded-2xl border border-white/20 shadow-sm flex items-center justify-center text-xl shrink-0', CATEGORY_COLORS[request.category])}>
+          {/* Category icon — glass */}
+          <div className="w-10 h-10 rounded-2xl liquid-glass flex items-center justify-center text-xl shrink-0" style={{ borderRadius: '0.75rem' }}>
             {getCategoryEmoji(request.category)}
           </div>
           
           <div className="flex-1 min-w-0">
-            {/* Title - main element */}
             <h3 className="font-semibold text-[14px] text-foreground leading-tight line-clamp-2 mb-1.5">{request.title}</h3>
-            
-            {/* Location + Distance + Walk time */}
             <p className="text-[12px] text-muted-foreground font-medium mb-1.5 truncate">
               📍 {request.location.name} • {request.location.distance} km • ~{Math.round(request.location.distance * 12)} min walk
             </p>
           </div>
         </div>
 
-        {/* Participant info + Join button row */}
+        {/* Participant info + Join button */}
         <div className="flex items-center justify-between gap-2 mb-2">
           <div className="flex items-center gap-1.5 min-w-0">
             <div className="flex -space-x-1.5 shrink-0">
@@ -182,8 +162,8 @@ export function RequestCard({ request, onJoin, onView, isJoined, className }: Re
           </Button>
         </div>
 
-        {/* Host info + reliability on same row */}
-        <div className="flex items-center justify-between pt-2 border-t border-border/20">
+        {/* Host info */}
+        <div className="flex items-center justify-between pt-2 border-t border-border/10">
           <button onClick={handleHostClick} className="flex items-center gap-1.5 tap-scale">
             <img src={request.userAvatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${request.userName}`}
               alt={request.userName} className="w-4 h-4 rounded-full" />
