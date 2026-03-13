@@ -80,55 +80,107 @@ export const BottomNav = React.forwardRef<HTMLElement, object>(function BottomNa
         </div>
       </nav>
 
-      {/* Mobile bottom nav */}
+      {/* Mobile bottom nav — premium island style */}
       <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-50" style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}>
-        <div className="max-w-md mx-auto px-4 pb-2.5">
-          <div className="flex items-center justify-around h-[56px] rounded-[22px]" style={{
-            background: 'hsla(var(--glass-bg-heavy))',
-            backdropFilter: 'blur(var(--glass-blur-heavy)) saturate(210%)',
-            WebkitBackdropFilter: 'blur(var(--glass-blur-heavy)) saturate(210%)',
-            border: '0.5px solid hsla(var(--glass-border))',
-            boxShadow: '0 -1px 12px hsla(var(--glass-shadow)), 0 4px 24px hsla(var(--glass-shadow-lg)), inset 0 0.5px 0 hsla(var(--glass-highlight))',
-          }}>
+        <div className="max-w-md mx-auto px-5 pb-3">
+          <div className="relative flex items-end justify-around" style={{ height: 68 }}>
+            {/* Glass backdrop bar */}
+            <div className="absolute inset-x-0 bottom-0 h-[58px] rounded-[28px]" style={{
+              background: 'hsla(var(--glass-bg) / 0.45)',
+              backdropFilter: 'blur(60px) saturate(240%)',
+              WebkitBackdropFilter: 'blur(60px) saturate(240%)',
+              border: '0.5px solid hsla(var(--glass-border) / 0.5)',
+              boxShadow: `
+                0 8px 40px hsla(var(--glass-shadow-lg)),
+                0 1.5px 6px hsla(var(--glass-shadow)),
+                inset 0 1px 0 hsla(var(--glass-highlight)),
+                inset 0 -0.5px 0 hsla(0 0% 0% / 0.04)
+              `,
+            }} />
+
             {navItems.map((item) => {
               const isActive = location.pathname === item.path;
 
+              /* ── Center "Post" button — elevated orb ── */
               if (item.isMain) {
                 return (
-                  <button key={item.path} onClick={() => navigate(item.path)} className="relative -mt-5 tap-scale group">
-                    <div className="w-[48px] h-[48px] rounded-[16px] flex items-center justify-center text-primary-foreground transition-all group-active:scale-90"
-                      style={{
-                        background: 'linear-gradient(145deg, hsl(var(--primary)) 0%, hsl(211 100% 42%) 100%)',
-                        boxShadow: '0 4px 16px hsl(var(--primary) / 0.3), 0 1px 3px hsl(var(--primary) / 0.2), inset 0 1px 0 hsla(0 0% 100% / 0.15)',
-                      }}>
-                      <span className="text-[20px]">🎉</span>
+                  <button
+                    key={item.path}
+                    onClick={() => navigate(item.path)}
+                    className="relative z-10 flex flex-col items-center tap-scale group"
+                    style={{ marginBottom: 10 }}
+                  >
+                    {/* Outer glow ring */}
+                    <div className="absolute -inset-1.5 rounded-full opacity-60 group-active:opacity-80 transition-opacity" style={{
+                      background: 'radial-gradient(circle, hsl(var(--primary) / 0.25) 0%, transparent 70%)',
+                    }} />
+                    {/* Main orb */}
+                    <div className="relative w-[52px] h-[52px] rounded-full flex items-center justify-center transition-transform group-active:scale-90" style={{
+                      background: `linear-gradient(160deg, hsl(var(--primary)) 0%, hsl(211 100% 38%) 100%)`,
+                      boxShadow: `
+                        0 6px 24px hsl(var(--primary) / 0.35),
+                        0 2px 8px hsl(var(--primary) / 0.2),
+                        inset 0 1.5px 0 hsla(0 0% 100% / 0.25),
+                        inset 0 -1px 0 hsla(0 0% 0% / 0.1)
+                      `,
+                    }}>
+                      <span className="text-[22px] drop-shadow-sm">🎉</span>
                     </div>
-                    <span className="block text-center text-[9px] font-bold text-primary mt-1 tracking-tight">Post</span>
                   </button>
                 );
               }
 
+              /* ── Regular nav items ── */
               return (
-                <button key={item.path} onClick={() => navigate(item.path)}
-                  className="flex flex-col items-center justify-center gap-0.5 min-w-[44px] py-1 tap-scale relative">
-                  <div className="relative">
+                <button
+                  key={item.path}
+                  onClick={() => navigate(item.path)}
+                  className="relative z-10 flex flex-col items-center justify-center gap-[3px] min-w-[48px] tap-scale"
+                  style={{ height: 58 }}
+                >
+                  {/* Active indicator dot */}
+                  {isActive && (
+                    <div className="absolute top-1.5 w-1 h-1 rounded-full bg-primary" style={{
+                      boxShadow: '0 0 6px hsl(var(--primary) / 0.5)',
+                    }} />
+                  )}
+
+                  <div className="relative mt-1">
                     {item.path === '/profile' ? (
-                      <GradientAvatar name={user?.firstName || 'guest'} size={21}
-                        className={cn('transition-all', isActive ? 'ring-[1.5px] ring-primary ring-offset-1 ring-offset-background' : 'opacity-40 grayscale-[40%]')}
-                        showInitials={false} />
+                      <GradientAvatar
+                        name={user?.firstName || 'guest'}
+                        size={22}
+                        className={cn(
+                          'transition-all duration-300',
+                          isActive
+                            ? 'ring-[1.5px] ring-primary ring-offset-[1.5px] ring-offset-background scale-110'
+                            : 'opacity-35 grayscale-[50%]'
+                        )}
+                        showInitials={false}
+                      />
                     ) : (
-                      <span className={cn('text-[18px] transition-all duration-300', isActive ? '' : 'opacity-40 grayscale-[40%]')}>
+                      <span className={cn(
+                        'text-[19px] block transition-all duration-300',
+                        isActive ? 'scale-110' : 'opacity-35 grayscale-[50%]'
+                      )}>
                         {item.emoji}
                       </span>
                     )}
                     {item.path === '/notifications' && unreadCount > 0 && (
-                      <span className="absolute -top-1 -right-2 bg-destructive text-destructive-foreground text-[7px] rounded-full min-w-[14px] h-[14px] flex items-center justify-center font-bold px-[2px]">
+                      <span className="absolute -top-1 -right-2.5 min-w-[15px] h-[15px] rounded-full flex items-center justify-center text-[7px] font-bold px-[3px]"
+                        style={{
+                          background: 'hsl(var(--destructive))',
+                          color: 'hsl(var(--destructive-foreground))',
+                          boxShadow: '0 2px 8px hsl(var(--destructive) / 0.4)',
+                        }}>
                         {unreadCount > 9 ? '9+' : unreadCount}
                       </span>
                     )}
                   </div>
-                  <span className={cn('text-[9px] font-medium leading-none transition-all duration-300',
-                    isActive ? 'text-primary font-bold' : 'text-muted-foreground/40')}>
+                  <span className={cn(
+                    'text-[9px] font-semibold leading-none tracking-wide transition-all duration-300',
+                    isActive ? 'text-primary' : 'text-muted-foreground/30'
+                  )}>
                     {item.label}
                   </span>
                 </button>
