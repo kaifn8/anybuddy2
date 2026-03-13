@@ -9,7 +9,7 @@ import { JoinConfirmDialog } from '@/components/JoinConfirmDialog';
 import { useAppStore } from '@/store/useAppStore';
 import { cn } from '@/lib/utils';
 import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
-import { MapPin, Zap, TrendingUp, Sparkles, Coffee, Footprints, UtensilsCrossed, Dumbbell } from 'lucide-react';
+import { MapPin, Zap, TrendingUp, Sparkles, Coffee, Footprints, UtensilsCrossed, Dumbbell, type LucideIcon } from 'lucide-react';
 import type { Category, Request } from '@/types/anybuddy';
 
 const FILTERS: { id: Category | 'all'; label: string; emoji: string }[] = [
