@@ -9,6 +9,7 @@ import { format } from 'date-fns';
 import { useAppStore } from '@/store/useAppStore';
 import { toast } from 'sonner';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import { GradientAvatar } from '@/components/ui/GradientAvatar';
 
 const TRUST_COLORS: Record<TrustLevel, string> = {
   seed: 'bg-muted text-muted-foreground',

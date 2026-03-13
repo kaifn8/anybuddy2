@@ -10,6 +10,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { cn } from '@/lib/utils';
 import { format, formatDistanceToNow, isAfter, subDays } from 'date-fns';
 import { toast } from 'sonner';
+import { GradientAvatar } from '@/components/ui/GradientAvatar';
 import { generateFakeUsers } from '@/data/adminData';
 import {
   generateConversationsForUser,

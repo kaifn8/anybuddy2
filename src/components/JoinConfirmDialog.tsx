@@ -7,6 +7,7 @@ import type { Request } from '@/types/anybuddy';
 import { Button } from '@/components/ui/button';
 import { useAppStore } from '@/store/useAppStore';
 import { toast } from 'sonner';
+import { GradientAvatar } from '@/components/ui/GradientAvatar';
 
 const RESERVATION_SECONDS = 45;
 
