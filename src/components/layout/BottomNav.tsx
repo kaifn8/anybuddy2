@@ -2,15 +2,15 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { useAppStore } from '@/store/useAppStore';
 import { GradientAvatar } from '@/components/ui/GradientAvatar';
-import { Plus } from 'lucide-react';
+import { Plus, Home, MapPin, Bell } from 'lucide-react';
 import React from 'react';
 
 const navItems = [
-  { emoji: '🏠', label: 'Feed', path: '/home' },
-  { emoji: '🗺️', label: 'Map', path: '/map' },
-  { emoji: '🎉', label: 'Post', path: '/create', isMain: true },
-  { emoji: '🔔', label: 'Alerts', path: '/notifications' },
-  { emoji: '👤', label: 'Me', path: '/profile' },
+  { icon: Home, label: 'Home', path: '/home' },
+  { icon: MapPin, label: 'Map', path: '/map' },
+  { icon: Plus, label: 'Post', path: '/create', isMain: true },
+  { icon: Bell, label: 'Alerts', path: '/notifications' },
+  { icon: null, label: 'Me', path: '/profile' },
 ];
 
 export const BottomNav = React.forwardRef<HTMLElement, object>(function BottomNav(_props, ref) {
@@ -37,6 +37,7 @@ export const BottomNav = React.forwardRef<HTMLElement, object>(function BottomNa
         <div className="flex-1 flex flex-col gap-0.5 px-3 pt-2">
           {navItems.map((item) => {
             const isActive = location.pathname === item.path;
+            const Icon = item.icon;
 
             if (item.isMain) {
               return (
@@ -58,9 +59,9 @@ export const BottomNav = React.forwardRef<HTMLElement, object>(function BottomNa
                   {item.path === '/profile' ? (
                     <GradientAvatar name={user?.firstName || 'guest'} size={24}
                       className={cn(isActive ? 'ring-[1.5px] ring-primary ring-offset-1 ring-offset-background' : 'opacity-60')} showInitials={false} />
-                  ) : (
-                    <span className={cn('text-[17px]', !isActive && 'opacity-60 grayscale-[30%]')}>{item.emoji}</span>
-                  )}
+                  ) : Icon ? (
+                    <Icon size={18} strokeWidth={isActive ? 2.2 : 1.8} className={cn(!isActive && 'opacity-60')} />
+                  ) : null}
                   {item.path === '/notifications' && unreadCount > 0 && (
                     <span className="absolute -top-1 -right-1.5 bg-destructive text-destructive-foreground text-[8px] rounded-full w-3.5 h-3.5 flex items-center justify-center font-bold">
                       {unreadCount > 9 ? '9+' : unreadCount}
@@ -81,112 +82,96 @@ export const BottomNav = React.forwardRef<HTMLElement, object>(function BottomNa
         </div>
       </nav>
 
-      {/* Mobile bottom nav — premium island style */}
+      {/* Mobile bottom nav — minimal dock */}
       <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-50" style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}>
-        <div className="max-w-md mx-auto px-5 pb-3">
-          <div className="relative flex items-end justify-around" style={{ height: 68 }}>
-            {/* Glass backdrop bar */}
-            <div className="absolute inset-x-0 bottom-0 h-[58px] rounded-[28px]" style={{
-              background: 'hsla(var(--glass-bg) / 0.45)',
-              backdropFilter: 'blur(60px) saturate(240%)',
-              WebkitBackdropFilter: 'blur(60px) saturate(240%)',
-              border: '0.5px solid hsla(var(--glass-border) / 0.5)',
-              boxShadow: `
-                0 8px 40px hsla(var(--glass-shadow-lg)),
-                0 1.5px 6px hsla(var(--glass-shadow)),
-                inset 0 1px 0 hsla(var(--glass-highlight)),
-                inset 0 -0.5px 0 hsla(0 0% 0% / 0.04)
-              `,
-            }} />
+        <div className="max-w-md mx-auto px-6 pb-2">
+          {/* Ultra-thin glass bar */}
+          <div className="relative rounded-full px-1.5 py-1.5" style={{
+            background: 'hsla(var(--glass-bg) / 0.35)',
+            backdropFilter: 'blur(64px) saturate(260%)',
+            WebkitBackdropFilter: 'blur(64px) saturate(260%)',
+            border: '0.5px solid hsla(var(--glass-border) / 0.45)',
+            boxShadow: `
+              0 8px 32px hsla(var(--glass-shadow-lg)),
+              0 1px 4px hsla(var(--glass-shadow)),
+              inset 0 0.5px 0 hsla(var(--glass-highlight))
+            `,
+          }}>
+            <div className="flex items-center justify-between">
+              {navItems.map((item) => {
+                const isActive = location.pathname === item.path;
+                const Icon = item.icon;
 
-            {navItems.map((item) => {
-              const isActive = location.pathname === item.path;
+                /* ── Center "Post" — pill button ── */
+                if (item.isMain) {
+                  return (
+                    <button
+                      key={item.path}
+                      onClick={() => navigate(item.path)}
+                      className="tap-scale group"
+                    >
+                      <div className="h-[40px] px-5 rounded-full flex items-center justify-center gap-1.5 transition-transform group-active:scale-90" style={{
+                        background: `linear-gradient(145deg, hsl(var(--primary)) 0%, hsl(211 100% 40%) 100%)`,
+                        boxShadow: `
+                          0 4px 16px hsl(var(--primary) / 0.3),
+                          inset 0 1px 0 hsla(0 0% 100% / 0.2)
+                        `,
+                      }}>
+                        <Plus size={18} strokeWidth={2.5} className="text-primary-foreground" />
+                        <span className="text-[11px] font-bold text-primary-foreground tracking-wide">Post</span>
+                      </div>
+                    </button>
+                  );
+                }
 
-              /* ── Center "Post" button — elevated orb ── */
-              if (item.isMain) {
+                /* ── Regular items — icon only with active pill bg ── */
                 return (
                   <button
                     key={item.path}
                     onClick={() => navigate(item.path)}
-                    className="relative z-10 flex flex-col items-center tap-scale group"
-                    style={{ marginBottom: 10 }}
+                    className={cn(
+                      'relative flex items-center justify-center w-[44px] h-[40px] rounded-full tap-scale transition-all duration-300',
+                      isActive && 'bg-primary/10'
+                    )}
                   >
-                    {/* Outer glow ring */}
-                    <div className="absolute -inset-1.5 rounded-full opacity-60 group-active:opacity-80 transition-opacity" style={{
-                      background: 'radial-gradient(circle, hsl(var(--primary) / 0.25) 0%, transparent 70%)',
-                    }} />
-                    {/* Main orb */}
-                    <div className="relative w-[52px] h-[52px] rounded-full flex items-center justify-center transition-transform group-active:scale-90" style={{
-                      background: `linear-gradient(160deg, hsl(var(--primary)) 0%, hsl(211 100% 38%) 100%)`,
-                      boxShadow: `
-                        0 6px 24px hsl(var(--primary) / 0.35),
-                        0 2px 8px hsl(var(--primary) / 0.2),
-                        inset 0 1.5px 0 hsla(0 0% 100% / 0.25),
-                        inset 0 -1px 0 hsla(0 0% 0% / 0.1)
-                      `,
-                    }}>
-                      <Plus size={24} strokeWidth={2.5} className="text-primary-foreground drop-shadow-sm" />
+                    <div className="relative">
+                      {item.path === '/profile' ? (
+                        <GradientAvatar
+                          name={user?.firstName || 'guest'}
+                          size={isActive ? 24 : 22}
+                          className={cn(
+                            'transition-all duration-300',
+                            isActive
+                              ? 'ring-[1.5px] ring-primary ring-offset-1 ring-offset-transparent'
+                              : 'opacity-40'
+                          )}
+                          showInitials={false}
+                        />
+                      ) : Icon ? (
+                        <Icon
+                          size={20}
+                          strokeWidth={isActive ? 2.2 : 1.6}
+                          className={cn(
+                            'transition-all duration-300',
+                            isActive ? 'text-primary' : 'text-muted-foreground/40'
+                          )}
+                        />
+                      ) : null}
+                      {item.path === '/notifications' && unreadCount > 0 && (
+                        <span className="absolute -top-1.5 -right-2 min-w-[14px] h-[14px] rounded-full flex items-center justify-center text-[7px] font-bold px-[2px]"
+                          style={{
+                            background: 'hsl(var(--destructive))',
+                            color: 'hsl(var(--destructive-foreground))',
+                            boxShadow: '0 2px 6px hsl(var(--destructive) / 0.4)',
+                          }}>
+                          {unreadCount > 9 ? '9+' : unreadCount}
+                        </span>
+                      )}
                     </div>
                   </button>
                 );
-              }
-
-              /* ── Regular nav items ── */
-              return (
-                <button
-                  key={item.path}
-                  onClick={() => navigate(item.path)}
-                  className="relative z-10 flex flex-col items-center justify-center gap-[3px] min-w-[48px] tap-scale"
-                  style={{ height: 58 }}
-                >
-                  {/* Active indicator dot */}
-                  {isActive && (
-                    <div className="absolute top-1.5 w-1 h-1 rounded-full bg-primary" style={{
-                      boxShadow: '0 0 6px hsl(var(--primary) / 0.5)',
-                    }} />
-                  )}
-
-                  <div className="relative mt-1">
-                    {item.path === '/profile' ? (
-                      <GradientAvatar
-                        name={user?.firstName || 'guest'}
-                        size={22}
-                        className={cn(
-                          'transition-all duration-300',
-                          isActive
-                            ? 'ring-[1.5px] ring-primary ring-offset-[1.5px] ring-offset-background scale-110'
-                            : 'opacity-35 grayscale-[50%]'
-                        )}
-                        showInitials={false}
-                      />
-                    ) : (
-                      <span className={cn(
-                        'text-[19px] block transition-all duration-300',
-                        isActive ? 'scale-110' : 'opacity-35 grayscale-[50%]'
-                      )}>
-                        {item.emoji}
-                      </span>
-                    )}
-                    {item.path === '/notifications' && unreadCount > 0 && (
-                      <span className="absolute -top-1 -right-2.5 min-w-[15px] h-[15px] rounded-full flex items-center justify-center text-[7px] font-bold px-[3px]"
-                        style={{
-                          background: 'hsl(var(--destructive))',
-                          color: 'hsl(var(--destructive-foreground))',
-                          boxShadow: '0 2px 8px hsl(var(--destructive) / 0.4)',
-                        }}>
-                        {unreadCount > 9 ? '9+' : unreadCount}
-                      </span>
-                    )}
-                  </div>
-                  <span className={cn(
-                    'text-[9px] font-semibold leading-none tracking-wide transition-all duration-300',
-                    isActive ? 'text-primary' : 'text-muted-foreground/30'
-                  )}>
-                    {item.label}
-                  </span>
-                </button>
-              );
-            })}
+              })}
+            </div>
           </div>
         </div>
       </nav>
