@@ -58,9 +58,9 @@ export const BottomNav = React.forwardRef<HTMLElement, object>(function BottomNa
                   {item.path === '/profile' ? (
                     <GradientAvatar name={user?.firstName || 'guest'} size={24}
                       className={cn(isActive ? 'ring-[1.5px] ring-primary ring-offset-1 ring-offset-background' : 'opacity-60')} showInitials={false} />
-                  ) : Icon ? (
-                    <Icon size={18} strokeWidth={isActive ? 2.2 : 1.8} className={cn(!isActive && 'opacity-60')} />
-                  ) : null}
+                  ) : (
+                    <span className={cn('text-[17px]', !isActive && 'opacity-60 grayscale-[30%]')}>{item.emoji}</span>
+                  )}
                   {item.path === '/notifications' && unreadCount > 0 && (
                     <span className="absolute -top-1 -right-1.5 bg-destructive text-destructive-foreground text-[8px] rounded-full w-3.5 h-3.5 flex items-center justify-center font-bold">
                       {unreadCount > 9 ? '9+' : unreadCount}
