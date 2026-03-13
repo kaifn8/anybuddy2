@@ -2,6 +2,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { useAppStore } from '@/store/useAppStore';
 import { GradientAvatar } from '@/components/ui/GradientAvatar';
+import { Plus } from 'lucide-react';
 import React from 'react';
 
 const navItems = [
