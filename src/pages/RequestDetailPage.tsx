@@ -419,8 +419,7 @@ export default function RequestDetailPage() {
                 <div>
                   <p className="text-[10px] font-semibold text-muted-foreground uppercase mb-2">Host</p>
                   <div className="flex items-center gap-3">
-                    <img src={request.userAvatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${request.userName}`}
-                      alt={request.userName} className="w-9 h-9 rounded-full" />
+                    <GradientAvatar name={request.userName} size={36} />
                     <div className="flex-1">
                       <p className="text-sm font-semibold flex items-center gap-1">
                         {request.userName}
@@ -439,15 +438,13 @@ export default function RequestDetailPage() {
                   <p className="text-[10px] font-semibold text-muted-foreground uppercase mb-2">People going ({request.participants.length + 1})</p>
                   <div className="space-y-2.5">
                     <div className="flex items-center gap-2.5">
-                      <img src={request.userAvatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${request.userName}`}
-                        alt="" className="w-7 h-7 rounded-full" />
+                      <GradientAvatar name={request.userName} size={28} showInitials={false} />
                       <span className="text-xs font-medium flex-1">{request.userName}</span>
                       <span className="text-[10px] bg-primary/10 text-primary px-1.5 py-0.5 rounded-full font-semibold">Host</span>
                     </div>
                     {request.participants.map((p) => (
                       <div key={p.id} className="flex items-center gap-2.5">
-                        <img src={p.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${p.name}`}
-                          alt="" className="w-7 h-7 rounded-full" />
+                        <GradientAvatar name={p.name} size={28} showInitials={false} />
                         <span className="text-xs font-medium flex-1">{p.name}</span>
                         {isHost && (
                           <DropdownMenu>
@@ -493,8 +490,7 @@ export default function RequestDetailPage() {
                     <p className="text-[10px] font-semibold text-warning uppercase">✋ Join Requests ({pendingRequests.length})</p>
                     {pendingRequests.map((jr) => (
                       <div key={jr.userId} className="flex items-center gap-2 py-1.5">
-                        <img src={jr.userAvatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${jr.userName}`}
-                          alt="" className="w-7 h-7 rounded-full" />
+                        <GradientAvatar name={jr.userName} size={28} showInitials={false} />
                         <div className="flex-1 min-w-0">
                           <p className="text-xs font-semibold truncate">{jr.userName}</p>
                           <div className="flex items-center gap-2 text-[10px] text-muted-foreground">
@@ -620,8 +616,7 @@ export default function RequestDetailPage() {
         <div className="liquid-glass p-3.5 rounded-2xl">
           <p className="text-[10px] font-semibold text-muted-foreground uppercase mb-2">Host</p>
           <div className="flex items-center gap-3">
-            <img src={request.userAvatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${request.userName}`}
-              alt={request.userName} className="w-9 h-9 rounded-full" />
+            <GradientAvatar name={request.userName} size={36} />
             <div className="flex-1">
               <p className="text-sm font-semibold flex items-center gap-1">
                 {request.userName}
