@@ -6,7 +6,7 @@ import { BottomNav } from '@/components/layout/BottomNav';
 import { getCategoryLabel, getCategoryEmoji } from '@/components/icons/CategoryIcon';
 import { useAppStore } from '@/store/useAppStore';
 import { Button } from '@/components/ui/button';
-import { ChevronRight, ArrowUpRight, User, Gift, Trophy, Shield, BadgeCheck, Star, Flame, CheckCircle, AlertTriangle, Sparkles, FolderOpen } from 'lucide-react';
+import { ChevronRight, ArrowUpRight, User, Gift, Trophy, Shield, BadgeCheck, Star, Flame, CheckCircle, AlertTriangle, Sparkles, FolderOpen, type LucideIcon } from 'lucide-react';
 import type { Badge, Request, TrustLevel } from '@/types/anybuddy';
 import { ProfileHero } from '@/components/profile/ProfileHero';
 import { VerificationCard } from '@/components/profile/VerificationCard';
