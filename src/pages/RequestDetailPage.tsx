@@ -444,8 +444,7 @@ export default function RequestDetailPage() {
                     </div>
                     {request.participants.map((p) => (
                       <div key={p.id} className="flex items-center gap-2.5">
-                        <img src={p.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${p.name}`}
-                          alt="" className="w-7 h-7 rounded-full" />
+                        <GradientAvatar name={p.name} size={28} showInitials={false} />
                         <span className="text-xs font-medium flex-1">{p.name}</span>
                         {isHost && (
                           <DropdownMenu>
