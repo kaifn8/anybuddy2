@@ -189,7 +189,7 @@ function SettingsSection({ title, children }: { title: string; children: React.R
 function SettingsToggle({
   icon: Icon, iconBg, label, checked, onCheckedChange,
 }: {
-  icon: React.ComponentType<{ size?: number; className?: string }>; iconBg: string; label: string;
+  icon: LucideIcon; iconBg: string; label: string;
   checked: boolean; onCheckedChange: (v: boolean) => void;
 }) {
   return (
