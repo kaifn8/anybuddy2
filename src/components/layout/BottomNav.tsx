@@ -2,6 +2,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { useAppStore } from '@/store/useAppStore';
 import { GradientAvatar } from '@/components/ui/GradientAvatar';
+import { Plus } from 'lucide-react';
 import React from 'react';
 
 const navItems = [
@@ -41,7 +42,7 @@ export const BottomNav = React.forwardRef<HTMLElement, object>(function BottomNa
               return (
                 <button key={item.path} onClick={() => navigate(item.path)}
                   className="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-primary text-primary-foreground font-semibold tap-scale mt-3 mb-1">
-                  <span className="text-base">{item.emoji}</span>
+                  <Plus size={18} strokeWidth={2.5} />
                   <span className="text-sm">Create Plan</span>
                 </button>
               );
@@ -124,7 +125,7 @@ export const BottomNav = React.forwardRef<HTMLElement, object>(function BottomNa
                         inset 0 -1px 0 hsla(0 0% 0% / 0.1)
                       `,
                     }}>
-                      <span className="text-[22px] drop-shadow-sm">🎉</span>
+                      <Plus size={24} strokeWidth={2.5} className="text-primary-foreground drop-shadow-sm" />
                     </div>
                   </button>
                 );
