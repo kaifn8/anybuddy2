@@ -43,11 +43,7 @@ export function ProfileHero({ user, joinText, stats }: ProfileHeroProps) {
   const verificationStatus: VerificationStatus = user.verificationStatus || 'unverified';
 
   return (
-    <div className="relative overflow-hidden rounded-[24px]" style={{
-      background: 'hsl(var(--glass-bg))',
-      backdropFilter: 'blur(var(--glass-blur-heavy))',
-      boxShadow: '0 4px 24px hsl(var(--glass-shadow)), 0 0 0 1px hsl(var(--glass-border))',
-    }}>
+    <div className="relative overflow-hidden liquid-glass-heavy">
       {/* Soft gradient accent at top */}
       <div className="absolute top-0 left-0 right-0 h-28 opacity-[0.06]" style={{
         background: 'linear-gradient(180deg, hsl(var(--primary)) 0%, transparent 100%)',
@@ -61,9 +57,7 @@ export function ProfileHero({ user, joinText, stats }: ProfileHeroProps) {
             <div className="w-[84px] h-[84px] rounded-full p-[2.5px]" style={{
               background: 'linear-gradient(135deg, hsl(var(--primary) / 0.3), hsl(var(--secondary) / 0.2))',
             }}>
-              <div className="w-full h-full rounded-full overflow-hidden bg-card" style={{
-                boxShadow: '0 6px 20px hsl(var(--glass-shadow))',
-              }}>
+              <div className="w-full h-full rounded-full overflow-hidden liquid-glass" style={{ borderRadius: '50%' }}>
                 <img
                   src={user.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.firstName}`}
                   alt={user.firstName}
@@ -111,13 +105,11 @@ export function ProfileHero({ user, joinText, stats }: ProfileHeroProps) {
           </div>
         </div>
 
-        {/* Stats */}
-        <div className="mx-4 mb-4 grid grid-cols-3 overflow-hidden rounded-2xl" style={{
-          background: 'hsl(var(--muted) / 0.4)',
-        }}>
+        {/* Stats — glass row */}
+        <div className="mx-4 mb-4 grid grid-cols-3 overflow-hidden rounded-2xl liquid-glass" style={{ borderRadius: '1rem' }}>
           {stats.map((stat, i) => (
             <div key={i} className="flex flex-col items-center py-3.5 gap-1" style={{
-              borderRight: i < 2 ? '1px solid hsl(var(--border) / 0.5)' : undefined,
+              borderRight: i < 2 ? '0.5px solid hsla(var(--glass-border))' : undefined,
             }}>
               <span className="text-[18px] font-bold tabular-nums text-foreground">
                 {stat.value}

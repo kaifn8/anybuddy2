@@ -6,7 +6,7 @@
 
 @layer base {
   :root {
-    /* macOS Tahoe — Clean, luminous palette */
+    /* Liquid Glass — Luminous palette */
     --primary: 211 100% 50%;
     --primary-foreground: 0 0% 100%;
     
@@ -44,13 +44,13 @@
     --radius: 0.875rem;
 
     /* Glass tokens */
-    --glass-bg: 0 0% 100% / 0.6;
-    --glass-bg-heavy: 0 0% 100% / 0.78;
-    --glass-border: 0 0% 100% / 0.5;
+    --glass-bg: 0 0% 100% / 0.55;
+    --glass-bg-heavy: 0 0% 100% / 0.72;
+    --glass-border: 0 0% 100% / 0.55;
     --glass-highlight: 0 0% 100% / 0.9;
-    --glass-shadow: 220 30% 30% / 0.06;
-    --glass-blur: 20px;
-    --glass-blur-heavy: 32px;
+    --glass-shadow: 220 30% 30% / 0.08;
+    --glass-blur: 24px;
+    --glass-blur-heavy: 40px;
 
     --sidebar-background: 220 20% 97%;
     --sidebar-foreground: 220 25% 10%;
@@ -75,11 +75,13 @@
     --input: 225 14% 17%;
     --primary: 211 100% 55%;
     --secondary: 260 45% 60%;
-    --glass-bg: 225 20% 13% / 0.65;
-    --glass-bg-heavy: 225 20% 15% / 0.8;
-    --glass-border: 0 0% 100% / 0.07;
-    --glass-highlight: 0 0% 100% / 0.05;
-    --glass-shadow: 0 0% 0% / 0.25;
+    --glass-bg: 225 20% 13% / 0.55;
+    --glass-bg-heavy: 225 20% 15% / 0.72;
+    --glass-border: 0 0% 100% / 0.08;
+    --glass-highlight: 0 0% 100% / 0.06;
+    --glass-shadow: 0 0% 0% / 0.3;
+    --glass-blur: 24px;
+    --glass-blur-heavy: 40px;
   }
 }
 
@@ -109,91 +111,118 @@
      ═══════════════════════════════════ */
 
   .liquid-glass {
-    background: rgba(255,255,255,0.35);
-    backdrop-filter: blur(24px) saturate(180%);
-    -webkit-backdrop-filter: blur(24px) saturate(180%);
-    border: 1px solid rgba(255,255,255,0.6);
-    border-radius: 0.75rem;
-    box-shadow: 0 2px 16px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.5);
-  }
-
-  .dark .liquid-glass {
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.08);
-    box-shadow: 0 2px 16px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.04);
+    background: hsla(var(--glass-bg));
+    backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+    border: 0.5px solid hsla(var(--glass-border));
+    border-radius: 1rem;
+    box-shadow:
+      0 2px 16px hsla(var(--glass-shadow)),
+      inset 0 0.5px 0 hsla(var(--glass-highlight));
   }
 
   .liquid-glass-heavy {
-    background: rgba(255,255,255,0.5);
-    backdrop-filter: blur(32px) saturate(190%);
-    -webkit-backdrop-filter: blur(32px) saturate(190%);
-    border: 1px solid rgba(255,255,255,0.65);
-    border-radius: 1rem;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.05), inset 0 1px 0 rgba(255,255,255,0.6);
-  }
-
-  .dark .liquid-glass-heavy {
-    background: rgba(255,255,255,0.07);
-    border: 1px solid rgba(255,255,255,0.1);
-    box-shadow: 0 4px 20px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.05);
+    background: hsla(var(--glass-bg-heavy));
+    backdrop-filter: blur(var(--glass-blur-heavy)) saturate(200%);
+    -webkit-backdrop-filter: blur(var(--glass-blur-heavy)) saturate(200%);
+    border: 0.5px solid hsla(var(--glass-border));
+    border-radius: 1.25rem;
+    box-shadow:
+      0 4px 24px hsla(var(--glass-shadow)),
+      0 1px 2px hsla(var(--glass-shadow)),
+      inset 0 0.5px 0 hsla(var(--glass-highlight));
   }
 
   .liquid-glass-subtle {
-    background: rgba(255,255,255,0.25);
+    background: hsla(var(--glass-bg));
     backdrop-filter: blur(16px) saturate(150%);
     -webkit-backdrop-filter: blur(16px) saturate(150%);
-    border: 1px solid rgba(255,255,255,0.4);
+    border: 0.5px solid hsla(var(--glass-border));
     border-radius: 999px;
   }
 
-  .dark .liquid-glass-subtle {
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.08);
-  }
-
   .liquid-glass-nav {
-    background: rgba(255,255,255,0.6);
-    backdrop-filter: blur(32px) saturate(190%);
-    -webkit-backdrop-filter: blur(32px) saturate(190%);
-    border-bottom: 1px solid rgba(0,0,0,0.04);
-  }
-
-  .dark .liquid-glass-nav {
-    background: rgba(20,20,30,0.7);
-    border-bottom: 1px solid rgba(255,255,255,0.06);
+    background: hsla(var(--glass-bg-heavy));
+    backdrop-filter: blur(var(--glass-blur-heavy)) saturate(200%);
+    -webkit-backdrop-filter: blur(var(--glass-blur-heavy)) saturate(200%);
+    border-bottom: 0.5px solid hsla(var(--glass-border));
+    box-shadow: 0 1px 8px hsla(var(--glass-shadow));
   }
 
   .liquid-glass-interactive {
-    background: rgba(255,255,255,0.35);
-    backdrop-filter: blur(24px) saturate(180%);
-    -webkit-backdrop-filter: blur(24px) saturate(180%);
-    border: 1px solid rgba(255,255,255,0.6);
-    border-radius: 0.75rem;
-    box-shadow: 0 2px 16px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.5);
+    background: hsla(var(--glass-bg));
+    backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+    border: 0.5px solid hsla(var(--glass-border));
+    border-radius: 1.25rem;
+    box-shadow:
+      0 2px 16px hsla(var(--glass-shadow)),
+      inset 0 0.5px 0 hsla(var(--glass-highlight));
     cursor: pointer;
     transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  .dark .liquid-glass-interactive {
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.08);
-    box-shadow: 0 2px 16px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.04);
-  }
-
   .liquid-glass-interactive:hover {
-    background: rgba(255,255,255,0.5);
+    background: hsla(var(--glass-bg-heavy));
     transform: translateY(-1px);
-    box-shadow: 0 4px 20px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.6);
-  }
-
-  .dark .liquid-glass-interactive:hover {
-    background: rgba(255,255,255,0.1);
-    box-shadow: 0 4px 20px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.06);
+    box-shadow:
+      0 8px 32px hsla(var(--glass-shadow)),
+      0 2px 8px hsla(var(--glass-shadow)),
+      inset 0 0.5px 0 hsla(var(--glass-highlight));
   }
 
   .liquid-glass-interactive:active {
     transform: scale(0.985) translateY(0);
     transition-duration: 0.1s;
+  }
+
+  /* Glass card — for RequestCard etc */
+  .liquid-glass-card {
+    background: hsla(var(--glass-bg));
+    backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+    border: 0.5px solid hsla(var(--glass-border));
+    border-radius: 1.5rem;
+    box-shadow:
+      0 2px 20px hsla(var(--glass-shadow)),
+      inset 0 0.5px 0 hsla(var(--glass-highlight));
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .liquid-glass-card:hover {
+    background: hsla(var(--glass-bg-heavy));
+    transform: translateY(-2px);
+    box-shadow:
+      0 12px 40px hsla(var(--glass-shadow)),
+      0 2px 8px hsla(var(--glass-shadow)),
+      inset 0 0.5px 0 hsla(var(--glass-highlight));
+  }
+
+  .liquid-glass-card:active {
+    transform: scale(0.98) translateY(0);
+    transition-duration: 0.1s;
+  }
+
+  /* Trending glass card — frosted with color tint */
+  .liquid-glass-trending {
+    background: hsla(var(--glass-bg-heavy));
+    backdrop-filter: blur(var(--glass-blur-heavy)) saturate(200%);
+    -webkit-backdrop-filter: blur(var(--glass-blur-heavy)) saturate(200%);
+    border: 0.5px solid hsla(var(--glass-border));
+    border-radius: 1.25rem;
+    box-shadow:
+      0 4px 24px hsla(var(--glass-shadow)),
+      inset 0 0.5px 0 hsla(var(--glass-highlight));
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .liquid-glass-trending:hover {
+    transform: translateY(-2px) scale(1.01);
+    box-shadow:
+      0 12px 40px hsla(var(--glass-shadow)),
+      inset 0 0.5px 0 hsla(var(--glass-highlight));
   }
 
   /* Specular highlight — top-edge glow */
@@ -202,6 +231,24 @@
       inset 0 0.5px 0 hsla(var(--glass-highlight)),
       0 1px 3px hsla(var(--glass-shadow)),
       0 4px 16px hsla(var(--glass-shadow));
+  }
+
+  /* Glass input */
+  .liquid-glass-input {
+    background: hsla(var(--glass-bg));
+    backdrop-filter: blur(16px) saturate(150%);
+    -webkit-backdrop-filter: blur(16px) saturate(150%);
+    border: 0.5px solid hsla(var(--glass-border));
+    border-radius: 0.875rem;
+    box-shadow: inset 0 0.5px 0 hsla(var(--glass-highlight));
+    transition: all 0.2s ease;
+  }
+
+  .liquid-glass-input:focus {
+    border-color: hsl(var(--primary) / 0.4);
+    box-shadow:
+      inset 0 0.5px 0 hsla(var(--glass-highlight)),
+      0 0 0 3px hsl(var(--primary) / 0.1);
   }
 
   /* ═══════════════════════════════════
@@ -219,9 +266,8 @@
     transform: scale(0.97);
   }
 
-  /* Primary — translucent gradient with glass depth */
   .tahoe-btn-primary {
-    @apply tahoe-btn text-white;
+    @apply tahoe-btn text-primary-foreground;
     background: linear-gradient(180deg, hsla(211 100% 56% / 0.88) 0%, hsla(211 100% 46% / 0.92) 100%);
     backdrop-filter: blur(12px) saturate(160%);
     -webkit-backdrop-filter: blur(12px) saturate(160%);
@@ -241,7 +287,6 @@
       0 8px 24px hsla(211 100% 40% / 0.18);
   }
 
-  /* Secondary — glass tinted */
   .tahoe-btn-secondary {
     @apply tahoe-btn text-foreground;
     background: hsla(var(--glass-bg));
@@ -252,7 +297,7 @@
   }
 
   .tahoe-btn-secondary:hover {
-    background: hsla(0 0% 100% / 0.75);
+    background: hsla(var(--glass-bg-heavy));
     transform: translateY(-1px);
     box-shadow:
       inset 0 0.5px 0 hsla(var(--glass-highlight)),
@@ -260,15 +305,6 @@
       0 6px 16px hsla(var(--glass-shadow));
   }
 
-  .dark .tahoe-btn-secondary:hover {
-    background: hsla(0 0% 100% / 0.12);
-  }
-
-  .dark .glass-pill-inactive:hover {
-    background: hsla(0 0% 100% / 0.1);
-  }
-
-  /* Ghost — minimal, icon-friendly */
   .tahoe-btn-ghost {
     @apply tahoe-btn text-muted-foreground;
     background: transparent;
@@ -281,7 +317,7 @@
   }
 
   /* ═══════════════════════════════════
-     PILL CHIPS — Filters & Tags
+     PILL CHIPS — Glass Filters & Tags
      ═══════════════════════════════════ */
 
   .glass-pill {
@@ -300,15 +336,28 @@
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     color: hsl(var(--background));
-    box-shadow: 0 2px 8px hsla(var(--foreground) / 0.15);
+    box-shadow: 0 2px 12px hsla(var(--foreground) / 0.15);
   }
 
   .glass-pill-inactive {
-    @apply liquid-glass-subtle text-muted-foreground;
+    background: hsla(var(--glass-bg));
+    backdrop-filter: blur(12px) saturate(150%);
+    -webkit-backdrop-filter: blur(12px) saturate(150%);
+    border: 0.5px solid hsla(var(--glass-border));
+    color: hsl(var(--muted-foreground));
+    box-shadow: inset 0 0.5px 0 hsla(var(--glass-highlight));
   }
 
   .glass-pill-inactive:hover {
-    background: hsla(0 0% 100% / 0.7);
+    background: hsla(var(--glass-bg-heavy));
+  }
+
+  .dark .glass-pill-inactive:hover {
+    background: hsla(0 0% 100% / 0.1);
+  }
+
+  .dark .tahoe-btn-secondary:hover {
+    background: hsla(0 0% 100% / 0.12);
   }
 
   /* ═══════════════════════════════════
@@ -368,17 +417,14 @@
   .fade-in { animation: fade-in 0.3s ease-out; }
   .scale-in { animation: scale-in 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
 
-  /* Heart save pop animation */
   .heart-pop {
     animation: heart-pop 0.4s cubic-bezier(0.17, 0.89, 0.32, 1.49);
   }
 
-  /* Join button success pulse */
   .join-pulse {
     animation: join-pulse 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  /* Shimmer loading effect */
   .shimmer {
     background: linear-gradient(
       90deg,
@@ -471,18 +517,21 @@
   @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 focus-visible:ring-offset-2;
 }
 
-/* Ambient gradient background */
+/* Ambient gradient background — glass-ready mesh */
 .bg-ambient {
   background:
-    radial-gradient(ellipse at 20% 0%, hsla(211 100% 60% / 0.06) 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 100%, hsla(260 50% 55% / 0.04) 0%, transparent 50%),
+    radial-gradient(ellipse at 15% 5%, hsla(211 100% 60% / 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 85% 15%, hsla(260 50% 55% / 0.06) 0%, transparent 40%),
+    radial-gradient(ellipse at 50% 80%, hsla(36 100% 60% / 0.04) 0%, transparent 40%),
+    radial-gradient(ellipse at 80% 90%, hsla(152 60% 42% / 0.03) 0%, transparent 30%),
     hsl(var(--background));
 }
 
 .dark .bg-ambient {
   background:
-    radial-gradient(ellipse at 20% 0%, hsla(211 100% 50% / 0.1) 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 100%, hsla(260 50% 50% / 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 15% 5%, hsla(211 100% 50% / 0.12) 0%, transparent 50%),
+    radial-gradient(ellipse at 85% 15%, hsla(260 50% 50% / 0.08) 0%, transparent 40%),
+    radial-gradient(ellipse at 50% 80%, hsla(36 100% 50% / 0.04) 0%, transparent 40%),
     hsl(var(--background));
 }
 

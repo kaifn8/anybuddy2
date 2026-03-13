@@ -37,17 +37,17 @@ export default function HostProfilePage() {
   const completedMeetups = hostRequests.filter(r => r.status === 'completed').length;
   const activeMeetups = hostRequests.filter(r => r.status === 'active').length;
   const totalMeetups = completedMeetups + activeMeetups;
-  const successRate = totalMeetups > 0 ? Math.round((completedMeetups / Math.max(totalMeetups, 1)) * 100) : 92; // fake fallback
+  const successRate = totalMeetups > 0 ? Math.round((completedMeetups / Math.max(totalMeetups, 1)) * 100) : 92;
 
   return (
     <div className="mobile-container min-h-screen bg-ambient pb-8">
       <TopBar showBack title="Host Profile" />
 
       <div className="px-5 pt-5 space-y-4">
-        {/* Profile card */}
+        {/* Profile card — glass */}
         <div className="liquid-glass-heavy p-5 text-center">
           <img src={host.userAvatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${host.userName}`}
-            alt={host.userName} className="w-20 h-20 rounded-full mx-auto border-3 border-white/40" />
+            alt={host.userName} className="w-20 h-20 rounded-full mx-auto border-3 border-background" />
           <h2 className="text-title font-bold mt-3">{host.userName}</h2>
           {host.userGender && (
             <span className="text-xs text-muted-foreground capitalize mt-0.5">
@@ -66,7 +66,7 @@ export default function HostProfilePage() {
           </button>
         </div>
 
-        {/* Stats */}
+        {/* Stats — glass grid */}
         <div className="grid grid-cols-4 gap-2">
           {[
             { value: `${host.userReliability || 0}%`, label: 'Reliable' },
@@ -81,12 +81,12 @@ export default function HostProfilePage() {
           ))}
         </div>
 
-        {/* Reviews */}
-        <div className="liquid-glass p-4">
+        {/* Reviews — glass */}
+        <div className="liquid-glass-heavy p-4">
           <h3 className="text-xs font-semibold text-muted-foreground mb-3">REVIEWS</h3>
           <div className="space-y-3">
             {FAKE_REVIEWS.map((review, i) => (
-              <div key={i} className="liquid-glass-subtle p-3 rounded-lg">
+              <div key={i} className="liquid-glass p-3" style={{ borderRadius: '0.75rem' }}>
                 <div className="flex items-center justify-between mb-1">
                   <div className="flex items-center gap-1.5">
                     <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${review.name}`}
@@ -104,15 +104,14 @@ export default function HostProfilePage() {
           </div>
         </div>
 
-        {/* Past/Active meetups */}
+        {/* Meetups — glass */}
         {hostRequests.length > 0 && (
-          <div className="liquid-glass p-4">
+          <div className="liquid-glass-heavy p-4">
             <h3 className="text-xs font-semibold text-muted-foreground mb-2.5">MEETUPS</h3>
             <div className="space-y-2">
               {hostRequests.slice(0, 5).map((req) => (
                 <button key={req.id} onClick={() => navigate(`/request/${req.id}`)}
-                  className="w-full flex items-center gap-3 bg-background/80 backdrop-blur-xl border border-border/50 p-4 rounded-3xl text-left tap-scale hover:bg-background/90 transition-colors"
-                  style={{ boxShadow: '0px 2px 10px rgba(0,0,0,0.05)' }}>
+                  className="w-full liquid-glass-interactive flex items-center gap-3 p-3 text-left">
                   <span className="text-lg">{getCategoryEmoji(req.category)}</span>
                   <div className="flex-1 min-w-0">
                     <p className="font-semibold text-[14px] truncate">{req.title}</p>

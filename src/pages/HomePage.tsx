@@ -7,7 +7,6 @@ import { PageTransition } from '@/components/layout/PageTransition';
 import { RequestCard } from '@/components/cards/RequestCard';
 import { JoinConfirmDialog } from '@/components/JoinConfirmDialog';
 import { useAppStore } from '@/store/useAppStore';
-import { useStaggerReveal } from '@/hooks/useStaggerReveal';
 import { cn } from '@/lib/utils';
 import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
 import type { Category, Request } from '@/types/anybuddy';
@@ -51,7 +50,6 @@ export default function HomePage() {
   const userInteractedRef = useRef(false);
   const hasAnimatedCards = useRef(false);
 
-  // Staggered card reveal
   useEffect(() => {
     const el = cardsRef.current;
     if (!el) return;
@@ -64,9 +62,6 @@ export default function HomePage() {
     );
   }, [activeFilter, quickFilter]);
   
-  // Removed startup animation per user request
-  
-  // Auto-scroll trending section
   useEffect(() => {
     const container = trendingRef.current;
     if (!container) return;
@@ -147,7 +142,6 @@ export default function HomePage() {
 
   const activeCount = requests.filter(r => r.status === 'active').length;
 
-  // Trending: most joined plans
   const trending = [...requests]
     .filter(r => r.status === 'active')
     .sort((a, b) => b.seatsTaken - a.seatsTaken)
@@ -169,14 +163,14 @@ export default function HomePage() {
           </h1>
           <p className="text-sm text-muted-foreground mt-0.5">Find people to hang out with right now</p>
         </div>
-        <button onClick={() => navigate('/create')} className="hidden lg:flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2.5 rounded-xl font-semibold text-sm tap-scale shadow-lg shadow-primary/20">
+        <button onClick={() => navigate('/create')} className="hidden lg:flex items-center gap-2 tahoe-btn-primary px-4 py-2.5 text-sm tap-scale">
           🪄 Create a plan
         </button>
       </div>
       
-      {/* Social proof banner */}
+      {/* Social proof banner — glass */}
       <div className="px-5 pt-2 pb-1">
-        <div className="flex items-center gap-2 px-3.5 py-2 rounded-2xl bg-success/[0.06] border border-success/15">
+        <div className="flex items-center gap-2 px-3.5 py-2 liquid-glass" style={{ borderRadius: '1rem' }}>
           <div className="flex -space-x-1.5 shrink-0">
             {['Felix', 'Aneka', 'Leo'].map((seed, i) => (
               <img key={i} src={`https://api.dicebear.com/9.x/lorelei/svg?seed=${seed}`} alt="" className="w-5 h-5 rounded-full border-2 border-background" />
@@ -190,7 +184,7 @@ export default function HomePage() {
       </div>
 
 
-      {/* Trending section */}
+      {/* Trending section — glass cards */}
       {trending.length > 0 && (
         <div className="pt-3.5 mb-3">
           <h3 className="text-[15px] font-bold text-foreground mb-3.5 flex items-center gap-1.5 px-5">
@@ -199,42 +193,27 @@ export default function HomePage() {
           <div ref={trendingRef} className="flex gap-3 overflow-x-auto scrollbar-hide px-5 pb-3 lg:flex-wrap">
             {trending.map((req, i) => {
               const seatsLeft = req.seatsTotal - req.seatsTaken;
-              const fillPercent = Math.round((req.seatsTaken / req.seatsTotal) * 100);
-              const gradients = [
-                'linear-gradient(160deg, #1a1a2e 0%, #16213e 35%, #0f3460 65%, #533483 100%)',
-                'linear-gradient(160deg, #0d1b2a 0%, #1b2838 35%, #1a4a5e 65%, #2d6a4f 100%)',
-                'linear-gradient(160deg, #1a1423 0%, #2d1b3d 35%, #4a1942 65%, #801336 100%)',
-              ];
               return (
                 <button key={req.id} onClick={() => navigate(`/request/${req.id}`)}
-                  className="shrink-0 tap-scale min-w-[210px] max-w-[230px] lg:min-w-[260px] lg:max-w-[300px] overflow-hidden text-left relative"
-                  style={{
-                    background: gradients[i % 3],
-                    borderRadius: '20px',
-                    boxShadow: '0 4px 16px -4px rgba(0,0,0,0.15)',
-                  }}>
-                  {/* Noise texture overlay */}
-                  <div className="absolute inset-0 opacity-[0.03]" style={{
-                    backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 256 256\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\' opacity=\'1\'/%3E%3C/svg%3E")',
-                  }} />
-                  {/* Soft light reflection */}
-                  <div className="absolute top-0 left-0 right-0 h-[60%] opacity-[0.06]" style={{
-                    background: 'radial-gradient(ellipse at 30% 0%, rgba(255,255,255,0.8) 0%, transparent 60%)',
+                  className="shrink-0 liquid-glass-trending tap-scale min-w-[210px] max-w-[230px] lg:min-w-[260px] lg:max-w-[300px] text-left relative overflow-hidden">
+                  {/* Glass color tint at top */}
+                  <div className="absolute top-0 left-0 right-0 h-16 opacity-20" style={{
+                    background: `radial-gradient(ellipse at 30% 0%, hsl(var(--primary) / 0.4), transparent 70%)`,
                   }} />
 
                   <div className="p-4 relative z-10">
                     {/* Category + Live */}
                     <div className="flex items-center justify-between mb-3">
-                      <span className="text-2xl drop-shadow-lg">{getCategoryEmoji(req.category)}</span>
-                      <div className="flex items-center gap-1 px-2 py-[3px] rounded-full" style={{ background: 'rgba(255,255,255,0.08)' }}>
-                        <span className="w-[5px] h-[5px] rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.6)]" />
-                        <span className="text-[9px] font-semibold text-white/70 uppercase tracking-wider">Live</span>
+                      <span className="text-2xl">{getCategoryEmoji(req.category)}</span>
+                      <div className="flex items-center gap-1 px-2 py-[3px] rounded-full liquid-glass" style={{ borderRadius: '999px' }}>
+                        <span className="w-[5px] h-[5px] rounded-full bg-success shadow-[0_0_6px_hsl(var(--success)/0.6)]" />
+                        <span className="text-[9px] font-semibold text-muted-foreground uppercase tracking-wider">Live</span>
                       </div>
                     </div>
 
                     {/* Title */}
-                    <h4 className="text-[14px] font-bold text-white leading-tight truncate mb-1">{req.title}</h4>
-                    <p className="text-[11px] text-white/40 mb-4 truncate">{req.location.name}</p>
+                    <h4 className="text-[14px] font-bold text-foreground leading-tight truncate mb-1">{req.title}</h4>
+                    <p className="text-[11px] text-muted-foreground mb-4 truncate">{req.location.name}</p>
 
                     {/* Avatars + spots */}
                     <div className="flex items-center justify-between">
@@ -242,17 +221,17 @@ export default function HomePage() {
                         <div className="flex -space-x-2">
                           {[req.userName, ...req.participants.map(p => p.name)].slice(0, 3).map((name, j) => (
                             <img key={j} src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${name}`} alt=""
-                              className="w-6 h-6 rounded-full"
-                              style={{ border: '2px solid rgba(255,255,255,0.15)' }} />
+                              className="w-6 h-6 rounded-full border-2 border-background" />
                           ))}
                         </div>
-                        <span className="text-[10px] font-medium text-white/50">{req.seatsTaken}/{req.seatsTotal}</span>
+                        <span className="text-[10px] font-medium text-muted-foreground">{req.seatsTaken}/{req.seatsTotal}</span>
                       </div>
-                      <span className="text-[10px] font-bold text-white/80 px-2.5 py-1 rounded-full" style={{
-                        background: seatsLeft <= 1
-                          ? 'linear-gradient(135deg, rgba(239,68,68,0.3), rgba(239,68,68,0.15))'
-                          : 'rgba(255,255,255,0.08)',
-                      }}>
+                      <span className={cn(
+                        'text-[10px] font-bold px-2.5 py-1 rounded-full',
+                        seatsLeft <= 1
+                          ? 'text-destructive bg-destructive/10'
+                          : 'text-muted-foreground liquid-glass'
+                      )} style={{ borderRadius: '999px' }}>
                         {seatsLeft === 0 ? 'Full' : seatsLeft === 1 ? '1 left' : `${seatsLeft} left`}
                       </span>
                     </div>
@@ -266,15 +245,15 @@ export default function HomePage() {
 
 
 
-      {/* Category filters */}
+      {/* Category filters — glass pills */}
       <div className="px-5 pb-1">
         <div className="flex gap-1.5 overflow-x-auto pb-1.5 -mx-5 px-5 scrollbar-hide lg:mx-0 lg:px-0 lg:flex-wrap">
           {FILTERS.map((cat) => (
             <button key={cat.id} onClick={() => setActiveFilter(cat.id)}
               className={cn('shrink-0 px-2.5 py-1 rounded-full text-[11px] font-medium tap-scale transition-all flex items-center gap-1',
                 activeFilter === cat.id
-                  ? 'bg-foreground text-background shadow-sm'
-                  : 'bg-foreground/5 text-muted-foreground'
+                  ? 'glass-pill-active'
+                  : 'glass-pill-inactive'
               )}>
               <span className="text-[11px]">{cat.emoji}</span>
               <span>{cat.label}</span>
@@ -282,12 +261,12 @@ export default function HomePage() {
           ))}
         </div>
 
-        {/* Quick filters */}
+        {/* Quick filters — glass pills */}
         <div className="flex gap-1.5 overflow-x-auto pb-2 -mx-5 px-5 scrollbar-hide mt-1.5 lg:mx-0 lg:px-0 lg:flex-wrap">
           {QUICK_FILTERS.map((f) => (
             <button key={f.id} onClick={() => setQuickFilter(quickFilter === f.id ? null : f.id)}
               className={cn('shrink-0 px-2.5 py-1 rounded-full text-[10px] font-semibold tap-scale transition-all',
-                quickFilter === f.id ? 'bg-primary text-primary-foreground' : 'bg-foreground/[0.03] text-muted-foreground'
+                quickFilter === f.id ? 'glass-pill-active' : 'glass-pill-inactive'
               )}>
               {f.label}
             </button>
@@ -324,7 +303,7 @@ export default function HomePage() {
               <div className="grid grid-cols-2 gap-2">
                 {QUICK_CREATE.map((s, i) => (
                   <button key={i} onClick={() => navigate('/create')}
-                    className="liquid-glass p-3 text-left tap-scale flex items-center gap-2" style={{ borderRadius: '0.875rem' }}>
+                    className="liquid-glass-interactive p-3 text-left flex items-center gap-2">
                     <span className="text-xl">{s.emoji}</span>
                     <span className="text-xs font-semibold">{s.title}</span>
                   </button>
@@ -335,14 +314,14 @@ export default function HomePage() {
         )}
       </div>
 
-      {/* Quick create bar at bottom of feed */}
+      {/* Quick create bar */}
       {filtered.length > 0 && (
         <div className="px-5 mt-5 mb-2">
           <h3 className="text-xs font-semibold text-muted-foreground mb-2 uppercase">Start something</h3>
           <div className="flex gap-2 overflow-x-auto scrollbar-hide -mx-5 px-5">
             {QUICK_CREATE.map((s, i) => (
               <button key={i} onClick={() => navigate('/create')}
-                className="shrink-0 liquid-glass px-3.5 py-2 tap-scale flex items-center gap-1.5" style={{ borderRadius: '0.75rem' }}>
+                className="shrink-0 liquid-glass-interactive px-3.5 py-2 flex items-center gap-1.5" style={{ borderRadius: '0.75rem' }}>
                 <span className="text-sm">{s.emoji}</span>
                 <span className="text-2xs font-semibold">{s.title}</span>
               </button>

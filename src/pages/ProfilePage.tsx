@@ -29,55 +29,49 @@ function TrustProgressionCard({ trustLevel, completedJoins, reliabilityScore }: 
     : 100;
 
   return (
-    <div className="rounded-[20px] overflow-hidden" style={{
-      background: 'hsl(var(--glass-bg))',
-      backdropFilter: 'blur(var(--glass-blur))',
-      boxShadow: '0 2px 12px hsl(var(--glass-shadow)), 0 0 0 1px hsl(var(--glass-border))',
-    }}>
-      <div className="px-4 pt-4 pb-3.5">
-        <div className="flex items-center justify-between mb-3">
-          <div className="flex items-center gap-2.5">
-            <div className="w-10 h-10 rounded-xl flex items-center justify-center text-xl bg-primary/8">
-              {current.emoji}
-            </div>
-            <div>
-              <p className="text-[13px] font-bold text-foreground">{current.label} member</p>
-              <p className="text-[10px] text-muted-foreground">{current.requirement}</p>
-            </div>
+    <div className="liquid-glass-heavy p-4">
+      <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center gap-2.5">
+          <div className="w-10 h-10 rounded-xl liquid-glass flex items-center justify-center text-xl" style={{ borderRadius: '0.75rem' }}>
+            {current.emoji}
           </div>
-          {nextLevel && (
-            <div className="text-right">
-              <p className="text-[10px] text-muted-foreground">Next: {nextLevel.emoji} {nextLevel.label}</p>
-              <p className="text-[10px] text-primary font-bold">{nextLevel.joinsNeeded - completedJoins} more plans</p>
-            </div>
-          )}
+          <div>
+            <p className="text-[13px] font-bold text-foreground">{current.label} member</p>
+            <p className="text-[10px] text-muted-foreground">{current.requirement}</p>
+          </div>
         </div>
-        
         {nextLevel && (
-          <div className="space-y-1.5">
-            <div className="w-full h-[5px] rounded-full overflow-hidden bg-muted/50">
-              <div 
-                className="h-full rounded-full transition-all duration-700 bg-primary"
-                style={{ width: `${progressToNext}%` }}
-              />
-            </div>
-            <p className="text-[9px] text-muted-foreground text-center">
-              {nextLevel.level === 'trusted' && reliabilityScore < 85 
-                ? `Need ${85 - reliabilityScore}% more reliability`
-                : nextLevel.level === 'anchor' && reliabilityScore < 95
-                ? `Need ${95 - reliabilityScore}% more reliability`
-                : `${Math.round(progressToNext)}% to ${nextLevel.label}`}
-            </p>
-          </div>
-        )}
-        
-        {!nextLevel && (
-          <div className="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-primary/8">
-            <span className="text-sm">🏆</span>
-            <p className="text-[11px] text-primary font-semibold">Max level reached. You get the best rates.</p>
+          <div className="text-right">
+            <p className="text-[10px] text-muted-foreground">Next: {nextLevel.emoji} {nextLevel.label}</p>
+            <p className="text-[10px] text-primary font-bold">{nextLevel.joinsNeeded - completedJoins} more plans</p>
           </div>
         )}
       </div>
+      
+      {nextLevel && (
+        <div className="space-y-1.5">
+          <div className="w-full h-[5px] rounded-full overflow-hidden bg-muted/50">
+            <div 
+              className="h-full rounded-full transition-all duration-700 bg-primary"
+              style={{ width: `${progressToNext}%` }}
+            />
+          </div>
+          <p className="text-[9px] text-muted-foreground text-center">
+            {nextLevel.level === 'trusted' && reliabilityScore < 85 
+              ? `Need ${85 - reliabilityScore}% more reliability`
+              : nextLevel.level === 'anchor' && reliabilityScore < 95
+              ? `Need ${95 - reliabilityScore}% more reliability`
+              : `${Math.round(progressToNext)}% to ${nextLevel.label}`}
+          </p>
+        </div>
+      )}
+      
+      {!nextLevel && (
+        <div className="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-primary/8">
+          <span className="text-sm">🏆</span>
+          <p className="text-[11px] text-primary font-semibold">Max level reached. You get the best rates.</p>
+        </div>
+      )}
     </div>
   );
 }
@@ -104,7 +98,7 @@ export default function ProfilePage() {
 
   if (!user) {
     return (
-      <div className="mobile-container min-h-screen bg-background flex items-center justify-center">
+      <div className="mobile-container min-h-screen bg-ambient flex items-center justify-center">
         <div className="text-center px-8">
           <span className="text-5xl block mb-4">👤</span>
           <p className="text-sm text-muted-foreground mb-5">Sign in to view your profile</p>
@@ -137,30 +131,20 @@ export default function ProfilePage() {
 
   return (
     <>
-      <div className="mobile-container min-h-screen bg-background pb-28">
+      <div className="mobile-container min-h-screen bg-ambient pb-28">
         <TopBar title="Profile" hideChat showSettings />
 
         <div className="px-4 pt-2 space-y-3">
-          {/* Hero */}
           <ProfileHero user={user} joinText={joinText} stats={stats} />
-
-          {/* Trust progression */}
           <TrustProgressionCard trustLevel={user.trustLevel} completedJoins={user.completedJoins} reliabilityScore={user.reliabilityScore} />
-
-          {/* Selfie verification */}
           <VerificationCard />
 
-          {/* Invite nudge */}
+          {/* Invite nudge — glass */}
           <button
             onClick={() => navigate('/invite')}
-            className="w-full flex items-center gap-3 px-4 py-3.5 tap-scale text-left rounded-[20px]"
-            style={{
-              background: 'hsl(var(--glass-bg))',
-              backdropFilter: 'blur(var(--glass-blur))',
-              boxShadow: '0 2px 12px hsl(var(--glass-shadow)), 0 0 0 1px hsl(var(--glass-border))',
-            }}
+            className="w-full liquid-glass-interactive flex items-center gap-3 px-4 py-3.5 text-left"
           >
-            <div className="w-9 h-9 rounded-xl flex items-center justify-center text-base bg-primary/8">🎁</div>
+            <div className="w-9 h-9 rounded-xl liquid-glass flex items-center justify-center text-base" style={{ borderRadius: '0.625rem' }}>🎁</div>
             <div className="flex-1 min-w-0">
               <p className="text-[13px] font-semibold text-foreground">Bring your crew</p>
               <p className="text-[10px] text-muted-foreground">3 friends = double credits 🔥</p>
@@ -168,8 +152,8 @@ export default function ProfilePage() {
             <ArrowUpRight size={15} className="text-muted-foreground/40 shrink-0" />
           </button>
 
-          {/* Tabs */}
-          <div className="flex gap-1 p-1 rounded-[16px] bg-muted/40">
+          {/* Tabs — glass */}
+          <div className="flex gap-1 p-1 rounded-[16px] liquid-glass" style={{ borderRadius: '1rem' }}>
             {(['overview', 'activity'] as const).map((tab) => (
               <button
                 key={tab}
@@ -177,9 +161,10 @@ export default function ProfilePage() {
                 className={cn(
                   'flex-1 py-2 text-xs font-semibold transition-all tap-scale capitalize rounded-xl',
                   activeTab === tab
-                    ? 'text-foreground bg-card shadow-sm'
+                    ? 'text-foreground liquid-glass-heavy'
                     : 'text-muted-foreground hover:text-foreground'
                 )}
+                style={activeTab === tab ? { borderRadius: '0.75rem' } : undefined}
               >
                 {tab}
                 {tab === 'activity' && activityCount > 0 && (
@@ -198,9 +183,7 @@ export default function ProfilePage() {
                 <Section title="Interests">
                   <div className="flex flex-wrap gap-2">
                     {user.interests.map((interest) => (
-                      <div key={interest} className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-xl bg-card text-foreground" style={{
-                        boxShadow: '0 1px 4px hsl(var(--glass-shadow)), 0 0 0 1px hsl(var(--glass-border))',
-                      }}>
+                      <div key={interest} className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium liquid-glass text-foreground" style={{ borderRadius: '0.75rem' }}>
                         <span>{getCategoryEmoji(interest)}</span>
                         <span>{getCategoryLabel(interest)}</span>
                       </div>
@@ -213,9 +196,7 @@ export default function ProfilePage() {
                 <Section title="Badges">
                   <div className="flex flex-wrap gap-2">
                     {user.badges.map((badge) => (
-                      <div key={badge} className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-xl bg-primary/8 text-primary" style={{
-                        boxShadow: '0 1px 4px hsl(var(--glass-shadow))',
-                      }}>
+                      <div key={badge} className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-xl bg-primary/8 text-primary liquid-glass" style={{ borderRadius: '0.75rem' }}>
                         <span>{badgeLabels[badge]?.emoji}</span>
                         <span>{badgeLabels[badge]?.label}</span>
                       </div>
@@ -314,10 +295,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 
 function StatTile({ icon, label, value }: { icon: string; label: string; value: string }) {
   return (
-    <div className="flex items-center gap-2.5 p-3 rounded-2xl" style={{
-      background: 'hsl(var(--glass-bg))',
-      boxShadow: '0 1px 4px hsl(var(--glass-shadow)), 0 0 0 1px hsl(var(--glass-border))',
-    }}>
+    <div className="liquid-glass flex items-center gap-2.5 p-3" style={{ borderRadius: '1rem' }}>
       <span className="text-base">{icon}</span>
       <div>
         <p className="text-sm font-bold tabular-nums text-foreground">{value}</p>
@@ -340,12 +318,8 @@ function EmptyState({ emoji, message, children }: { emoji: string; message: stri
 function RequestRow({ req, onClick, subtitle }: { req: Request; onClick: () => void; subtitle?: string }) {
   return (
     <button onClick={onClick}
-      className="w-full flex items-center gap-3 p-3 text-left tap-scale transition-all group rounded-2xl"
-      style={{
-        background: 'hsl(var(--glass-bg))',
-        boxShadow: '0 1px 4px hsl(var(--glass-shadow)), 0 0 0 1px hsl(var(--glass-border))',
-      }}>
-      <div className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 text-lg bg-muted/40">
+      className="w-full liquid-glass-interactive flex items-center gap-3 p-3 text-left">
+      <div className="w-9 h-9 rounded-xl liquid-glass flex items-center justify-center shrink-0 text-lg" style={{ borderRadius: '0.625rem' }}>
         {getCategoryEmoji(req.category)}
       </div>
       <div className="flex-1 min-w-0">

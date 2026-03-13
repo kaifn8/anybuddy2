@@ -19,7 +19,7 @@ export default function ChatsPage() {
     .map((request) => {
       const msgs = chatMessages[request.id] || [];
       const last = msgs.length > 0 ? msgs[msgs.length - 1] : undefined;
-      const unread = Math.floor(Math.random() * 4); // simulated
+      const unread = Math.floor(Math.random() * 4);
       return { request, lastMessage: last, unread };
     })
     .sort((a, b) => {
@@ -38,7 +38,7 @@ export default function ChatsPage() {
       <div className="px-5 pt-4">
         {chats.length === 0 ? (
           <div className="text-center pt-20 px-6">
-            <div className="w-20 h-20 rounded-3xl bg-primary/10 flex items-center justify-center mx-auto mb-5">
+            <div className="w-20 h-20 rounded-3xl liquid-glass flex items-center justify-center mx-auto mb-5">
               <MessageCircle className="w-9 h-9 text-primary" />
             </div>
             <h3 className="text-lg font-bold text-foreground mb-2">No chats yet</h3>
@@ -51,7 +51,6 @@ export default function ChatsPage() {
           </div>
         ) : (
           <div className="space-y-5">
-            {/* Active chats */}
             {activeChats.length > 0 && (
               <div>
                 <div className="flex items-center gap-2 mb-3">
@@ -63,18 +62,15 @@ export default function ChatsPage() {
                     <button
                       key={request.id}
                       onClick={() => navigate(`/request/${request.id}`)}
-                      className="w-full flex items-center gap-3.5 p-3.5 rounded-2xl tap-scale text-left bg-background/80 backdrop-blur-xl border border-border/30 transition-all hover:bg-background/95"
-                      style={{ boxShadow: '0 2px 12px rgba(0,0,0,0.04)' }}
+                      className="w-full liquid-glass-interactive flex items-center gap-3.5 p-3.5 text-left"
                     >
-                      {/* Category icon with online indicator */}
                       <div className="relative shrink-0">
-                        <div className="w-12 h-12 rounded-2xl bg-primary/8 flex items-center justify-center">
+                        <div className="w-12 h-12 rounded-2xl liquid-glass flex items-center justify-center" style={{ borderRadius: '0.75rem' }}>
                           <span className="text-2xl">{getCategoryEmoji(request.category)}</span>
                         </div>
                         <span className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-success border-2 border-background" />
                       </div>
 
-                      {/* Content */}
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center justify-between gap-2 mb-0.5">
                           <p className="text-[14px] font-semibold text-foreground truncate">{request.title}</p>
@@ -108,7 +104,6 @@ export default function ChatsPage() {
               </div>
             )}
 
-            {/* Past chats */}
             {pastChats.length > 0 && (
               <div>
                 <h3 className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-3">Past plans</h3>
@@ -117,9 +112,9 @@ export default function ChatsPage() {
                     <button
                       key={request.id}
                       onClick={() => navigate(`/request/${request.id}`)}
-                      className="w-full flex items-center gap-3.5 p-3 rounded-2xl tap-scale text-left bg-background/50 border border-border/20 opacity-70"
+                      className="w-full liquid-glass flex items-center gap-3.5 p-3 text-left opacity-70 tap-scale"
                     >
-                      <div className="w-10 h-10 rounded-xl bg-muted/40 flex items-center justify-center shrink-0">
+                      <div className="w-10 h-10 rounded-xl liquid-glass flex items-center justify-center shrink-0" style={{ borderRadius: '0.75rem' }}>
                         <span className="text-xl">{getCategoryEmoji(request.category)}</span>
                       </div>
                       <div className="flex-1 min-w-0">
