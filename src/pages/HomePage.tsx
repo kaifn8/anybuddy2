@@ -177,7 +177,7 @@ export default function HomePage() {
         <div className="pt-5 mb-1">
           <div className="flex items-center px-5 mb-4">
             <h3 className="text-[15px] font-bold text-foreground flex items-center gap-2 tracking-tight">
-              📈 Filling up fast
+              🚀 Filling up fast
             </h3>
           </div>
           <div ref={trendingRef} className="flex gap-3 overflow-x-auto scrollbar-hide px-5 pb-4 lg:flex-wrap snap-x snap-mandatory">
