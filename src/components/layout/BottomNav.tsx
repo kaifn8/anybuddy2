@@ -21,14 +21,14 @@ export const BottomNav = React.forwardRef<HTMLElement, object>(function BottomNa
 
   return (
     <>
-      {/* Desktop sidebar — lg and up */}
+      {/* Desktop sidebar */}
       <nav ref={ref} className="hidden lg:flex fixed left-0 top-0 bottom-0 w-60 z-50 flex-col liquid-glass-nav" style={{ borderRight: '0.5px solid hsla(var(--glass-border))', borderBottom: 'none' }}>
         <div className="px-5 h-14 flex items-center">
           <span className="text-[20px]" style={{ fontFamily: "'Pacifico', cursive" }}>
             any<span className="text-primary">buddy</span>
           </span>
         </div>
-        <div className="flex-1 flex flex-col gap-1 px-3 pt-2">
+        <div className="flex-1 flex flex-col gap-0.5 px-3 pt-2">
           {navItems.map((item) => {
             const isActive = location.pathname === item.path;
             const Icon = item.icon;
@@ -38,10 +38,10 @@ export const BottomNav = React.forwardRef<HTMLElement, object>(function BottomNa
                 <button
                   key={item.path}
                   onClick={() => navigate(item.path)}
-                  className="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-primary text-primary-foreground font-semibold tap-scale mt-2 mb-1"
+                  className="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-primary text-primary-foreground font-semibold tap-scale mt-3 mb-1"
                 >
                   <Icon size={18} />
-                  <span className="text-sm">{item.label}</span>
+                  <span className="text-sm">Create Plan</span>
                 </button>
               );
             }
@@ -51,10 +51,10 @@ export const BottomNav = React.forwardRef<HTMLElement, object>(function BottomNa
                 key={item.path}
                 onClick={() => navigate(item.path)}
                 className={cn(
-                  'flex items-center gap-3 px-3 py-2.5 rounded-xl tap-scale transition-colors text-left',
+                  'flex items-center gap-3 px-3 py-2.5 rounded-xl tap-scale transition-all text-left',
                   isActive
-                    ? 'bg-primary/10 text-primary font-semibold'
-                    : 'text-muted-foreground hover:bg-muted/50'
+                    ? 'bg-primary/8 text-primary font-semibold'
+                    : 'text-muted-foreground hover:bg-muted/40 hover:text-foreground'
                 )}
               >
                 <div className="relative">
@@ -65,7 +65,7 @@ export const BottomNav = React.forwardRef<HTMLElement, object>(function BottomNa
                       className={cn('w-6 h-6 rounded-full border-2', isActive ? 'border-primary' : 'border-transparent')}
                     />
                   ) : (
-                    <Icon size={20} />
+                    <Icon size={19} strokeWidth={isActive ? 2.2 : 1.6} />
                   )}
                   {item.path === '/notifications' && unreadCount > 0 && (
                     <span className="absolute -top-1 -right-1.5 bg-destructive text-destructive-foreground text-[8px] rounded-full w-3.5 h-3.5 flex items-center justify-center font-bold">
@@ -73,7 +73,7 @@ export const BottomNav = React.forwardRef<HTMLElement, object>(function BottomNa
                     </span>
                   )}
                 </div>
-                <span className="text-sm">{item.label}</span>
+                <span className="text-[13px]">{item.label}</span>
               </button>
             );
           })}
@@ -81,52 +81,51 @@ export const BottomNav = React.forwardRef<HTMLElement, object>(function BottomNa
         <div className="px-3 pb-4">
           <button
             onClick={() => navigate('/settings')}
-            className="flex items-center gap-3 px-3 py-2.5 rounded-xl tap-scale text-muted-foreground hover:bg-muted/50 w-full text-left"
+            className="flex items-center gap-3 px-3 py-2.5 rounded-xl tap-scale text-muted-foreground hover:bg-muted/40 hover:text-foreground transition-all w-full text-left"
           >
-            <Settings size={20} />
-            <span className="text-sm">Settings</span>
+            <Settings size={19} strokeWidth={1.6} />
+            <span className="text-[13px]">Settings</span>
           </button>
         </div>
       </nav>
 
-      {/* Mobile bottom nav — below lg */}
+      {/* Mobile bottom nav — premium floating pill */}
       <nav
         className="lg:hidden fixed bottom-0 left-0 right-0 z-50"
         style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
       >
-        <div className="max-w-md mx-auto px-3 pb-2">
+        <div className="max-w-md mx-auto px-4 pb-2.5">
           <div
-            className="flex items-center justify-around h-[60px] rounded-[20px]"
+            className="flex items-center justify-around h-[56px] rounded-[22px]"
             style={{
               background: 'hsla(var(--glass-bg-heavy))',
-              backdropFilter: 'blur(var(--glass-blur-heavy)) saturate(200%)',
-              WebkitBackdropFilter: 'blur(var(--glass-blur-heavy)) saturate(200%)',
+              backdropFilter: 'blur(var(--glass-blur-heavy)) saturate(210%)',
+              WebkitBackdropFilter: 'blur(var(--glass-blur-heavy)) saturate(210%)',
               border: '0.5px solid hsla(var(--glass-border))',
-              boxShadow: '0 -2px 24px hsla(var(--glass-shadow)), inset 0 1px 0 hsla(var(--glass-highlight))',
+              boxShadow: '0 -1px 12px hsla(var(--glass-shadow)), 0 4px 24px hsla(var(--glass-shadow-lg)), inset 0 0.5px 0 hsla(var(--glass-highlight))',
             }}
           >
             {navItems.map((item) => {
               const isActive = location.pathname === item.path;
               const Icon = item.icon;
 
-              // Central "Post" button — floating pill
               if (item.isMain) {
                 return (
                   <button
                     key={item.path}
                     onClick={() => navigate(item.path)}
-                    className="relative -mt-6 tap-scale group"
+                    className="relative -mt-5 tap-scale group"
                   >
                     <div
-                      className="w-[52px] h-[52px] rounded-2xl flex items-center justify-center text-primary-foreground shadow-lg transition-transform group-active:scale-95"
+                      className="w-[48px] h-[48px] rounded-[16px] flex items-center justify-center text-primary-foreground transition-all group-active:scale-90"
                       style={{
-                        background: 'linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--secondary)) 100%)',
-                        boxShadow: '0 4px 16px hsl(var(--primary) / 0.35), inset 0 1px 0 hsla(var(--glass-highlight))',
+                        background: 'linear-gradient(145deg, hsl(var(--primary)) 0%, hsl(211 100% 42%) 100%)',
+                        boxShadow: '0 4px 16px hsl(var(--primary) / 0.3), 0 1px 3px hsl(var(--primary) / 0.2), inset 0 1px 0 hsla(0 0% 100% / 0.15)',
                       }}
                     >
-                      <Plus size={22} strokeWidth={2.5} />
+                      <Plus size={21} strokeWidth={2.5} />
                     </div>
-                    <span className="block text-center text-[9px] font-semibold text-primary mt-0.5">Post</span>
+                    <span className="block text-center text-[9px] font-bold text-primary mt-1 tracking-tight">Post</span>
                   </button>
                 );
               }
@@ -135,7 +134,7 @@ export const BottomNav = React.forwardRef<HTMLElement, object>(function BottomNa
                 <button
                   key={item.path}
                   onClick={() => navigate(item.path)}
-                  className="flex flex-col items-center justify-center gap-[2px] min-w-[48px] py-1 tap-scale relative"
+                  className="flex flex-col items-center justify-center gap-0.5 min-w-[44px] py-1 tap-scale relative"
                 >
                   <div className="relative">
                     {item.path === '/profile' ? (
@@ -144,42 +143,35 @@ export const BottomNav = React.forwardRef<HTMLElement, object>(function BottomNa
                           src={user?.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${user?.firstName || 'guest'}`}
                           alt="Profile"
                           className={cn(
-                            'w-[22px] h-[22px] rounded-full transition-all',
+                            'w-[21px] h-[21px] rounded-full transition-all',
                             isActive
-                              ? 'ring-[2px] ring-primary ring-offset-1 ring-offset-background'
-                              : 'opacity-50 grayscale-[30%]'
+                              ? 'ring-[1.5px] ring-primary ring-offset-1 ring-offset-background'
+                              : 'opacity-40 grayscale-[40%]'
                           )}
                         />
-                        {user && (
-                          <span className="absolute -bottom-0.5 -right-0.5 w-[7px] h-[7px] rounded-full bg-success border-[1.5px] border-card" />
-                        )}
                       </div>
                     ) : (
                       <Icon
-                        size={20}
-                        strokeWidth={isActive ? 2.2 : 1.8}
+                        size={19}
+                        strokeWidth={isActive ? 2.2 : 1.5}
                         className={cn(
-                          'transition-all',
-                          isActive ? 'text-primary scale-110' : 'text-muted-foreground/50'
+                          'transition-all duration-300',
+                          isActive ? 'text-primary' : 'text-muted-foreground/40'
                         )}
                       />
                     )}
                     {item.path === '/notifications' && unreadCount > 0 && (
-                      <span className="absolute -top-1 -right-2 bg-destructive text-destructive-foreground text-[8px] rounded-full min-w-[15px] h-[15px] flex items-center justify-center font-bold px-[3px]">
+                      <span className="absolute -top-1 -right-2 bg-destructive text-destructive-foreground text-[7px] rounded-full min-w-[14px] h-[14px] flex items-center justify-center font-bold px-[2px]">
                         {unreadCount > 9 ? '9+' : unreadCount}
                       </span>
                     )}
                   </div>
                   <span className={cn(
-                    'text-[10px] font-medium leading-none transition-colors',
-                    isActive ? 'text-primary font-semibold' : 'text-muted-foreground/60'
+                    'text-[9px] font-medium leading-none transition-all duration-300',
+                    isActive ? 'text-primary font-bold' : 'text-muted-foreground/40'
                   )}>
                     {item.label}
                   </span>
-                  {/* Active dot indicator */}
-                  {isActive && (
-                    <span className="absolute -bottom-0.5 w-1 h-1 rounded-full bg-primary" />
-                  )}
                 </button>
               );
             })}
