@@ -99,7 +99,6 @@ export const BottomNav = React.forwardRef<HTMLElement, object>(function BottomNa
             <div className="flex items-center justify-between">
               {navItems.map((item) => {
                 const isActive = location.pathname === item.path;
-                const Icon = item.icon;
 
                 /* ── Center "Post" — pill button ── */
                 if (item.isMain) {
@@ -116,14 +115,14 @@ export const BottomNav = React.forwardRef<HTMLElement, object>(function BottomNa
                           inset 0 1px 0 hsla(0 0% 100% / 0.2)
                         `,
                       }}>
-                        <Plus size={18} strokeWidth={2.5} className="text-primary-foreground" />
+                        <span className="text-[16px]">➕</span>
                         <span className="text-[11px] font-bold text-primary-foreground tracking-wide">Post</span>
                       </div>
                     </button>
                   );
                 }
 
-                /* ── Regular items — icon only with active pill bg ── */
+                /* ── Regular items — emoji with active pill bg ── */
                 return (
                   <button
                     key={item.path}
@@ -146,16 +145,14 @@ export const BottomNav = React.forwardRef<HTMLElement, object>(function BottomNa
                           )}
                           showInitials={false}
                         />
-                      ) : Icon ? (
-                        <Icon
-                          size={20}
-                          strokeWidth={isActive ? 2.2 : 1.6}
-                          className={cn(
-                            'transition-all duration-300',
-                            isActive ? 'text-primary' : 'text-muted-foreground/40'
-                          )}
-                        />
-                      ) : null}
+                      ) : (
+                        <span className={cn(
+                          'text-[20px] block transition-all duration-300',
+                          isActive ? 'scale-110' : 'opacity-35 grayscale-[50%]'
+                        )}>
+                          {item.emoji}
+                        </span>
+                      )}
                       {item.path === '/notifications' && unreadCount > 0 && (
                         <span className="absolute -top-1.5 -right-2 min-w-[14px] h-[14px] rounded-full flex items-center justify-center text-[7px] font-bold px-[2px]"
                           style={{
