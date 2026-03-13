@@ -490,8 +490,7 @@ export default function RequestDetailPage() {
                     <p className="text-[10px] font-semibold text-warning uppercase">✋ Join Requests ({pendingRequests.length})</p>
                     {pendingRequests.map((jr) => (
                       <div key={jr.userId} className="flex items-center gap-2 py-1.5">
-                        <img src={jr.userAvatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${jr.userName}`}
-                          alt="" className="w-7 h-7 rounded-full" />
+                        <GradientAvatar name={jr.userName} size={28} showInitials={false} />
                         <div className="flex-1 min-w-0">
                           <p className="text-xs font-semibold truncate">{jr.userName}</p>
                           <div className="flex items-center gap-2 text-[10px] text-muted-foreground">
