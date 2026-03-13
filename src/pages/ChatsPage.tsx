@@ -4,7 +4,6 @@ import { useAppStore } from '@/store/useAppStore';
 import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
 import { GradientAvatar } from '@/components/ui/GradientAvatar';
 import { BottomNav } from '@/components/layout/BottomNav';
-import { MessageCircle, ArrowRight, MapPin, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { formatDistanceToNow } from 'date-fns';
 import { cn } from '@/lib/utils';
@@ -40,14 +39,14 @@ export default function ChatsPage() {
         {chats.length === 0 ? (
           <div className="text-center pt-24 px-6">
             <div className="w-20 h-20 rounded-[1.5rem] liquid-glass flex items-center justify-center mx-auto mb-6">
-              <MessageCircle className="w-9 h-9 text-primary" strokeWidth={1.5} />
+              <span className="text-4xl">💬</span>
             </div>
             <h3 className="text-lg font-bold text-foreground mb-2 tracking-tight">No chats yet</h3>
             <p className="text-sm text-muted-foreground mb-8 leading-relaxed">
               Join a plan to start chatting with people nearby
             </p>
             <Button onClick={() => navigate('/home')} className="w-full gap-2">
-              Browse plans <ArrowRight size={15} />
+              Browse plans →
             </Button>
           </div>
         ) : (
@@ -81,7 +80,7 @@ export default function ChatsPage() {
                           <p className="text-[12px] text-muted-foreground truncate">
                             {lastMessage
                               ? `${lastMessage.senderName}: ${lastMessage.message}`
-                              : <span className="flex items-center gap-1"><MapPin size={10} /> {request.location.name}</span>}
+                              : <span className="flex items-center gap-1">📍 {request.location.name}</span>}
                           </p>
                           <div className="flex items-center gap-2 shrink-0">
                             <div className="flex -space-x-1">

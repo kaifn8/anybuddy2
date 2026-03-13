@@ -1,4 +1,3 @@
-import { MapPin, BadgeCheck, ShieldCheck, Clock, AlertCircle } from 'lucide-react';
 import { GradientAvatar } from '@/components/ui/GradientAvatar';
 import type { Badge, User, VerificationStatus } from '@/types/anybuddy';
 
@@ -12,21 +11,21 @@ function VerificationPill({ status }: { status: VerificationStatus }) {
   if (status === 'verified') {
     return (
       <div className="flex items-center gap-1 px-2.5 py-[3px] rounded-full bg-primary/8 text-primary text-[10px] font-bold">
-        <ShieldCheck size={10} /> Verified
+        🛡️ Verified
       </div>
     );
   }
   if (status === 'pending') {
     return (
       <div className="flex items-center gap-1 px-2.5 py-[3px] rounded-full bg-warning/10 text-warning text-[10px] font-bold">
-        <Clock size={10} /> Pending
+        ⏳ Pending
       </div>
     );
   }
   if (status === 'failed') {
     return (
       <div className="flex items-center gap-1 px-2.5 py-[3px] rounded-full bg-destructive/10 text-destructive text-[10px] font-bold">
-        <AlertCircle size={10} /> Failed
+        ⚠️ Failed
       </div>
     );
   }
@@ -55,7 +54,7 @@ export function ProfileHero({ user, joinText, stats }: ProfileHeroProps) {
               <div className="absolute -bottom-0.5 -right-0.5 w-6 h-6 rounded-full flex items-center justify-center bg-primary" style={{
                 boxShadow: '0 2px 8px hsl(var(--primary) / 0.3), 0 0 0 2px hsl(var(--background))',
               }}>
-                <BadgeCheck size={13} className="text-primary-foreground" strokeWidth={2.5} />
+                <span className="text-[11px]">✅</span>
               </div>
             )}
           </div>
@@ -75,7 +74,7 @@ export function ProfileHero({ user, joinText, stats }: ProfileHeroProps) {
 
           <div className="flex items-center gap-3 mt-3.5 text-muted-foreground/50">
             <div className="flex items-center gap-1">
-              <MapPin size={10} />
+              <span className="text-[10px]">📍</span>
               <span className="text-[11px] font-medium">{user.zone ? `${user.zone}, ${user.city}` : user.city}</span>
             </div>
             <span className="w-px h-2.5 bg-border/50" />

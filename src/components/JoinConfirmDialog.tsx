@@ -7,7 +7,6 @@ import type { Request } from '@/types/anybuddy';
 import { Button } from '@/components/ui/button';
 import { useAppStore } from '@/store/useAppStore';
 import { toast } from 'sonner';
-import { MapPin, Clock, Users, Shield, BadgeCheck, Lock, ArrowRight, Check } from 'lucide-react';
 
 const RESERVATION_SECONDS = 45;
 
@@ -89,7 +88,7 @@ export function JoinConfirmDialog({ open, onClose, onConfirm, request }: JoinCon
           <DialogTitle className="text-sm font-bold flex items-center gap-2">
             <span>{getCategoryEmoji(request.category)}</span>
             {isReserved ? (
-              <span className="flex items-center gap-1.5"><Lock size={14} /> Your spot is held</span>
+              <span className="flex items-center gap-1.5">🔒 Your spot is held</span>
             ) : (
               <span>{seatsLeft <= 2 ? 'Going fast! ' : ''}You in?</span>
             )}
@@ -104,13 +103,13 @@ export function JoinConfirmDialog({ open, onClose, onConfirm, request }: JoinCon
           <h3 className="text-sm font-semibold leading-snug">{request.title}</h3>
           
           <p className="text-2xs text-muted-foreground mt-1.5 flex items-center gap-1">
-            <MapPin size={10} /> {request.location.name} · {request.location.distance}km away
+            📍 {request.location.name} · {request.location.distance}km away
           </p>
           
           <div className="flex items-center gap-3 mt-2 text-2xs text-muted-foreground">
-            <span className="flex items-center gap-1"><Clock size={10} /> {timeLeft} left to join</span>
+            <span className="flex items-center gap-1">⏰ {timeLeft} left to join</span>
             <span className={`flex items-center gap-1 ${seatsLeft <= 2 ? 'text-destructive font-semibold' : ''}`}>
-              <Users size={10} /> {seatsLeft === 0 ? 'Full!' : seatsLeft === 1 ? 'Last spot!' : `${seatsLeft} spots`}
+              👥 {seatsLeft === 0 ? 'Full!' : seatsLeft === 1 ? 'Last spot!' : `${seatsLeft} spots`}
             </span>
           </div>
 
@@ -136,14 +135,14 @@ export function JoinConfirmDialog({ open, onClose, onConfirm, request }: JoinCon
 
           {/* Safety + social proof */}
           <div className="flex items-center gap-2 mt-2 text-[10px] text-muted-foreground/60">
-            <span className="flex items-center gap-0.5"><Shield size={9} /> Public meetup</span>
+            <span className="flex items-center gap-0.5">🛡️ Public meetup</span>
             {(request.userTrust === 'trusted' || request.userTrust === 'anchor') && (
-              <span className="flex items-center gap-0.5">· <BadgeCheck size={9} /> Verified host</span>
+              <span className="flex items-center gap-0.5">· ✅ Verified host</span>
             )}
           </div>
           {request.seatsTaken >= 2 && (
             <p className="text-[10px] text-success font-medium mt-1.5 flex items-center gap-1">
-              <Check size={10} /> {request.seatsTaken} people already going
+              ✅ {request.seatsTaken} people already going
             </p>
           )}
         </div>
@@ -178,7 +177,7 @@ export function JoinConfirmDialog({ open, onClose, onConfirm, request }: JoinCon
                 Maybe later
               </Button>
               <Button onClick={handleReserve} className="flex-1 h-10 text-xs gap-1" disabled={seatsLeft === 0}>
-                {seatsLeft === 0 ? 'Full' : seatsLeft === 1 ? 'Take the last spot' : 'Reserve my spot'} <ArrowRight size={14} />
+                {seatsLeft === 0 ? 'Full' : seatsLeft === 1 ? 'Take the last spot' : 'Reserve my spot'} →
               </Button>
             </>
           ) : (
@@ -187,7 +186,7 @@ export function JoinConfirmDialog({ open, onClose, onConfirm, request }: JoinCon
                 Nah, skip
               </Button>
               <Button onClick={handleConfirm} className="flex-1 h-10 text-xs gap-1" disabled={isConfirming}>
-                {isConfirming ? 'Joining...' : "I'm in"} <Check size={14} />
+                {isConfirming ? 'Joining...' : "I'm in"} ✅
               </Button>
             </>
           )}

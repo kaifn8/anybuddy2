@@ -1,6 +1,5 @@
 import { useNavigate } from 'react-router-dom';
 import { formatDistanceToNow, isAfter, subDays } from 'date-fns';
-import { Share2, MapPin, Zap, PartyPopper, MessageSquare, Coins, Shield, Bell, CheckCheck, Sparkles, type LucideIcon } from 'lucide-react';
 import { BottomNav } from '@/components/layout/BottomNav';
 import { TopBar } from '@/components/layout/TopBar';
 import { useAppStore } from '@/store/useAppStore';
@@ -8,13 +7,13 @@ import { cn } from '@/lib/utils';
 import { useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 
-const iconMap: Record<string, LucideIcon> = {
-  nearby: MapPin,
-  urgent: Zap,
-  join: PartyPopper,
-  message: MessageSquare,
-  credit: Coins,
-  trust: Shield,
+const emojiMap: Record<string, string> = {
+  nearby: '📍',
+  urgent: '⚡',
+  join: '🎉',
+  message: '💬',
+  credit: '💰',
+  trust: '🛡️',
 };
 
 export default function NotificationsPage() {
@@ -41,7 +40,7 @@ export default function NotificationsPage() {
   }, [notifications]);
 
   const NotifItem = ({ n }: { n: typeof notifications[0] }) => {
-    const Icon = iconMap[n.type] || Bell;
+    const emoji = emojiMap[n.type] || '🔔';
     return (
       <button onClick={() => handleClick(n)}
         className={cn(
@@ -49,7 +48,7 @@ export default function NotificationsPage() {
           !n.read && 'ring-1 ring-primary/8'
         )}>
         <div className="w-9 h-9 rounded-[0.625rem] liquid-glass flex items-center justify-center shrink-0 mt-0.5" style={{ borderRadius: '0.625rem' }}>
-          <Icon size={15} className="text-muted-foreground" strokeWidth={1.6} />
+          <span className="text-[15px]">{emoji}</span>
         </div>
         <div className="flex-1 min-w-0">
           <p className={cn('text-[13px] leading-snug tracking-tight', n.read ? 'font-medium text-muted-foreground' : 'font-bold text-foreground')}>{n.title}</p>
@@ -85,7 +84,7 @@ export default function NotificationsPage() {
       {unreadCount > 0 && (
         <div className="flex justify-end px-5 pt-2">
           <button onClick={markAllRead} className="text-[11px] text-primary font-bold tap-scale flex items-center gap-1">
-            <CheckCheck size={12} /> Mark all read
+            ✅ Mark all read
           </button>
         </div>
       )}
@@ -93,7 +92,7 @@ export default function NotificationsPage() {
       {allRead && (
         <div className="text-center px-5 pt-6 pb-3">
           <div className="w-14 h-14 rounded-[1.125rem] liquid-glass flex items-center justify-center mx-auto mb-3">
-            <Sparkles size={22} className="text-primary" />
+            <span className="text-xl">✨</span>
           </div>
           <p className="text-base font-bold text-foreground tracking-tight">All caught up</p>
           <p className="text-sm text-muted-foreground mt-1">No new notifications right now</p>
@@ -125,7 +124,7 @@ export default function NotificationsPage() {
         ) : (
           <div className="text-center py-20">
             <div className="w-16 h-16 rounded-[1.25rem] liquid-glass flex items-center justify-center mx-auto mb-5">
-              <Bell size={26} className="text-muted-foreground" />
+              <span className="text-2xl">🔔</span>
             </div>
             <p className="text-base font-bold text-foreground mb-2 tracking-tight">No updates yet</p>
             <div className="text-sm text-muted-foreground space-y-1.5 mb-8 leading-relaxed">
@@ -143,12 +142,12 @@ export default function NotificationsPage() {
         {/* Invite */}
         <div className="mt-8 mb-4 p-5 liquid-glass-heavy text-center">
           <div className="w-11 h-11 rounded-[0.75rem] liquid-glass flex items-center justify-center mx-auto mb-3" style={{ borderRadius: '0.75rem' }}>
-            <Share2 size={17} className="text-primary" />
+            <span className="text-[17px]">📤</span>
           </div>
           <p className="text-[15px] font-bold text-foreground tracking-tight">Invite friends to AnyBuddy</p>
           <p className="text-sm text-muted-foreground mt-1.5 mb-4">More friends = more plans nearby</p>
           <Button onClick={handleShare} size="sm" className="mx-auto gap-1.5">
-            <Share2 size={14} /> Share Invite Link
+            📤 Share Invite Link
           </Button>
         </div>
       </div>

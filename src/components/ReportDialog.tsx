@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { AlertTriangle, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAppStore } from '@/store/useAppStore';
 import { cn } from '@/lib/utils';
@@ -58,7 +57,7 @@ export function ReportDialog({ open, onClose, targetId, targetName, targetType }
         <div className="flex items-center justify-between p-4 border-b border-border/15">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-xl bg-destructive/10 flex items-center justify-center">
-              <AlertTriangle size={16} className="text-destructive" />
+              <span className="text-base">⚠️</span>
             </div>
             <div>
               <h3 className="text-sm font-bold">Report {targetType === 'user' ? 'User' : 'Plan'}</h3>
@@ -66,7 +65,7 @@ export function ReportDialog({ open, onClose, targetId, targetName, targetType }
             </div>
           </div>
           <button onClick={onClose} className="p-1.5 rounded-full hover:bg-muted tap-scale">
-            <X size={18} className="text-muted-foreground" />
+            <span className="text-lg">✕</span>
           </button>
         </div>
 
@@ -120,8 +119,7 @@ export function ReportDialog({ open, onClose, targetId, targetName, targetType }
               disabled={!selectedReason}
               onClick={handleSubmit}
             >
-              <AlertTriangle size={14} className="mr-1.5" />
-              Submit Report
+              ⚠️ Submit Report
             </Button>
 
             <p className="text-[10px] text-muted-foreground text-center leading-relaxed">

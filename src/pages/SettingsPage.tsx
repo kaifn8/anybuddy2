@@ -4,7 +4,6 @@ import { TopBar } from '@/components/layout/TopBar';
 import { BottomNav } from '@/components/layout/BottomNav';
 import { useAppStore } from '@/store/useAppStore';
 import { GradientAvatar } from '@/components/ui/GradientAvatar';
-import { ChevronRight, Moon, Globe, Bell, Mail, MapPin, Lock, HelpCircle, Bug, Star, LogOut, Zap, UserPlus, type LucideIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
 import { useTheme } from '@/hooks/useTheme';
@@ -27,7 +26,7 @@ export default function SettingsPage() {
         <TopBar showBack title="Settings" />
         <div className="flex flex-col items-center justify-center px-8 pt-32">
           <div className="w-16 h-16 rounded-[1.25rem] liquid-glass flex items-center justify-center mb-5">
-            <Lock size={26} className="text-muted-foreground" />
+            <span className="text-2xl">🔒</span>
           </div>
           <p className="text-base font-semibold text-foreground mb-1.5 tracking-tight">Settings</p>
           <p className="text-sm text-muted-foreground mb-6">Sign in to manage your preferences</p>
@@ -51,48 +50,48 @@ export default function SettingsPage() {
               <p className="text-xs text-muted-foreground truncate mt-0.5">{user.phone}</p>
               <div className="flex items-center gap-1.5 mt-2">
                 <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-primary/8 text-primary text-[10px] font-bold">
-                  <Zap size={10} /> {user.credits} credits
+                  ⚡ {user.credits} credits
                 </span>
               </div>
             </div>
-            <ChevronRight size={16} className="text-muted-foreground/30 shrink-0" />
+            <span className="text-muted-foreground/30 shrink-0">›</span>
           </div>
         </button>
 
         <div className="grid grid-cols-2 gap-2.5">
-          <QuickAction icon={Zap} label="Credits" sublabel={`${user.credits} pts`} onClick={() => navigate('/credits')} iconClass="text-primary" />
-          <QuickAction icon={UserPlus} label="Invite" sublabel="Earn credits" onClick={() => navigate('/invite')} iconClass="text-success" />
+          <QuickAction emoji="⚡" label="Credits" sublabel={`${user.credits} pts`} onClick={() => navigate('/credits')} />
+          <QuickAction emoji="👥" label="Invite" sublabel="Earn credits" onClick={() => navigate('/invite')} />
         </div>
 
         <SettingsSection title="Appearance">
-          <SettingsToggle icon={Moon} iconBg="bg-indigo-500/10" label="Dark Mode" checked={isDark} onCheckedChange={toggleTheme} />
+          <SettingsToggle emoji="🌙" iconBg="bg-indigo-500/10" label="Dark Mode" checked={isDark} onCheckedChange={toggleTheme} />
           <div className="mx-4 h-px bg-border/15" />
-          <SettingsLink icon={Globe} iconBg="bg-blue-500/10" label="Language" value="English" soon />
+          <SettingsLink emoji="🌐" iconBg="bg-blue-500/10" label="Language" value="English" soon />
         </SettingsSection>
 
         <SettingsSection title="Notifications">
-          <SettingsToggle icon={Bell} iconBg="bg-orange-500/10" label="Push Notifications" checked={pushNotifications} onCheckedChange={setPushNotifications} />
+          <SettingsToggle emoji="🔔" iconBg="bg-orange-500/10" label="Push Notifications" checked={pushNotifications} onCheckedChange={setPushNotifications} />
           <div className="mx-4 h-px bg-border/15" />
-          <SettingsToggle icon={Mail} iconBg="bg-blue-500/10" label="Email Notifications" checked={emailNotifications} onCheckedChange={setEmailNotifications} />
+          <SettingsToggle emoji="✉️" iconBg="bg-blue-500/10" label="Email Notifications" checked={emailNotifications} onCheckedChange={setEmailNotifications} />
         </SettingsSection>
 
         <SettingsSection title="Privacy">
-          <SettingsToggle icon={MapPin} iconBg="bg-green-500/10" label="Location Sharing" checked={locationSharing} onCheckedChange={setLocationSharing} />
+          <SettingsToggle emoji="📍" iconBg="bg-green-500/10" label="Location Sharing" checked={locationSharing} onCheckedChange={setLocationSharing} />
           <div className="mx-4 h-px bg-border/15" />
-          <SettingsLink icon={Lock} iconBg="bg-slate-500/10" label="Privacy & Safety" soon />
+          <SettingsLink emoji="🔒" iconBg="bg-slate-500/10" label="Privacy & Safety" soon />
         </SettingsSection>
 
         <SettingsSection title="Support">
-          <SettingsLink icon={HelpCircle} iconBg="bg-violet-500/10" label="Help Center" soon />
+          <SettingsLink emoji="❓" iconBg="bg-violet-500/10" label="Help Center" soon />
           <div className="mx-4 h-px bg-border/15" />
-          <SettingsLink icon={Bug} iconBg="bg-red-500/10" label="Report a Bug" soon />
+          <SettingsLink emoji="🐛" iconBg="bg-red-500/10" label="Report a Bug" soon />
           <div className="mx-4 h-px bg-border/15" />
-          <SettingsLink icon={Star} iconBg="bg-yellow-500/10" label="Rate AnyBuddy" soon />
+          <SettingsLink emoji="⭐" iconBg="bg-yellow-500/10" label="Rate AnyBuddy" soon />
         </SettingsSection>
 
         <button className="w-full liquid-glass-heavy py-3.5 px-5 tap-scale transition-all hover:bg-destructive/3" onClick={handleLogout}>
           <div className="flex items-center justify-center gap-2">
-            <LogOut size={15} className="text-destructive" />
+            <span className="text-sm">🚪</span>
             <span className="text-[14px] font-bold text-destructive tracking-tight">Log Out</span>
           </div>
         </button>
@@ -117,14 +116,14 @@ function SettingsSection({ title, children }: { title: string; children: React.R
   );
 }
 
-function SettingsToggle({ icon: Icon, iconBg, label, checked, onCheckedChange }: {
-  icon: LucideIcon; iconBg: string; label: string; checked: boolean; onCheckedChange: (v: boolean) => void;
+function SettingsToggle({ emoji, iconBg, label, checked, onCheckedChange }: {
+  emoji: string; iconBg: string; label: string; checked: boolean; onCheckedChange: (v: boolean) => void;
 }) {
   return (
     <div className="flex items-center justify-between px-4 py-3 hover:bg-background/10 transition-colors">
       <div className="flex items-center gap-3">
         <span className={cn('w-8 h-8 rounded-[0.625rem] flex items-center justify-center', iconBg)} style={{ borderRadius: '0.625rem' }}>
-          <Icon size={15} strokeWidth={1.6} />
+          <span className="text-[15px]">{emoji}</span>
         </span>
         <span className="text-[14px] font-medium tracking-tight">{label}</span>
       </div>
@@ -133,34 +132,34 @@ function SettingsToggle({ icon: Icon, iconBg, label, checked, onCheckedChange }:
   );
 }
 
-function SettingsLink({ icon: Icon, iconBg, label, value, onClick, soon }: {
-  icon: LucideIcon; iconBg: string; label: string; value?: string; onClick?: () => void; soon?: boolean;
+function SettingsLink({ emoji, iconBg, label, value, onClick, soon }: {
+  emoji: string; iconBg: string; label: string; value?: string; onClick?: () => void; soon?: boolean;
 }) {
   return (
     <button onClick={soon ? undefined : onClick} disabled={soon}
       className={cn('w-full flex items-center justify-between px-4 py-3 tap-scale hover:bg-background/10 transition-colors', soon && 'opacity-50 cursor-default')}>
       <div className="flex items-center gap-3">
         <span className={cn('w-8 h-8 rounded-[0.625rem] flex items-center justify-center', iconBg)} style={{ borderRadius: '0.625rem' }}>
-          <Icon size={15} strokeWidth={1.6} />
+          <span className="text-[15px]">{emoji}</span>
         </span>
         <span className="text-[14px] font-medium tracking-tight">{label}</span>
       </div>
       <div className="flex items-center gap-2">
         {value && <span className="text-xs text-muted-foreground">{value}</span>}
         {soon ? <span className="text-[8px] font-bold bg-muted/60 text-muted-foreground px-1.5 py-0.5 rounded-full uppercase tracking-wider">Soon</span>
-          : <ChevronRight size={15} className="text-muted-foreground/30" />}
+          : <span className="text-muted-foreground/30">›</span>}
       </div>
     </button>
   );
 }
 
-function QuickAction({ icon: Icon, label, sublabel, onClick, iconClass }: {
-  icon: LucideIcon; label: string; sublabel: string; onClick: () => void; iconClass: string;
+function QuickAction({ emoji, label, sublabel, onClick }: {
+  emoji: string; label: string; sublabel: string; onClick: () => void;
 }) {
   return (
     <button onClick={onClick} className="liquid-glass-heavy p-4 tap-scale text-left flex items-center gap-3">
       <span className="w-10 h-10 rounded-[0.75rem] liquid-glass flex items-center justify-center shrink-0" style={{ borderRadius: '0.75rem' }}>
-        <Icon size={17} className={iconClass} />
+        <span className="text-[17px]">{emoji}</span>
       </span>
       <div>
         <p className="text-[14px] font-bold tracking-tight">{label}</p>

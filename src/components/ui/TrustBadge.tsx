@@ -1,6 +1,6 @@
-import { Shield, ShieldCheck, ShieldPlus, Star } from 'lucide-react';
 import type { TrustLevel } from '@/types/anybuddy';
 import { cn } from '@/lib/utils';
+import React from 'react';
 
 interface TrustBadgeProps {
   level: TrustLevel;
@@ -9,11 +9,11 @@ interface TrustBadgeProps {
   className?: string;
 }
 
-const iconMap = {
-  seed: Shield,
-  solid: ShieldCheck,
-  trusted: ShieldPlus,
-  anchor: Star,
+const emojiMap = {
+  seed: '🌱',
+  solid: '🛡️',
+  trusted: '⭐',
+  anchor: '🏆',
 };
 
 const styleMap = {
@@ -36,18 +36,8 @@ const sizeMap = {
   lg: 'text-sm px-2.5 py-1 gap-1',
 };
 
-const iconSizeMap = {
-  sm: 10,
-  md: 12,
-  lg: 14,
-};
-
-import React from 'react';
-
 export const TrustBadge = React.forwardRef<HTMLDivElement, TrustBadgeProps>(
   ({ level, showLabel = true, size = 'sm', className }, ref) => {
-    const Icon = iconMap[level];
-    
     return (
       <div ref={ref} className={cn(
         'inline-flex items-center rounded-full font-medium',
@@ -55,7 +45,7 @@ export const TrustBadge = React.forwardRef<HTMLDivElement, TrustBadgeProps>(
         sizeMap[size],
         className
       )}>
-        <Icon size={iconSizeMap[size]} strokeWidth={2} />
+        <span className={size === 'sm' ? 'text-[10px]' : size === 'md' ? 'text-[12px]' : 'text-[14px]'}>{emojiMap[level]}</span>
         {showLabel && <span>{labelMap[level]}</span>}
       </div>
     );

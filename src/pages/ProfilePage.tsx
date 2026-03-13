@@ -6,24 +6,22 @@ import { BottomNav } from '@/components/layout/BottomNav';
 import { getCategoryLabel, getCategoryEmoji } from '@/components/icons/CategoryIcon';
 import { useAppStore } from '@/store/useAppStore';
 import { Button } from '@/components/ui/button';
-import { ChevronRight, ArrowUpRight, User, Gift, Trophy, Shield, BadgeCheck, Star, Flame, CheckCircle, AlertTriangle, Sparkles, FolderOpen, type LucideIcon } from 'lucide-react';
 import type { Badge, Request, TrustLevel } from '@/types/anybuddy';
 import { ProfileHero } from '@/components/profile/ProfileHero';
 import { VerificationCard } from '@/components/profile/VerificationCard';
 import { cn } from '@/lib/utils';
 
-const TRUST_PROGRESSION: { level: TrustLevel; label: string; icon: LucideIcon; requirement: string; joinsNeeded: number }[] = [
-  { level: 'seed', label: 'New', icon: Sparkles, requirement: 'Just getting started', joinsNeeded: 0 },
-  { level: 'solid', label: 'Solid', icon: Shield, requirement: '3 plans completed', joinsNeeded: 3 },
-  { level: 'trusted', label: 'Trusted', icon: Star, requirement: '10 plans + 85% reliability', joinsNeeded: 10 },
-  { level: 'anchor', label: 'Star', icon: Trophy, requirement: '25 plans + 95% reliability', joinsNeeded: 25 },
+const TRUST_PROGRESSION: { level: TrustLevel; label: string; emoji: string; requirement: string; joinsNeeded: number }[] = [
+  { level: 'seed', label: 'New', emoji: '✨', requirement: 'Just getting started', joinsNeeded: 0 },
+  { level: 'solid', label: 'Solid', emoji: '🛡️', requirement: '3 plans completed', joinsNeeded: 3 },
+  { level: 'trusted', label: 'Trusted', emoji: '⭐', requirement: '10 plans + 85% reliability', joinsNeeded: 10 },
+  { level: 'anchor', label: 'Star', emoji: '🏆', requirement: '25 plans + 95% reliability', joinsNeeded: 25 },
 ];
 
 function TrustProgressionCard({ trustLevel, completedJoins, reliabilityScore }: { trustLevel: TrustLevel; completedJoins: number; reliabilityScore: number }) {
   const currentIndex = TRUST_PROGRESSION.findIndex(t => t.level === trustLevel);
   const nextLevel = currentIndex < TRUST_PROGRESSION.length - 1 ? TRUST_PROGRESSION[currentIndex + 1] : null;
   const current = TRUST_PROGRESSION[currentIndex];
-  const CurrentIcon = current.icon;
   
   const progressToNext = nextLevel 
     ? Math.min(100, (completedJoins / nextLevel.joinsNeeded) * 100)
@@ -34,7 +32,7 @@ function TrustProgressionCard({ trustLevel, completedJoins, reliabilityScore }: 
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-3">
           <div className="w-11 h-11 rounded-[0.75rem] liquid-glass flex items-center justify-center" style={{ borderRadius: '0.75rem' }}>
-            <CurrentIcon size={20} className="text-primary" />
+            <span className="text-xl">{current.emoji}</span>
           </div>
           <div>
             <p className="text-[14px] font-bold text-foreground tracking-tight">{current.label} member</p>
@@ -72,7 +70,7 @@ function TrustProgressionCard({ trustLevel, completedJoins, reliabilityScore }: 
       
       {!nextLevel && (
         <div className="flex items-center gap-2.5 px-3.5 py-3 rounded-[0.875rem] bg-primary/6" style={{ borderRadius: '0.875rem' }}>
-          <Trophy size={14} className="text-primary" />
+          <span className="text-sm">🏆</span>
           <p className="text-[12px] text-primary font-semibold">Max level reached — you get the best rates.</p>
         </div>
       )}
@@ -80,12 +78,12 @@ function TrustProgressionCard({ trustLevel, completedJoins, reliabilityScore }: 
   );
 }
 
-const badgeConfig: Record<Badge, { icon: LucideIcon; label: string }> = {
-  verified_host: { icon: BadgeCheck, label: 'Verified Host' },
-  top_host: { icon: Trophy, label: 'Top Host' },
-  trusted_member: { icon: Shield, label: 'Trusted Member' },
-  early_adopter: { icon: Star, label: 'Early Adopter' },
-  streak_7: { icon: Flame, label: '7-Day Streak' },
+const badgeConfig: Record<Badge, { emoji: string; label: string }> = {
+  verified_host: { emoji: '✅', label: 'Verified Host' },
+  top_host: { emoji: '🏆', label: 'Top Host' },
+  trusted_member: { emoji: '🛡️', label: 'Trusted Member' },
+  early_adopter: { emoji: '⭐', label: 'Early Adopter' },
+  streak_7: { emoji: '🔥', label: '7-Day Streak' },
 };
 
 export default function ProfilePage() {
@@ -105,7 +103,7 @@ export default function ProfilePage() {
       <div className="mobile-container min-h-screen bg-ambient flex items-center justify-center">
         <div className="text-center px-8">
           <div className="w-16 h-16 rounded-[1.25rem] liquid-glass flex items-center justify-center mx-auto mb-5">
-            <User size={26} className="text-muted-foreground" />
+            <span className="text-2xl">👤</span>
           </div>
           <p className="text-base font-semibold text-foreground mb-1.5 tracking-tight">Sign in to view your profile</p>
           <p className="text-sm text-muted-foreground mb-6">Your plans, badges, and stats all in one place</p>
@@ -152,13 +150,13 @@ export default function ProfilePage() {
             className="w-full liquid-glass-interactive flex items-center gap-3 px-4 py-4 text-left"
           >
             <div className="w-10 h-10 rounded-[0.75rem] liquid-glass flex items-center justify-center" style={{ borderRadius: '0.75rem' }}>
-              <Gift size={18} className="text-primary" />
+              <span className="text-lg">🎁</span>
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-[14px] font-bold text-foreground tracking-tight">Bring your crew</p>
               <p className="text-[11px] text-muted-foreground mt-0.5">3 friends = double credits</p>
             </div>
-            <ArrowUpRight size={14} className="text-muted-foreground/30 shrink-0" />
+            <span className="text-muted-foreground/30 shrink-0">↗</span>
           </button>
 
           {/* Tabs */}
@@ -206,10 +204,9 @@ export default function ProfilePage() {
                     {user.badges.map((badge) => {
                       const config = badgeConfig[badge];
                       if (!config) return null;
-                      const Icon = config.icon;
                       return (
                         <div key={badge} className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-[0.75rem] bg-primary/6 text-primary liquid-glass" style={{ borderRadius: '0.75rem' }}>
-                          <Icon size={13} />
+                          <span>{config.emoji}</span>
                           <span>{config.label}</span>
                         </div>
                       );
@@ -221,12 +218,8 @@ export default function ProfilePage() {
               {user.meetupsHosted > 0 && (
                 <Section title="Host Stats">
                   <div className="grid grid-cols-2 gap-2.5">
-                    <StatTile
-                      icon={CheckCircle}
-                      label="Success rate"
-                      value={`${Math.round((user.meetupsAttended / Math.max(user.meetupsHosted, 1)) * 100)}%`}
-                    />
-                    <StatTile icon={AlertTriangle} label="No-shows" value={String(user.noShows)} />
+                    <StatTile emoji="✅" label="Success rate" value={`${Math.round((user.meetupsAttended / Math.max(user.meetupsHosted, 1)) * 100)}%`} />
+                    <StatTile emoji="⚠️" label="No-shows" value={String(user.noShows)} />
                   </div>
                 </Section>
               )}
@@ -234,7 +227,7 @@ export default function ProfilePage() {
               {user.interests.length === 0 && user.badges.length === 0 && user.meetupsHosted === 0 && (
                 <div className="text-center py-12">
                   <div className="w-16 h-16 rounded-[1.25rem] liquid-glass flex items-center justify-center mx-auto mb-4">
-                    <Sparkles size={26} className="text-muted-foreground" />
+                    <span className="text-2xl">✨</span>
                   </div>
                   <p className="text-base font-semibold text-foreground mb-1.5 tracking-tight">Nothing here yet</p>
                   <p className="text-sm text-muted-foreground">Join a plan to get started</p>
@@ -257,7 +250,7 @@ export default function ProfilePage() {
                     ))}
                   </div>
                 ) : (
-                  <EmptyState icon={FolderOpen} message="No meetups yet">
+                  <EmptyState emoji="📂" message="No meetups yet">
                     <Button onClick={() => navigate('/home')} variant="secondary" size="sm">Browse plans</Button>
                   </EmptyState>
                 )}
@@ -286,7 +279,7 @@ export default function ProfilePage() {
               )}
 
               {activityCount === 0 && (
-                <EmptyState icon={FolderOpen} message="No activity yet" />
+                <EmptyState emoji="📂" message="No activity yet" />
               )}
             </div>
           )}
@@ -308,10 +301,10 @@ function Section({ title, children }: { title: string; children: React.ReactNode
   );
 }
 
-function StatTile({ icon: Icon, label, value }: { icon: LucideIcon; label: string; value: string }) {
+function StatTile({ emoji, label, value }: { emoji: string; label: string; value: string }) {
   return (
     <div className="liquid-glass flex items-center gap-3 p-3.5" style={{ borderRadius: '1rem' }}>
-      <Icon size={15} className="text-muted-foreground shrink-0" />
+      <span className="text-[15px]">{emoji}</span>
       <div>
         <p className="text-[15px] font-bold tabular-nums text-foreground tracking-tight">{value}</p>
         <p className="text-[10px] text-muted-foreground mt-0.5">{label}</p>
@@ -320,11 +313,11 @@ function StatTile({ icon: Icon, label, value }: { icon: LucideIcon; label: strin
   );
 }
 
-function EmptyState({ icon: Icon, message, children }: { icon: LucideIcon; message: string; children?: React.ReactNode }) {
+function EmptyState({ emoji, message, children }: { emoji: string; message: string; children?: React.ReactNode }) {
   return (
     <div className="text-center py-10">
       <div className="w-14 h-14 rounded-[1.125rem] liquid-glass flex items-center justify-center mx-auto mb-3">
-        <Icon size={22} className="text-muted-foreground" />
+        <span className="text-xl">{emoji}</span>
       </div>
       <p className="text-sm text-muted-foreground mb-4">{message}</p>
       {children}
@@ -343,7 +336,7 @@ function RequestRow({ req, onClick, subtitle }: { req: Request; onClick: () => v
         <p className="font-bold text-[13px] truncate text-foreground tracking-tight">{req.title}</p>
         <p className="text-[11px] text-muted-foreground mt-0.5">{subtitle || `${req.seatsTaken} people joined`}</p>
       </div>
-      <ChevronRight size={14} className="text-muted-foreground/25 shrink-0" />
+      <span className="text-muted-foreground/25 shrink-0">›</span>
     </button>
   );
 }
