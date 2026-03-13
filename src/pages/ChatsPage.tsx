@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { TopBar } from '@/components/layout/TopBar';
 import { useAppStore } from '@/store/useAppStore';
 import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
+import { GradientAvatar } from '@/components/ui/GradientAvatar';
 import { BottomNav } from '@/components/layout/BottomNav';
 import { MessageCircle, ArrowRight, MapPin, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -59,18 +60,14 @@ export default function ChatsPage() {
                 </div>
                 <div className="space-y-2">
                   {activeChats.map(({ request, lastMessage, unread }) => (
-                    <button
-                      key={request.id}
-                      onClick={() => navigate(`/request/${request.id}`)}
-                      className="w-full liquid-glass-interactive flex items-center gap-3.5 p-4 text-left"
-                    >
+                    <button key={request.id} onClick={() => navigate(`/request/${request.id}`)}
+                      className="w-full liquid-glass-interactive flex items-center gap-3.5 p-4 text-left">
                       <div className="relative shrink-0">
                         <div className="w-12 h-12 rounded-[0.875rem] liquid-glass flex items-center justify-center" style={{ borderRadius: '0.875rem' }}>
                           <span className="text-xl">{getCategoryEmoji(request.category)}</span>
                         </div>
                         <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-success border-[1.5px] border-background" />
                       </div>
-
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center justify-between gap-2 mb-0.5">
                           <p className="text-[14px] font-bold text-foreground truncate tracking-tight">{request.title}</p>
@@ -87,9 +84,11 @@ export default function ChatsPage() {
                               : <span className="flex items-center gap-1"><MapPin size={10} /> {request.location.name}</span>}
                           </p>
                           <div className="flex items-center gap-2 shrink-0">
-                            <span className="text-[10px] text-muted-foreground/40 flex items-center gap-0.5 font-medium">
-                              <Users size={10} /> {request.seatsTaken}/{request.seatsTotal}
-                            </span>
+                            <div className="flex -space-x-1">
+                              {[request.userName, ...request.participants.map(p => p.name)].slice(0, 2).map((name, i) => (
+                                <GradientAvatar key={i} name={name} size={14} showInitials={false} className="border border-background" />
+                              ))}
+                            </div>
                             {unread > 0 && (
                               <span className="w-5 h-5 rounded-full bg-primary flex items-center justify-center">
                                 <span className="text-[10px] font-bold text-primary-foreground">{unread}</span>
@@ -109,11 +108,8 @@ export default function ChatsPage() {
                 <h3 className="section-label mb-3">Past plans</h3>
                 <div className="space-y-2">
                   {pastChats.map(({ request, lastMessage }) => (
-                    <button
-                      key={request.id}
-                      onClick={() => navigate(`/request/${request.id}`)}
-                      className="w-full liquid-glass flex items-center gap-3.5 p-3.5 text-left opacity-60 tap-scale"
-                    >
+                    <button key={request.id} onClick={() => navigate(`/request/${request.id}`)}
+                      className="w-full liquid-glass flex items-center gap-3.5 p-3.5 text-left opacity-60 tap-scale">
                       <div className="w-10 h-10 rounded-[0.75rem] liquid-glass flex items-center justify-center shrink-0" style={{ borderRadius: '0.75rem' }}>
                         <span className="text-lg">{getCategoryEmoji(request.category)}</span>
                       </div>

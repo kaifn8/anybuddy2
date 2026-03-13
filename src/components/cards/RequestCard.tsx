@@ -7,6 +7,7 @@ import type { Request, Category } from '@/types/anybuddy';
 import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
 import { UrgencyBadge } from '@/components/ui/UrgencyBadge';
 import { ShareSheet } from '@/components/ShareSheet';
+import { GradientAvatar } from '@/components/ui/GradientAvatar';
 import { useAppStore } from '@/store/useAppStore';
 import { cn } from '@/lib/utils';
 
@@ -89,13 +90,10 @@ export function RequestCard({ request, onJoin, onView, isJoined, className }: Re
     target.classList.add('heart-pop');
   };
 
-  const attendeeAvatars = [
-    request.userAvatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${request.userName}`,
-    ...request.participants.map(p => p.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${p.name}`),
+  const attendeeNames = [
+    request.userName,
+    ...request.participants.map(p => p.name),
   ];
-  while (attendeeAvatars.length < request.seatsTaken) {
-    attendeeAvatars.push(`https://api.dicebear.com/7.x/avataaars/svg?seed=user${attendeeAvatars.length}`);
-  }
   
   return (
     <>
@@ -137,12 +135,12 @@ export function RequestCard({ request, onJoin, onView, isJoined, className }: Re
         <div className="flex items-center justify-between gap-3 mb-3">
           <div className="flex items-center gap-2 min-w-0">
             <div className="flex -space-x-1.5 shrink-0">
-              {attendeeAvatars.slice(0, 3).map((avatar, i) => (
-                <img key={i} src={avatar} alt="" className="w-5 h-5 rounded-full border-[1.5px] border-background" />
+              {attendeeNames.slice(0, 3).map((name, i) => (
+                <GradientAvatar key={i} name={name} size={20} className="border-[1.5px] border-background" showInitials={false} />
               ))}
-              {attendeeAvatars.length > 3 && (
+              {attendeeNames.length > 3 && (
                 <div className="w-5 h-5 rounded-full bg-muted border-[1.5px] border-background flex items-center justify-center">
-                  <span className="text-[8px] font-bold text-muted-foreground">+{attendeeAvatars.length - 3}</span>
+                  <span className="text-[8px] font-bold text-muted-foreground">+{attendeeNames.length - 3}</span>
                 </div>
               )}
             </div>
@@ -165,11 +163,10 @@ export function RequestCard({ request, onJoin, onView, isJoined, className }: Re
           </Button>
         </div>
 
-        {/* Host info — refined separator */}
+        {/* Host info */}
         <div className="flex items-center justify-between pt-3" style={{ borderTop: '0.5px solid hsla(var(--glass-border))' }}>
           <button onClick={handleHostClick} className="flex items-center gap-2 tap-scale">
-            <img src={request.userAvatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${request.userName}`}
-              alt={request.userName} className="w-5 h-5 rounded-full" />
+            <GradientAvatar name={request.userName} size={20} showInitials={false} />
             <span className="text-[11px] text-muted-foreground font-medium hover:text-foreground transition-colors flex items-center gap-1">
               {request.userName}
               {(request.userTrust === 'trusted' || request.userTrust === 'anchor') && (
