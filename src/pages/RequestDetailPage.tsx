@@ -233,8 +233,7 @@ export default function RequestDetailPage() {
               )}>
                 <div className="w-7 shrink-0">
                   {showName && !isMe ? (
-                    <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${msg.senderName}`}
-                      alt="" className="w-7 h-7 rounded-full" />
+                    <GradientAvatar name={msg.senderName} size={28} showInitials={false} />
                   ) : null}
                 </div>
                 <div className={cn('max-w-[72%]', isMe ? 'items-end' : 'items-start')}>
