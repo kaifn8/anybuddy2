@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { formatDistanceToNow, isAfter, subDays } from 'date-fns';
-import { Share2, MapPin, Zap, PartyPopper, MessageSquare, Coins, Shield, Bell, CheckCheck, Sparkles } from 'lucide-react';
+import { Share2, MapPin, Zap, PartyPopper, MessageSquare, Coins, Shield, Bell, CheckCheck, Sparkles, type LucideIcon } from 'lucide-react';
 import { BottomNav } from '@/components/layout/BottomNav';
 import { TopBar } from '@/components/layout/TopBar';
 import { useAppStore } from '@/store/useAppStore';
@@ -8,7 +8,7 @@ import { cn } from '@/lib/utils';
 import { useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 
-const iconMap: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
+const iconMap: Record<string, LucideIcon> = {
   nearby: MapPin,
   urgent: Zap,
   join: PartyPopper,

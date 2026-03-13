@@ -42,7 +42,7 @@ const QUICK_FILTERS = [
   { id: 'popular', label: 'Filling fast', icon: TrendingUp, sort: (a: Request, b: Request) => b.seatsTaken - a.seatsTaken },
 ];
 
-const QUICK_CREATE: { icon: React.ComponentType<{ size?: number; className?: string }>; title: string; category: Category }[] = [
+const QUICK_CREATE: { icon: LucideIcon; title: string; category: Category }[] = [
   { icon: Coffee, title: 'Grab coffee', category: 'chai' },
   { icon: Footprints, title: 'Go for walk', category: 'walk' },
   { icon: UtensilsCrossed, title: 'Get food', category: 'food' },
