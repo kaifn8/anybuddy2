@@ -237,7 +237,7 @@ function SettingsLink({
 }
 
 function QuickAction({ icon: Icon, label, sublabel, onClick, iconClass }: {
-  icon: React.ComponentType<{ size?: number; className?: string }>; label: string; sublabel: string; onClick: () => void; iconClass: string;
+  icon: LucideIcon; label: string; sublabel: string; onClick: () => void; iconClass: string;
 }) {
   return (
     <button onClick={onClick} className="liquid-glass-heavy rounded-2xl p-3.5 tap-scale text-left flex items-center gap-3">

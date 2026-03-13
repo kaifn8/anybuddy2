@@ -317,7 +317,7 @@ function StatTile({ icon: Icon, label, value }: { icon: LucideIcon; label: strin
   );
 }
 
-function EmptyState({ icon: Icon, message, children }: { icon: React.ComponentType<{ size?: number; className?: string }>; message: string; children?: React.ReactNode }) {
+function EmptyState({ icon: Icon, message, children }: { icon: LucideIcon; message: string; children?: React.ReactNode }) {
   return (
     <div className="text-center py-8">
       <div className="w-12 h-12 rounded-2xl liquid-glass flex items-center justify-center mx-auto mb-2">
