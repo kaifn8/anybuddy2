@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Heart, Share2, BadgeCheck } from 'lucide-react';
+import { Heart, Share2, BadgeCheck, Users, MapPin, Clock, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { formatDistanceToNow } from 'date-fns';
 import type { Request, Category } from '@/types/anybuddy';
@@ -22,15 +22,15 @@ function getTimeIndicator(request: Request) {
   const minutesLeft = (new Date(request.expiresAt).getTime() - Date.now()) / 60000;
   
   if (minutesLeft <= 5 && minutesLeft > 0) {
-    return { label: '⚡ Happening now', color: 'text-warning bg-warning/10 border border-warning/20' };
+    return { label: 'Happening now', color: 'text-warning bg-warning/10 border border-warning/20', icon: Clock };
   }
   if (minutesLeft <= 15 && minutesLeft > 0) {
     const mins = Math.round(minutesLeft);
-    return { label: `⏰ ${mins} min left`, color: 'text-destructive bg-destructive/10 border border-destructive/20' };
+    return { label: `${mins} min left`, color: 'text-destructive bg-destructive/10 border border-destructive/20', icon: Clock };
   }
   if (minutesLeft <= 30 && minutesLeft > 0) {
     const mins = Math.round(minutesLeft);
-    return { label: `⚡ In ${mins} min`, color: 'text-warning bg-warning/10 border border-warning/20' };
+    return { label: `In ${mins} min`, color: 'text-warning bg-warning/10 border border-warning/20', icon: Clock };
   }
   return null;
 }
@@ -40,13 +40,13 @@ function getHotIndicator(request: Request) {
   const fillPercentage = (request.seatsTaken / request.seatsTotal) * 100;
   
   if (seatsLeft === 1) {
-    return { label: '🔴 1 spot left', color: 'text-destructive bg-destructive/10 border border-destructive/20' };
+    return { label: '1 spot left', color: 'text-destructive bg-destructive/10 border border-destructive/20', icon: Users };
   }
   if (seatsLeft === 2) {
-    return { label: '🔥 2 spots left', color: 'text-destructive bg-destructive/10 border border-destructive/20' };
+    return { label: '2 spots left', color: 'text-destructive bg-destructive/10 border border-destructive/20', icon: Users };
   }
   if (fillPercentage >= 70) {
-    return { label: `🔥 ${request.seatsTaken} joined`, color: 'text-primary bg-primary/10 border border-primary/20' };
+    return { label: `${request.seatsTaken} joined`, color: 'text-primary bg-primary/10 border border-primary/20', icon: Users };
   }
   return null;
 }
@@ -107,13 +107,13 @@ export function RequestCard({ request, onJoin, onView, isJoined, className }: Re
         {(timeIndicator || hotIndicator) && (
           <div className="flex flex-wrap items-center gap-1.5 mb-2">
             {timeIndicator && (
-              <div className={cn('inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold whitespace-nowrap', timeIndicator.color)}>
-                {timeIndicator.label}
+              <div className={cn('inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold whitespace-nowrap', timeIndicator.color)}>
+                <timeIndicator.icon size={10} /> {timeIndicator.label}
               </div>
             )}
             {hotIndicator && (
-              <div className={cn('inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold whitespace-nowrap', hotIndicator.color)}>
-                {hotIndicator.label}
+              <div className={cn('inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold whitespace-nowrap', hotIndicator.color)}>
+                <hotIndicator.icon size={10} /> {hotIndicator.label}
               </div>
             )}
           </div>
@@ -127,8 +127,8 @@ export function RequestCard({ request, onJoin, onView, isJoined, className }: Re
           
           <div className="flex-1 min-w-0">
             <h3 className="font-semibold text-[14px] text-foreground leading-tight line-clamp-2 mb-1.5">{request.title}</h3>
-            <p className="text-[12px] text-muted-foreground font-medium mb-1.5 truncate">
-              📍 {request.location.name} • {request.location.distance} km • ~{Math.round(request.location.distance * 12)} min walk
+            <p className="text-[12px] text-muted-foreground font-medium mb-1.5 truncate flex items-center gap-1">
+              <MapPin size={11} /> {request.location.name} · {request.location.distance} km · ~{Math.round(request.location.distance * 12)} min walk
             </p>
           </div>
         </div>
@@ -172,7 +172,9 @@ export function RequestCard({ request, onJoin, onView, isJoined, className }: Re
               {(request.userTrust === 'trusted' || request.userTrust === 'anchor') && (
                 <BadgeCheck size={14} className="text-primary" strokeWidth={2.5} />
               )}
-              {request.userReliability && <span className="ml-0.5">• ⭐ {request.userReliability}% reliable</span>}
+              {request.userReliability && (
+                <span className="ml-0.5 flex items-center gap-0.5">· <Star size={10} /> {request.userReliability}% reliable</span>
+              )}
             </span>
           </button>
           
@@ -188,7 +190,7 @@ export function RequestCard({ request, onJoin, onView, isJoined, className }: Re
       </div>
 
       <ShareSheet open={showShare} onClose={() => setShowShare(false)} title={request.title}
-        text={`${request.title}\n📍 ${request.location.name}\nJoin here 👇`} />
+        text={`${request.title}\n📍 ${request.location.name}\nJoin here`} />
     </>
   );
 }

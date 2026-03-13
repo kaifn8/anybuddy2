@@ -3,7 +3,7 @@ import { TopBar } from '@/components/layout/TopBar';
 import { useAppStore } from '@/store/useAppStore';
 import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
 import { BottomNav } from '@/components/layout/BottomNav';
-import { MessageCircle, ArrowRight } from 'lucide-react';
+import { MessageCircle, ArrowRight, MapPin, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { formatDistanceToNow } from 'date-fns';
 import { cn } from '@/lib/utils';
@@ -84,11 +84,11 @@ export default function ChatsPage() {
                           <p className="text-[12px] text-muted-foreground truncate">
                             {lastMessage
                               ? `${lastMessage.senderName}: ${lastMessage.message}`
-                              : `📍 ${request.location.name}`}
+                              : <span className="flex items-center gap-1"><MapPin size={10} /> {request.location.name}</span>}
                           </p>
                           <div className="flex items-center gap-2 shrink-0">
-                            <span className="text-[10px] text-muted-foreground/60">
-                              👥 {request.seatsTaken}/{request.seatsTotal}
+                            <span className="text-[10px] text-muted-foreground/60 flex items-center gap-0.5">
+                              <Users size={10} /> {request.seatsTaken}/{request.seatsTotal}
                             </span>
                             {unread > 0 && (
                               <span className="w-5 h-5 rounded-full bg-primary flex items-center justify-center">

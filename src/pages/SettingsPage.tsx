@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { TopBar } from '@/components/layout/TopBar';
 import { BottomNav } from '@/components/layout/BottomNav';
 import { useAppStore } from '@/store/useAppStore';
-import { ChevronRight } from 'lucide-react';
+import { ChevronRight, Moon, Globe, Bell, Mail, MapPin, Lock, HelpCircle, Bug, Star, LogOut, Zap, UserPlus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
 import { Separator } from '@/components/ui/separator';
@@ -29,7 +29,9 @@ export default function SettingsPage() {
       <div className="mobile-container min-h-screen bg-ambient pb-24">
         <TopBar showBack title="Settings" />
         <div className="flex flex-col items-center justify-center px-8 pt-32">
-          <span className="text-5xl block mb-4">⚙️</span>
+          <div className="w-16 h-16 rounded-2xl liquid-glass flex items-center justify-center mb-4">
+            <Lock size={28} className="text-muted-foreground" />
+          </div>
           <p className="text-sm font-medium text-foreground mb-1">Settings</p>
           <p className="text-xs text-muted-foreground mb-5">Sign in to manage your preferences</p>
           <Button onClick={() => navigate('/signup')} className="h-11 px-8">Sign In</Button>
@@ -57,19 +59,13 @@ export default function SettingsPage() {
                 alt={user.firstName}
                 className="w-14 h-14 rounded-2xl object-cover border-2 border-border/30"
               />
-              {user.isVerified && (
-                <span className="absolute -bottom-1 -right-1 text-sm bg-background rounded-full">✅</span>
-              )}
             </div>
             <div className="flex-1 min-w-0">
               <h2 className="text-base font-bold truncate">{user.firstName}</h2>
               <p className="text-xs text-muted-foreground truncate">{user.phone}</p>
               <div className="flex items-center gap-1.5 mt-1.5 flex-wrap">
                 <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-primary/10 text-primary text-[10px] font-semibold">
-                  ⚡ {user.credits} credits
-                </span>
-                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-secondary/10 text-secondary text-[10px] font-semibold capitalize">
-                  🏆 {user.trustLevel}
+                  <Zap size={10} /> {user.credits} credits
                 </span>
               </div>
             </div>
@@ -79,21 +75,21 @@ export default function SettingsPage() {
 
         {/* Quick Actions */}
         <div className="grid grid-cols-2 gap-2">
-          <QuickAction emoji="⚡" label="Credits" sublabel={`${user.credits} pts`} onClick={() => navigate('/credits')} color="bg-primary/10" />
-          <QuickAction emoji="👋" label="Invite" sublabel="Earn credits" onClick={() => navigate('/invite')} color="bg-success/10" />
+          <QuickAction icon={Zap} label="Credits" sublabel={`${user.credits} pts`} onClick={() => navigate('/credits')} iconClass="text-primary" />
+          <QuickAction icon={UserPlus} label="Invite" sublabel="Earn credits" onClick={() => navigate('/invite')} iconClass="text-success" />
         </div>
 
         {/* Appearance */}
         <SettingsSection title="Appearance">
           <SettingsToggle
-            icon="🌙" iconBg="bg-indigo-500/15 dark:bg-indigo-500/25"
+            icon={Moon} iconBg="bg-indigo-500/15 dark:bg-indigo-500/25"
             label="Dark Mode"
             checked={isDark}
             onCheckedChange={toggleTheme}
           />
           <Separator className="mx-4 bg-border/20" />
           <SettingsLink
-            icon="🌍" iconBg="bg-blue-500/15 dark:bg-blue-500/25"
+            icon={Globe} iconBg="bg-blue-500/15 dark:bg-blue-500/25"
             label="Language" value="English"
             soon
           />
@@ -102,14 +98,14 @@ export default function SettingsPage() {
         {/* Notifications */}
         <SettingsSection title="Notifications">
           <SettingsToggle
-            icon="🔔" iconBg="bg-orange-500/15 dark:bg-orange-500/25"
+            icon={Bell} iconBg="bg-orange-500/15 dark:bg-orange-500/25"
             label="Push Notifications"
             checked={pushNotifications}
             onCheckedChange={setPushNotifications}
           />
           <Separator className="mx-4 bg-border/20" />
           <SettingsToggle
-            icon="📧" iconBg="bg-blue-500/15 dark:bg-blue-500/25"
+            icon={Mail} iconBg="bg-blue-500/15 dark:bg-blue-500/25"
             label="Email Notifications"
             checked={emailNotifications}
             onCheckedChange={setEmailNotifications}
@@ -119,14 +115,14 @@ export default function SettingsPage() {
         {/* Privacy */}
         <SettingsSection title="Privacy">
           <SettingsToggle
-            icon="📍" iconBg="bg-green-500/15 dark:bg-green-500/25"
+            icon={MapPin} iconBg="bg-green-500/15 dark:bg-green-500/25"
             label="Location Sharing"
             checked={locationSharing}
             onCheckedChange={setLocationSharing}
           />
           <Separator className="mx-4 bg-border/20" />
           <SettingsLink
-            icon="🔒" iconBg="bg-slate-500/15 dark:bg-slate-500/25"
+            icon={Lock} iconBg="bg-slate-500/15 dark:bg-slate-500/25"
             label="Privacy & Safety"
             soon
           />
@@ -135,19 +131,19 @@ export default function SettingsPage() {
         {/* Support */}
         <SettingsSection title="Support">
           <SettingsLink
-            icon="❓" iconBg="bg-violet-500/15 dark:bg-violet-500/25"
+            icon={HelpCircle} iconBg="bg-violet-500/15 dark:bg-violet-500/25"
             label="Help Center"
             soon
           />
           <Separator className="mx-4 bg-border/20" />
           <SettingsLink
-            icon="🐛" iconBg="bg-red-500/15 dark:bg-red-500/25"
+            icon={Bug} iconBg="bg-red-500/15 dark:bg-red-500/25"
             label="Report a Bug"
             soon
           />
           <Separator className="mx-4 bg-border/20" />
           <SettingsLink
-            icon="⭐" iconBg="bg-yellow-500/15 dark:bg-yellow-500/25"
+            icon={Star} iconBg="bg-yellow-500/15 dark:bg-yellow-500/25"
             label="Rate AnyBuddy"
             soon
           />
@@ -159,7 +155,7 @@ export default function SettingsPage() {
           onClick={handleLogout}
         >
           <div className="flex items-center justify-center gap-2">
-            <span className="text-base">🚪</span>
+            <LogOut size={16} className="text-destructive" />
             <span className="text-sm font-bold text-destructive">Log Out</span>
           </div>
         </button>
@@ -167,7 +163,7 @@ export default function SettingsPage() {
         {/* Footer */}
         <div className="text-center py-2">
           <p className="text-xs text-muted-foreground/50">AnyBuddy v1.0.0</p>
-          <p className="text-[10px] text-muted-foreground/35 mt-0.5">Made with 💜 in Mumbai</p>
+          <p className="text-[10px] text-muted-foreground/35 mt-0.5">Made in Mumbai</p>
         </div>
       </div>
 
@@ -191,16 +187,16 @@ function SettingsSection({ title, children }: { title: string; children: React.R
 }
 
 function SettingsToggle({
-  icon, iconBg, label, checked, onCheckedChange,
+  icon: Icon, iconBg, label, checked, onCheckedChange,
 }: {
-  icon: string; iconBg: string; label: string;
+  icon: React.ComponentType<{ size?: number; className?: string }>; iconBg: string; label: string;
   checked: boolean; onCheckedChange: (v: boolean) => void;
 }) {
   return (
     <div className="flex items-center justify-between px-4 py-2.5 hover:bg-background/20 transition-colors">
       <div className="flex items-center gap-3">
-        <span className={cn('w-8 h-8 rounded-xl flex items-center justify-center text-base', iconBg)}>
-          {icon}
+        <span className={cn('w-8 h-8 rounded-xl flex items-center justify-center', iconBg)}>
+          <Icon size={16} className="text-current" />
         </span>
         <span className="text-sm font-medium">{label}</span>
       </div>
@@ -210,9 +206,9 @@ function SettingsToggle({
 }
 
 function SettingsLink({
-  icon, iconBg, label, value, onClick, soon,
+  icon: Icon, iconBg, label, value, onClick, soon,
 }: {
-  icon: string; iconBg: string; label: string;
+  icon: React.ComponentType<{ size?: number; className?: string }>; iconBg: string; label: string;
   value?: string; onClick?: () => void; soon?: boolean;
 }) {
   return (
@@ -225,8 +221,8 @@ function SettingsLink({
       )}
     >
       <div className="flex items-center gap-3">
-        <span className={cn('w-8 h-8 rounded-xl flex items-center justify-center text-base', iconBg)}>
-          {icon}
+        <span className={cn('w-8 h-8 rounded-xl flex items-center justify-center', iconBg)}>
+          <Icon size={16} className="text-current" />
         </span>
         <span className="text-sm font-medium">{label}</span>
       </div>
@@ -240,13 +236,13 @@ function SettingsLink({
   );
 }
 
-function QuickAction({ emoji, label, sublabel, onClick, color }: {
-  emoji: string; label: string; sublabel: string; onClick: () => void; color: string;
+function QuickAction({ icon: Icon, label, sublabel, onClick, iconClass }: {
+  icon: React.ComponentType<{ size?: number; className?: string }>; label: string; sublabel: string; onClick: () => void; iconClass: string;
 }) {
   return (
     <button onClick={onClick} className="liquid-glass-heavy rounded-2xl p-3.5 tap-scale text-left flex items-center gap-3">
-      <span className={cn('w-9 h-9 rounded-xl flex items-center justify-center text-lg shrink-0', color)}>
-        {emoji}
+      <span className="w-9 h-9 rounded-xl liquid-glass flex items-center justify-center shrink-0" style={{ borderRadius: '0.625rem' }}>
+        <Icon size={18} className={iconClass} />
       </span>
       <div>
         <p className="text-sm font-semibold">{label}</p>

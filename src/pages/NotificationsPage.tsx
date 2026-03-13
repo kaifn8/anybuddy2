@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { formatDistanceToNow, isAfter, subDays } from 'date-fns';
-import { Share2 } from 'lucide-react';
+import { Share2, MapPin, Zap, PartyPopper, MessageSquare, Coins, Shield, Bell, CheckCheck, Sparkles } from 'lucide-react';
 import { BottomNav } from '@/components/layout/BottomNav';
 import { TopBar } from '@/components/layout/TopBar';
 import { useAppStore } from '@/store/useAppStore';
@@ -8,8 +8,13 @@ import { cn } from '@/lib/utils';
 import { useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 
-const emojiMap: Record<string, string> = {
-  nearby: '📍', urgent: '⚡', join: '🎉', message: '💬', credit: '💰', trust: '🛡️',
+const iconMap: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
+  nearby: MapPin,
+  urgent: Zap,
+  join: PartyPopper,
+  message: MessageSquare,
+  credit: Coins,
+  trust: Shield,
 };
 
 export default function NotificationsPage() {
@@ -35,23 +40,26 @@ export default function NotificationsPage() {
     return { last7, last30, older };
   }, [notifications]);
 
-  const NotifItem = ({ n }: { n: typeof notifications[0] }) => (
-    <button onClick={() => handleClick(n)}
-      className={cn(
-        'w-full liquid-glass-interactive flex items-start gap-3 py-3 px-3 text-left mb-1.5',
-        !n.read && 'ring-1 ring-primary/10'
-      )}>
-      <div className="w-8 h-8 rounded-xl liquid-glass flex items-center justify-center shrink-0 mt-0.5" style={{ borderRadius: '0.625rem' }}>
-        <span className="text-sm">{emojiMap[n.type] || '🔔'}</span>
-      </div>
-      <div className="flex-1 min-w-0">
-        <p className={cn('text-sm leading-snug', n.read ? 'font-normal text-muted-foreground' : 'font-semibold text-foreground')}>{n.title}</p>
-        <p className="text-2xs text-muted-foreground mt-0.5 line-clamp-2">{n.message}</p>
-        <p className="text-2xs text-muted-foreground/50 mt-1">{formatDistanceToNow(new Date(n.timestamp), { addSuffix: true })}</p>
-      </div>
-      {!n.read && <div className="w-2 h-2 rounded-full bg-primary shrink-0 mt-2" />}
-    </button>
-  );
+  const NotifItem = ({ n }: { n: typeof notifications[0] }) => {
+    const Icon = iconMap[n.type] || Bell;
+    return (
+      <button onClick={() => handleClick(n)}
+        className={cn(
+          'w-full liquid-glass-interactive flex items-start gap-3 py-3 px-3 text-left mb-1.5',
+          !n.read && 'ring-1 ring-primary/10'
+        )}>
+        <div className="w-8 h-8 rounded-xl liquid-glass flex items-center justify-center shrink-0 mt-0.5" style={{ borderRadius: '0.625rem' }}>
+          <Icon size={15} className="text-muted-foreground" />
+        </div>
+        <div className="flex-1 min-w-0">
+          <p className={cn('text-sm leading-snug', n.read ? 'font-normal text-muted-foreground' : 'font-semibold text-foreground')}>{n.title}</p>
+          <p className="text-2xs text-muted-foreground mt-0.5 line-clamp-2">{n.message}</p>
+          <p className="text-2xs text-muted-foreground/50 mt-1">{formatDistanceToNow(new Date(n.timestamp), { addSuffix: true })}</p>
+        </div>
+        {!n.read && <div className="w-2 h-2 rounded-full bg-primary shrink-0 mt-2" />}
+      </button>
+    );
+  };
 
   const SectionHeader = ({ label }: { label: string }) => (
     <p className="text-2xs font-semibold text-muted-foreground/70 uppercase tracking-wider pt-4 pb-1.5">{label}</p>
@@ -76,13 +84,17 @@ export default function NotificationsPage() {
       
       {unreadCount > 0 && (
         <div className="flex justify-end px-5 pt-1">
-          <button onClick={markAllRead} className="text-2xs text-primary font-semibold tap-scale">Mark all read</button>
+          <button onClick={markAllRead} className="text-2xs text-primary font-semibold tap-scale flex items-center gap-1">
+            <CheckCheck size={12} /> Mark all read
+          </button>
         </div>
       )}
 
       {allRead && (
         <div className="text-center px-5 pt-4 pb-2">
-          <span className="text-2xl block mb-1">✨</span>
+          <div className="w-12 h-12 rounded-2xl liquid-glass flex items-center justify-center mx-auto mb-2">
+            <Sparkles size={22} className="text-primary" />
+          </div>
           <p className="text-sm font-semibold text-foreground">You're all caught up!</p>
           <p className="text-2xs text-muted-foreground mt-0.5">No new notifications right now</p>
         </div>
@@ -112,13 +124,15 @@ export default function NotificationsPage() {
           </div>
         ) : (
           <div className="text-center py-16">
-            <span className="text-4xl block mb-3">🔔</span>
+            <div className="w-16 h-16 rounded-3xl liquid-glass flex items-center justify-center mx-auto mb-4">
+              <Bell size={28} className="text-muted-foreground" />
+            </div>
             <p className="text-sm font-medium text-foreground mb-2">No updates yet</p>
             <div className="text-xs text-muted-foreground space-y-1.5 mb-6">
               <p>You'll get notified when:</p>
-              <p>• Someone joins your plan</p>
-              <p>• A plan starts soon nearby</p>
-              <p>• New plans appear in your area</p>
+              <p>Someone joins your plan</p>
+              <p>A plan starts soon nearby</p>
+              <p>New plans appear in your area</p>
             </div>
             <Button onClick={() => navigate('/home')} size="sm">
               Browse Plans
@@ -128,9 +142,11 @@ export default function NotificationsPage() {
 
         {/* Invite Friends */}
         <div className="mt-6 mb-4 p-4 liquid-glass-heavy text-center">
-          <span className="text-2xl block mb-2">👋</span>
+          <div className="w-10 h-10 rounded-xl liquid-glass flex items-center justify-center mx-auto mb-2">
+            <Share2 size={18} className="text-primary" />
+          </div>
           <p className="text-sm font-semibold text-foreground">Invite friends to AnyBuddy</p>
-          <p className="text-2xs text-muted-foreground mt-1 mb-3">More friends = more plans nearby. Share the love!</p>
+          <p className="text-2xs text-muted-foreground mt-1 mb-3">More friends = more plans nearby</p>
           <Button onClick={handleShare} size="sm" className="mx-auto gap-1.5">
             <Share2 size={14} /> Share Invite Link
           </Button>

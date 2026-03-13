@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { Share2, Navigation } from 'lucide-react';
+import { Share2, Navigation, MapPin, Users, Star } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker, useMap } from 'react-leaflet';
 import L from 'leaflet';
@@ -117,13 +117,13 @@ export default function MapPage() {
 
   const selected = activeRequests.find(r => r.id === selectedId);
 
-  const filters: { id: Category | 'all'; emoji: string; label: string }[] = [
-    { id: 'all', emoji: '🔥', label: 'All' },
-    { id: 'chai', emoji: '☕', label: 'Chai' },
-    { id: 'sports', emoji: '🏸', label: 'Sports' },
-    { id: 'food', emoji: '🍜', label: 'Food' },
-    { id: 'explore', emoji: '🧭', label: 'Explore' },
-    { id: 'walk', emoji: '🚶', label: 'Walk' },
+  const filters: { id: Category | 'all'; label: string }[] = [
+    { id: 'all', label: 'All' },
+    { id: 'chai', label: 'Chai' },
+    { id: 'sports', label: 'Sports' },
+    { id: 'food', label: 'Food' },
+    { id: 'explore', label: 'Explore' },
+    { id: 'walk', label: 'Walk' },
   ];
 
   const handleJoinFromMap = (req: Request) => {
@@ -156,7 +156,6 @@ export default function MapPage() {
             className={cn('h-9 px-3 rounded-full flex items-center gap-1.5 tap-scale text-sm transition-all whitespace-nowrap',
               filter === f.id ? 'glass-pill-active' : 'glass-pill-inactive'
             )}>
-            <span>{f.emoji}</span>
             <span className="text-xs font-medium">{f.label}</span>
           </button>
         ))}
@@ -219,7 +218,7 @@ export default function MapPage() {
         {activeRequests.length === 0 && (
           <div className="absolute inset-0 flex items-center justify-center z-[500] pointer-events-none">
             <div className="text-center liquid-glass-heavy p-4">
-              <span className="text-3xl block mb-2">🗺️</span>
+              <MapPin size={28} className="text-muted-foreground mx-auto mb-2" />
               <p className="text-xs text-muted-foreground">No plans nearby</p>
             </div>
           </div>
@@ -229,7 +228,7 @@ export default function MapPage() {
       {/* Events list header */}
       <div className="px-5 pt-3 pb-1.5 flex items-center justify-between">
         <p className="text-xs font-semibold text-muted-foreground">
-          {currentFilter?.emoji} {activeRequests.length} {filter === 'all' ? 'plans' : `${currentFilter?.label} plans`} nearby
+          {activeRequests.length} {filter === 'all' ? 'plans' : `${currentFilter?.label} plans`} nearby
         </p>
         {selectedId && (
           <button onClick={() => setSelectedId(null)} className="text-2xs text-primary font-semibold tap-scale">
@@ -258,7 +257,9 @@ export default function MapPage() {
                 <h3 className="text-[13px] font-semibold text-foreground truncate leading-tight">{req.title}</h3>
                 <div className="flex items-center gap-2 mt-1">
                   <UrgencyBadge urgency={req.urgency} />
-                   <span className="text-[10px] text-muted-foreground">📍 {req.location.distance}km · ~{Math.round(req.location.distance * 12)}min</span>
+                  <span className="text-[10px] text-muted-foreground flex items-center gap-0.5">
+                    <MapPin size={9} /> {req.location.distance}km · ~{Math.round(req.location.distance * 12)}min
+                  </span>
                 </div>
               </div>
 
@@ -273,8 +274,8 @@ export default function MapPage() {
 
             <div className="flex items-center justify-between mt-2.5 pt-2 border-t border-border/10">
               <div className="flex items-center gap-3 text-[10px] text-muted-foreground">
-                <span>👥 {req.seatsTotal - req.seatsTaken} spots left</span>
-                <span>🎯 {req.userReliability}% reliable</span>
+                <span className="flex items-center gap-0.5"><Users size={10} /> {req.seatsTotal - req.seatsTaken} spots left</span>
+                <span className="flex items-center gap-0.5"><Star size={10} /> {req.userReliability}% reliable</span>
               </div>
               <button
                 onClick={(e) => { e.stopPropagation(); handleShare(req); }}
