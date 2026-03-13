@@ -125,7 +125,7 @@ export const BottomNav = React.forwardRef<HTMLElement, object>(function BottomNa
                         inset 0 -1px 0 hsla(0 0% 0% / 0.1)
                       `,
                     }}>
-                      <span className="text-[22px] drop-shadow-sm">🎉</span>
+                      <Plus size={24} strokeWidth={2.5} className="text-primary-foreground drop-shadow-sm" />
                     </div>
                   </button>
                 );
