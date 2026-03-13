@@ -2,15 +2,14 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { useAppStore } from '@/store/useAppStore';
 import { GradientAvatar } from '@/components/ui/GradientAvatar';
-import { Plus, Home, MapPin, Bell } from 'lucide-react';
 import React from 'react';
 
 const navItems = [
-  { icon: Home, label: 'Home', path: '/home' },
-  { icon: MapPin, label: 'Map', path: '/map' },
-  { icon: Plus, label: 'Post', path: '/create', isMain: true },
-  { icon: Bell, label: 'Alerts', path: '/notifications' },
-  { icon: null, label: 'Me', path: '/profile' },
+  { emoji: '🏠', label: 'Home', path: '/home' },
+  { emoji: '🗺️', label: 'Map', path: '/map' },
+  { emoji: '+', label: 'Post', path: '/create', isMain: true },
+  { emoji: '🔔', label: 'Alerts', path: '/notifications' },
+  { emoji: '👤', label: 'Me', path: '/profile' },
 ];
 
 export const BottomNav = React.forwardRef<HTMLElement, object>(function BottomNav(_props, ref) {
@@ -37,13 +36,12 @@ export const BottomNav = React.forwardRef<HTMLElement, object>(function BottomNa
         <div className="flex-1 flex flex-col gap-0.5 px-3 pt-2">
           {navItems.map((item) => {
             const isActive = location.pathname === item.path;
-            const Icon = item.icon;
 
             if (item.isMain) {
               return (
                 <button key={item.path} onClick={() => navigate(item.path)}
                   className="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-primary text-primary-foreground font-semibold tap-scale mt-3 mb-1">
-                  <Plus size={18} strokeWidth={2.5} />
+                  <span className="text-base">➕</span>
                   <span className="text-sm">Create Plan</span>
                 </button>
               );
@@ -59,9 +57,9 @@ export const BottomNav = React.forwardRef<HTMLElement, object>(function BottomNa
                   {item.path === '/profile' ? (
                     <GradientAvatar name={user?.firstName || 'guest'} size={24}
                       className={cn(isActive ? 'ring-[1.5px] ring-primary ring-offset-1 ring-offset-background' : 'opacity-60')} showInitials={false} />
-                  ) : Icon ? (
-                    <Icon size={18} strokeWidth={isActive ? 2.2 : 1.8} className={cn(!isActive && 'opacity-60')} />
-                  ) : null}
+                  ) : (
+                    <span className={cn('text-[17px]', !isActive && 'opacity-60 grayscale-[30%]')}>{item.emoji}</span>
+                  )}
                   {item.path === '/notifications' && unreadCount > 0 && (
                     <span className="absolute -top-1 -right-1.5 bg-destructive text-destructive-foreground text-[8px] rounded-full w-3.5 h-3.5 flex items-center justify-center font-bold">
                       {unreadCount > 9 ? '9+' : unreadCount}
@@ -100,7 +98,6 @@ export const BottomNav = React.forwardRef<HTMLElement, object>(function BottomNa
             <div className="flex items-center justify-between">
               {navItems.map((item) => {
                 const isActive = location.pathname === item.path;
-                const Icon = item.icon;
 
                 /* ── Center "Post" — pill button ── */
                 if (item.isMain) {
@@ -117,14 +114,14 @@ export const BottomNav = React.forwardRef<HTMLElement, object>(function BottomNa
                           inset 0 1px 0 hsla(0 0% 100% / 0.2)
                         `,
                       }}>
-                        <Plus size={18} strokeWidth={2.5} className="text-primary-foreground" />
+                        <span className="text-[16px]">➕</span>
                         <span className="text-[11px] font-bold text-primary-foreground tracking-wide">Post</span>
                       </div>
                     </button>
                   );
                 }
 
-                /* ── Regular items — icon only with active pill bg ── */
+                /* ── Regular items — emoji with active pill bg ── */
                 return (
                   <button
                     key={item.path}
@@ -147,16 +144,14 @@ export const BottomNav = React.forwardRef<HTMLElement, object>(function BottomNa
                           )}
                           showInitials={false}
                         />
-                      ) : Icon ? (
-                        <Icon
-                          size={20}
-                          strokeWidth={isActive ? 2.2 : 1.6}
-                          className={cn(
-                            'transition-all duration-300',
-                            isActive ? 'text-primary' : 'text-muted-foreground/40'
-                          )}
-                        />
-                      ) : null}
+                      ) : (
+                        <span className={cn(
+                          'text-[20px] block transition-all duration-300',
+                          isActive ? 'scale-110' : 'opacity-35 grayscale-[50%]'
+                        )}>
+                          {item.emoji}
+                        </span>
+                      )}
                       {item.path === '/notifications' && unreadCount > 0 && (
                         <span className="absolute -top-1.5 -right-2 min-w-[14px] h-[14px] rounded-full flex items-center justify-center text-[7px] font-bold px-[2px]"
                           style={{
