@@ -6,7 +6,6 @@ import { TopBar } from '@/components/layout/TopBar';
 import { TrustBadge } from '@/components/ui/TrustBadge';
 import { ProgressBar } from '@/components/ui/ProgressIndicator';
 import { useAppStore } from '@/store/useAppStore';
-import { Shield, Trophy, Handshake, CheckCircle, Star, Flame, TrendingUp, TrendingDown } from 'lucide-react';
 import type { TrustLevel } from '@/types/anybuddy';
 
 const trustProgression: TrustLevel[] = ['seed', 'solid', 'trusted', 'anchor'];
@@ -54,7 +53,7 @@ export default function CreditsPage() {
         <div className="liquid-glass-heavy p-4">
           <div className="flex items-center gap-3 mb-3">
             <div className="w-10 h-10 rounded-xl liquid-glass flex items-center justify-center" style={{ borderRadius: '0.75rem' }}>
-              <Shield size={20} className="text-primary" />
+              <span className="text-xl">🛡️</span>
             </div>
             <div className="flex-1">
               <p className="text-2xs text-muted-foreground font-medium mb-0.5">Trust Level</p>
@@ -74,7 +73,7 @@ export default function CreditsPage() {
           
           {!nextTrust && (
             <p className="text-xs text-success font-semibold mt-2 flex items-center gap-1.5">
-              <Trophy size={14} /> You're a legend. Max trust.
+              🏆 You're a legend. Max trust.
             </p>
           )}
         </div>
@@ -84,20 +83,17 @@ export default function CreditsPage() {
           <h3 className="text-xs font-semibold text-muted-foreground mb-3">STACK MORE CREDITS</h3>
           <div className="space-y-2.5">
             {[
-              { icon: Handshake, amount: '+0.5', action: 'Join a plan' },
-              { icon: CheckCircle, amount: '+1', action: 'Actually show up' },
-              { icon: Star, amount: '+2', action: 'Get rated 5 stars' },
-              { icon: Flame, amount: '+1', action: 'Active 7 days straight' },
-            ].map((item, i) => {
-              const Icon = item.icon;
-              return (
-                <div key={i} className="flex items-center gap-2.5">
-                  <Icon size={15} className="text-muted-foreground" />
-                  <span className="w-8 text-success font-bold text-xs">{item.amount}</span>
-                  <span className="text-xs text-muted-foreground">{item.action}</span>
-                </div>
-              );
-            })}
+              { emoji: '🤝', amount: '+0.5', action: 'Join a plan' },
+              { emoji: '✅', amount: '+1', action: 'Actually show up' },
+              { emoji: '⭐', amount: '+2', action: 'Get rated 5 stars' },
+              { emoji: '🔥', amount: '+1', action: 'Active 7 days straight' },
+            ].map((item, i) => (
+              <div key={i} className="flex items-center gap-2.5">
+                <span className="text-sm">{item.emoji}</span>
+                <span className="w-8 text-success font-bold text-xs">{item.amount}</span>
+                <span className="text-xs text-muted-foreground">{item.action}</span>
+              </div>
+            ))}
           </div>
         </div>
         
@@ -109,11 +105,7 @@ export default function CreditsPage() {
               {creditHistory.slice(0, 10).map((txn) => (
                 <div key={txn.id} className="flex items-center justify-between liquid-glass p-3">
                   <div className="flex items-center gap-2.5">
-                    {txn.type === 'earn' ? (
-                      <TrendingUp size={16} className="text-success" />
-                    ) : (
-                      <TrendingDown size={16} className="text-warning" />
-                    )}
+                    <span className="text-base">{txn.type === 'earn' ? '📈' : '📉'}</span>
                     <div>
                       <p className="text-sm font-medium">{txn.reason}</p>
                       <p className="text-2xs text-muted-foreground">{formatDistanceToNow(new Date(txn.timestamp), { addSuffix: true })}</p>
@@ -128,7 +120,7 @@ export default function CreditsPage() {
           ) : (
             <div className="text-center py-12 liquid-glass">
               <div className="w-12 h-12 rounded-2xl liquid-glass flex items-center justify-center mx-auto mb-2">
-                <TrendingUp size={22} className="text-muted-foreground" />
+                <span className="text-xl">📈</span>
               </div>
               <p className="text-xs text-muted-foreground">Join a plan to start earning</p>
             </div>
