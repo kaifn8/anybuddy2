@@ -131,7 +131,7 @@ export default function AdminUserDetail() {
       {/* User summary card */}
       <div className="rounded-2xl border border-border/20 bg-background/60 backdrop-blur-sm p-4 mb-5">
         <div className="flex items-center gap-3">
-          <img src={user.avatar} alt={user.firstName} className="w-12 h-12 rounded-full" />
+          <GradientAvatar name={user.firstName} size={48} />
           <div className="flex-1 min-w-0">
             <h2 className="text-base font-bold">{user.firstName}</h2>
             <p className="text-[10px] text-muted-foreground">{user.zone}, {user.city} · ID: {user.id.slice(0, 12)}…</p>
