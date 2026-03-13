@@ -140,7 +140,7 @@ export default function HomePage() {
 
   return (
     <>
-    <PageTransition className="mobile-container min-h-screen bg-ambient pb-24 lg:pb-8">
+    <PageTransition className="mobile-container min-h-screen bg-background pb-24 lg:pb-8">
       <div className="lg:hidden">
         <TopBar />
       </div>
@@ -175,13 +175,10 @@ export default function HomePage() {
       {/* Trending */}
       {trending.length > 0 && (
         <div className="pt-5 mb-1">
-          <div className="flex items-center justify-between px-5 mb-4">
+          <div className="flex items-center px-5 mb-4">
             <h3 className="text-[15px] font-bold text-foreground flex items-center gap-2 tracking-tight">
               📈 Filling up fast
             </h3>
-            <button className="text-[11px] font-semibold text-primary tap-scale flex items-center gap-0.5">
-              See all ›
-            </button>
           </div>
           <div ref={trendingRef} className="flex gap-3 overflow-x-auto scrollbar-hide px-5 pb-4 lg:flex-wrap snap-x snap-mandatory">
             {trending.map((req) => {
@@ -189,7 +186,7 @@ export default function HomePage() {
               return (
                 <button key={req.id} onClick={() => navigate(`/request/${req.id}`)}
                   className="shrink-0 liquid-glass-trending tap-scale min-w-[220px] max-w-[240px] lg:min-w-[280px] lg:max-w-[320px] text-left relative overflow-hidden snap-start">
-                  <div className="absolute inset-0 opacity-[0.04]" style={{
+                  <div className="absolute inset-0 opacity-[0.06]" style={{
                     background: `radial-gradient(ellipse at 20% 10%, hsl(var(--primary)), transparent 70%)`,
                   }} />
                   <div className="relative z-10" style={{ padding: '1.125rem' }}>
