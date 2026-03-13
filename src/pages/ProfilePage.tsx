@@ -77,7 +77,7 @@ function TrustProgressionCard({ trustLevel, completedJoins, reliabilityScore }: 
   );
 }
 
-const badgeConfig: Record<Badge, { icon: React.ComponentType<{ size?: number; className?: string }>; label: string }> = {
+const badgeConfig: Record<Badge, { icon: LucideIcon; label: string }> = {
   verified_host: { icon: BadgeCheck, label: 'Verified Host' },
   top_host: { icon: Trophy, label: 'Top Host' },
   trusted_member: { icon: Shield, label: 'Trusted Member' },
