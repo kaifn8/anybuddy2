@@ -12,6 +12,7 @@ import { ShareSheet } from '@/components/ShareSheet';
 import { ReportDialog } from '@/components/ReportDialog';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
+import { GradientAvatar } from '@/components/ui/GradientAvatar';
 import {
   DropdownMenu,
   DropdownMenuContent,
