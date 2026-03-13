@@ -438,8 +438,7 @@ export default function RequestDetailPage() {
                   <p className="text-[10px] font-semibold text-muted-foreground uppercase mb-2">People going ({request.participants.length + 1})</p>
                   <div className="space-y-2.5">
                     <div className="flex items-center gap-2.5">
-                      <img src={request.userAvatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${request.userName}`}
-                        alt="" className="w-7 h-7 rounded-full" />
+                      <GradientAvatar name={request.userName} size={28} showInitials={false} />
                       <span className="text-xs font-medium flex-1">{request.userName}</span>
                       <span className="text-[10px] bg-primary/10 text-primary px-1.5 py-0.5 rounded-full font-semibold">Host</span>
                     </div>
