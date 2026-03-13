@@ -23,12 +23,25 @@ export function TopBar({ showBack = false, title, hideChat = false, showSettings
   }, 0);
 
   return (
-    <header className="sticky top-0 z-40 lg:pl-64 liquid-glass-nav">
+    <header
+      className="sticky top-0 z-40 lg:pl-64"
+      style={{
+        background: 'hsla(var(--glass-bg) / 0.35)',
+        backdropFilter: 'blur(var(--glass-blur-heavy)) saturate(220%)',
+        WebkitBackdropFilter: 'blur(var(--glass-blur-heavy)) saturate(220%)',
+        borderBottom: '0.5px solid hsla(var(--glass-border) / 0.4)',
+      }}
+    >
       <div className="max-w-md md:max-w-2xl lg:max-w-4xl xl:max-w-5xl mx-auto flex items-center justify-between h-[48px] px-5">
         {/* Left */}
         <div className="w-20 flex items-center">
           {showBack ? (
-            <button onClick={() => navigate(-1)} className="tap-scale w-8 h-8 rounded-full liquid-glass flex items-center justify-center" style={{ borderRadius: '50%' }}>
+            <button onClick={() => navigate(-1)} className="tap-scale w-8 h-8 rounded-full flex items-center justify-center" style={{
+              background: 'hsla(var(--glass-bg) / 0.5)',
+              backdropFilter: 'blur(16px)',
+              border: '0.5px solid hsla(var(--glass-border) / 0.4)',
+              borderRadius: '50%',
+            }}>
               <ArrowLeft className="w-4 h-4 text-foreground" />
             </button>
           ) : (
@@ -59,14 +72,26 @@ export function TopBar({ showBack = false, title, hideChat = false, showSettings
           {showSettings ? (
             <button
               onClick={() => navigate('/settings')}
-              className="tap-scale w-8 h-8 rounded-full liquid-glass flex items-center justify-center" style={{ borderRadius: '50%' }}
+              className="tap-scale w-8 h-8 rounded-full flex items-center justify-center"
+              style={{
+                background: 'hsla(var(--glass-bg) / 0.5)',
+                backdropFilter: 'blur(16px)',
+                border: '0.5px solid hsla(var(--glass-border) / 0.4)',
+                borderRadius: '50%',
+              }}
             >
               <Settings size={15} strokeWidth={1.6} className="text-muted-foreground" />
             </button>
           ) : !hideChat ? (
             <button
               onClick={() => navigate('/chats')}
-              className="relative tap-scale w-8 h-8 rounded-full liquid-glass flex items-center justify-center" style={{ borderRadius: '50%' }}
+              className="relative tap-scale w-8 h-8 rounded-full flex items-center justify-center"
+              style={{
+                background: 'hsla(var(--glass-bg) / 0.5)',
+                backdropFilter: 'blur(16px)',
+                border: '0.5px solid hsla(var(--glass-border) / 0.4)',
+                borderRadius: '50%',
+              }}
             >
               <MessageSquare size={15} strokeWidth={1.6} className="text-muted-foreground" />
               {unreadChats > 0 && (

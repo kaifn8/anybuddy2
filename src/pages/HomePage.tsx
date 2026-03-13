@@ -9,6 +9,7 @@ import { JoinConfirmDialog } from '@/components/JoinConfirmDialog';
 import { useAppStore } from '@/store/useAppStore';
 import { cn } from '@/lib/utils';
 import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
+import { GradientAvatar } from '@/components/ui/GradientAvatar';
 import { MapPin, Zap, TrendingUp, Sparkles, Coffee, Footprints, UtensilsCrossed, Dumbbell, Users, ChevronRight, type LucideIcon } from 'lucide-react';
 import type { Category, Request } from '@/types/anybuddy';
 
@@ -76,35 +77,25 @@ export default function HomePage() {
   useEffect(() => {
     const container = trendingRef.current;
     if (!container) return;
-
     let resumeTimeout: ReturnType<typeof setTimeout>;
-
     const startAutoScroll = () => {
       autoScrollRef.current = setInterval(() => {
         if (userInteractedRef.current) return;
         const maxScroll = container.scrollWidth - container.clientWidth;
         if (maxScroll <= 0) return;
         const nextScroll = container.scrollLeft + 140;
-        container.scrollTo({
-          left: nextScroll >= maxScroll ? 0 : nextScroll,
-          behavior: 'smooth',
-        });
+        container.scrollTo({ left: nextScroll >= maxScroll ? 0 : nextScroll, behavior: 'smooth' });
       }, 9000);
     };
-
     const handleInteraction = () => {
       userInteractedRef.current = true;
       clearTimeout(resumeTimeout);
-      resumeTimeout = setTimeout(() => {
-        userInteractedRef.current = false;
-      }, 15000);
+      resumeTimeout = setTimeout(() => { userInteractedRef.current = false; }, 15000);
     };
-
     container.addEventListener('touchstart', handleInteraction, { passive: true });
     container.addEventListener('mousedown', handleInteraction);
     container.addEventListener('scroll', handleInteraction, { passive: true });
     startAutoScroll();
-
     return () => {
       if (autoScrollRef.current) clearInterval(autoScrollRef.current);
       clearTimeout(resumeTimeout);
@@ -121,10 +112,7 @@ export default function HomePage() {
   
   const handleJoin = (request: Request) => {
     if (!user) { navigate('/signup'); return; }
-    if (joinedRequests.includes(request.id)) {
-      navigate(`/request/${request.id}`);
-      return;
-    }
+    if (joinedRequests.includes(request.id)) { navigate(`/request/${request.id}`); return; }
     setConfirmRequest(request);
   };
 
@@ -150,8 +138,6 @@ export default function HomePage() {
     if (qf) filtered = [...filtered].sort(qf.sort);
   }
 
-  const activeCount = requests.filter(r => r.status === 'active').length;
-
   const trending = [...requests]
     .filter(r => r.status === 'active')
     .sort((a, b) => b.seatsTaken - a.seatsTaken)
@@ -164,7 +150,6 @@ export default function HomePage() {
         <TopBar />
       </div>
       
-      {/* Desktop welcome */}
       <div className="hidden lg:flex items-center justify-between px-6 pt-5 pb-3">
         <div>
           <h1 className="text-xl font-bold text-foreground tracking-tight">
@@ -177,12 +162,12 @@ export default function HomePage() {
         </button>
       </div>
       
-      {/* Social proof — refined glass bar */}
+      {/* Social proof */}
       <div className="px-5 pt-3 pb-1">
         <div className="flex items-center gap-2.5 px-4 py-2.5 liquid-glass" style={{ borderRadius: '1rem' }}>
           <div className="flex -space-x-1.5 shrink-0">
             {['Felix', 'Aneka', 'Leo'].map((seed, i) => (
-              <img key={i} src={`https://api.dicebear.com/9.x/lorelei/svg?seed=${seed}`} alt="" className="w-5 h-5 rounded-full border-[1.5px] border-background" />
+              <GradientAvatar key={i} name={seed} size={20} className="border-[1.5px] border-background" showInitials={false} />
             ))}
           </div>
           <p className="text-[11px] text-muted-foreground font-medium flex-1">
@@ -192,7 +177,7 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* Trending — premium horizontal cards */}
+      {/* Trending */}
       {trending.length > 0 && (
         <div className="pt-5 mb-1">
           <div className="flex items-center justify-between px-5 mb-4">
@@ -209,13 +194,10 @@ export default function HomePage() {
               return (
                 <button key={req.id} onClick={() => navigate(`/request/${req.id}`)}
                   className="shrink-0 liquid-glass-trending tap-scale min-w-[220px] max-w-[240px] lg:min-w-[280px] lg:max-w-[320px] text-left relative overflow-hidden snap-start">
-                  {/* Ambient color wash */}
                   <div className="absolute inset-0 opacity-[0.04]" style={{
                     background: `radial-gradient(ellipse at 20% 10%, hsl(var(--primary)), transparent 70%)`,
                   }} />
-
-                  <div className="p-4.5 relative z-10" style={{ padding: '1.125rem' }}>
-                    {/* Category + Live */}
+                  <div className="relative z-10" style={{ padding: '1.125rem' }}>
                     <div className="flex items-center justify-between mb-3.5">
                       <div className="w-10 h-10 rounded-[0.75rem] liquid-glass flex items-center justify-center text-xl" style={{ borderRadius: '0.75rem' }}>
                         {getCategoryEmoji(req.category)}
@@ -225,28 +207,22 @@ export default function HomePage() {
                         <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-[0.08em]">Live</span>
                       </div>
                     </div>
-
                     <h4 className="text-[15px] font-bold text-foreground leading-snug truncate mb-1 tracking-tight">{req.title}</h4>
                     <p className="text-[11px] text-muted-foreground mb-5 truncate flex items-center gap-1">
                       <MapPin size={10} className="shrink-0" /> {req.location.name}
                     </p>
-
-                    {/* Bottom row */}
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2.5">
                         <div className="flex -space-x-2">
                           {[req.userName, ...req.participants.map(p => p.name)].slice(0, 3).map((name, j) => (
-                            <img key={j} src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${name}`} alt=""
-                              className="w-6 h-6 rounded-full border-[1.5px] border-background" />
+                            <GradientAvatar key={j} name={name} size={24} className="border-[1.5px] border-background" showInitials={false} />
                           ))}
                         </div>
                         <span className="text-[10px] font-medium text-muted-foreground">{req.seatsTaken}/{req.seatsTotal}</span>
                       </div>
                       <span className={cn(
                         'text-[10px] font-bold px-2.5 py-1 rounded-full',
-                        seatsLeft <= 1
-                          ? 'text-destructive bg-destructive/10'
-                          : 'text-muted-foreground liquid-glass'
+                        seatsLeft <= 1 ? 'text-destructive bg-destructive/10' : 'text-muted-foreground liquid-glass'
                       )} style={{ borderRadius: '999px' }}>
                         {seatsLeft === 0 ? 'Full' : seatsLeft === 1 ? '1 left' : `${seatsLeft} left`}
                       </span>
@@ -267,9 +243,7 @@ export default function HomePage() {
             return (
               <button key={cat.id} onClick={() => setActiveFilter(cat.id)}
                 className={cn('shrink-0 px-3 py-1.5 rounded-full text-[11px] font-semibold tap-scale transition-all flex items-center gap-1.5',
-                  activeFilter === cat.id
-                    ? 'glass-pill-active'
-                    : 'glass-pill-inactive'
+                  activeFilter === cat.id ? 'glass-pill-active' : 'glass-pill-inactive'
                 )}>
                 <Icon size={12} />
                 <span>{cat.label}</span>
@@ -277,8 +251,6 @@ export default function HomePage() {
             );
           })}
         </div>
-
-        {/* Quick sort filters */}
         <div className="flex gap-1.5 overflow-x-auto pb-2.5 -mx-5 px-5 scrollbar-hide mt-1 lg:mx-0 lg:px-0 lg:flex-wrap">
           {QUICK_FILTERS.map((f) => {
             const Icon = f.icon;
@@ -294,12 +266,10 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* Section label */}
       <div className="px-5 pt-1 pb-3">
         <h3 className="section-label">{activeFilter === 'all' ? 'All plans' : `${FILTERS.find(f => f.id === activeFilter)?.label} plans`}</h3>
       </div>
       
-      {/* Cards */}
       <div ref={cardsRef} className="px-5 space-y-3 md:grid md:grid-cols-2 md:gap-4 md:space-y-0 xl:grid-cols-3 stagger-container">
         {filtered.map((request) => (
           <RequestCard
@@ -313,14 +283,13 @@ export default function HomePage() {
         
         {filtered.length === 0 && (
           <div className="pt-10">
-             <div className="text-center mb-8">
+            <div className="text-center mb-8">
               <div className="w-16 h-16 rounded-[1.25rem] liquid-glass flex items-center justify-center mx-auto mb-4">
                 <Sparkles size={26} className="text-muted-foreground" />
               </div>
               <p className="text-base font-semibold text-foreground mb-1.5 tracking-tight">Nothing here yet</p>
               <p className="text-sm text-muted-foreground">Be the first to post — someone's probably free.</p>
             </div>
-            
             <div>
               <h3 className="section-label mb-3 px-1">Start something</h3>
               <div className="grid grid-cols-2 gap-2.5">
@@ -342,7 +311,6 @@ export default function HomePage() {
         )}
       </div>
 
-      {/* Quick create bar */}
       {filtered.length > 0 && (
         <div className="px-5 mt-6 mb-3">
           <h3 className="section-label mb-2.5">Start something</h3>
@@ -362,14 +330,8 @@ export default function HomePage() {
       )}
 
       {confirmRequest && (
-        <JoinConfirmDialog
-          open={!!confirmRequest}
-          onClose={() => setConfirmRequest(null)}
-          onConfirm={handleConfirmJoin}
-          request={confirmRequest}
-        />
+        <JoinConfirmDialog open={!!confirmRequest} onClose={() => setConfirmRequest(null)} onConfirm={handleConfirmJoin} request={confirmRequest} />
       )}
-      
     </PageTransition>
     <BottomNav />
     </>
