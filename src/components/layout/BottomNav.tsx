@@ -88,7 +88,7 @@ export const BottomNav = React.forwardRef<HTMLElement, object>(function BottomNa
             background: 'hsla(var(--glass-bg) / 0.35)',
             backdropFilter: 'blur(64px) saturate(260%)',
             WebkitBackdropFilter: 'blur(64px) saturate(260%)',
-            border: '0.5px solid hsla(var(--glass-border) / 0.45)',
+            border: '0.5px solid hsla(var(--glass-border))',
             boxShadow: `
               0 8px 32px hsla(var(--glass-shadow-lg)),
               0 1px 4px hsla(var(--glass-shadow)),
