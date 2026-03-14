@@ -8,7 +8,7 @@ import React from 'react';
 
 const navItems = [
   { emoji: '🏠', label: 'Home', path: '/home' },
-  { emoji: '🗺️', label: 'Map', path: '/map' },
+  { emoji: '🔔', label: 'Activity', path: '/notifications' },
   { emoji: '+', label: 'Post', path: '/create', isMain: true },
   { emoji: '⚡', label: 'Quests', path: '/quests' },
   { emoji: '👤', label: 'Me', path: '/profile' },
