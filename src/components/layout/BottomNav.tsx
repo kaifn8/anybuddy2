@@ -157,6 +157,16 @@ export const BottomNav = React.forwardRef<HTMLElement, object>(function BottomNa
                           {item.emoji}
                         </span>
                       )}
+                      {item.path === '/quests' && questsBadge > 0 && (
+                        <span className="absolute -top-1.5 -right-2 min-w-[14px] h-[14px] rounded-full flex items-center justify-center text-[7px] font-bold px-[2px]"
+                          style={{
+                            background: 'hsl(36 80% 58%)',
+                            color: '#fff',
+                            boxShadow: '0 2px 6px hsl(36 80% 58% / 0.5)',
+                          }}>
+                          {questsBadge}
+                        </span>
+                      )}
                       {item.path === '/notifications' && unreadCount > 0 && (
                         <span className="absolute -top-1.5 -right-2 min-w-[14px] h-[14px] rounded-full flex items-center justify-center text-[7px] font-bold px-[2px]"
                           style={{
