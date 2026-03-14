@@ -171,6 +171,36 @@ export default function ProfilePage() {
 
           <VerificationCard />
 
+          {/* ── XP Progress ── */}
+          <XPProgressBar />
+
+          {/* ── Streak ── */}
+          <StreakWidget />
+
+          {/* ── Quests & Leaderboard CTA row ── */}
+          <div className="grid grid-cols-2 gap-2">
+            <button
+              onClick={() => navigate('/quests')}
+              className="liquid-glass-interactive flex items-center gap-2 px-3 py-3 text-left"
+            >
+              <span className="text-lg">⚡</span>
+              <div className="min-w-0">
+                <p className="text-[12px] font-bold text-foreground tracking-tight truncate">Daily Quests</p>
+                <p className="text-[10px] text-muted-foreground mt-0.5">Earn XP + credits</p>
+              </div>
+            </button>
+            <button
+              onClick={() => navigate('/leaderboard')}
+              className="liquid-glass-interactive flex items-center gap-2 px-3 py-3 text-left"
+            >
+              <span className="text-lg">🏆</span>
+              <div className="min-w-0">
+                <p className="text-[12px] font-bold text-foreground tracking-tight truncate">Leaderboard</p>
+                <p className="text-[10px] text-muted-foreground mt-0.5">Weekly rank</p>
+              </div>
+            </button>
+          </div>
+
           {/* ── Invite nudge ── */}
           <button
             onClick={() => navigate('/invite')}
