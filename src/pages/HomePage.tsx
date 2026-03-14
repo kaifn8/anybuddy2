@@ -264,10 +264,6 @@ export default function HomePage() {
               <span className="ml-1.5 normal-case font-normal text-[10px] text-muted-foreground/50">· {radiusNote}</span>
             )}
           </h3>
-          <button onClick={() => navigate('/circle')}
-            className="text-[11px] text-primary font-semibold tap-scale flex items-center gap-1">
-            👥 Circle
-          </button>
         </div>
 
         {/* Feed grid */}
