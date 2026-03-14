@@ -7,42 +7,55 @@ import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
 import { useTheme } from '@/hooks/useTheme';
 import { cn } from '@/lib/utils';
-import { ChevronLeft } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Pencil, Check } from 'lucide-react';
+import type { Category } from '@/types/anybuddy';
+import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
+
+const INTEREST_OPTIONS: Category[] = ['chai', 'sports', 'food', 'explore', 'work', 'walk', 'help', 'casual'];
 
 export default function SettingsPage() {
   const navigate = useNavigate();
-  const { user, reset } = useAppStore();
+  const { user, reset, updateUser } = useAppStore();
   const { isDark, toggleTheme } = useTheme();
   const [pushNotifications, setPushNotifications] = useState(true);
-  const [emailNotifications, setEmailNotifications] = useState(false);
   const [locationSharing, setLocationSharing] = useState(true);
+  const [editingProfile, setEditingProfile] = useState(false);
+
+  // Profile edit state
+  const [editBio, setEditBio] = useState(user?.bio || '');
+  const [editZone, setEditZone] = useState(user?.zone || '');
+  const [editInterests, setEditInterests] = useState<Category[]>(user?.interests || []);
+
+  const handleSaveProfile = () => {
+    updateUser({ bio: editBio.trim(), zone: editZone.trim(), interests: editInterests });
+    setEditingProfile(false);
+  };
+
+  const toggleInterest = (i: Category) => {
+    setEditInterests(prev =>
+      prev.includes(i) ? prev.filter(x => x !== i) : [...prev, i]
+    );
+  };
 
   const handleLogout = () => { reset(); navigate('/'); };
 
   if (!user) {
     return (
       <div className="mobile-container min-h-screen bg-background pb-24">
-        <header className="sticky top-0 z-40"
-          style={{
-            background: 'hsla(var(--glass-bg) / 0.35)',
-            backdropFilter: 'blur(var(--glass-blur-heavy)) saturate(220%)',
-            WebkitBackdropFilter: 'blur(var(--glass-blur-heavy)) saturate(220%)',
-            borderBottom: '0.5px solid hsla(var(--glass-border) / 0.4)',
-          }}>
+        <header className="sticky top-0 z-40" style={{
+          background: 'hsla(var(--glass-bg) / 0.35)',
+          backdropFilter: 'blur(var(--glass-blur-heavy)) saturate(220%)',
+          WebkitBackdropFilter: 'blur(var(--glass-blur-heavy)) saturate(220%)',
+          borderBottom: '0.5px solid hsla(var(--glass-border) / 0.4)',
+        }}>
           <div className="flex items-center h-[48px] px-4 gap-3">
-            <button onClick={() => navigate(-1)}
-              className="w-8 h-8 rounded-full liquid-glass flex items-center justify-center tap-scale shrink-0">
+            <button onClick={() => navigate(-1)} className="w-8 h-8 rounded-full liquid-glass flex items-center justify-center tap-scale shrink-0">
               <ChevronLeft size={16} />
             </button>
             <span className="text-[17px] font-bold text-foreground tracking-tight">Settings</span>
           </div>
         </header>
         <div className="flex flex-col items-center justify-center px-8 pt-32 text-center">
-          <div className="w-14 h-14 rounded-[1.25rem] liquid-glass flex items-center justify-center mb-5">
-            <span className="text-2xl">🔒</span>
-          </div>
-          <p className="text-[16px] font-bold text-foreground mb-1.5 tracking-tight">Settings</p>
-          <p className="text-sm text-muted-foreground mb-6">Sign in to manage your preferences</p>
           <Button onClick={() => navigate('/signup')} className="h-11 px-8">Sign In</Button>
         </div>
         <BottomNav />
@@ -52,17 +65,14 @@ export default function SettingsPage() {
 
   return (
     <div className="mobile-container min-h-screen bg-background pb-28">
-      {/* Custom top bar */}
-      <header className="sticky top-0 z-40"
-        style={{
-          background: 'hsla(var(--glass-bg) / 0.35)',
-          backdropFilter: 'blur(var(--glass-blur-heavy)) saturate(220%)',
-          WebkitBackdropFilter: 'blur(var(--glass-blur-heavy)) saturate(220%)',
-          borderBottom: '0.5px solid hsla(var(--glass-border) / 0.4)',
-        }}>
+      <header className="sticky top-0 z-40" style={{
+        background: 'hsla(var(--glass-bg) / 0.35)',
+        backdropFilter: 'blur(var(--glass-blur-heavy)) saturate(220%)',
+        WebkitBackdropFilter: 'blur(var(--glass-blur-heavy)) saturate(220%)',
+        borderBottom: '0.5px solid hsla(var(--glass-border) / 0.4)',
+      }}>
         <div className="flex items-center h-[48px] px-4 gap-3">
-          <button onClick={() => navigate(-1)}
-            className="w-8 h-8 rounded-full liquid-glass flex items-center justify-center tap-scale shrink-0">
+          <button onClick={() => navigate(-1)} className="w-8 h-8 rounded-full liquid-glass flex items-center justify-center tap-scale shrink-0">
             <ChevronLeft size={16} className="text-foreground" />
           </button>
           <span className="text-[17px] font-bold text-foreground tracking-tight flex-1">Settings</span>
@@ -71,20 +81,85 @@ export default function SettingsPage() {
 
       <div className="px-4 pt-4 space-y-3">
 
-        {/* Profile card */}
-        <button onClick={() => navigate('/profile')} className="w-full liquid-glass-heavy tap-scale text-left p-4">
-          <div className="flex items-center gap-3.5">
-            <GradientAvatar name={user.firstName} size={52} className="shrink-0" />
-            <div className="flex-1 min-w-0">
-              <h2 className="text-[16px] font-bold tracking-tight truncate">{user.firstName}</h2>
-              <p className="text-[12px] text-muted-foreground truncate mt-0.5">{user.phone}</p>
-              <span className="inline-flex items-center gap-1 mt-1.5 px-2 py-0.5 rounded-full bg-primary/8 text-primary text-[10px] font-bold">
-                ⚡ {user.credits} credits
-              </span>
+        {/* Profile card — tap to edit */}
+        {!editingProfile ? (
+          <button onClick={() => { setEditBio(user.bio || ''); setEditZone(user.zone || ''); setEditInterests(user.interests || []); setEditingProfile(true); }}
+            className="w-full liquid-glass-heavy tap-scale text-left p-4">
+            <div className="flex items-center gap-3.5">
+              <GradientAvatar name={user.firstName} size={52} className="shrink-0" />
+              <div className="flex-1 min-w-0">
+                <h2 className="text-[16px] font-bold tracking-tight truncate">{user.firstName}</h2>
+                <p className="text-[12px] text-muted-foreground truncate mt-0.5">{user.phone}</p>
+                {user.bio && <p className="text-[11px] text-muted-foreground/60 truncate mt-0.5">{user.bio}</p>}
+                <span className="inline-flex items-center gap-1 mt-1.5 px-2 py-0.5 rounded-full bg-primary/8 text-primary text-[10px] font-bold">
+                  ⚡ {user.credits} credits
+                </span>
+              </div>
+              <div className="flex items-center gap-1.5 shrink-0">
+                <Pencil size={13} className="text-muted-foreground/50" />
+                <ChevronRight size={14} className="text-muted-foreground/30" />
+              </div>
             </div>
-            <span className="text-muted-foreground/30 text-lg shrink-0">›</span>
+          </button>
+        ) : (
+          /* ── Edit profile panel ── */
+          <div className="liquid-glass-heavy p-4 space-y-3.5">
+            <div className="flex items-center justify-between mb-1">
+              <p className="text-[14px] font-bold text-foreground">Edit Profile</p>
+              <div className="flex gap-2">
+                <button onClick={() => setEditingProfile(false)}
+                  className="text-[11px] text-muted-foreground font-semibold px-2.5 py-1 liquid-glass rounded-full tap-scale">
+                  Cancel
+                </button>
+                <button onClick={handleSaveProfile}
+                  className="text-[11px] font-bold px-2.5 py-1 rounded-full tap-scale flex items-center gap-1"
+                  style={{ background: 'hsl(var(--primary))', color: 'hsl(var(--primary-foreground))' }}>
+                  <Check size={11} /> Save
+                </button>
+              </div>
+            </div>
+
+            {/* Bio */}
+            <div>
+              <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider block mb-1.5">Bio</label>
+              <textarea
+                value={editBio}
+                onChange={e => setEditBio(e.target.value.slice(0, 120))}
+                placeholder="Short bio (120 chars)"
+                rows={2}
+                className="w-full px-3 py-2 rounded-[0.75rem] text-[13px] bg-muted/30 text-foreground placeholder:text-muted-foreground/40 resize-none focus:outline-none focus:ring-1 focus:ring-primary/30"
+              />
+              <p className="text-[9px] text-muted-foreground/40 text-right mt-0.5">{editBio.length}/120</p>
+            </div>
+
+            {/* Zone */}
+            <div>
+              <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider block mb-1.5">Neighbourhood</label>
+              <input
+                value={editZone}
+                onChange={e => setEditZone(e.target.value)}
+                placeholder="e.g. Bandra West"
+                className="w-full h-9 px-3 rounded-[0.75rem] text-[13px] bg-muted/30 text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:ring-1 focus:ring-primary/30"
+              />
+            </div>
+
+            {/* Interests */}
+            <div>
+              <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider block mb-2">Interests</label>
+              <div className="flex flex-wrap gap-1.5">
+                {INTEREST_OPTIONS.map((i) => (
+                  <button key={i} onClick={() => toggleInterest(i)}
+                    className={cn(
+                      'flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold tap-scale transition-all',
+                      editInterests.includes(i) ? 'glass-pill-active' : 'glass-pill-inactive'
+                    )}>
+                    {getCategoryEmoji(i)} <span className="capitalize">{i}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
-        </button>
+        )}
 
         {/* Quick actions */}
         <div className="grid grid-cols-2 gap-2">
@@ -102,15 +177,11 @@ export default function SettingsPage() {
         {/* Notifications */}
         <SettingsSection title="Notifications">
           <SettingsToggle emoji="🔔" label="Push Notifications" checked={pushNotifications} onCheckedChange={setPushNotifications} />
-          <Divider />
-          <SettingsToggle emoji="✉️" label="Email Notifications" checked={emailNotifications} onCheckedChange={setEmailNotifications} />
         </SettingsSection>
 
         {/* Privacy */}
         <SettingsSection title="Privacy">
           <SettingsToggle emoji="📍" label="Location Sharing" checked={locationSharing} onCheckedChange={setLocationSharing} />
-          <Divider />
-          <SettingsLink emoji="🔒" label="Privacy & Safety" soon />
           <Divider />
           <SettingsLink emoji="🚫" label="Blocked Users" soon />
         </SettingsSection>
@@ -120,13 +191,9 @@ export default function SettingsPage() {
           <SettingsLink emoji="❓" label="Help Center" soon />
           <Divider />
           <SettingsLink emoji="🐛" label="Report a Bug" soon />
-          <Divider />
-          <SettingsLink emoji="⭐" label="Rate AnyBuddy" soon />
         </SettingsSection>
 
-        {/* Log out */}
-        <button onClick={handleLogout}
-          className="w-full liquid-glass-heavy py-3.5 px-5 tap-scale">
+        <button onClick={handleLogout} className="w-full liquid-glass-heavy py-3.5 px-5 tap-scale">
           <div className="flex items-center justify-center gap-2">
             <span className="text-base">🚪</span>
             <span className="text-[14px] font-bold text-destructive tracking-tight">Log Out</span>
@@ -140,9 +207,7 @@ export default function SettingsPage() {
   );
 }
 
-function Divider() {
-  return <div className="mx-4 h-px bg-border/15" />;
-}
+function Divider() { return <div className="mx-4 h-px bg-border/15" />; }
 
 function SettingsSection({ title, children }: { title: string; children: React.ReactNode }) {
   return (
@@ -182,8 +247,7 @@ function SettingsLink({ emoji, label, value, onClick, soon }: {
         {value && <span className="text-[12px] text-muted-foreground">{value}</span>}
         {soon
           ? <span className="text-[8px] font-bold bg-muted/60 text-muted-foreground px-1.5 py-0.5 rounded-full uppercase tracking-wider">Soon</span>
-          : <span className="text-muted-foreground/30 text-lg">›</span>
-        }
+          : <ChevronRight size={14} className="text-muted-foreground/30" />}
       </div>
     </button>
   );

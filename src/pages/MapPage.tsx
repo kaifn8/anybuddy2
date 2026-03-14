@@ -209,9 +209,15 @@ export default function MapPage() {
 
         {activeRequests.length === 0 && (
           <div className="absolute inset-0 flex items-center justify-center z-[500] pointer-events-none">
-            <div className="text-center liquid-glass-heavy px-5 py-4" style={{ borderRadius: '1.25rem' }}>
-              <MapPin size={24} className="text-muted-foreground mx-auto mb-2" />
-              <p className="text-xs text-muted-foreground font-medium">No plans in this area</p>
+            <div className="text-center liquid-glass-heavy px-6 py-5 pointer-events-auto" style={{ borderRadius: '1.25rem' }}>
+              <span className="text-3xl block mb-2">🗺️</span>
+              <p className="text-[14px] font-bold text-foreground mb-1">No plans nearby</p>
+              <p className="text-[11px] text-muted-foreground mb-3">Be the first to post one</p>
+              <button onClick={() => navigate('/create')}
+                className="text-[11px] font-bold px-4 py-1.5 rounded-full tap-scale"
+                style={{ background: 'hsl(var(--primary))', color: 'hsl(var(--primary-foreground))' }}>
+                Post a plan
+              </button>
             </div>
           </div>
         )}

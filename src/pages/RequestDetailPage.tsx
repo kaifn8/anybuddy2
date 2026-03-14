@@ -178,6 +178,24 @@ export default function RequestDetailPage() {
           ))}
         </div>
 
+        {/* Attendance prompt — shown when plan start time has passed */}
+        {new Date(request.when).getTime() < Date.now() && request.status !== 'completed' && (
+          <button
+            onClick={() => navigate(`/attendance/${request.id}`)}
+            className="mx-3 mt-2 flex items-center gap-2.5 px-3.5 py-2.5 rounded-[0.875rem] tap-scale text-left"
+            style={{
+              background: 'linear-gradient(135deg, hsl(var(--primary) / 0.12), hsl(var(--secondary) / 0.08))',
+              border: '0.5px solid hsl(var(--primary) / 0.25)',
+            }}>
+            <span className="text-lg shrink-0">✅</span>
+            <div className="flex-1 min-w-0">
+              <p className="text-[12px] font-bold text-foreground tracking-tight">How did it go?</p>
+              <p className="text-[11px] text-muted-foreground/70">Rate attendance · earn XP</p>
+            </div>
+            <span className="text-[11px] font-bold text-primary shrink-0">Rate →</span>
+          </button>
+        )}
+
         {/* Pull-to-refresh indicator */}
         {(pullDistance > 0 || isRefreshing) && (
           <div className="flex justify-center py-2 transition-all" style={{ height: isRefreshing ? 40 : Math.min(pullDistance * 0.6, 40) }}>
