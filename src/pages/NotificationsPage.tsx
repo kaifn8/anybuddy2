@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { formatDistanceToNow, isAfter, subHours, isToday, isYesterday } from 'date-fns';
 import gsap from 'gsap';
 import { BottomNav } from '@/components/layout/BottomNav';
-import { TopBar } from '@/components/layout/TopBar';
 import { useAppStore } from '@/store/useAppStore';
 import { useGamificationStore } from '@/store/useGamificationStore';
 import { cn } from '@/lib/utils';
@@ -227,22 +226,30 @@ export default function NotificationsPage() {
       <div className="mobile-container min-h-screen bg-background pb-28">
 
         {/* ── Top bar ── */}
-        <TopBar
-          title="Activity"
-          subtitle="What's happening"
-          hideChat
-          rightSlot={
-            unreadCount > 0 ? (
-              <button
-                onClick={markAllRead}
-                className="flex items-center gap-1 px-2.5 py-1.5 text-[11px] text-primary font-bold tap-scale rounded-full bg-primary/10 border border-primary/20 hover:bg-primary/15 transition-colors"
-              >
-                <CheckCheck size={11} />
-                All read
+        <header
+          ref={headerRef}
+          className="sticky top-0 z-40"
+          style={{
+            background: 'hsla(var(--glass-bg) / 0.4)',
+            backdropFilter: 'blur(var(--glass-blur-heavy)) saturate(220%)',
+            WebkitBackdropFilter: 'blur(var(--glass-blur-heavy)) saturate(220%)',
+            borderBottom: '0.5px solid hsla(var(--glass-border) / 0.4)',
+          }}>
+          <div className="flex items-center h-[48px] px-4 gap-3">
+            <button onClick={() => navigate(-1)}
+              className="w-8 h-8 rounded-full liquid-glass flex items-center justify-center tap-scale shrink-0">
+              <span className="text-sm font-medium">←</span>
+            </button>
+            <span className="flex-1 text-[17px] font-bold text-foreground tracking-tight">Notifications</span>
+            {unreadCount > 0 && (
+              <button onClick={markAllRead}
+                className="flex items-center gap-1.5 px-3 py-1.5 text-[11px] text-primary font-bold tap-scale liquid-glass rounded-full">
+                <CheckCheck size={12} />
+                Mark all read
               </button>
-            ) : undefined
-          }
-        />
+            )}
+          </div>
+        </header>
 
         {/* ── Unread hero banner ── */}
         {unreadCount > 0 && (

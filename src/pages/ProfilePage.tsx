@@ -2,7 +2,6 @@ import { useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 import { BottomNav } from '@/components/layout/BottomNav';
-import { TopBar } from '@/components/layout/TopBar';
 import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
 import { useAppStore } from '@/store/useAppStore';
 import { useGamificationStore } from '@/store/useGamificationStore';
@@ -13,7 +12,7 @@ import { BlueTick } from '@/components/ui/BlueTick';
 import { VerificationCard } from '@/components/profile/VerificationCard';
 import { getLevelForXP, getNextLevel, getXPProgress } from '@/types/gamification';
 import { cn } from '@/lib/utils';
-import { Flame, ChevronRight } from 'lucide-react';
+import { Settings, Flame, ChevronRight } from 'lucide-react';
 import type { Badge, Request } from '@/types/anybuddy';
 
 const badgeConfig: Record<Badge, { emoji: string; label: string }> = {
@@ -97,7 +96,20 @@ export default function ProfilePage() {
       <div className="mobile-container min-h-screen bg-background pb-28">
 
         {/* ── Top bar ── */}
-        <TopBar title="Profile" showSettings hideChat />
+        <header className="sticky top-0 z-40" style={{
+          background: 'hsla(var(--glass-bg) / 0.4)',
+          backdropFilter: 'blur(var(--glass-blur-heavy)) saturate(220%)',
+          WebkitBackdropFilter: 'blur(var(--glass-blur-heavy)) saturate(220%)',
+          borderBottom: '0.5px solid hsla(var(--glass-border) / 0.4)',
+        }}>
+          <div className="flex items-center justify-between h-[48px] px-4">
+            <span className="text-[17px] font-bold text-foreground tracking-tight">Profile</span>
+            <button onClick={() => navigate('/settings')}
+              className="w-8 h-8 rounded-full liquid-glass flex items-center justify-center tap-scale">
+              <Settings size={15} className="text-muted-foreground" />
+            </button>
+          </div>
+        </header>
 
         {/* ── Sections ── */}
         <div ref={pageRef} className="px-4 pt-5 space-y-4 pb-2">

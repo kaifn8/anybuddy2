@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import { BottomNav } from '@/components/layout/BottomNav';
-import { TopBar } from '@/components/layout/TopBar';
 import { JoinConfirmDialog } from '@/components/JoinConfirmDialog';
 import { ShareSheet } from '@/components/ShareSheet';
 import { useAppStore } from '@/store/useAppStore';
@@ -144,20 +143,26 @@ export default function MapPage() {
   return (
     <div className="mobile-container bg-background flex flex-col" style={{ height: '100dvh' }}>
       {/* ── Top bar ── */}
-      <TopBar
-        title="Nearby"
-        subtitle={`${activeRequests.length} plan${activeRequests.length !== 1 ? 's' : ''} around you`}
-        hideChat
-        rightSlot={
-          <button
-            onClick={locateMe}
-            className="liquid-glass relative flex items-center justify-center w-8 h-8 rounded-full tap-scale"
-            aria-label="Locate me"
-          >
-            <Navigation size={15} className="text-primary" />
-          </button>
-        }
-      />
+      <header className="sticky top-0 z-40"
+        style={{
+          background: 'hsla(var(--glass-bg) / 0.35)',
+          backdropFilter: 'blur(var(--glass-blur-heavy)) saturate(220%)',
+          WebkitBackdropFilter: 'blur(var(--glass-blur-heavy)) saturate(220%)',
+          borderBottom: '0.5px solid hsla(var(--glass-border) / 0.4)',
+        }}>
+        <div className="flex items-center justify-between h-[48px] px-4">
+          <span className="text-[17px] font-bold text-foreground tracking-tight">Nearby</span>
+          <div className="flex items-center gap-1.5">
+            <span className="text-[11px] font-semibold text-muted-foreground">
+              {activeRequests.length} plan{activeRequests.length !== 1 ? 's' : ''}
+            </span>
+            <button onClick={locateMe}
+              className="w-8 h-8 rounded-full liquid-glass flex items-center justify-center tap-scale ml-1">
+              <Navigation size={14} className="text-primary" />
+            </button>
+          </div>
+        </div>
+      </header>
 
       {/* ── Category filters ── */}
       <div className="flex gap-1.5 px-4 py-2 overflow-x-auto scrollbar-hide shrink-0">

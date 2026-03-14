@@ -1,146 +1,112 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAppStore } from '@/store/useAppStore';
-import { Bell, ChevronLeft, Settings, MessageCircle } from 'lucide-react';
-import { GradientAvatar } from '@/components/ui/GradientAvatar';
-import { cn } from '@/lib/utils';
+import { Bell } from 'lucide-react';
 
 interface TopBarProps {
   showBack?: boolean;
   title?: string;
-  subtitle?: string;
   hideChat?: boolean;
   showSettings?: boolean;
-  rightSlot?: React.ReactNode;
 }
 
-const SUB_PAGES = [
-  '/credits', '/invite', '/notifications', '/settings', '/circle',
-  '/attendance', '/review', '/leaderboard', '/quests',
-  '/host/', '/join/', '/request/', '/create',
-];
-
-export function TopBar({
-  showBack = false,
-  title,
-  subtitle,
-  hideChat = false,
-  showSettings = false,
-  rightSlot,
-}: TopBarProps) {
-  const navigate       = useNavigate();
-  const location       = useLocation();
-  const requests       = useAppStore((s) => s.requests);
-  const chatMessages   = useAppStore((s) => s.chatMessages);
+export function TopBar({ showBack = false, title, hideChat = false, showSettings = false }: TopBarProps) {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const requests = useAppStore((s) => s.requests);
+  const chatMessages = useAppStore((s) => s.chatMessages);
   const joinedRequests = useAppStore((s) => s.joinedRequests);
-  const notifications  = useAppStore((s) => s.notifications);
-  const user           = useAppStore((s) => s.user);
+  const notifications = useAppStore((s) => s.notifications);
 
-  const activeCount  = requests.filter((r) => r.status === 'active').length;
-  const unreadChats  = joinedRequests.reduce((c, id) => c + ((chatMessages[id]?.length ?? 0) > 0 ? 1 : 0), 0);
-  const unreadNotifs = notifications.filter((n) => !n.read).length;
-  const totalBadge   = unreadChats + unreadNotifs;
+  const activeCount = requests.filter((r) => r.status === 'active').length;
 
-  const isSubPage = showBack || SUB_PAGES.some((p) => location.pathname.startsWith(p));
-  const isHome    = location.pathname === '/' || location.pathname === '/home';
-  const isProfile = location.pathname === '/profile';
+  const unreadChats = joinedRequests.reduce((count, id) => {
+    const msgs = chatMessages[id] || [];
+    return count + (msgs.length > 0 ? 1 : 0);
+  }, 0);
 
-  const hour = new Date().getHours();
-  const greeting = hour < 12 ? 'Morning' : hour < 17 ? 'Afternoon' : 'Evening';
+  const unreadNotifs = notifications.filter(n => !n.read).length;
+  const totalBadge = unreadChats + unreadNotifs;
 
-  // ── Shared pill-button style (uses design system glass) ──
-  const pillBtn = 'relative liquid-glass flex items-center justify-center w-8 h-8 tap-scale rounded-full';
+  // Auto-detect back button: show when on sub-pages that should go back
+  const shouldShowBack = showBack || [
+    '/credits', '/invite', '/notifications', '/settings', '/circle',
+    '/attendance', '/review',
+  ].some(p => location.pathname.startsWith(p));
 
-  const NotifBadge = ({ count }: { count: number }) => (
-    <span className="absolute -top-[3px] -right-[3px] min-w-[15px] h-[15px] rounded-full bg-destructive flex items-center justify-center text-[8px] font-bold text-white px-[2px] shadow">
-      {count > 9 ? '9+' : count}
-    </span>
-  );
+  const glassBtn = {
+    background: 'hsla(var(--glass-bg) / 0.5)',
+    backdropFilter: 'blur(16px)',
+    border: '0.5px solid hsla(var(--glass-border) / 0.4)',
+    borderRadius: '50%',
+  };
 
   return (
-    <header className="sticky top-0 z-40 lg:pl-64 liquid-glass-nav">
-      <div className="max-w-md md:max-w-2xl lg:max-w-4xl xl:max-w-5xl mx-auto px-4 h-[52px] flex items-center gap-3">
-
-        {/* ── LEFT ── */}
-        <div className="shrink-0">
-          {isSubPage ? (
-            <button onClick={() => navigate(-1)} className={pillBtn} aria-label="Back">
-              <ChevronLeft size={17} className="text-foreground -ml-px" />
-            </button>
-          ) : isHome ? (
-            <button
-              onClick={() => navigate('/profile')}
-              className="tap-scale rounded-full ring-[1.5px] ring-primary/25 hover:ring-primary/50 transition-all"
-            >
-              <GradientAvatar name={user?.firstName ?? 'Me'} size={30} />
+    <header
+      className="sticky top-0 z-40 lg:pl-64"
+      style={{
+        background: 'hsla(var(--glass-bg) / 0.35)',
+        backdropFilter: 'blur(var(--glass-blur-heavy)) saturate(220%)',
+        WebkitBackdropFilter: 'blur(var(--glass-blur-heavy)) saturate(220%)',
+        borderBottom: '0.5px solid hsla(var(--glass-border) / 0.4)',
+      }}
+    >
+      <div className="max-w-md md:max-w-2xl lg:max-w-4xl xl:max-w-5xl mx-auto flex items-center justify-between h-[48px] px-4">
+        {/* Left */}
+        <div className="w-16 flex items-center">
+          {shouldShowBack ? (
+            <button onClick={() => navigate(-1)} className="tap-scale w-8 h-8 flex items-center justify-center" style={glassBtn}>
+              <span className="text-sm font-medium">←</span>
             </button>
           ) : (
-            <div className="flex items-center gap-1.5 pl-0.5">
-              <span className="relative flex h-[7px] w-[7px]">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success opacity-60" />
-                <span className="relative inline-flex rounded-full h-[7px] w-[7px] bg-success" />
+            <div className="flex items-center gap-1.5">
+              <span className="relative flex items-center justify-center">
+                <span className="w-[4px] h-[4px] rounded-full bg-success" />
+                <span className="absolute w-[4px] h-[4px] rounded-full bg-success animate-ping opacity-50" />
               </span>
-              <span className="text-[10px] font-bold text-success tracking-widest uppercase">{activeCount} live</span>
+              <span className="text-[10px] font-bold text-success tracking-wide">{activeCount} live</span>
             </div>
           )}
         </div>
 
-        {/* ── CENTER ── */}
-        <div className="flex-1 min-w-0">
-          {title ? (
-            <div className="flex flex-col justify-center">
-              <h1 className="text-[15px] font-bold text-foreground tracking-tight leading-tight truncate">{title}</h1>
-              {subtitle && <p className="text-[10px] text-muted-foreground leading-none mt-px truncate">{subtitle}</p>}
-            </div>
-          ) : isHome ? (
-            <div className="flex flex-col justify-center gap-px">
-              <p className="text-[9px] font-semibold text-muted-foreground tracking-widest uppercase leading-none">
-                {greeting} 👋
-              </p>
-              <span
-                className="text-[19px] leading-tight font-bold text-foreground lg:hidden"
-                style={{ fontFamily: "'Pacifico', cursive", letterSpacing: '-0.01em' }}
-              >
-                any<span className="text-primary">buddy</span>
-              </span>
-              <span className="hidden lg:block text-[15px] font-bold text-foreground tracking-tight">
-                {user?.firstName ?? 'Home'}
-              </span>
-            </div>
-          ) : (
-            <span
-              className="text-[19px] font-bold text-foreground lg:hidden"
-              style={{ fontFamily: "'Pacifico', cursive" }}
-            >
+        {/* Center */}
+        {title ? (
+          <span className="text-[16px] font-bold text-foreground tracking-tight">{title}</span>
+        ) : (
+          <>
+            <span className="text-[20px] lg:hidden" style={{ fontFamily: "'Pacifico', cursive" }}>
               any<span className="text-primary">buddy</span>
             </span>
-          )}
-        </div>
+            <span className="hidden lg:block text-[16px] font-bold text-foreground tracking-tight">Home</span>
+          </>
+        )}
 
-        {/* ── RIGHT ── */}
-        <div className="flex items-center gap-1.5 shrink-0">
-          {rightSlot}
-
-          {/* Bell — home/map only when there are unreads */}
-          {!isSubPage && !showSettings && unreadNotifs > 0 && (
-            <button onClick={() => navigate('/notifications')} className={pillBtn} aria-label="Notifications">
-              <Bell size={14} className="text-foreground" />
-              <NotifBadge count={unreadNotifs} />
+        {/* Right */}
+        <div className="w-16 flex items-center justify-end gap-1.5">
+          {/* Notification bell — always show on Home, Chats, and Map */}
+          {!showSettings && !hideChat && unreadNotifs > 0 && (
+            <button onClick={() => navigate('/notifications')}
+              className="relative tap-scale w-8 h-8 flex items-center justify-center" style={glassBtn}>
+              <Bell size={15} className="text-foreground" />
+              <span className="absolute -top-0.5 -right-0.5 min-w-[14px] h-[14px] rounded-full bg-destructive flex items-center justify-center text-[7px] font-bold text-white px-[2px]">
+                {unreadNotifs > 9 ? '9+' : unreadNotifs}
+              </span>
             </button>
           )}
-
-          {/* Settings on profile, or chat button on home/map */}
-          {showSettings || isProfile ? (
-            <button onClick={() => navigate('/settings')} className={pillBtn} aria-label="Settings">
-              <Settings size={14} className="text-foreground" />
+          {showSettings ? (
+            <button onClick={() => navigate('/settings')} className="tap-scale w-8 h-8 flex items-center justify-center" style={glassBtn}>
+              <span className="text-[14px]">⚙️</span>
             </button>
-          ) : !hideChat && !isSubPage ? (
-            <button onClick={() => navigate('/chats')} className={pillBtn} aria-label="Chats">
-              <MessageCircle size={14} className="text-foreground" />
-              {totalBadge > 0 && <NotifBadge count={totalBadge} />}
+          ) : !hideChat ? (
+            <button onClick={() => navigate('/chats')} className="relative tap-scale w-8 h-8 flex items-center justify-center" style={glassBtn}>
+              <span className="text-[14px]">💬</span>
+              {totalBadge > 0 && (
+                <span className="absolute -top-0.5 -right-0.5 min-w-[14px] h-[14px] rounded-full bg-destructive text-white text-[7px] font-bold flex items-center justify-center px-[2px]">
+                  {totalBadge > 9 ? '9+' : totalBadge}
+                </span>
+              )}
             </button>
           ) : null}
         </div>
-
       </div>
     </header>
   );
