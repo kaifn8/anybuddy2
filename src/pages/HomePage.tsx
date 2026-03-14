@@ -11,8 +11,8 @@ import { useGamificationStore } from '@/store/useGamificationStore';
 import { cn } from '@/lib/utils';
 import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
 import { GradientAvatar } from '@/components/ui/GradientAvatar';
-
-import type { Category, Request } from '@/types/anybuddy';
+import { SlidersHorizontal, X } from 'lucide-react';
+import type { Category, Request, Gender } from '@/types/anybuddy';
 
 const FILTERS: { id: Category | 'all'; label: string }[] = [
   { id: 'all',     label: 'All'     },
@@ -38,17 +38,34 @@ const QUICK_CREATE: { emoji: string; title: string; category: Category }[] = [
   { emoji: '🏸', title: 'Sports', category: 'sports'  },
 ];
 
+const GENDER_FILTERS: { id: 'any' | Gender; label: string; emoji: string }[] = [
+  { id: 'any',    label: 'Anyone',   emoji: '👥' },
+  { id: 'male',   label: 'Men',      emoji: '👨' },
+  { id: 'female', label: 'Women',    emoji: '👩' },
+];
+
+const RADIUS_OPTIONS = [1, 2, 5, 10];
+
 export default function HomePage() {
   const navigate = useNavigate();
-  const { requests, joinedRequests, joinRequest, updateCredits, refreshFeed, user } = useAppStore();
+  const { requests, joinedRequests, joinRequest, updateCredits, refreshFeed, user, isOnboarded } = useAppStore();
   const { addXP, recordActivity, progressQuest } = useGamificationStore();
   const [activeFilter, setActiveFilter] = useState<Category | 'all'>('all');
+  const [genderFilter, setGenderFilter] = useState<'any' | Gender>('any');
+  const [radiusKm, setRadiusKm] = useState(5);
+  const [showFilters, setShowFilters] = useState(false);
   const [confirmRequest, setConfirmRequest] = useState<Request | null>(null);
 
   const cardsRef = useRef<HTMLDivElement>(null);
   const trendingRef = useRef<HTMLDivElement>(null);
   const autoScrollRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const userInteractedRef = useRef(false);
+  const filterPanelRef = useRef<HTMLDivElement>(null);
+
+  // Guard: redirect to onboarding if not onboarded
+  useEffect(() => {
+    if (!isOnboarded) navigate('/onboarding', { replace: true });
+  }, [isOnboarded, navigate]);
 
   useEffect(() => {
     const el = cardsRef.current;
@@ -59,7 +76,18 @@ export default function HomePage() {
       { opacity: 0, y: 20, scale: 0.97 },
       { opacity: 1, y: 0, scale: 1, duration: 0.45, ease: 'power3.out', stagger: 0.07, clearProps: 'transform' }
     );
-  }, [activeFilter]);
+  }, [activeFilter, genderFilter, radiusKm]);
+
+  useEffect(() => {
+    if (filterPanelRef.current) {
+      if (showFilters) {
+        gsap.fromTo(filterPanelRef.current,
+          { opacity: 0, y: -8, scaleY: 0.95 },
+          { opacity: 1, y: 0, scaleY: 1, duration: 0.22, ease: 'power2.out' }
+        );
+      }
+    }
+  }, [showFilters]);
 
   useEffect(() => {
     const container = trendingRef.current;
@@ -114,8 +142,20 @@ export default function HomePage() {
     navigate(`/request/${confirmRequest.id}`);
   };
 
-  const filtered = [...requests]
-    .filter(r => r.status === 'active' && (activeFilter === 'all' || r.category === activeFilter))
+  // Auto-expire plans past their expiry time in the UI
+  const activeRequests = requests.filter(r => {
+    if (r.status !== 'active') return false;
+    if (new Date(r.expiresAt) < new Date()) return false;
+    return true;
+  });
+
+  const filtered = [...activeRequests]
+    .filter(r => activeFilter === 'all' || r.category === activeFilter)
+    .filter(r => r.location.distance <= radiusKm)
+    .filter(r => {
+      if (genderFilter === 'any') return true;
+      return r.userGender === genderFilter;
+    })
     .sort((a, b) => {
       const order = { now: 0, today: 1, week: 2 };
       return order[a.urgency] !== order[b.urgency]
@@ -123,32 +163,22 @@ export default function HomePage() {
         : new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
     });
 
-  const NEAR_RADIUS = 1.5;
-  const nearbyFiltered = filtered.filter(r => r.location.distance <= NEAR_RADIUS);
-  const midFiltered = filtered.filter(r => r.location.distance <= 3);
-  const effectiveFiltered = filtered;
+  const hasActiveFilters = genderFilter !== 'any' || radiusKm !== 5 || activeFilter !== 'all';
 
-  const radiusNote = nearbyFiltered.length < 3 && filtered.length > 0
-    ? midFiltered.length >= 3 ? 'within 3 km' : 'within 5 km'
-    : null;
-
-  const trending = [...requests]
-    .filter(r => r.status === 'active')
+  const trending = [...activeRequests]
     .sort((a, b) => b.seatsTaken - a.seatsTaken)
     .slice(0, 5);
 
-  const livePlans = effectiveFiltered.filter(r => r.urgency === 'now').slice(0, 3);
+  const livePlans = filtered.filter(r => r.urgency === 'now').slice(0, 3);
   const recentlyHappened = [...requests].filter(r => r.status === 'completed').slice(0, 4);
 
   return (
     <>
       <PageTransition className="mobile-container min-h-screen bg-background pb-28 lg:pb-8">
-        {/* Mobile top bar */}
         <div className="lg:hidden">
           <TopBar />
         </div>
 
-        {/* Desktop header */}
         <div className="hidden lg:flex items-center justify-between px-6 pt-5 pb-3">
           <div>
             <h1 className="text-xl font-bold text-foreground tracking-tight">
@@ -162,11 +192,10 @@ export default function HomePage() {
           </button>
         </div>
 
-
-        {/* Trending — filling up fast */}
+        {/* Trending */}
         {trending.length > 0 && (
           <div className="pt-4 mb-1">
-            <div className="flex items-center justify-between px-4 mb-2.5">
+            <div className="px-4 mb-2.5">
               <h3 className="text-[13px] font-bold text-foreground tracking-tight">🚀 Filling up fast</h3>
             </div>
             <div ref={trendingRef} className="flex gap-3 overflow-x-auto scrollbar-hide px-4 pb-3 snap-x snap-mandatory lg:flex-wrap">
@@ -174,7 +203,7 @@ export default function HomePage() {
                 const seatsLeft = req.seatsTotal - req.seatsTaken;
                 return (
                   <button key={req.id} onClick={() => navigate(`/request/${req.id}`)}
-                    className="shrink-0 liquid-glass-trending tap-scale min-w-[196px] max-w-[220px] lg:min-w-[260px] text-left relative overflow-hidden snap-start">
+                    className="shrink-0 liquid-glass-trending tap-scale min-w-[196px] max-w-[220px] text-left relative overflow-hidden snap-start">
                     <div className="absolute inset-0 opacity-[0.04]"
                       style={{ background: `radial-gradient(ellipse at 20% 10%, hsl(var(--primary)), transparent 70%)` }} />
                     <div className="relative z-10 p-4">
@@ -210,23 +239,84 @@ export default function HomePage() {
           </div>
         )}
 
-        {/* Category filters */}
-        <div className="px-4 pb-2">
-          <div className="flex gap-1.5 overflow-x-auto pb-1.5 -mx-4 px-4 scrollbar-hide lg:mx-0 lg:px-0 lg:flex-wrap">
-            {FILTERS.map((cat) => {
-              const emoji = filterEmojis[cat.id] || '✨';
-              return (
-                <button key={cat.id} onClick={() => setActiveFilter(cat.id)}
-                  className={cn('shrink-0 px-3 py-1.5 rounded-full text-[11px] font-semibold tap-scale transition-all flex items-center gap-1.5',
-                    activeFilter === cat.id ? 'glass-pill-active' : 'glass-pill-inactive'
-                  )}>
-                  <span>{emoji}</span>
-                  <span>{cat.label}</span>
-                </button>
-              );
-            })}
+        {/* Category filters + filter toggle */}
+        <div className="px-4 pb-1">
+          <div className="flex items-center gap-2">
+            <div className="flex-1 flex gap-1.5 overflow-x-auto pb-1.5 scrollbar-hide">
+              {FILTERS.map((cat) => {
+                const emoji = filterEmojis[cat.id] || '✨';
+                return (
+                  <button key={cat.id} onClick={() => setActiveFilter(cat.id)}
+                    className={cn('shrink-0 px-3 py-1.5 rounded-full text-[11px] font-semibold tap-scale transition-all flex items-center gap-1.5',
+                      activeFilter === cat.id ? 'glass-pill-active' : 'glass-pill-inactive'
+                    )}>
+                    <span>{emoji}</span>
+                    <span>{cat.label}</span>
+                  </button>
+                );
+              })}
+            </div>
+            {/* Filter toggle button */}
+            <button
+              onClick={() => setShowFilters(v => !v)}
+              className={cn(
+                'shrink-0 w-8 h-8 rounded-full flex items-center justify-center tap-scale transition-all',
+                showFilters || hasActiveFilters
+                  ? 'bg-primary text-primary-foreground'
+                  : 'liquid-glass text-muted-foreground'
+              )}>
+              {showFilters ? <X size={13} /> : <SlidersHorizontal size={13} />}
+            </button>
           </div>
         </div>
+
+        {/* Expandable filter panel */}
+        {showFilters && (
+          <div ref={filterPanelRef} className="mx-4 mb-2 liquid-glass rounded-[1rem] p-3.5 space-y-3">
+            {/* Gender filter */}
+            <div>
+              <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider mb-2">Host gender</p>
+              <div className="flex gap-1.5">
+                {GENDER_FILTERS.map((g) => (
+                  <button key={g.id} onClick={() => setGenderFilter(g.id)}
+                    className={cn(
+                      'flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-full text-[11px] font-semibold tap-scale transition-all',
+                      genderFilter === g.id ? 'glass-pill-active' : 'glass-pill-inactive'
+                    )}>
+                    <span>{g.emoji}</span>
+                    <span>{g.label}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+            {/* Radius filter */}
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Radius</p>
+                <p className="text-[11px] font-bold text-primary">{radiusKm} km</p>
+              </div>
+              <div className="flex gap-1.5">
+                {RADIUS_OPTIONS.map((r) => (
+                  <button key={r} onClick={() => setRadiusKm(r)}
+                    className={cn(
+                      'flex-1 py-1.5 rounded-full text-[11px] font-semibold tap-scale transition-all',
+                      radiusKm === r ? 'glass-pill-active' : 'glass-pill-inactive'
+                    )}>
+                    {r} km
+                  </button>
+                ))}
+              </div>
+            </div>
+            {/* Reset */}
+            {hasActiveFilters && (
+              <button
+                onClick={() => { setGenderFilter('any'); setRadiusKm(5); setActiveFilter('all'); setShowFilters(false); }}
+                className="w-full text-center text-[11px] font-semibold text-destructive tap-scale py-0.5">
+                Reset filters
+              </button>
+            )}
+          </div>
+        )}
 
         {/* Live right now strip */}
         {livePlans.length > 0 && (
@@ -259,16 +349,21 @@ export default function HomePage() {
         {/* Feed header */}
         <div className="px-4 pt-2 pb-1.5 flex items-center justify-between">
           <h3 className="section-label">
-            {activeFilter === 'all' ? 'All plans' : `${FILTERS.find(f => f.id === activeFilter)?.label}`}
-            {radiusNote && (
-              <span className="ml-1.5 normal-case font-normal text-[10px] text-muted-foreground/50">· {radiusNote}</span>
-            )}
+            {activeFilter === 'all' ? 'All plans' : FILTERS.find(f => f.id === activeFilter)?.label}
+            <span className="ml-1.5 normal-case font-normal text-[10px] text-muted-foreground/50">
+              · within {radiusKm} km
+            </span>
           </h3>
+          {filtered.length > 0 && (
+            <span className="text-[10px] font-semibold text-muted-foreground bg-muted/40 px-2 py-0.5 rounded-full">
+              {filtered.length}
+            </span>
+          )}
         </div>
 
         {/* Feed grid */}
         <div ref={cardsRef} className="px-4 space-y-3 md:grid md:grid-cols-2 md:gap-4 md:space-y-0 xl:grid-cols-3">
-          {effectiveFiltered.map((request) => (
+          {filtered.map((request) => (
             <RequestCard
               key={request.id}
               request={request}
@@ -278,13 +373,21 @@ export default function HomePage() {
             />
           ))}
 
-          {effectiveFiltered.length === 0 && (
+          {filtered.length === 0 && (
             <div className="col-span-full pt-10 text-center px-4">
               <div className="w-14 h-14 rounded-[1.25rem] liquid-glass flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl">✨</span>
               </div>
               <p className="text-[15px] font-semibold text-foreground mb-1.5 tracking-tight">Nothing here yet</p>
-              <p className="text-sm text-muted-foreground mb-6">Be the first to post — someone's probably free.</p>
+              <p className="text-sm text-muted-foreground mb-4">
+                {hasActiveFilters ? 'Try adjusting your filters' : 'Be the first to post — someone\'s probably free.'}
+              </p>
+              {hasActiveFilters && (
+                <button onClick={() => { setGenderFilter('any'); setRadiusKm(5); setActiveFilter('all'); }}
+                  className="text-[12px] text-primary font-bold tap-scale mb-4">
+                  Clear filters →
+                </button>
+              )}
               <div className="grid grid-cols-2 gap-2 max-w-xs mx-auto">
                 {QUICK_CREATE.map((s, i) => (
                   <button key={i} onClick={() => navigate('/create')}
@@ -301,7 +404,7 @@ export default function HomePage() {
         </div>
 
         {/* Recently happened */}
-        {effectiveFiltered.length > 0 && recentlyHappened.length > 0 && (
+        {filtered.length > 0 && recentlyHappened.length > 0 && (
           <div className="px-4 mt-6">
             <h3 className="section-label mb-2.5">🕐 Recently happened</h3>
             <div className="flex gap-2.5 overflow-x-auto scrollbar-hide pb-2 -mx-4 px-4">
@@ -321,7 +424,7 @@ export default function HomePage() {
         )}
 
         {/* Start something strip */}
-        {effectiveFiltered.length > 0 && (
+        {filtered.length > 0 && (
           <div className="px-4 mt-4 mb-2">
             <h3 className="section-label mb-2.5">Start something</h3>
             <div className="flex gap-2 overflow-x-auto scrollbar-hide -mx-4 px-4">
