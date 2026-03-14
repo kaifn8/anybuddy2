@@ -1,6 +1,6 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useAppStore } from '@/store/useAppStore';
-import { useGamificationStore } from '@/store/useGamificationStore';
+import { Bell } from 'lucide-react';
 
 interface TopBarProps {
   showBack?: boolean;
@@ -11,6 +11,7 @@ interface TopBarProps {
 
 export function TopBar({ showBack = false, title, hideChat = false, showSettings = false }: TopBarProps) {
   const navigate = useNavigate();
+  const location = useLocation();
   const requests = useAppStore((s) => s.requests);
   const chatMessages = useAppStore((s) => s.chatMessages);
   const joinedRequests = useAppStore((s) => s.joinedRequests);
@@ -26,6 +27,19 @@ export function TopBar({ showBack = false, title, hideChat = false, showSettings
   const unreadNotifs = notifications.filter(n => !n.read).length;
   const totalBadge = unreadChats + unreadNotifs;
 
+  // Auto-detect back button: show when on sub-pages that should go back
+  const shouldShowBack = showBack || [
+    '/credits', '/invite', '/notifications', '/settings', '/circle',
+    '/attendance', '/review',
+  ].some(p => location.pathname.startsWith(p));
+
+  const glassBtn = {
+    background: 'hsla(var(--glass-bg) / 0.5)',
+    backdropFilter: 'blur(16px)',
+    border: '0.5px solid hsla(var(--glass-border) / 0.4)',
+    borderRadius: '50%',
+  };
+
   return (
     <header
       className="sticky top-0 z-40 lg:pl-64"
@@ -36,17 +50,12 @@ export function TopBar({ showBack = false, title, hideChat = false, showSettings
         borderBottom: '0.5px solid hsla(var(--glass-border) / 0.4)',
       }}
     >
-      <div className="max-w-md md:max-w-2xl lg:max-w-4xl xl:max-w-5xl mx-auto flex items-center justify-between h-[48px] px-5">
+      <div className="max-w-md md:max-w-2xl lg:max-w-4xl xl:max-w-5xl mx-auto flex items-center justify-between h-[48px] px-4">
         {/* Left */}
-        <div className="w-20 flex items-center">
-          {showBack ? (
-            <button onClick={() => navigate(-1)} className="tap-scale w-8 h-8 rounded-full flex items-center justify-center" style={{
-              background: 'hsla(var(--glass-bg) / 0.5)',
-              backdropFilter: 'blur(16px)',
-              border: '0.5px solid hsla(var(--glass-border) / 0.4)',
-              borderRadius: '50%',
-            }}>
-              <span className="text-sm">←</span>
+        <div className="w-16 flex items-center">
+          {shouldShowBack ? (
+            <button onClick={() => navigate(-1)} className="tap-scale w-8 h-8 flex items-center justify-center" style={glassBtn}>
+              <span className="text-sm font-medium">←</span>
             </button>
           ) : (
             <div className="flex items-center gap-1.5">
@@ -61,37 +70,37 @@ export function TopBar({ showBack = false, title, hideChat = false, showSettings
 
         {/* Center */}
         {title ? (
-          <span className="text-[15px] font-bold text-foreground tracking-tight">{title}</span>
+          <span className="text-[16px] font-bold text-foreground tracking-tight">{title}</span>
         ) : (
           <>
             <span className="text-[20px] lg:hidden" style={{ fontFamily: "'Pacifico', cursive" }}>
               any<span className="text-primary">buddy</span>
             </span>
-            <span className="hidden lg:block text-sm font-semibold text-foreground">Home</span>
+            <span className="hidden lg:block text-[16px] font-bold text-foreground tracking-tight">Home</span>
           </>
         )}
 
         {/* Right */}
-        <div className="w-20 flex items-center justify-end gap-1.5">
+        <div className="w-16 flex items-center justify-end gap-1.5">
+          {/* Notification bell — always show on Home, Chats, and Map */}
+          {!showSettings && !hideChat && unreadNotifs > 0 && (
+            <button onClick={() => navigate('/notifications')}
+              className="relative tap-scale w-8 h-8 flex items-center justify-center" style={glassBtn}>
+              <Bell size={15} className="text-foreground" />
+              <span className="absolute -top-0.5 -right-0.5 min-w-[14px] h-[14px] rounded-full bg-destructive flex items-center justify-center text-[7px] font-bold text-white px-[2px]">
+                {unreadNotifs > 9 ? '9+' : unreadNotifs}
+              </span>
+            </button>
+          )}
           {showSettings ? (
-            <button onClick={() => navigate('/settings')} className="tap-scale w-8 h-8 rounded-full flex items-center justify-center" style={{
-              background: 'hsla(var(--glass-bg) / 0.5)',
-              backdropFilter: 'blur(16px)',
-              border: '0.5px solid hsla(var(--glass-border) / 0.4)',
-              borderRadius: '50%',
-            }}>
+            <button onClick={() => navigate('/settings')} className="tap-scale w-8 h-8 flex items-center justify-center" style={glassBtn}>
               <span className="text-[14px]">⚙️</span>
             </button>
           ) : !hideChat ? (
-            <button onClick={() => navigate('/chats')} className="relative tap-scale w-8 h-8 rounded-full flex items-center justify-center" style={{
-              background: 'hsla(var(--glass-bg) / 0.5)',
-              backdropFilter: 'blur(16px)',
-              border: '0.5px solid hsla(var(--glass-border) / 0.4)',
-              borderRadius: '50%',
-            }}>
+            <button onClick={() => navigate('/chats')} className="relative tap-scale w-8 h-8 flex items-center justify-center" style={glassBtn}>
               <span className="text-[14px]">💬</span>
               {totalBadge > 0 && (
-                <span className="absolute -top-0.5 -right-0.5 min-w-[14px] h-[14px] rounded-full bg-destructive text-destructive-foreground text-[7px] font-bold flex items-center justify-center px-[2px]">
+                <span className="absolute -top-0.5 -right-0.5 min-w-[14px] h-[14px] rounded-full bg-destructive text-white text-[7px] font-bold flex items-center justify-center px-[2px]">
                   {totalBadge > 9 ? '9+' : totalBadge}
                 </span>
               )}
