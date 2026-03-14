@@ -111,11 +111,15 @@ export default function AttendancePage() {
 
     if (myStatus === 'attended' || myStatus === 'late') {
       completeMeetup(request.id);
+      // XP for completing a meetup — reputation/leaderboard only
       addXP('complete_hangout', 'Completed a meetup');
       recordActivity();
       progressQuest('complete_a_meetup');
+      // Credits for showing up — the core economy reward for real-world participation
+      updateCredits(1, 'Showed up to a plan');
 
       if (thankYous.size > 0) {
+        // XP for being thanked — reputation only, no credits
         addXP('receive_thanks', 'Received thanks');
         addNotification({
           type: 'trust',
@@ -126,7 +130,7 @@ export default function AttendancePage() {
 
       toast({
         title: '🎉 Meetup confirmed!',
-        description: `+50 XP earned · Streak continued`,
+        description: `+50 XP · +1 credit · Streak continued`,
       });
     }
 
