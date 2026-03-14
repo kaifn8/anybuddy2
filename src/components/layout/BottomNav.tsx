@@ -1,14 +1,16 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { useAppStore } from '@/store/useAppStore';
+import { useGamificationStore } from '@/store/useGamificationStore';
 import { GradientAvatar } from '@/components/ui/GradientAvatar';
+import { StreakWidget } from '@/components/gamification/StreakWidget';
 import React from 'react';
 
 const navItems = [
   { emoji: '🏠', label: 'Home', path: '/home' },
   { emoji: '🗺️', label: 'Map', path: '/map' },
   { emoji: '+', label: 'Post', path: '/create', isMain: true },
-  { emoji: '🔔', label: 'Alerts', path: '/notifications' },
+  { emoji: '⚡', label: 'Quests', path: '/quests' },
   { emoji: '👤', label: 'Me', path: '/profile' },
 ];
 
