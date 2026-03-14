@@ -75,6 +75,10 @@ export const BottomNav = React.forwardRef<HTMLElement, object>(function BottomNa
               </button>
             );
           })}
+          {/* Desktop-only: Streak pill */}
+          <div className="mt-3 px-3 py-2.5">
+            <StreakWidget compact className="justify-start" />
+          </div>
         </div>
         <div className="px-3 pb-4">
           <button onClick={() => navigate('/settings')}
