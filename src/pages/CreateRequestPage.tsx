@@ -336,6 +336,9 @@ export default function CreateRequestPage() {
       liveShare: false, status: 'active', joinMode: 'auto', visibility: 'public', pendingJoinRequests: [],
     });
     updateCredits(-creditCost, 'Posted a plan');
+    addXP('post_hangout', 'Posted a hangout');
+    recordActivity();
+    progressQuest('post_a_hangout');
 
     // Find the newly created request id
     const latestId = `req_${Date.now()}`;
