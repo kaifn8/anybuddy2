@@ -89,6 +89,7 @@ export const DAILY_QUESTS: DailyQuest[] = [
     emoji: '🦋',
     target: 3,
     xpReward: 30,
+    // No creditReward — passive engagement only earns XP
   },
   {
     id: 'join_1_activity',
@@ -97,7 +98,7 @@ export const DAILY_QUESTS: DailyQuest[] = [
     emoji: '🚀',
     target: 1,
     xpReward: 40,
-    creditReward: 1,
+    creditReward: 1, // Partial credit refund for real-world participation
   },
   {
     id: 'post_a_hangout',
@@ -106,7 +107,7 @@ export const DAILY_QUESTS: DailyQuest[] = [
     emoji: '📣',
     target: 1,
     xpReward: 50,
-    creditReward: 1,
+    // No creditReward — posting costs credits; XP is the hosting reward
   },
   {
     id: 'send_3_messages',
@@ -115,6 +116,7 @@ export const DAILY_QUESTS: DailyQuest[] = [
     emoji: '💬',
     target: 3,
     xpReward: 20,
+    // No creditReward — messaging earns XP only
   },
   {
     id: 'complete_a_meetup',
@@ -123,7 +125,7 @@ export const DAILY_QUESTS: DailyQuest[] = [
     emoji: '✅',
     target: 1,
     xpReward: 60,
-    creditReward: 2,
+    creditReward: 2, // Partial credit refund for confirmed attendance
   },
   {
     id: 'save_2_plans',
@@ -132,6 +134,7 @@ export const DAILY_QUESTS: DailyQuest[] = [
     emoji: '📌',
     target: 2,
     xpReward: 15,
+    // No creditReward — saving earns XP only
   },
   {
     id: 'browse_map',
@@ -140,6 +143,7 @@ export const DAILY_QUESTS: DailyQuest[] = [
     emoji: '🗺️',
     target: 1,
     xpReward: 10,
+    // No creditReward — discovery earns XP only
   },
 ];
 

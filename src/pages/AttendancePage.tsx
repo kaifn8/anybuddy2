@@ -45,7 +45,7 @@ const ATTENDANCE_OPTIONS: { status: AttendanceStatus; icon: React.ReactNode; lab
 export default function AttendancePage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { requests, submitReview, completeMeetup, user, addNotification } = useAppStore();
+  const { requests, submitReview, completeMeetup, user, addNotification, updateCredits } = useAppStore();
   const { addXP, recordActivity, progressQuest } = useGamificationStore();
 
   const [step, setStep] = useState<'attendance' | 'feedback' | 'thanks' | 'participants'>('attendance');
@@ -111,11 +111,15 @@ export default function AttendancePage() {
 
     if (myStatus === 'attended' || myStatus === 'late') {
       completeMeetup(request.id);
+      // XP for completing a meetup — reputation/leaderboard only
       addXP('complete_hangout', 'Completed a meetup');
       recordActivity();
       progressQuest('complete_a_meetup');
+      // Credits for showing up — the core economy reward for real-world participation
+      updateCredits(1, 'Showed up to a plan');
 
       if (thankYous.size > 0) {
+        // XP for being thanked — reputation only, no credits
         addXP('receive_thanks', 'Received thanks');
         addNotification({
           type: 'trust',
@@ -126,7 +130,7 @@ export default function AttendancePage() {
 
       toast({
         title: '🎉 Meetup confirmed!',
-        description: `+50 XP earned · Streak continued`,
+        description: `+50 XP · +1 credit · Streak continued`,
       });
     }
 
@@ -306,7 +310,7 @@ export default function AttendancePage() {
               </h2>
               {myStatus === 'attended' && (
                 <div className="space-y-1">
-                  <p className="text-[13px] text-muted-foreground">+50 XP · Streak continued</p>
+                  <p className="text-[13px] text-muted-foreground">+50 XP · <span className="text-success font-semibold">+1 credit</span> · Streak continued</p>
                   {thankYous.size > 0 && (
                     <p className="text-[13px] text-success font-semibold">+{thankYous.size} thank you{thankYous.size > 1 ? 's' : ''} sent 🙏</p>
                   )}

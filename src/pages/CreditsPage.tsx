@@ -126,7 +126,8 @@ export default function CreditsPage() {
 
         {/* How to earn */}
         <div className="liquid-glass-heavy p-4">
-          <h3 className="section-label mb-3">How to earn</h3>
+          <h3 className="section-label mb-0.5">How to earn credits</h3>
+          <p className="text-[10px] text-muted-foreground mb-3">Credits are the economy — spend to post, earn by showing up.</p>
           <div className="space-y-3">
             {[
               { emoji: '🤝', amount: '+0.5', action: 'Join a plan',          detail: 'Per accepted join'       },
@@ -146,6 +147,12 @@ export default function CreditsPage() {
                 <span className="text-[13px] font-bold text-success shrink-0 tabular-nums">{item.amount}</span>
               </div>
             ))}
+          </div>
+          <div className="mt-3 pt-3 border-t border-border/15">
+            <p className="text-[10px] text-muted-foreground/60 flex items-start gap-1.5">
+              <span className="shrink-0 mt-px">ℹ️</span>
+              XP is separate — it tracks your reputation, level, and leaderboard rank. XP is never currency.
+            </p>
           </div>
         </div>
 
