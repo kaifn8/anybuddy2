@@ -60,6 +60,8 @@ const App = () => (
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/invite" element={<InviteFriendsPage />} />
           <Route path="/settings" element={<SettingsPage />} />
+          <Route path="/quests" element={<QuestsPage />} />
+          <Route path="/leaderboard" element={<LeaderboardPage />} />
           <Route path="/admin" element={<ProtectedAdminRoute />}>
             <Route index element={<AdminDashboard />} />
             <Route path="users" element={<AdminUsers />} />
