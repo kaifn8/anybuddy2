@@ -267,6 +267,7 @@ export default function CreateRequestPage() {
   const [editingLocation, setEditingLocation] = useState(false);
   const [location, setLocation] = useState(zone);
   const [locationCoords, setLocationCoords] = useState({ lat: 19.0596, lng: 72.8295 });
+  const [description, setDescription] = useState('');
   const [postedRequestId, setPostedRequestId] = useState<string | null>(null);
 
   const pageRef = useRef<HTMLDivElement>(null);
