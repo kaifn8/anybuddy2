@@ -269,7 +269,7 @@ export const useGamificationStore = create<GamificationState>()(
       resetWeeklyXP: () => {
         set({ weeklyXp: 0, weekStartDate: weekStart() });
       },
-    } as GamificationState & { checkStreakAchievements: (count: number) => void }),
+    }),
     {
       name: 'anybuddy-gamification',
       partialize: (state) => ({
