@@ -111,19 +111,19 @@ export default function ProfilePage() {
               <span className="w-px h-2.5 bg-border/50" />
               <span>Joined {joinText}</span>
             </div>
-            {/* Quick actions */}
+            {/* Quick action row */}
             <div className="flex gap-2 mt-4 justify-center">
+              <button onClick={() => navigate('/notifications')}
+                className="flex items-center gap-1.5 px-3 py-1.5 liquid-glass rounded-full text-[11px] font-semibold tap-scale">
+                🔔 Alerts
+              </button>
+              <button onClick={() => navigate('/circle')}
+                className="flex items-center gap-1.5 px-3 py-1.5 liquid-glass rounded-full text-[11px] font-semibold tap-scale">
+                👥 Circle
+              </button>
               <button onClick={() => navigate('/settings')}
                 className="flex items-center gap-1.5 px-3 py-1.5 liquid-glass rounded-full text-[11px] font-semibold tap-scale">
                 ⚙️ Settings
-              </button>
-              <button onClick={() => navigate('/invite')}
-                className="flex items-center gap-1.5 px-3 py-1.5 liquid-glass rounded-full text-[11px] font-semibold tap-scale">
-                🎁 Invite
-              </button>
-              <button onClick={() => navigate('/credits')}
-                className="flex items-center gap-1.5 px-3 py-1.5 liquid-glass rounded-full text-[11px] font-semibold tap-scale">
-                💳 Credits
               </button>
             </div>
           </div>
@@ -151,6 +151,25 @@ export default function ProfilePage() {
 
           {/* ── Verification ── */}
           <VerificationCard />
+
+          {/* ── Secondary pages grid ── */}
+          <div className="grid grid-cols-2 gap-2">
+            {[
+              { emoji: '⚡', label: 'Daily Quests',  sub: 'XP + credits',       path: '/quests'      },
+              { emoji: '🏆', label: 'Leaderboard',   sub: 'Weekly rank',         path: '/leaderboard' },
+              { emoji: '💳', label: 'Credits',       sub: `${user.credits} pts`, path: '/credits'     },
+              { emoji: '🎁', label: 'Invite Friends', sub: 'Earn credits',       path: '/invite'      },
+            ].map((item) => (
+              <button key={item.path} onClick={() => navigate(item.path)}
+                className="liquid-glass-interactive flex items-center gap-2.5 px-3.5 py-3 text-left">
+                <span className="text-lg">{item.emoji}</span>
+                <div className="min-w-0">
+                  <p className="text-[12px] font-bold text-foreground tracking-tight truncate">{item.label}</p>
+                  <p className="text-[10px] text-muted-foreground mt-0.5">{item.sub}</p>
+                </div>
+              </button>
+            ))}
+          </div>
 
           {/* ── Tabs ── */}
           <div className="flex gap-1 p-1 liquid-glass" style={{ borderRadius: '1rem' }}>
