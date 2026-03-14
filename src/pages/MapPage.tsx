@@ -151,7 +151,7 @@ export default function MapPage() {
         rightSlot={
           <button
             onClick={locateMe}
-            className="relative flex items-center justify-center w-9 h-9 rounded-full tap-scale bg-white/60 dark:bg-white/[0.07] backdrop-blur-xl border border-white/70 dark:border-white/10 shadow-[0_1px_4px_hsl(var(--foreground)/0.06)] hover:bg-white/80 active:scale-95 transition-all duration-200"
+            className="liquid-glass relative flex items-center justify-center w-8 h-8 rounded-full tap-scale"
             aria-label="Locate me"
           >
             <Navigation size={15} className="text-primary" />
