@@ -27,6 +27,10 @@ import AdminVerification from "./pages/admin/AdminVerification";
 import AdminModeration from "./pages/admin/AdminModeration";
 import AdminPricing from "./pages/admin/AdminPricing";
 import AdminUserDetail from "./pages/admin/AdminUserDetail";
+import QuestsPage from "./pages/QuestsPage";
+import LeaderboardPage from "./pages/LeaderboardPage";
+import { AchievementUnlock } from "./components/gamification/AchievementUnlock";
+import { XPPopupLayer } from "./components/gamification/XPPopup";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
