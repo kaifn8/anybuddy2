@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useAppStore } from '@/store/useAppStore';
+import { useGamificationStore } from '@/store/useGamificationStore';
 
 interface TopBarProps {
   showBack?: boolean;
@@ -13,6 +14,7 @@ export function TopBar({ showBack = false, title, hideChat = false, showSettings
   const requests = useAppStore((s) => s.requests);
   const chatMessages = useAppStore((s) => s.chatMessages);
   const joinedRequests = useAppStore((s) => s.joinedRequests);
+  const notifications = useAppStore((s) => s.notifications);
 
   const activeCount = requests.filter((r) => r.status === 'active').length;
 
@@ -20,6 +22,9 @@ export function TopBar({ showBack = false, title, hideChat = false, showSettings
     const msgs = chatMessages[id] || [];
     return count + (msgs.length > 0 ? 1 : 0);
   }, 0);
+
+  const unreadNotifs = notifications.filter(n => !n.read).length;
+  const totalBadge = unreadChats + unreadNotifs;
 
   return (
     <header
@@ -69,33 +74,25 @@ export function TopBar({ showBack = false, title, hideChat = false, showSettings
         {/* Right */}
         <div className="w-20 flex items-center justify-end gap-1.5">
           {showSettings ? (
-            <button
-              onClick={() => navigate('/settings')}
-              className="tap-scale w-8 h-8 rounded-full flex items-center justify-center"
-              style={{
-                background: 'hsla(var(--glass-bg) / 0.5)',
-                backdropFilter: 'blur(16px)',
-                border: '0.5px solid hsla(var(--glass-border) / 0.4)',
-                borderRadius: '50%',
-              }}
-            >
+            <button onClick={() => navigate('/settings')} className="tap-scale w-8 h-8 rounded-full flex items-center justify-center" style={{
+              background: 'hsla(var(--glass-bg) / 0.5)',
+              backdropFilter: 'blur(16px)',
+              border: '0.5px solid hsla(var(--glass-border) / 0.4)',
+              borderRadius: '50%',
+            }}>
               <span className="text-[14px]">⚙️</span>
             </button>
           ) : !hideChat ? (
-            <button
-              onClick={() => navigate('/chats')}
-              className="relative tap-scale w-8 h-8 rounded-full flex items-center justify-center"
-              style={{
-                background: 'hsla(var(--glass-bg) / 0.5)',
-                backdropFilter: 'blur(16px)',
-                border: '0.5px solid hsla(var(--glass-border) / 0.4)',
-                borderRadius: '50%',
-              }}
-            >
+            <button onClick={() => navigate('/chats')} className="relative tap-scale w-8 h-8 rounded-full flex items-center justify-center" style={{
+              background: 'hsla(var(--glass-bg) / 0.5)',
+              backdropFilter: 'blur(16px)',
+              border: '0.5px solid hsla(var(--glass-border) / 0.4)',
+              borderRadius: '50%',
+            }}>
               <span className="text-[14px]">💬</span>
-              {unreadChats > 0 && (
+              {totalBadge > 0 && (
                 <span className="absolute -top-0.5 -right-0.5 min-w-[14px] h-[14px] rounded-full bg-destructive text-destructive-foreground text-[7px] font-bold flex items-center justify-center px-[2px]">
-                  {unreadChats > 9 ? '9+' : unreadChats}
+                  {totalBadge > 9 ? '9+' : totalBadge}
                 </span>
               )}
             </button>
