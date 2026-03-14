@@ -120,6 +120,9 @@ export default function HomePage() {
     if (!confirmRequest) return;
     joinRequest(confirmRequest.id);
     updateCredits(0.5, 'Joined a request');
+    addXP('join_hangout', 'Joined a hangout');
+    recordActivity();
+    progressQuest('join_1_activity');
     setConfirmRequest(null);
     navigate(`/request/${confirmRequest.id}`);
   };
