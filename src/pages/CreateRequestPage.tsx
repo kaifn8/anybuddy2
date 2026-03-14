@@ -492,6 +492,21 @@ export default function CreateRequestPage() {
               </div>
             </div>
 
+            {/* Optional description */}
+            <div>
+              <label className="text-xs font-medium text-muted-foreground mb-2 block">📝 Details <span className="text-muted-foreground/40">(optional)</span></label>
+              <textarea
+                value={description}
+                onChange={(e) => setDescription(e.target.value.slice(0, 200))}
+                placeholder="Any extra info — meeting spot, what to bring, etc."
+                rows={2}
+                className="w-full rounded-xl bg-muted/30 px-4 py-3 text-[13px] resize-none focus:outline-none focus:ring-2 focus:ring-primary/20 placeholder:text-muted-foreground/40 leading-relaxed"
+              />
+              {description.length > 0 && (
+                <p className="text-[9px] text-muted-foreground/40 text-right mt-0.5">{description.length}/200</p>
+              )}
+            </div>
+
             {/* Seats — big numbered buttons */}
             <div>
               <label className="text-xs font-medium text-muted-foreground mb-2.5 block">👥 How many people?</label>
