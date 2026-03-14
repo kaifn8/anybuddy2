@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { TopBar } from '@/components/layout/TopBar';
 import { BottomNav } from '@/components/layout/BottomNav';
 import { useAppStore } from '@/store/useAppStore';
 import { GradientAvatar } from '@/components/ui/GradientAvatar';
@@ -8,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
 import { useTheme } from '@/hooks/useTheme';
 import { cn } from '@/lib/utils';
+import { ChevronLeft } from 'lucide-react';
 
 export default function SettingsPage() {
   const navigate = useNavigate();
@@ -22,12 +22,26 @@ export default function SettingsPage() {
   if (!user) {
     return (
       <div className="mobile-container min-h-screen bg-background pb-24">
-        <TopBar showBack title="Settings" />
+        <header className="sticky top-0 z-40"
+          style={{
+            background: 'hsla(var(--glass-bg) / 0.35)',
+            backdropFilter: 'blur(var(--glass-blur-heavy)) saturate(220%)',
+            WebkitBackdropFilter: 'blur(var(--glass-blur-heavy)) saturate(220%)',
+            borderBottom: '0.5px solid hsla(var(--glass-border) / 0.4)',
+          }}>
+          <div className="flex items-center h-[48px] px-4 gap-3">
+            <button onClick={() => navigate(-1)}
+              className="w-8 h-8 rounded-full liquid-glass flex items-center justify-center tap-scale shrink-0">
+              <ChevronLeft size={16} />
+            </button>
+            <span className="text-[17px] font-bold text-foreground tracking-tight">Settings</span>
+          </div>
+        </header>
         <div className="flex flex-col items-center justify-center px-8 pt-32 text-center">
           <div className="w-14 h-14 rounded-[1.25rem] liquid-glass flex items-center justify-center mb-5">
             <span className="text-2xl">🔒</span>
           </div>
-          <p className="text-base font-semibold text-foreground mb-1.5 tracking-tight">Settings</p>
+          <p className="text-[16px] font-bold text-foreground mb-1.5 tracking-tight">Settings</p>
           <p className="text-sm text-muted-foreground mb-6">Sign in to manage your preferences</p>
           <Button onClick={() => navigate('/signup')} className="h-11 px-8">Sign In</Button>
         </div>
@@ -37,9 +51,25 @@ export default function SettingsPage() {
   }
 
   return (
-    <div className="mobile-container min-h-screen bg-background pb-24">
-      <TopBar showBack title="Settings" />
-      <div className="px-5 pt-5 space-y-3">
+    <div className="mobile-container min-h-screen bg-background pb-28">
+      {/* Custom top bar */}
+      <header className="sticky top-0 z-40"
+        style={{
+          background: 'hsla(var(--glass-bg) / 0.35)',
+          backdropFilter: 'blur(var(--glass-blur-heavy)) saturate(220%)',
+          WebkitBackdropFilter: 'blur(var(--glass-blur-heavy)) saturate(220%)',
+          borderBottom: '0.5px solid hsla(var(--glass-border) / 0.4)',
+        }}>
+        <div className="flex items-center h-[48px] px-4 gap-3">
+          <button onClick={() => navigate(-1)}
+            className="w-8 h-8 rounded-full liquid-glass flex items-center justify-center tap-scale shrink-0">
+            <ChevronLeft size={16} className="text-foreground" />
+          </button>
+          <span className="text-[17px] font-bold text-foreground tracking-tight flex-1">Settings</span>
+        </div>
+      </header>
+
+      <div className="px-4 pt-4 space-y-3">
 
         {/* Profile card */}
         <button onClick={() => navigate('/profile')} className="w-full liquid-glass-heavy tap-scale text-left p-4">
@@ -47,38 +77,45 @@ export default function SettingsPage() {
             <GradientAvatar name={user.firstName} size={52} className="shrink-0" />
             <div className="flex-1 min-w-0">
               <h2 className="text-[16px] font-bold tracking-tight truncate">{user.firstName}</h2>
-              <p className="text-xs text-muted-foreground truncate mt-0.5">{user.phone}</p>
+              <p className="text-[12px] text-muted-foreground truncate mt-0.5">{user.phone}</p>
               <span className="inline-flex items-center gap-1 mt-1.5 px-2 py-0.5 rounded-full bg-primary/8 text-primary text-[10px] font-bold">
                 ⚡ {user.credits} credits
               </span>
             </div>
-            <span className="text-muted-foreground/30 shrink-0">›</span>
+            <span className="text-muted-foreground/30 text-lg shrink-0">›</span>
           </div>
         </button>
 
+        {/* Quick actions */}
         <div className="grid grid-cols-2 gap-2">
           <QuickAction emoji="⚡" label="Credits" sublabel={`${user.credits} pts`} onClick={() => navigate('/credits')} />
-          <QuickAction emoji="👥" label="Invite" sublabel="Earn credits" onClick={() => navigate('/invite')} />
+          <QuickAction emoji="🎁" label="Invite" sublabel="Earn credits" onClick={() => navigate('/invite')} />
         </div>
 
+        {/* Appearance */}
         <SettingsSection title="Appearance">
           <SettingsToggle emoji="🌙" label="Dark Mode" checked={isDark} onCheckedChange={toggleTheme} />
           <Divider />
           <SettingsLink emoji="🌐" label="Language" value="English" soon />
         </SettingsSection>
 
+        {/* Notifications */}
         <SettingsSection title="Notifications">
           <SettingsToggle emoji="🔔" label="Push Notifications" checked={pushNotifications} onCheckedChange={setPushNotifications} />
           <Divider />
           <SettingsToggle emoji="✉️" label="Email Notifications" checked={emailNotifications} onCheckedChange={setEmailNotifications} />
         </SettingsSection>
 
+        {/* Privacy */}
         <SettingsSection title="Privacy">
           <SettingsToggle emoji="📍" label="Location Sharing" checked={locationSharing} onCheckedChange={setLocationSharing} />
           <Divider />
           <SettingsLink emoji="🔒" label="Privacy & Safety" soon />
+          <Divider />
+          <SettingsLink emoji="🚫" label="Blocked Users" soon />
         </SettingsSection>
 
+        {/* Support */}
         <SettingsSection title="Support">
           <SettingsLink emoji="❓" label="Help Center" soon />
           <Divider />
@@ -87,15 +124,16 @@ export default function SettingsPage() {
           <SettingsLink emoji="⭐" label="Rate AnyBuddy" soon />
         </SettingsSection>
 
+        {/* Log out */}
         <button onClick={handleLogout}
-          className="w-full liquid-glass-heavy py-3.5 px-5 tap-scale hover:bg-destructive/3 transition-colors">
+          className="w-full liquid-glass-heavy py-3.5 px-5 tap-scale">
           <div className="flex items-center justify-center gap-2">
-            <span className="text-sm">🚪</span>
+            <span className="text-base">🚪</span>
             <span className="text-[14px] font-bold text-destructive tracking-tight">Log Out</span>
           </div>
         </button>
 
-        <p className="text-center text-[10px] text-muted-foreground/30 pb-2">AnyBuddy v1.0 · Made in Mumbai</p>
+        <p className="text-center text-[10px] text-muted-foreground/30 pb-2 pt-1">AnyBuddy v1.0 · Made in Mumbai 🇮🇳</p>
       </div>
       <BottomNav />
     </div>
@@ -120,7 +158,7 @@ function SettingsToggle({ emoji, label, checked, onCheckedChange }: {
   emoji: string; label: string; checked: boolean; onCheckedChange: (v: boolean) => void;
 }) {
   return (
-    <div className="flex items-center justify-between px-4 py-3 hover:bg-background/10 transition-colors">
+    <div className="flex items-center justify-between px-4 py-3 hover:bg-muted/10 transition-colors">
       <div className="flex items-center gap-3">
         <span className="w-8 h-8 rounded-[0.625rem] bg-muted/60 flex items-center justify-center text-[15px]">{emoji}</span>
         <span className="text-[14px] font-medium tracking-tight">{label}</span>
@@ -135,16 +173,16 @@ function SettingsLink({ emoji, label, value, onClick, soon }: {
 }) {
   return (
     <button onClick={soon ? undefined : onClick} disabled={soon}
-      className={cn('w-full flex items-center justify-between px-4 py-3 tap-scale hover:bg-background/10 transition-colors', soon && 'opacity-50 cursor-default')}>
+      className={cn('w-full flex items-center justify-between px-4 py-3 tap-scale hover:bg-muted/10 transition-colors', soon && 'opacity-50 cursor-default')}>
       <div className="flex items-center gap-3">
         <span className="w-8 h-8 rounded-[0.625rem] bg-muted/60 flex items-center justify-center text-[15px]">{emoji}</span>
         <span className="text-[14px] font-medium tracking-tight">{label}</span>
       </div>
       <div className="flex items-center gap-2">
-        {value && <span className="text-xs text-muted-foreground">{value}</span>}
+        {value && <span className="text-[12px] text-muted-foreground">{value}</span>}
         {soon
           ? <span className="text-[8px] font-bold bg-muted/60 text-muted-foreground px-1.5 py-0.5 rounded-full uppercase tracking-wider">Soon</span>
-          : <span className="text-muted-foreground/30">›</span>
+          : <span className="text-muted-foreground/30 text-lg">›</span>
         }
       </div>
     </button>

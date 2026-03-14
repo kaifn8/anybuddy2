@@ -2,25 +2,24 @@ import { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { formatDistanceToNow, isAfter, subHours } from 'date-fns';
 import { BottomNav } from '@/components/layout/BottomNav';
-import { TopBar } from '@/components/layout/TopBar';
 import { useAppStore } from '@/store/useAppStore';
 import { useGamificationStore } from '@/store/useGamificationStore';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { Bell, BellOff, CheckCheck, Flame } from 'lucide-react';
+import { Bell, BellOff, CheckCheck, Flame, ChevronLeft } from 'lucide-react';
 import type { Notification } from '@/types/anybuddy';
 
 const NOTIF_CONFIG: Record<string, { emoji: string; color: string; bg: string; label: string }> = {
-  nearby:     { emoji: '📍', color: 'text-primary',          bg: 'bg-primary/8',          label: 'Nearby'   },
-  urgent:     { emoji: '⚡', color: 'text-warning',          bg: 'bg-warning/8',          label: 'Now'      },
-  join:       { emoji: '🎉', color: 'text-success',          bg: 'bg-success/8',          label: 'Join'     },
-  message:    { emoji: '💬', color: 'text-secondary',        bg: 'bg-secondary/8',        label: 'Message'  },
-  credit:     { emoji: '💰', color: 'text-accent',           bg: 'bg-accent/8',           label: 'Credits'  },
-  trust:      { emoji: '🛡️', color: 'text-primary',          bg: 'bg-primary/8',          label: 'Trust'    },
-  reminder:   { emoji: '⏰', color: 'text-muted-foreground', bg: 'bg-muted/20',           label: 'Reminder' },
-  completion: { emoji: '✅', color: 'text-success',          bg: 'bg-success/8',          label: 'Done'     },
-  streak:     { emoji: '🔥', color: 'text-accent',           bg: 'bg-accent/8',           label: 'Streak'   },
-  badge:      { emoji: '🏅', color: 'text-secondary',        bg: 'bg-secondary/8',        label: 'Badge'    },
+  nearby:     { emoji: '📍', color: 'text-primary',          bg: 'bg-primary/8',     label: 'Nearby'   },
+  urgent:     { emoji: '⚡', color: 'text-warning',          bg: 'bg-warning/8',     label: 'Now'      },
+  join:       { emoji: '🎉', color: 'text-success',          bg: 'bg-success/8',     label: 'Join'     },
+  message:    { emoji: '💬', color: 'text-secondary',        bg: 'bg-secondary/8',   label: 'Message'  },
+  credit:     { emoji: '💰', color: 'text-accent',           bg: 'bg-accent/8',      label: 'Credits'  },
+  trust:      { emoji: '🛡️', color: 'text-primary',          bg: 'bg-primary/8',     label: 'Trust'    },
+  reminder:   { emoji: '⏰', color: 'text-muted-foreground', bg: 'bg-muted/20',      label: 'Reminder' },
+  completion: { emoji: '✅', color: 'text-success',          bg: 'bg-success/8',     label: 'Done'     },
+  streak:     { emoji: '🔥', color: 'text-accent',           bg: 'bg-accent/8',      label: 'Streak'   },
+  badge:      { emoji: '🏅', color: 'text-secondary',        bg: 'bg-secondary/8',   label: 'Badge'    },
 };
 
 const FILTER_TABS = [
@@ -51,7 +50,7 @@ function NotifItem({ n, onClick }: { n: Notification; onClick: () => void }) {
             {n.title}
           </p>
           <div className="flex items-center gap-1.5 shrink-0">
-            {!n.read && <span className="w-1.5 h-1.5 rounded-full bg-primary mt-1 shrink-0" />}
+            {!n.read && <span className="w-2 h-2 rounded-full bg-primary mt-0.5 shrink-0" />}
             {isRecent && (
               <span className={cn('text-[9px] font-bold px-1.5 py-0.5 rounded-full uppercase tracking-wide', cfg.bg, cfg.color)}>
                 {cfg.label}
@@ -59,7 +58,7 @@ function NotifItem({ n, onClick }: { n: Notification; onClick: () => void }) {
             )}
           </div>
         </div>
-        <p className="text-[11px] text-muted-foreground mt-0.5 line-clamp-2">{n.message}</p>
+        <p className="text-[11px] text-muted-foreground mt-0.5 line-clamp-2 leading-relaxed">{n.message}</p>
         <p className="text-[10px] text-muted-foreground/40 mt-1 font-medium">{timeAgo}</p>
       </div>
     </button>
@@ -93,25 +92,48 @@ export default function NotificationsPage() {
   return (
     <>
       <div className="mobile-container min-h-screen bg-background pb-28">
-        <TopBar title="Notifications" hideChat />
+        {/* Custom top bar */}
+        <header className="sticky top-0 z-40"
+          style={{
+            background: 'hsla(var(--glass-bg) / 0.35)',
+            backdropFilter: 'blur(var(--glass-blur-heavy)) saturate(220%)',
+            WebkitBackdropFilter: 'blur(var(--glass-blur-heavy)) saturate(220%)',
+            borderBottom: '0.5px solid hsla(var(--glass-border) / 0.4)',
+          }}>
+          <div className="flex items-center h-[48px] px-4 gap-3">
+            <button onClick={() => navigate(-1)}
+              className="w-8 h-8 rounded-full liquid-glass flex items-center justify-center tap-scale shrink-0">
+              <ChevronLeft size={16} className="text-foreground" />
+            </button>
+            <span className="flex-1 text-[17px] font-bold text-foreground tracking-tight">Notifications</span>
+            {unreadCount > 0 && (
+              <button onClick={markAllRead}
+                className="flex items-center gap-1 px-3 py-1.5 text-[11px] text-primary font-bold tap-scale liquid-glass rounded-full">
+                <CheckCheck size={12} />
+                Read all
+              </button>
+            )}
+          </div>
+        </header>
 
         {/* Streak warning */}
         {showStreakWarning && (
-          <div className="mx-5 mt-4 flex items-center gap-3 px-4 py-3 rounded-[1rem] bg-accent/8 border border-accent/20">
+          <div className="mx-4 mt-4 flex items-center gap-3 px-4 py-3 rounded-[1rem]"
+            style={{ background: 'hsl(var(--accent) / 0.08)', border: '0.5px solid hsl(var(--accent) / 0.2)' }}>
             <Flame size={16} className="text-accent shrink-0" />
             <div className="flex-1 min-w-0">
               <p className="text-[12px] font-bold text-accent">{streak.count}-day streak at risk!</p>
               <p className="text-[11px] text-muted-foreground mt-0.5">Do something social today</p>
             </div>
             <button onClick={() => navigate('/home')}
-              className="shrink-0 text-[10px] font-bold px-2.5 py-1 rounded-full bg-accent text-background">
+              className="shrink-0 text-[10px] font-bold px-2.5 py-1 rounded-full bg-accent text-background tap-scale">
               Go →
             </button>
           </div>
         )}
 
         {/* Filters */}
-        <div className="flex gap-1.5 overflow-x-auto scrollbar-hide px-5 pt-4 pb-2 items-center">
+        <div className="flex gap-1.5 overflow-x-auto scrollbar-hide px-4 pt-4 pb-2">
           {FILTER_TABS.map((tab) => (
             <button key={tab.id} onClick={() => setFilter(tab.id)}
               className={cn(
@@ -121,16 +143,9 @@ export default function NotificationsPage() {
               {tab.label}
             </button>
           ))}
-          {unreadCount > 0 && (
-            <button onClick={markAllRead}
-              className="shrink-0 ml-auto flex items-center gap-1 px-3 py-1.5 text-[11px] text-primary font-bold tap-scale">
-              <CheckCheck size={12} />
-              Read all
-            </button>
-          )}
         </div>
 
-        <div className="px-5 pt-1">
+        <div className="px-4 pt-1">
           {notifications.length > 0 ? (
             <>
               {today.length > 0 && (
@@ -141,14 +156,14 @@ export default function NotificationsPage() {
               )}
               {older.length > 0 && (
                 <>
-                  <p className="section-label pt-3 pb-2">Earlier</p>
+                  <p className="section-label pt-4 pb-2">Earlier</p>
                   {older.map(n => <NotifItem key={n.id} n={n} onClick={() => handleClick(n)} />)}
                 </>
               )}
               {filtered.length === 0 && (
                 <div className="text-center py-16">
                   <BellOff size={28} className="mx-auto text-muted-foreground/30 mb-3" />
-                  <p className="text-[14px] text-muted-foreground">No {filter} notifications</p>
+                  <p className="text-[14px] font-medium text-muted-foreground">No {filter} notifications</p>
                 </div>
               )}
             </>
@@ -157,9 +172,9 @@ export default function NotificationsPage() {
               <div className="w-14 h-14 rounded-[1.25rem] liquid-glass flex items-center justify-center mx-auto mb-5">
                 <Bell size={24} className="text-muted-foreground/40" />
               </div>
-              <p className="text-[15px] font-bold text-foreground mb-2 tracking-tight">No updates yet</p>
-              <p className="text-[13px] text-muted-foreground mb-8 leading-relaxed">
-                You'll hear about joins, streaks, nearby plans and badges here.
+              <p className="text-[16px] font-bold text-foreground mb-2 tracking-tight">No updates yet</p>
+              <p className="text-[13px] text-muted-foreground mb-8 leading-relaxed max-w-[220px] mx-auto">
+                Joins, streaks, nearby plans and badges show up here.
               </p>
               <Button onClick={() => navigate('/home')} size="sm">Browse plans</Button>
             </div>
