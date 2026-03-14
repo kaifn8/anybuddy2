@@ -27,30 +27,30 @@ export default function QuestsPage() {
       <div className="mobile-container min-h-screen bg-background pb-28">
         <TopBar title="Progress" hideChat />
 
-        <div className="px-5 pt-5 space-y-3">
+        <div className="px-4 pt-4 space-y-3">
 
           {/* Summary stats */}
           <div className="grid grid-cols-3 gap-2">
-            <div className="liquid-glass p-3 text-center">
+            <div className="liquid-glass p-3.5 text-center">
               <div className="flex items-center justify-center gap-1 mb-1">
                 <Flame size={13} className="text-accent" />
-                <span className="text-[16px] font-bold tabular-nums text-foreground">{streak.count}</span>
+                <span className="text-[18px] font-bold tabular-nums text-foreground">{streak.count}</span>
               </div>
-              <p className="text-[9px] text-muted-foreground uppercase tracking-wider">Streak</p>
+              <p className="text-[9px] text-muted-foreground uppercase tracking-wider font-semibold">Streak</p>
             </div>
-            <div className="liquid-glass p-3 text-center">
+            <div className="liquid-glass p-3.5 text-center">
               <div className="flex items-center justify-center gap-1 mb-1">
                 <Star size={13} className="text-primary" />
-                <span className="text-[16px] font-bold tabular-nums text-foreground">{xp}</span>
+                <span className="text-[18px] font-bold tabular-nums text-foreground">{xp}</span>
               </div>
-              <p className="text-[9px] text-muted-foreground uppercase tracking-wider">XP</p>
+              <p className="text-[9px] text-muted-foreground uppercase tracking-wider font-semibold">Total XP</p>
             </div>
-            <div className="liquid-glass p-3 text-center">
+            <div className="liquid-glass p-3.5 text-center">
               <div className="flex items-center justify-center gap-1 mb-1">
                 <Trophy size={13} className="text-secondary" />
-                <span className="text-[16px] font-bold tabular-nums text-foreground">{unlockedIds.size}</span>
+                <span className="text-[18px] font-bold tabular-nums text-foreground">{unlockedIds.size}</span>
               </div>
-              <p className="text-[9px] text-muted-foreground uppercase tracking-wider">Badges</p>
+              <p className="text-[9px] text-muted-foreground uppercase tracking-wider font-semibold">Badges</p>
             </div>
           </div>
 
@@ -71,12 +71,12 @@ export default function QuestsPage() {
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-[13px] font-bold text-foreground tracking-tight">Weekly Leaderboard</p>
-              <p className="text-[11px] text-muted-foreground mt-0.5">See who's most active in your city</p>
+              <p className="text-[11px] text-muted-foreground mt-0.5">See who's most active in Mumbai</p>
             </div>
             <ArrowRight size={16} className="text-muted-foreground/40 shrink-0" />
           </button>
 
-          {/* Achievements */}
+          {/* Achievements grid */}
           <div className="liquid-glass-heavy p-4">
             <div className="flex items-center justify-between mb-3">
               <h3 className="section-label flex items-center gap-1.5">
@@ -87,7 +87,7 @@ export default function QuestsPage() {
                   </span>
                 )}
               </h3>
-              <span className="text-[11px] text-muted-foreground">{unlockedIds.size}/{ACHIEVEMENTS.length}</span>
+              <span className="text-[11px] text-muted-foreground font-medium">{unlockedIds.size}/{ACHIEVEMENTS.length}</span>
             </div>
 
             <div className="grid grid-cols-3 gap-2">
@@ -97,18 +97,18 @@ export default function QuestsPage() {
                 return (
                   <div key={achievement.id}
                     className={cn(
-                      'flex flex-col items-center gap-1.5 p-2.5 rounded-[0.875rem] border text-center transition-all',
+                      'flex flex-col items-center gap-1.5 p-3 rounded-[0.875rem] border text-center transition-all',
                       isUnlocked
                         ? `${styles.bg} ${styles.border}`
-                        : 'bg-muted/15 border-border/15 opacity-40 grayscale'
+                        : 'bg-muted/10 border-border/10 opacity-35 grayscale'
                     )}>
                     <span className="text-2xl">{achievement.emoji}</span>
-                    <p className={cn('text-[9px] font-bold leading-tight',
+                    <p className={cn('text-[9px] font-bold leading-tight text-center',
                       isUnlocked ? styles.text : 'text-muted-foreground')}>
                       {achievement.title}
                     </p>
                     {isUnlocked && (
-                      <span className={cn('text-[8px] font-bold px-1.5 py-0.5 rounded-full uppercase', styles.bg, styles.text)}>
+                      <span className={cn('text-[7px] font-bold px-1.5 py-0.5 rounded-full uppercase tracking-wide', styles.bg, styles.text)}>
                         {achievement.rarity}
                       </span>
                     )}

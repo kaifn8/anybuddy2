@@ -1,15 +1,16 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { Share2, Navigation, MapPin, Users, Star } from 'lucide-react';
+import { Share2, Navigation, MapPin, Users, Star, X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import { BottomNav } from '@/components/layout/BottomNav';
-import { TopBar } from '@/components/layout/TopBar';
 import { JoinConfirmDialog } from '@/components/JoinConfirmDialog';
 import { ShareSheet } from '@/components/ShareSheet';
 import { useAppStore } from '@/store/useAppStore';
+import { useGamificationStore } from '@/store/useGamificationStore';
 import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
 import { UrgencyBadge } from '@/components/ui/UrgencyBadge';
+import { GradientAvatar } from '@/components/ui/GradientAvatar';
 import { cn } from '@/lib/utils';
 import type { Category, Request } from '@/types/anybuddy';
 import { Button } from '@/components/ui/button';
@@ -19,40 +20,41 @@ const MUMBAI_CENTER: [number, number] = [19.0760, 72.8777];
 function createEmojiIcon(emoji: string, isSelected = false) {
   return L.divIcon({
     html: `<div style="
-      width: ${isSelected ? '40px' : '32px'};
-      height: ${isSelected ? '40px' : '32px'};
+      width: ${isSelected ? '44px' : '34px'};
+      height: ${isSelected ? '44px' : '34px'};
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: ${isSelected ? '18px' : '14px'};
-      background: ${isSelected ? 'hsla(213, 94%, 55%, 0.9)' : 'hsla(0, 0%, 100%, 0.7)'};
-      backdrop-filter: blur(12px);
-      border: 1px solid ${isSelected ? 'hsla(213, 94%, 65%, 0.8)' : 'hsla(0, 0%, 100%, 0.5)'};
-      box-shadow: 0 4px 16px rgba(0,0,0,0.12), inset 0 0.5px 0 rgba(255,255,255,0.6);
-      transition: all 0.2s;
+      font-size: ${isSelected ? '20px' : '15px'};
+      background: ${isSelected ? 'hsla(213, 94%, 55%, 0.92)' : 'hsla(0, 0%, 100%, 0.75)'};
+      backdrop-filter: blur(16px);
+      border: ${isSelected ? '2px solid hsla(213, 94%, 70%, 0.9)' : '1px solid hsla(0, 0%, 100%, 0.55)'};
+      box-shadow: 0 4px 20px rgba(0,0,0,${isSelected ? '0.25' : '0.10'}), inset 0 0.5px 0 rgba(255,255,255,0.7);
+      transition: all 0.2s cubic-bezier(0.25,1,0.5,1);
+      transform: ${isSelected ? 'scale(1.1)' : 'scale(1)'};
     ">${emoji}</div>`,
     className: '',
-    iconSize: [isSelected ? 40 : 32, isSelected ? 40 : 32],
-    iconAnchor: [isSelected ? 20 : 16, isSelected ? 20 : 16],
+    iconSize: [isSelected ? 44 : 34, isSelected ? 44 : 34],
+    iconAnchor: [isSelected ? 22 : 17, isSelected ? 22 : 17],
   });
 }
 
 const userIcon = L.divIcon({
   html: `<div style="
-    width: 24px; height: 24px; border-radius: 50%;
-    background: hsla(213, 94%, 55%, 0.2);
+    width: 26px; height: 26px; border-radius: 50%;
+    background: hsla(213, 94%, 55%, 0.18);
     backdrop-filter: blur(8px);
+    border: 1.5px solid hsla(213, 94%, 55%, 0.4);
     display: flex; align-items: center; justify-content: center;
-  "><div style="width: 12px; height: 12px; border-radius: 50%; background: hsl(213, 94%, 55%); box-shadow: 0 0 8px hsla(213, 94%, 55%, 0.5);"></div></div>`,
+  "><div style="width: 10px; height: 10px; border-radius: 50%; background: hsl(213, 94%, 55%); box-shadow: 0 0 10px hsla(213, 94%, 55%, 0.6);"></div></div>`,
   className: '',
-  iconSize: [24, 24],
-  iconAnchor: [12, 12],
+  iconSize: [26, 26],
+  iconAnchor: [13, 13],
 });
 
 function FitBounds({ requests, selectedId }: { requests: Request[]; selectedId: string | null }) {
   const map = useMap();
-  
   useEffect(() => {
     if (selectedId) {
       const selected = requests.find(r => r.id === selectedId);
@@ -61,48 +63,40 @@ function FitBounds({ requests, selectedId }: { requests: Request[]; selectedId: 
       }
       return;
     }
-
-    const validRequests = requests.filter(r => r.location.coords);
-    if (validRequests.length === 0) {
-      map.setView(MUMBAI_CENTER, 13);
-      return;
+    const valid = requests.filter(r => r.location.coords);
+    if (valid.length === 0) { map.setView(MUMBAI_CENTER, 13); return; }
+    if (valid.length === 1) {
+      const c = valid[0].location.coords!;
+      map.flyTo([c.lat, c.lng], 14, { duration: 0.5 }); return;
     }
-
-    if (validRequests.length === 1) {
-      const coords = validRequests[0].location.coords!;
-      map.flyTo([coords.lat, coords.lng], 14, { duration: 0.5 });
-      return;
-    }
-
-    const bounds = L.latLngBounds(
-      validRequests.map(r => [r.location.coords!.lat, r.location.coords!.lng] as [number, number])
-    );
+    const bounds = L.latLngBounds(valid.map(r => [r.location.coords!.lat, r.location.coords!.lng] as [number, number]));
     bounds.extend(MUMBAI_CENTER);
-    
-    map.flyToBounds(bounds, { 
-      padding: [40, 40], 
-      duration: 0.5,
-      maxZoom: 14 
-    });
+    map.flyToBounds(bounds, { padding: [40, 40], duration: 0.5, maxZoom: 14 });
   }, [requests, selectedId, map]);
-
   return null;
 }
 
-function LocateControl({ setUserPos, mapRef }: { setUserPos: (pos: [number, number]) => void; mapRef: React.MutableRefObject<any> }) {
+function LocateControl({ mapRef }: { mapRef: React.MutableRefObject<any> }) {
   const map = useMap();
-
-  useEffect(() => {
-    mapRef.current = map;
-  }, [map, mapRef]);
-
+  useEffect(() => { mapRef.current = map; }, [map, mapRef]);
   return null;
 }
+
+const FILTERS: { id: Category | 'all'; label: string; emoji: string }[] = [
+  { id: 'all',     label: 'All',     emoji: '🔥' },
+  { id: 'chai',    label: 'Chai',    emoji: '☕' },
+  { id: 'sports',  label: 'Sports',  emoji: '🏸' },
+  { id: 'food',    label: 'Food',    emoji: '🍜' },
+  { id: 'explore', label: 'Explore', emoji: '🧭' },
+  { id: 'walk',    label: 'Walk',    emoji: '🚶' },
+  { id: 'work',    label: 'Work',    emoji: '💻' },
+];
 
 export default function MapPage() {
   const mapRef = useRef<any>(null);
   const navigate = useNavigate();
   const { requests, joinRequest, updateCredits } = useAppStore();
+  const { addXP, recordActivity, progressQuest } = useGamificationStore();
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [filter, setFilter] = useState<Category | 'all'>('all');
   const [confirmRequest, setConfirmRequest] = useState<Request | null>(null);
@@ -117,56 +111,79 @@ export default function MapPage() {
 
   const selected = activeRequests.find(r => r.id === selectedId);
 
-  const filters: { id: Category | 'all'; label: string }[] = [
-    { id: 'all', label: 'All' },
-    { id: 'chai', label: 'Chai' },
-    { id: 'sports', label: 'Sports' },
-    { id: 'food', label: 'Food' },
-    { id: 'explore', label: 'Explore' },
-    { id: 'walk', label: 'Walk' },
-  ];
-
-  const handleJoinFromMap = (req: Request) => {
-    setConfirmRequest(req);
-  };
+  const handleJoinFromMap = (req: Request) => setConfirmRequest(req);
 
   const handleConfirmJoin = () => {
     if (!confirmRequest) return;
     joinRequest(confirmRequest.id);
     updateCredits(0.5, 'Joined a request');
+    addXP('join_hangout', 'Joined a hangout');
+    recordActivity();
+    progressQuest('join_1_activity');
     setConfirmRequest(null);
     navigate(`/request/${confirmRequest.id}`);
   };
 
-  const handleShare = (req: Request) => {
-    setShareRequest(req);
-    setShowShare(true);
-  };
+  const handleShare = (req: Request) => { setShareRequest(req); setShowShare(true); };
 
-  const currentFilter = filters.find(f => f.id === filter);
+  const locateMe = useCallback(() => {
+    const map = mapRef.current;
+    if (!map || !navigator.geolocation) return;
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const latlng: [number, number] = [pos.coords.latitude, pos.coords.longitude];
+        setUserPos(latlng);
+        map.flyTo(latlng, 15, { duration: 0.8 });
+      },
+      () => {},
+      { enableHighAccuracy: true, timeout: 5000 }
+    );
+  }, []);
 
   return (
-    <div className="mobile-container min-h-screen bg-background pb-24 flex flex-col">
-      <TopBar title="Map" />
+    <div className="mobile-container bg-background flex flex-col" style={{ height: '100dvh' }}>
+      {/* ── Top bar ── */}
+      <header className="sticky top-0 z-40"
+        style={{
+          background: 'hsla(var(--glass-bg) / 0.35)',
+          backdropFilter: 'blur(var(--glass-blur-heavy)) saturate(220%)',
+          WebkitBackdropFilter: 'blur(var(--glass-blur-heavy)) saturate(220%)',
+          borderBottom: '0.5px solid hsla(var(--glass-border) / 0.4)',
+        }}>
+        <div className="flex items-center justify-between h-[48px] px-4">
+          <span className="text-[17px] font-bold text-foreground tracking-tight">Nearby</span>
+          <div className="flex items-center gap-1.5">
+            <span className="text-[11px] font-semibold text-muted-foreground">
+              {activeRequests.length} plan{activeRequests.length !== 1 ? 's' : ''}
+            </span>
+            <button onClick={locateMe}
+              className="w-8 h-8 rounded-full liquid-glass flex items-center justify-center tap-scale ml-1">
+              <Navigation size={14} className="text-primary" />
+            </button>
+          </div>
+        </div>
+      </header>
 
-      {/* Category filters — glass pills */}
-      <div className="flex gap-2 px-5 py-2.5 overflow-x-auto scrollbar-hide z-[1000] relative">
-        {filters.map((f) => (
+      {/* ── Category filters ── */}
+      <div className="flex gap-1.5 px-4 py-2 overflow-x-auto scrollbar-hide shrink-0">
+        {FILTERS.map((f) => (
           <button key={f.id} onClick={() => { setFilter(f.id); setSelectedId(null); }}
-            className={cn('h-9 px-3 rounded-full flex items-center gap-1.5 tap-scale text-sm transition-all whitespace-nowrap',
+            className={cn(
+              'h-8 px-3 rounded-full flex items-center gap-1.5 tap-scale text-[11px] font-semibold transition-all whitespace-nowrap shrink-0',
               filter === f.id ? 'glass-pill-active' : 'glass-pill-inactive'
             )}>
-            <span className="text-xs font-medium">{f.label}</span>
+            <span className="text-xs">{f.emoji}</span>
+            <span>{f.label}</span>
           </button>
         ))}
       </div>
 
-      {/* Map */}
-      <div className="relative mx-5 rounded-2xl overflow-hidden z-0 liquid-glass" style={{ height: '280px', borderRadius: '1.25rem', padding: 0 }}>
+      {/* ── Map ── */}
+      <div className="relative mx-4 rounded-[1.25rem] overflow-hidden shrink-0" style={{ height: '240px' }}>
         <MapContainer
           center={MUMBAI_CENTER}
           zoom={13}
-          style={{ height: '100%', width: '100%', borderRadius: '1.25rem' }}
+          style={{ height: '100%', width: '100%' }}
           zoomControl={false}
           attributionControl={false}
         >
@@ -176,116 +193,132 @@ export default function MapPage() {
           />
           <FitBounds requests={activeRequests} selectedId={selectedId} />
           <Marker position={userPos} icon={userIcon} />
-          <LocateControl setUserPos={setUserPos} mapRef={mapRef} />
+          <LocateControl mapRef={mapRef} />
           {activeRequests.map((req) => {
             if (!req.location.coords) return null;
-            const isSelected = selectedId === req.id;
             return (
               <Marker
                 key={req.id}
                 position={[req.location.coords.lat, req.location.coords.lng]}
-                icon={createEmojiIcon(getCategoryEmoji(req.category), isSelected)}
-                eventHandlers={{
-                  click: () => setSelectedId(isSelected ? null : req.id),
-                }}
+                icon={createEmojiIcon(getCategoryEmoji(req.category), selectedId === req.id)}
+                eventHandlers={{ click: () => setSelectedId(selectedId === req.id ? null : req.id) }}
               />
             );
           })}
         </MapContainer>
 
-        {/* Locate me button — glass */}
-        <button
-          onClick={() => {
-            const map = mapRef.current;
-            if (!map || !navigator.geolocation) return;
-            navigator.geolocation.getCurrentPosition(
-              (pos) => {
-                const latlng: [number, number] = [pos.coords.latitude, pos.coords.longitude];
-                setUserPos(latlng);
-                map.flyTo(latlng, 15, { duration: 0.8 });
-              },
-              () => {},
-              { enableHighAccuracy: true, timeout: 5000 }
-            );
-          }}
-          className="absolute bottom-3 right-3 z-[1000] w-9 h-9 rounded-full liquid-glass flex items-center justify-center tap-scale"
-          style={{ borderRadius: '50%' }}
-          aria-label="Locate me"
-        >
-          <Navigation size={16} className="text-primary" />
-        </button>
-
         {activeRequests.length === 0 && (
           <div className="absolute inset-0 flex items-center justify-center z-[500] pointer-events-none">
-            <div className="text-center liquid-glass-heavy p-4">
-              <MapPin size={28} className="text-muted-foreground mx-auto mb-2" />
-              <p className="text-xs text-muted-foreground">No plans nearby</p>
+            <div className="text-center liquid-glass-heavy px-5 py-4" style={{ borderRadius: '1.25rem' }}>
+              <MapPin size={24} className="text-muted-foreground mx-auto mb-2" />
+              <p className="text-xs text-muted-foreground font-medium">No plans in this area</p>
             </div>
           </div>
         )}
       </div>
 
-      {/* Events list header */}
-      <div className="px-5 pt-3 pb-1.5 flex items-center justify-between">
-        <p className="text-xs font-semibold text-muted-foreground">
-          {activeRequests.length} {filter === 'all' ? 'plans' : `${currentFilter?.label} plans`} nearby
-        </p>
-        {selectedId && (
-          <button onClick={() => setSelectedId(null)} className="text-2xs text-primary font-semibold tap-scale">
-            Show all
-          </button>
-        )}
-      </div>
+      {/* ── Selected plan quick info ── */}
+      {selected && (
+        <div className="mx-4 mt-2 shrink-0">
+          <div className="liquid-glass-heavy p-3.5 flex items-center gap-3 relative" style={{ borderRadius: '1.25rem' }}>
+            <div className="w-10 h-10 rounded-[0.75rem] liquid-glass flex items-center justify-center text-lg shrink-0">
+              {getCategoryEmoji(selected.category)}
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-[13px] font-bold text-foreground truncate">{selected.title}</p>
+              <p className="text-[11px] text-muted-foreground mt-0.5">📍 {selected.location.name} · {selected.location.distance}km</p>
+            </div>
+            <Button size="sm" className="h-8 px-3 text-[12px] shrink-0"
+              onClick={() => handleJoinFromMap(selected)}>Join</Button>
+            <button onClick={() => setSelectedId(null)}
+              className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-muted flex items-center justify-center tap-scale">
+              <X size={10} className="text-muted-foreground" />
+            </button>
+          </div>
+        </div>
+      )}
 
-      {/* Events list — glass cards */}
-      <div className="flex-1 overflow-y-auto px-5 space-y-2 pb-2">
-        {(selectedId ? activeRequests.filter(r => r.id === selectedId) : activeRequests).map((req) => (
-          <div
-            key={req.id}
-            className={cn(
-              "liquid-glass-interactive p-3 transition-all",
-              selectedId === req.id && "ring-1 ring-primary/30"
-            )}
-            onClick={() => setSelectedId(selectedId === req.id ? null : req.id)}
-          >
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl liquid-glass flex items-center justify-center text-lg shrink-0" style={{ borderRadius: '0.75rem' }}>
-                {getCategoryEmoji(req.category)}
+      {/* ── Plans list ── */}
+      <div className="flex-1 overflow-y-auto px-4 mt-2 pb-28">
+        {/* List header */}
+        <div className="flex items-center justify-between py-1.5 mb-1">
+          <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">
+            {selectedId ? 'Selected plan' : `${activeRequests.length} nearby`}
+          </p>
+          {selectedId && (
+            <button onClick={() => setSelectedId(null)} className="text-[11px] text-primary font-semibold tap-scale">
+              Show all
+            </button>
+          )}
+        </div>
+
+        <div className="space-y-2 pb-2">
+          {(selectedId ? activeRequests.filter(r => r.id === selectedId) : activeRequests).map((req) => (
+            <div
+              key={req.id}
+              className={cn(
+                'liquid-glass-interactive p-3.5 transition-all',
+                selectedId === req.id && 'ring-1 ring-primary/30'
+              )}
+              onClick={() => setSelectedId(selectedId === req.id ? null : req.id)}
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-[0.75rem] liquid-glass flex items-center justify-center text-lg shrink-0">
+                  {getCategoryEmoji(req.category)}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h3 className="text-[13px] font-semibold text-foreground truncate leading-tight">{req.title}</h3>
+                  <div className="flex items-center gap-2 mt-0.5">
+                    <UrgencyBadge urgency={req.urgency} />
+                    <span className="text-[10px] text-muted-foreground flex items-center gap-0.5">
+                      <MapPin size={9} /> {req.location.distance}km
+                    </span>
+                  </div>
+                </div>
+                <Button
+                  onClick={(e) => { e.stopPropagation(); handleJoinFromMap(req); }}
+                  size="sm"
+                  className="shrink-0 h-8 px-3 text-[12px]"
+                >
+                  Join
+                </Button>
               </div>
 
-              <div className="flex-1 min-w-0">
-                <h3 className="text-[13px] font-semibold text-foreground truncate leading-tight">{req.title}</h3>
-                <div className="flex items-center gap-2 mt-1">
-                  <UrgencyBadge urgency={req.urgency} />
-                  <span className="text-[10px] text-muted-foreground flex items-center gap-0.5">
-                    <MapPin size={9} /> {req.location.distance}km · ~{Math.round(req.location.distance * 12)}min
+              <div className="flex items-center justify-between mt-2.5 pt-2.5" style={{ borderTop: '0.5px solid hsla(var(--glass-border))' }}>
+                <div className="flex items-center gap-2">
+                  <div className="flex -space-x-1">
+                    {[req.userName, ...req.participants.map(p => p.name)].slice(0, 3).map((name, i) => (
+                      <GradientAvatar key={i} name={name} size={18} showInitials={false} className="border border-background" />
+                    ))}
+                  </div>
+                  <span className="text-[10px] text-muted-foreground">
+                    {req.seatsTotal - req.seatsTaken} spot{req.seatsTotal - req.seatsTaken !== 1 ? 's' : ''} left
                   </span>
                 </div>
+                <div className="flex items-center gap-2">
+                  <span className="flex items-center gap-0.5 text-[10px] text-muted-foreground">
+                    <Star size={9} className="text-accent" /> {req.userReliability}%
+                  </span>
+                  <button
+                    onClick={(e) => { e.stopPropagation(); handleShare(req); }}
+                    className="flex items-center gap-1 text-[10px] text-muted-foreground tap-scale"
+                  >
+                    <Share2 size={10} /> Share
+                  </button>
+                </div>
               </div>
-
-              <Button
-                onClick={(e) => { e.stopPropagation(); handleJoinFromMap(req); }}
-                size="sm"
-                className="shrink-0 h-8 px-3 text-[12px]"
-              >
-                Join
-              </Button>
             </div>
+          ))}
 
-            <div className="flex items-center justify-between mt-2.5 pt-2 border-t border-border/10">
-              <div className="flex items-center gap-3 text-[10px] text-muted-foreground">
-                <span className="flex items-center gap-0.5"><Users size={10} /> {req.seatsTotal - req.seatsTaken} spots left</span>
-                <span className="flex items-center gap-0.5"><Star size={10} /> {req.userReliability}% reliable</span>
-              </div>
-              <button
-                onClick={(e) => { e.stopPropagation(); handleShare(req); }}
-                className="flex items-center gap-1 text-[10px] text-muted-foreground tap-scale"
-              >
-                <Share2 size={10} /> Share
-              </button>
+          {activeRequests.length === 0 && (
+            <div className="text-center py-10">
+              <MapPin size={28} className="mx-auto text-muted-foreground/30 mb-3" />
+              <p className="text-[13px] text-muted-foreground font-medium mb-1">No plans nearby</p>
+              <p className="text-[11px] text-muted-foreground/60 mb-5">Try a different filter or post one yourself</p>
+              <Button size="sm" variant="outline" onClick={() => navigate('/create')}>Post a plan</Button>
             </div>
-          </div>
-        ))}
+          )}
+        </div>
       </div>
 
       {confirmRequest && (

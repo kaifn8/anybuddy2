@@ -15,15 +15,15 @@ import { StreakWidget } from '@/components/gamification/StreakWidget';
 import type { Category, Request } from '@/types/anybuddy';
 
 const FILTERS: { id: Category | 'all'; label: string }[] = [
-  { id: 'all', label: 'All' },
-  { id: 'chai', label: 'Coffee' },
-  { id: 'sports', label: 'Sports' },
-  { id: 'food', label: 'Food' },
+  { id: 'all',     label: 'All'     },
+  { id: 'chai',    label: 'Coffee'  },
+  { id: 'sports',  label: 'Sports'  },
+  { id: 'food',    label: 'Food'    },
   { id: 'explore', label: 'Explore' },
-  { id: 'work', label: 'Cowork' },
-  { id: 'walk', label: 'Walk' },
-  { id: 'help', label: 'Help' },
-  { id: 'casual', label: 'Chill' },
+  { id: 'work',    label: 'Cowork'  },
+  { id: 'walk',    label: 'Walk'    },
+  { id: 'help',    label: 'Help'    },
+  { id: 'casual',  label: 'Chill'   },
 ];
 
 const filterEmojis: Record<string, string> = {
@@ -32,10 +32,10 @@ const filterEmojis: Record<string, string> = {
 };
 
 const QUICK_CREATE: { emoji: string; title: string; category: Category }[] = [
-  { emoji: '☕', title: 'Coffee', category: 'chai' },
-  { emoji: '🚶', title: 'Walk', category: 'walk' },
-  { emoji: '🍜', title: 'Food', category: 'food' },
-  { emoji: '🏸', title: 'Sports', category: 'sports' },
+  { emoji: '☕', title: 'Coffee',  category: 'chai'    },
+  { emoji: '🚶', title: 'Walk',   category: 'walk'    },
+  { emoji: '🍜', title: 'Food',   category: 'food'    },
+  { emoji: '🏸', title: 'Sports', category: 'sports'  },
 ];
 
 export default function HomePage() {
@@ -123,27 +123,27 @@ export default function HomePage() {
         : new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
     });
 
-  // Feed density: expand radius silently — never show empty
   const NEAR_RADIUS = 1.5;
   const nearbyFiltered = filtered.filter(r => r.location.distance <= NEAR_RADIUS);
   const midFiltered = filtered.filter(r => r.location.distance <= 3);
-  const effectiveFiltered = filtered; // always show all, density note below
+  const effectiveFiltered = filtered;
 
   const radiusNote = nearbyFiltered.length < 3 && filtered.length > 0
-    ? midFiltered.length >= 3 ? 'Plans within 3 km' : 'Plans within 5 km'
+    ? midFiltered.length >= 3 ? 'within 3 km' : 'within 5 km'
     : null;
 
   const trending = [...requests]
     .filter(r => r.status === 'active')
     .sort((a, b) => b.seatsTaken - a.seatsTaken)
-    .slice(0, 4);
+    .slice(0, 5);
 
   const livePlans = effectiveFiltered.filter(r => r.urgency === 'now').slice(0, 3);
   const recentlyHappened = [...requests].filter(r => r.status === 'completed').slice(0, 4);
 
   return (
     <>
-      <PageTransition className="mobile-container min-h-screen bg-background pb-24 lg:pb-8">
+      <PageTransition className="mobile-container min-h-screen bg-background pb-28 lg:pb-8">
+        {/* Mobile top bar */}
         <div className="lg:hidden">
           <TopBar />
         </div>
@@ -152,22 +152,22 @@ export default function HomePage() {
         <div className="hidden lg:flex items-center justify-between px-6 pt-5 pb-3">
           <div>
             <h1 className="text-xl font-bold text-foreground tracking-tight">
-              {user ? `Hey ${user.firstName}` : 'Discover plans nearby'}
+              {user ? `Hey ${user.firstName} 👋` : 'Discover plans nearby'}
             </h1>
-            <p className="text-sm text-muted-foreground mt-0.5">Find people to hang out with right now</p>
+            <p className="text-sm text-muted-foreground mt-0.5">What are you up to today?</p>
           </div>
           <button onClick={() => navigate('/create')}
-            className="hidden lg:flex items-center gap-2 tahoe-btn-primary px-5 py-2.5 text-sm tap-scale">
+            className="hidden lg:flex items-center gap-2 tahoe-btn-primary px-5 py-2.5 text-sm tap-scale rounded-[1rem]">
             ✨ Post a plan
           </button>
         </div>
 
         {/* Streak nudge */}
-        <div className="px-5 pt-3 pb-1">
+        <div className="px-4 pt-3 pb-1">
           <button
             onClick={() => navigate('/quests')}
             className="w-full liquid-glass-interactive flex items-center gap-3 px-4 py-2.5 text-left"
-            style={{ borderRadius: '0.875rem' }}
+            style={{ borderRadius: '1rem' }}
           >
             <StreakWidget compact />
             <div className="w-px h-4 bg-border/40 shrink-0" />
@@ -179,16 +179,19 @@ export default function HomePage() {
         {/* Trending — filling up fast */}
         {trending.length > 0 && (
           <div className="pt-4 mb-1">
-            <div className="flex items-center justify-between px-5 mb-3">
+            <div className="flex items-center justify-between px-4 mb-2.5">
               <h3 className="text-[13px] font-bold text-foreground tracking-tight">🚀 Filling up fast</h3>
+              <button onClick={() => navigate('/map')} className="text-[11px] text-primary font-semibold tap-scale">
+                Map view →
+              </button>
             </div>
-            <div ref={trendingRef} className="flex gap-3 overflow-x-auto scrollbar-hide px-5 pb-3 snap-x snap-mandatory lg:flex-wrap">
+            <div ref={trendingRef} className="flex gap-3 overflow-x-auto scrollbar-hide px-4 pb-3 snap-x snap-mandatory lg:flex-wrap">
               {trending.map((req) => {
                 const seatsLeft = req.seatsTotal - req.seatsTaken;
                 return (
                   <button key={req.id} onClick={() => navigate(`/request/${req.id}`)}
-                    className="shrink-0 liquid-glass-trending tap-scale min-w-[200px] max-w-[220px] lg:min-w-[260px] text-left relative overflow-hidden snap-start">
-                    <div className="absolute inset-0 opacity-[0.05]"
+                    className="shrink-0 liquid-glass-trending tap-scale min-w-[196px] max-w-[220px] lg:min-w-[260px] text-left relative overflow-hidden snap-start">
+                    <div className="absolute inset-0 opacity-[0.04]"
                       style={{ background: `radial-gradient(ellipse at 20% 10%, hsl(var(--primary)), transparent 70%)` }} />
                     <div className="relative z-10 p-4">
                       <div className="flex items-center justify-between mb-3">
@@ -196,11 +199,11 @@ export default function HomePage() {
                           {getCategoryEmoji(req.category)}
                         </div>
                         <div className="flex items-center gap-1 px-2 py-0.5 rounded-full liquid-glass">
-                          <span className="w-[5px] h-[5px] rounded-full bg-success" />
+                          <span className="w-[5px] h-[5px] rounded-full bg-success animate-pulse" />
                           <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-[0.08em]">Live</span>
                         </div>
                       </div>
-                      <h4 className="text-[14px] font-bold text-foreground leading-snug truncate mb-1 tracking-tight">{req.title}</h4>
+                      <h4 className="text-[13px] font-bold text-foreground leading-snug truncate mb-1 tracking-tight">{req.title}</h4>
                       <p className="text-[11px] text-muted-foreground mb-4 truncate">📍 {req.location.name}</p>
                       <div className="flex items-center justify-between">
                         <div className="flex -space-x-2">
@@ -224,8 +227,8 @@ export default function HomePage() {
         )}
 
         {/* Category filters */}
-        <div className="px-5 pb-2">
-          <div className="flex gap-1.5 overflow-x-auto pb-1.5 -mx-5 px-5 scrollbar-hide lg:mx-0 lg:px-0 lg:flex-wrap">
+        <div className="px-4 pb-2">
+          <div className="flex gap-1.5 overflow-x-auto pb-1.5 -mx-4 px-4 scrollbar-hide lg:mx-0 lg:px-0 lg:flex-wrap">
             {FILTERS.map((cat) => {
               const emoji = filterEmojis[cat.id] || '✨';
               return (
@@ -243,7 +246,7 @@ export default function HomePage() {
 
         {/* Live right now strip */}
         {livePlans.length > 0 && (
-          <div className="px-5 pt-1 pb-2">
+          <div className="px-4 pt-1 pb-2">
             <h3 className="section-label mb-2 flex items-center gap-1.5">
               <span className="w-1.5 h-1.5 rounded-full bg-destructive animate-pulse" />
               Live right now
@@ -251,7 +254,7 @@ export default function HomePage() {
             <div className="space-y-1.5">
               {livePlans.map((req) => (
                 <button key={req.id} onClick={() => navigate(`/request/${req.id}`)}
-                  className="w-full liquid-glass-interactive flex items-center gap-3 p-3 text-left">
+                  className="w-full liquid-glass-interactive flex items-center gap-3 p-3 text-left" style={{ borderRadius: '0.875rem' }}>
                   <div className="w-9 h-9 rounded-[0.875rem] liquid-glass flex items-center justify-center text-base shrink-0">
                     {getCategoryEmoji(req.category)}
                   </div>
@@ -270,10 +273,12 @@ export default function HomePage() {
         )}
 
         {/* Feed header */}
-        <div className="px-5 pt-2 pb-1.5 flex items-center justify-between">
+        <div className="px-4 pt-2 pb-1.5 flex items-center justify-between">
           <h3 className="section-label">
             {activeFilter === 'all' ? 'All plans' : `${FILTERS.find(f => f.id === activeFilter)?.label}`}
-            {radiusNote && <span className="ml-2 normal-case font-normal text-muted-foreground/50">· {radiusNote}</span>}
+            {radiusNote && (
+              <span className="ml-1.5 normal-case font-normal text-[10px] text-muted-foreground/50">· {radiusNote}</span>
+            )}
           </h3>
           <button onClick={() => navigate('/circle')}
             className="text-[11px] text-primary font-semibold tap-scale flex items-center gap-1">
@@ -282,7 +287,7 @@ export default function HomePage() {
         </div>
 
         {/* Feed grid */}
-        <div ref={cardsRef} className="px-5 space-y-3 md:grid md:grid-cols-2 md:gap-4 md:space-y-0 xl:grid-cols-3">
+        <div ref={cardsRef} className="px-4 space-y-3 md:grid md:grid-cols-2 md:gap-4 md:space-y-0 xl:grid-cols-3">
           {effectiveFiltered.map((request) => (
             <RequestCard
               key={request.id}
@@ -294,7 +299,7 @@ export default function HomePage() {
           ))}
 
           {effectiveFiltered.length === 0 && (
-            <div className="col-span-full pt-8 text-center">
+            <div className="col-span-full pt-10 text-center px-4">
               <div className="w-14 h-14 rounded-[1.25rem] liquid-glass flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl">✨</span>
               </div>
@@ -317,12 +322,12 @@ export default function HomePage() {
 
         {/* Recently happened */}
         {effectiveFiltered.length > 0 && recentlyHappened.length > 0 && (
-          <div className="px-5 mt-5">
+          <div className="px-4 mt-6">
             <h3 className="section-label mb-2.5">🕐 Recently happened</h3>
-            <div className="flex gap-2.5 overflow-x-auto scrollbar-hide pb-2 -mx-5 px-5">
+            <div className="flex gap-2.5 overflow-x-auto scrollbar-hide pb-2 -mx-4 px-4">
               {recentlyHappened.map((req) => (
                 <button key={req.id} onClick={() => navigate(`/request/${req.id}`)}
-                  className="shrink-0 liquid-glass px-3.5 py-2.5 flex items-center gap-2 opacity-60 tap-scale"
+                  className="shrink-0 liquid-glass px-3.5 py-2.5 flex items-center gap-2 opacity-55 tap-scale"
                   style={{ borderRadius: '0.875rem', minWidth: '180px' }}>
                   <span className="text-base">{getCategoryEmoji(req.category)}</span>
                   <div className="min-w-0">
@@ -335,11 +340,11 @@ export default function HomePage() {
           </div>
         )}
 
-        {/* Quick create strip */}
+        {/* Start something strip */}
         {effectiveFiltered.length > 0 && (
-          <div className="px-5 mt-4 mb-2">
+          <div className="px-4 mt-4 mb-2">
             <h3 className="section-label mb-2.5">Start something</h3>
-            <div className="flex gap-2 overflow-x-auto scrollbar-hide -mx-5 px-5">
+            <div className="flex gap-2 overflow-x-auto scrollbar-hide -mx-4 px-4">
               {QUICK_CREATE.map((s, i) => (
                 <button key={i} onClick={() => navigate('/create')}
                   className="shrink-0 liquid-glass-interactive px-3.5 py-2.5 flex items-center gap-2" style={{ borderRadius: '0.875rem' }}>

@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { TopBar } from '@/components/layout/TopBar';
 import { format } from 'date-fns';
 import { BottomNav } from '@/components/layout/BottomNav';
 import { getCategoryLabel, getCategoryEmoji } from '@/components/icons/CategoryIcon';
@@ -14,33 +13,27 @@ import { VerificationCard } from '@/components/profile/VerificationCard';
 import { XPProgressBar } from '@/components/gamification/XPProgressBar';
 import { StreakWidget } from '@/components/gamification/StreakWidget';
 import { cn } from '@/lib/utils';
+import { Settings, Bell, Users } from 'lucide-react';
 import type { Badge, Request, TrustLevel, VerificationStatus } from '@/types/anybuddy';
 
-const TRUST_PROGRESSION: { level: TrustLevel; label: string; emoji: string; joinsNeeded: number }[] = [
-  { level: 'seed', label: 'New', emoji: '✨', joinsNeeded: 0 },
-  { level: 'solid', label: 'Solid', emoji: '🛡️', joinsNeeded: 3 },
-  { level: 'trusted', label: 'Trusted', emoji: '⭐', joinsNeeded: 10 },
-  { level: 'anchor', label: 'Star', emoji: '🏆', joinsNeeded: 25 },
-];
-
 const badgeConfig: Record<Badge, { emoji: string; label: string }> = {
-  verified_host: { emoji: '🔵', label: 'Verified Host' },
-  top_host: { emoji: '🏆', label: 'Top Host' },
-  trusted_member: { emoji: '🛡️', label: 'Trusted Member' },
-  early_adopter: { emoji: '⭐', label: 'Early Adopter' },
-  streak_7: { emoji: '🔥', label: '7-Day Streak' },
+  verified_host:   { emoji: '🔵', label: 'Verified Host'   },
+  top_host:        { emoji: '🏆', label: 'Top Host'        },
+  trusted_member:  { emoji: '🛡️', label: 'Trusted Member' },
+  early_adopter:   { emoji: '⭐', label: 'Early Adopter'   },
+  streak_7:        { emoji: '🔥', label: '7-Day Streak'    },
 };
 
 function VerificationPill({ status }: { status: VerificationStatus }) {
   if (status === 'verified') {
     return (
-      <span className="inline-flex items-center gap-1 text-xs text-muted-foreground">
+      <span className="inline-flex items-center gap-1 text-[11px] text-muted-foreground">
         <BlueTick size={12} /> Verified
       </span>
     );
   }
   if (status === 'pending') {
-    return <span className="inline-flex items-center gap-1 text-xs text-warning font-medium">⏳ Pending</span>;
+    return <span className="inline-flex items-center gap-1 text-[11px] text-warning font-medium">⏳ Pending</span>;
   }
   return null;
 }
@@ -60,16 +53,19 @@ export default function ProfilePage() {
 
   if (!user) {
     return (
-      <div className="mobile-container min-h-screen bg-background flex items-center justify-center">
-        <div className="text-center px-8">
-          <div className="w-16 h-16 rounded-[1.25rem] liquid-glass flex items-center justify-center mx-auto mb-5">
-            <span className="text-2xl">👤</span>
+      <>
+        <div className="mobile-container min-h-screen bg-background flex items-center justify-center">
+          <div className="text-center px-8">
+            <div className="w-16 h-16 rounded-[1.25rem] liquid-glass flex items-center justify-center mx-auto mb-5">
+              <span className="text-2xl">👤</span>
+            </div>
+            <p className="text-[16px] font-bold text-foreground mb-1.5 tracking-tight">Sign in to view your profile</p>
+            <p className="text-sm text-muted-foreground mb-6">Your plans, badges, and stats</p>
+            <Button onClick={() => navigate('/signup')} className="h-11 px-8">Sign In</Button>
           </div>
-          <p className="text-base font-semibold text-foreground mb-1.5 tracking-tight">Sign in to view your profile</p>
-          <p className="text-sm text-muted-foreground mb-6">Your plans, badges, and stats</p>
-          <Button onClick={() => navigate('/signup')} className="h-11 px-8">Sign In</Button>
         </div>
-      </div>
+        <BottomNav />
+      </>
     );
   }
 
@@ -81,27 +77,47 @@ export default function ProfilePage() {
   const totalJoins = user.meetupsAttended + user.completedJoins;
   const verificationStatus: VerificationStatus = user.verificationStatus || 'unverified';
   const activityCount = pastMeetups.length + myRequests.length + savedPlansList.length;
-
-  const currentIndex = TRUST_PROGRESSION.findIndex(t => t.level === user.trustLevel);
-  const nextLevel = currentIndex < TRUST_PROGRESSION.length - 1 ? TRUST_PROGRESSION[currentIndex + 1] : null;
-  const progressToNext = nextLevel ? Math.min(100, (user.completedJoins / nextLevel.joinsNeeded) * 100) : 100;
+  const newAchievements = unlockedAchievements.filter(a => !a.seen).length;
 
   return (
     <>
       <div className="mobile-container min-h-screen bg-background pb-28">
-        <TopBar title="Profile" hideChat showSettings />
-
-        <div className="px-5 pt-5 space-y-3">
-
-          {/* ── Profile card ── */}
-          <div className="liquid-glass-heavy p-5 text-center">
-            <div className="relative inline-block">
-              <GradientAvatar name={user.firstName} size={72} className="mx-auto" />
+        {/* Custom top bar for profile */}
+        <header className="sticky top-0 z-40"
+          style={{
+            background: 'hsla(var(--glass-bg) / 0.35)',
+            backdropFilter: 'blur(var(--glass-blur-heavy)) saturate(220%)',
+            WebkitBackdropFilter: 'blur(var(--glass-blur-heavy)) saturate(220%)',
+            borderBottom: '0.5px solid hsla(var(--glass-border) / 0.4)',
+          }}>
+          <div className="flex items-center justify-between h-[48px] px-4">
+            <span className="text-[17px] font-bold text-foreground tracking-tight">Profile</span>
+            <div className="flex items-center gap-1.5">
+              <button onClick={() => navigate('/notifications')}
+                className="relative w-8 h-8 rounded-full liquid-glass flex items-center justify-center tap-scale">
+                <Bell size={15} className="text-muted-foreground" />
+              </button>
+              <button onClick={() => navigate('/settings')}
+                className="w-8 h-8 rounded-full liquid-glass flex items-center justify-center tap-scale">
+                <Settings size={15} className="text-muted-foreground" />
+              </button>
             </div>
-            <h2 className="text-[20px] font-bold mt-3 tracking-tight text-foreground">{user.firstName}</h2>
+          </div>
+        </header>
+
+        <div className="px-4 pt-4 space-y-3">
+
+          {/* ── Profile hero card ── */}
+          <div className="liquid-glass-heavy p-5 text-center">
+            <div className="relative inline-block mb-3">
+              <GradientAvatar name={user.firstName} size={80} className="mx-auto" />
+              {verificationStatus === 'verified' && (
+                <BlueTick size={20} className="absolute -bottom-1 -right-1" />
+              )}
+            </div>
+            <h2 className="text-[22px] font-bold tracking-tight text-foreground leading-tight">{user.firstName}</h2>
             <div className="flex items-center justify-center gap-2 mt-1.5">
               <TrustBadge level={user.trustLevel} size="md" />
-              <VerificationPill status={verificationStatus} />
             </div>
             {user.bio && (
               <p className="text-[13px] mt-2.5 leading-relaxed max-w-[240px] mx-auto text-muted-foreground">{user.bio}</p>
@@ -111,19 +127,20 @@ export default function ProfilePage() {
               <span className="w-px h-2.5 bg-border/50" />
               <span>Joined {joinText}</span>
             </div>
-            {/* Quick action row */}
-            <div className="flex gap-2 mt-4 justify-center">
+
+            {/* Quick action pills */}
+            <div className="flex items-center justify-center gap-2 mt-4 flex-wrap">
               <button onClick={() => navigate('/notifications')}
                 className="flex items-center gap-1.5 px-3 py-1.5 liquid-glass rounded-full text-[11px] font-semibold tap-scale">
                 🔔 Alerts
               </button>
               <button onClick={() => navigate('/circle')}
                 className="flex items-center gap-1.5 px-3 py-1.5 liquid-glass rounded-full text-[11px] font-semibold tap-scale">
-                👥 Circle
+                <Users size={11} /> Circle
               </button>
               <button onClick={() => navigate('/settings')}
                 className="flex items-center gap-1.5 px-3 py-1.5 liquid-glass rounded-full text-[11px] font-semibold tap-scale">
-                ⚙️ Settings
+                <Settings size={11} /> Settings
               </button>
             </div>
           </div>
@@ -131,15 +148,15 @@ export default function ProfilePage() {
           {/* ── Stats grid ── */}
           <div className="grid grid-cols-4 gap-2">
             {[
-              { value: `${user.reliabilityScore}%`, label: 'Show-up', path: '/credits' },
-              { value: totalJoins, label: 'Joined', path: null },
-              { value: user.meetupsHosted, label: 'Hosted', path: null },
-              { value: user.hostRating ? `${user.hostRating}★` : '—', label: 'Rating', path: null },
+              { value: `${user.reliabilityScore}%`, label: 'Show-up', path: '/credits', color: 'text-success' },
+              { value: totalJoins,                  label: 'Joined',   path: null,       color: 'text-foreground' },
+              { value: user.meetupsHosted,           label: 'Hosted',   path: null,       color: 'text-foreground' },
+              { value: user.hostRating ? `${user.hostRating}★` : '—', label: 'Rating', path: null, color: 'text-accent' },
             ].map((stat, i) => (
               <button key={i}
                 onClick={() => stat.path ? navigate(stat.path) : undefined}
-                className={cn('liquid-glass p-2.5 text-center', stat.path && 'tap-scale hover:liquid-glass-heavy transition-all')}>
-                <p className="text-[14px] font-bold text-foreground tabular-nums">{stat.value}</p>
+                className={cn('liquid-glass p-2.5 text-center', stat.path && 'tap-scale')}>
+                <p className={cn('text-[15px] font-bold tabular-nums', stat.color)}>{stat.value}</p>
                 <p className="text-[9px] text-muted-foreground mt-0.5 font-medium uppercase tracking-wider">{stat.label}</p>
               </button>
             ))}
@@ -152,17 +169,22 @@ export default function ProfilePage() {
           {/* ── Verification ── */}
           <VerificationCard />
 
-          {/* ── Secondary pages grid ── */}
+          {/* ── Secondary nav grid ── */}
           <div className="grid grid-cols-2 gap-2">
             {[
-              { emoji: '⚡', label: 'Daily Quests',  sub: 'XP + credits',       path: '/quests'      },
-              { emoji: '🏆', label: 'Leaderboard',   sub: 'Weekly rank',         path: '/leaderboard' },
-              { emoji: '💳', label: 'Credits',       sub: `${user.credits} pts`, path: '/credits'     },
-              { emoji: '🎁', label: 'Invite Friends', sub: 'Earn credits',       path: '/invite'      },
+              { emoji: '⚡', label: 'Daily Quests',   sub: 'XP + credits',       path: '/quests',      badge: newAchievements },
+              { emoji: '🏆', label: 'Leaderboard',    sub: 'Weekly rank',         path: '/leaderboard', badge: 0              },
+              { emoji: '💳', label: 'Credits',        sub: `${user.credits} pts`, path: '/credits',     badge: 0              },
+              { emoji: '🎁', label: 'Invite Friends', sub: 'Earn credits',        path: '/invite',      badge: 0              },
             ].map((item) => (
               <button key={item.path} onClick={() => navigate(item.path)}
-                className="liquid-glass-interactive flex items-center gap-2.5 px-3.5 py-3 text-left">
-                <span className="text-lg">{item.emoji}</span>
+                className="liquid-glass-interactive flex items-center gap-2.5 px-3.5 py-3.5 text-left relative overflow-hidden">
+                {item.badge > 0 && (
+                  <span className="absolute top-2 right-2 w-4 h-4 rounded-full bg-destructive flex items-center justify-center text-[8px] font-bold text-white">
+                    {item.badge}
+                  </span>
+                )}
+                <span className="text-[18px]">{item.emoji}</span>
                 <div className="min-w-0">
                   <p className="text-[12px] font-bold text-foreground tracking-tight truncate">{item.label}</p>
                   <p className="text-[10px] text-muted-foreground mt-0.5">{item.sub}</p>
@@ -171,7 +193,7 @@ export default function ProfilePage() {
             ))}
           </div>
 
-          {/* ── Tabs ── */}
+          {/* ── Content tabs ── */}
           <div className="flex gap-1 p-1 liquid-glass" style={{ borderRadius: '1rem' }}>
             {(['overview', 'activity'] as const).map((tab) => (
               <button key={tab} onClick={() => setActiveTab(tab)}
@@ -183,7 +205,7 @@ export default function ProfilePage() {
                 )}>
                 {tab}
                 {tab === 'activity' && activityCount > 0 && (
-                  <span className="ml-1.5 inline-flex items-center justify-center w-4 h-4 rounded-full bg-primary/10 text-primary text-[9px] font-bold">
+                  <span className="ml-1 inline-flex items-center justify-center w-4 h-4 rounded-full bg-primary/10 text-primary text-[9px] font-bold">
                     {activityCount}
                   </span>
                 )}
@@ -199,7 +221,8 @@ export default function ProfilePage() {
                   <h3 className="section-label mb-3">Interests</h3>
                   <div className="flex flex-wrap gap-2">
                     {user.interests.map((interest) => (
-                      <div key={interest} className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium liquid-glass text-foreground"
+                      <div key={interest}
+                        className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium liquid-glass text-foreground"
                         style={{ borderRadius: '0.75rem' }}>
                         <span>{getCategoryEmoji(interest)}</span>
                         <span>{getCategoryLabel(interest)}</span>
@@ -217,7 +240,8 @@ export default function ProfilePage() {
                       const config = badgeConfig[badge];
                       if (!config) return null;
                       return (
-                        <div key={badge} className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-[0.75rem] bg-primary/6 text-primary"
+                        <div key={badge}
+                          className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold bg-primary/6 text-primary"
                           style={{ borderRadius: '0.75rem' }}>
                           <span>{config.emoji}</span>
                           <span>{config.label}</span>
@@ -233,13 +257,13 @@ export default function ProfilePage() {
                   <h3 className="section-label mb-3">Host Stats</h3>
                   <div className="grid grid-cols-2 gap-2">
                     <div className="liquid-glass p-2.5 text-center">
-                      <p className="text-sm font-bold text-foreground tabular-nums">
+                      <p className="text-[15px] font-bold text-success tabular-nums">
                         {Math.round((user.meetupsAttended / Math.max(user.meetupsHosted, 1)) * 100)}%
                       </p>
                       <p className="text-[9px] text-muted-foreground mt-0.5 uppercase tracking-wider">Success rate</p>
                     </div>
                     <div className="liquid-glass p-2.5 text-center">
-                      <p className="text-sm font-bold text-foreground tabular-nums">{user.noShows}</p>
+                      <p className="text-[15px] font-bold text-destructive tabular-nums">{user.noShows}</p>
                       <p className="text-[9px] text-muted-foreground mt-0.5 uppercase tracking-wider">No-shows</p>
                     </div>
                   </div>
