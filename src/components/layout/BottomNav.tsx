@@ -19,7 +19,10 @@ export const BottomNav = React.forwardRef<HTMLElement, object>(function BottomNa
   const navigate = useNavigate();
   const notifications = useAppStore((s) => s.notifications);
   const user = useAppStore((s) => s.user);
+  const streak = useGamificationStore((s) => s.streak);
   const unreadCount = notifications.filter(n => !n.read).length;
+  const unlockedAchievements = useGamificationStore((s) => s.unlockedAchievements);
+  const questsBadge = unlockedAchievements.filter(a => !a.seen).length;
 
   return (
     <>
