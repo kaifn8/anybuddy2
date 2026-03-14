@@ -95,7 +95,9 @@ export default function ProfilePage() {
 
           {/* ── Profile card ── */}
           <div className="liquid-glass-heavy p-5 text-center">
-            <GradientAvatar name={user.firstName} size={72} className="mx-auto" />
+            <div className="relative inline-block">
+              <GradientAvatar name={user.firstName} size={72} className="mx-auto" />
+            </div>
             <h2 className="text-[20px] font-bold mt-3 tracking-tight text-foreground">{user.firstName}</h2>
             <div className="flex items-center justify-center gap-2 mt-1.5">
               <TrustBadge level={user.trustLevel} size="md" />
@@ -109,23 +111,39 @@ export default function ProfilePage() {
               <span className="w-px h-2.5 bg-border/50" />
               <span>Joined {joinText}</span>
             </div>
+            {/* Quick action row */}
+            <div className="flex gap-2 mt-4 justify-center">
+              <button onClick={() => navigate('/notifications')}
+                className="flex items-center gap-1.5 px-3 py-1.5 liquid-glass rounded-full text-[11px] font-semibold tap-scale">
+                🔔 Alerts
+              </button>
+              <button onClick={() => navigate('/circle')}
+                className="flex items-center gap-1.5 px-3 py-1.5 liquid-glass rounded-full text-[11px] font-semibold tap-scale">
+                👥 Circle
+              </button>
+              <button onClick={() => navigate('/settings')}
+                className="flex items-center gap-1.5 px-3 py-1.5 liquid-glass rounded-full text-[11px] font-semibold tap-scale">
+                ⚙️ Settings
+              </button>
+            </div>
           </div>
 
           {/* ── Stats grid ── */}
           <div className="grid grid-cols-4 gap-2">
             {[
-              { value: `${user.reliabilityScore}%`, label: 'Show-up' },
-              { value: totalJoins, label: 'Joined' },
-              { value: user.meetupsHosted, label: 'Hosted' },
-              { value: user.hostRating ? `${user.hostRating}★` : '—', label: 'Rating' },
+              { value: `${user.reliabilityScore}%`, label: 'Show-up', path: '/credits' },
+              { value: totalJoins, label: 'Joined', path: null },
+              { value: user.meetupsHosted, label: 'Hosted', path: null },
+              { value: user.hostRating ? `${user.hostRating}★` : '—', label: 'Rating', path: null },
             ].map((stat, i) => (
-              <div key={i} className="liquid-glass p-2.5 text-center">
+              <button key={i}
+                onClick={() => stat.path ? navigate(stat.path) : undefined}
+                className={cn('liquid-glass p-2.5 text-center', stat.path && 'tap-scale hover:liquid-glass-heavy transition-all')}>
                 <p className="text-[14px] font-bold text-foreground tabular-nums">{stat.value}</p>
                 <p className="text-[9px] text-muted-foreground mt-0.5 font-medium uppercase tracking-wider">{stat.label}</p>
-              </div>
+              </button>
             ))}
           </div>
-
 
           {/* ── XP + Streak ── */}
           <XPProgressBar />
@@ -134,36 +152,24 @@ export default function ProfilePage() {
           {/* ── Verification ── */}
           <VerificationCard />
 
-          {/* ── Quests / Leaderboard ── */}
+          {/* ── Secondary pages grid ── */}
           <div className="grid grid-cols-2 gap-2">
-            <button onClick={() => navigate('/quests')}
-              className="liquid-glass-interactive flex items-center gap-2.5 px-3.5 py-3 text-left">
-              <span className="text-lg">⚡</span>
-              <div className="min-w-0">
-                <p className="text-[12px] font-bold text-foreground tracking-tight truncate">Daily Quests</p>
-                <p className="text-[10px] text-muted-foreground mt-0.5">XP + credits</p>
-              </div>
-            </button>
-            <button onClick={() => navigate('/leaderboard')}
-              className="liquid-glass-interactive flex items-center gap-2.5 px-3.5 py-3 text-left">
-              <span className="text-lg">🏆</span>
-              <div className="min-w-0">
-                <p className="text-[12px] font-bold text-foreground tracking-tight truncate">Leaderboard</p>
-                <p className="text-[10px] text-muted-foreground mt-0.5">Weekly rank</p>
-              </div>
-            </button>
+            {[
+              { emoji: '⚡', label: 'Daily Quests',  sub: 'XP + credits',       path: '/quests'      },
+              { emoji: '🏆', label: 'Leaderboard',   sub: 'Weekly rank',         path: '/leaderboard' },
+              { emoji: '💳', label: 'Credits',       sub: `${user.credits} pts`, path: '/credits'     },
+              { emoji: '🎁', label: 'Invite Friends', sub: 'Earn credits',       path: '/invite'      },
+            ].map((item) => (
+              <button key={item.path} onClick={() => navigate(item.path)}
+                className="liquid-glass-interactive flex items-center gap-2.5 px-3.5 py-3 text-left">
+                <span className="text-lg">{item.emoji}</span>
+                <div className="min-w-0">
+                  <p className="text-[12px] font-bold text-foreground tracking-tight truncate">{item.label}</p>
+                  <p className="text-[10px] text-muted-foreground mt-0.5">{item.sub}</p>
+                </div>
+              </button>
+            ))}
           </div>
-
-          {/* ── Invite ── */}
-          <button onClick={() => navigate('/invite')}
-            className="w-full liquid-glass-interactive flex items-center gap-3 px-4 py-3.5 text-left">
-            <span className="text-lg">🎁</span>
-            <div className="flex-1 min-w-0">
-              <p className="text-[13px] font-bold text-foreground tracking-tight">Bring your crew</p>
-              <p className="text-[11px] text-muted-foreground mt-0.5">3 friends = double credits</p>
-            </div>
-            <span className="text-muted-foreground/30 shrink-0">›</span>
-          </button>
 
           {/* ── Tabs ── */}
           <div className="flex gap-1 p-1 liquid-glass" style={{ borderRadius: '1rem' }}>
