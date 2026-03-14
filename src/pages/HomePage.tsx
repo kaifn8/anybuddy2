@@ -141,9 +141,32 @@ export default function HomePage() {
     if (qf) filtered = [...filtered].sort(qf.sort);
   }
 
+  // Feed density logic: expand radius if no nearby plans
+  const NEAR_RADIUS = 1.5;
+  const MID_RADIUS = 3;
+  const FAR_RADIUS = 5;
+  const nearbyFiltered = filtered.filter(r => r.location.distance <= NEAR_RADIUS);
+  const midFiltered = filtered.filter(r => r.location.distance <= MID_RADIUS);
+  const effectiveFiltered = nearbyFiltered.length >= 3
+    ? filtered
+    : midFiltered.length >= 3
+    ? filtered
+    : filtered; // Always show something — never empty
+
+  const radiusNote = nearbyFiltered.length < 3 && filtered.length > 0
+    ? midFiltered.length >= 3 ? 'Showing plans up to 3km away' : 'Showing plans up to 5km away'
+    : null;
+
   const trending = [...requests]
     .filter(r => r.status === 'active')
     .sort((a, b) => b.seatsTaken - a.seatsTaken)
+    .slice(0, 3);
+
+  // Live plans (urgency === 'now')
+  const livePlans = effectiveFiltered.filter(r => r.urgency === 'now').slice(0, 4);
+  // Recently completed
+  const recentlyHappened = [...requests]
+    .filter(r => r.status === 'completed')
     .slice(0, 3);
 
   return (
@@ -277,12 +300,60 @@ export default function HomePage() {
         </div>
       </div>
 
-      <div className="px-5 pt-1 pb-3">
+      {/* Radius expansion note */}
+      {radiusNote && (
+        <div className="px-5 pb-1">
+          <p className="text-[11px] text-muted-foreground/60 flex items-center gap-1">
+            <span>📡</span> {radiusNote}
+          </p>
+        </div>
+      )}
+
+      {/* ── Live Plans ── */}
+      {livePlans.length > 0 && (
+        <div className="px-5 pt-3 pb-1">
+          <h3 className="section-label mb-2.5 flex items-center gap-1.5">
+            🔴 Live right now
+            <span className="w-1.5 h-1.5 rounded-full bg-destructive animate-pulse" />
+          </h3>
+          <div className="space-y-2">
+            {livePlans.map((req) => (
+              <button
+                key={req.id}
+                onClick={() => navigate(`/request/${req.id}`)}
+                className="w-full liquid-glass-interactive flex items-center gap-3 p-3 text-left"
+              >
+                <div className="w-10 h-10 rounded-[0.875rem] liquid-glass flex items-center justify-center text-lg shrink-0">
+                  {getCategoryEmoji(req.category)}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-[13px] font-bold text-foreground truncate tracking-tight">{req.title}</p>
+                  <p className="text-[11px] text-muted-foreground mt-0.5">
+                    📍 {req.location.name} · {req.location.distance}km
+                  </p>
+                </div>
+                <div className="shrink-0 text-right">
+                  <span className="text-[10px] font-bold text-destructive">Now</span>
+                  <p className="text-[10px] text-muted-foreground mt-0.5">{req.seatsTotal - req.seatsTaken} left</p>
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <div className="px-5 pt-3 pb-2 flex items-center justify-between">
         <h3 className="section-label">{activeFilter === 'all' ? 'All plans' : `${FILTERS.find(f => f.id === activeFilter)?.label} plans`}</h3>
+        <button
+          onClick={() => navigate('/circle')}
+          className="flex items-center gap-1 text-[11px] text-primary font-semibold tap-scale"
+        >
+          👥 My circle
+        </button>
       </div>
       
       <div ref={cardsRef} className="px-5 space-y-3 md:grid md:grid-cols-2 md:gap-4 md:space-y-0 xl:grid-cols-3 stagger-container">
-        {filtered.map((request) => (
+        {effectiveFiltered.map((request) => (
           <RequestCard
             key={request.id}
             request={request}
@@ -292,7 +363,7 @@ export default function HomePage() {
           />
         ))}
         
-        {filtered.length === 0 && (
+        {effectiveFiltered.length === 0 && (
           <div className="pt-10">
             <div className="text-center mb-8">
               <div className="w-16 h-16 rounded-[1.25rem] liquid-glass flex items-center justify-center mx-auto mb-4">
@@ -315,12 +386,54 @@ export default function HomePage() {
                 ))}
               </div>
             </div>
+
+            {/* Recently Happened — fallback when feed empty */}
+            {recentlyHappened.length > 0 && (
+              <div className="mt-6">
+                <h3 className="section-label mb-2.5">🕐 Recently happened</h3>
+                <div className="space-y-2">
+                  {recentlyHappened.map((req) => (
+                    <button key={req.id} onClick={() => navigate(`/request/${req.id}`)}
+                      className="w-full liquid-glass flex items-center gap-3 p-3 text-left opacity-70">
+                      <span className="text-lg shrink-0">{getCategoryEmoji(req.category)}</span>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-[12px] font-semibold text-foreground truncate">{req.title}</p>
+                        <p className="text-[10px] text-muted-foreground">📍 {req.location.name} · completed</p>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         )}
       </div>
 
-      {filtered.length > 0 && (
-        <div className="px-5 mt-6 mb-3">
+      {/* Recently Happened section (when feed has items) */}
+      {effectiveFiltered.length > 0 && recentlyHappened.length > 0 && (
+        <div className="px-5 mt-5">
+          <h3 className="section-label mb-2.5">🕐 Recently happened</h3>
+          <div className="flex gap-3 overflow-x-auto scrollbar-hide pb-2 -mx-5 px-5">
+            {recentlyHappened.map((req) => (
+              <button
+                key={req.id}
+                onClick={() => navigate(`/request/${req.id}`)}
+                className="shrink-0 liquid-glass px-4 py-3 flex items-center gap-2.5 opacity-70 tap-scale"
+                style={{ borderRadius: '0.875rem', minWidth: '200px' }}
+              >
+                <span className="text-lg">{getCategoryEmoji(req.category)}</span>
+                <div className="min-w-0">
+                  <p className="text-[12px] font-semibold text-foreground truncate">{req.title}</p>
+                  <p className="text-[10px] text-muted-foreground">📍 {req.location.name}</p>
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {effectiveFiltered.length > 0 && (
+        <div className="px-5 mt-4 mb-3">
           <h3 className="section-label mb-2.5">Start something</h3>
           <div className="flex gap-2.5 overflow-x-auto scrollbar-hide -mx-5 px-5">
             {QUICK_CREATE.map((s, i) => (

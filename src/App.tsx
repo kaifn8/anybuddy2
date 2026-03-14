@@ -29,6 +29,8 @@ import AdminPricing from "./pages/admin/AdminPricing";
 import AdminUserDetail from "./pages/admin/AdminUserDetail";
 import QuestsPage from "./pages/QuestsPage";
 import LeaderboardPage from "./pages/LeaderboardPage";
+import AttendancePage from "./pages/AttendancePage";
+import CirclePage from "./pages/CirclePage";
 import { AchievementUnlock } from "./components/gamification/AchievementUnlock";
 import { XPPopupLayer } from "./components/gamification/XPPopup";
 import NotFound from "./pages/NotFound";
@@ -62,6 +64,8 @@ const App = () => (
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="/quests" element={<QuestsPage />} />
           <Route path="/leaderboard" element={<LeaderboardPage />} />
+          <Route path="/attendance/:id" element={<AttendancePage />} />
+          <Route path="/circle" element={<CirclePage />} />
           <Route path="/admin" element={<ProtectedAdminRoute />}>
             <Route index element={<AdminDashboard />} />
             <Route path="users" element={<AdminUsers />} />
