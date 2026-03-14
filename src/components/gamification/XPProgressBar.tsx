@@ -20,13 +20,7 @@ export function XPProgressBar({ className, compact = false }: XPProgressBarProps
         <span className="text-sm">{currentLevel.emoji}</span>
         <div className="flex-1">
           <div className="h-[3px] rounded-full bg-muted/40 overflow-hidden">
-            <div
-              className="h-full rounded-full transition-all duration-700"
-              style={{
-                width: `${progress}%`,
-                background: `linear-gradient(90deg, hsl(${currentLevel.color}), hsl(${currentLevel.color} / 0.6))`,
-              }}
-            />
+            <div className="h-full rounded-full transition-all duration-700 bg-primary" style={{ width: `${progress}%` }} />
           </div>
         </div>
         <span className="text-[10px] font-bold text-muted-foreground tabular-nums">{xp} XP</span>
@@ -36,7 +30,7 @@ export function XPProgressBar({ className, compact = false }: XPProgressBarProps
 
   return (
     <div className={cn('liquid-glass-heavy px-4 py-3.5', className)}>
-      <div className="flex items-center justify-between mb-2">
+      <div className="flex items-center justify-between mb-2.5">
         <div className="flex items-center gap-2">
           <span className="text-xl">{currentLevel.emoji}</span>
           <div>
@@ -45,30 +39,15 @@ export function XPProgressBar({ className, compact = false }: XPProgressBarProps
           </div>
         </div>
         <div className="text-right">
-          <p className="text-[13px] font-bold tabular-nums" style={{ color: `hsl(${currentLevel.color})` }}>
-            {xp} XP
-          </p>
-          {nextLevel && (
-            <p className="text-[10px] text-muted-foreground">{xpToNext} to {nextLevel.title}</p>
-          )}
+          <p className="text-[13px] font-bold tabular-nums text-primary">{xp} XP</p>
+          {nextLevel && <p className="text-[10px] text-muted-foreground">{xpToNext} to {nextLevel.title}</p>}
         </div>
       </div>
-
-      {/* Progress bar */}
-      <div className="h-2 rounded-full bg-muted/40 overflow-hidden">
-        <div
-          className="h-full rounded-full transition-all duration-700 ease-out"
-          style={{
-            width: `${progress}%`,
-            background: `linear-gradient(90deg, hsl(${currentLevel.color}), hsl(${currentLevel.color} / 0.55))`,
-            boxShadow: `0 0 8px hsl(${currentLevel.color} / 0.4)`,
-          }}
-        />
+      <div className="h-1.5 rounded-full bg-muted/40 overflow-hidden">
+        <div className="h-full rounded-full transition-all duration-700 ease-out bg-primary"
+          style={{ width: `${progress}%`, boxShadow: '0 0 8px hsl(var(--primary) / 0.35)' }} />
       </div>
-
-      {!nextLevel && (
-        <p className="text-[11px] text-primary font-semibold text-center mt-2">Max level reached 🔥</p>
-      )}
+      {!nextLevel && <p className="text-[11px] text-primary font-semibold text-center mt-2">Max level reached 🔥</p>}
     </div>
   );
 }
