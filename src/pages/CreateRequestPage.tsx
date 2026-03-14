@@ -252,6 +252,7 @@ function LocationSearchField({ location, setLocation, locationCoords, setLocatio
 export default function CreateRequestPage() {
   const navigate = useNavigate();
   const { user, createRequest, updateCredits } = useAppStore();
+  const { addXP, recordActivity, progressQuest } = useGamificationStore();
   const zone = user?.zone || user?.city || 'Bandra';
 
   const [step, setStep] = useState<Step>('pick');
