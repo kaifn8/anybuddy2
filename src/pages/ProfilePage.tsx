@@ -97,20 +97,7 @@ export default function ProfilePage() {
       <div className="mobile-container min-h-screen bg-background pb-28">
 
         {/* ── Top bar ── */}
-        <header className="sticky top-0 z-40" style={{
-          background: 'hsla(var(--glass-bg) / 0.4)',
-          backdropFilter: 'blur(var(--glass-blur-heavy)) saturate(220%)',
-          WebkitBackdropFilter: 'blur(var(--glass-blur-heavy)) saturate(220%)',
-          borderBottom: '0.5px solid hsla(var(--glass-border) / 0.4)',
-        }}>
-          <div className="flex items-center justify-between h-[48px] px-4">
-            <span className="text-[17px] font-bold text-foreground tracking-tight">Profile</span>
-            <button onClick={() => navigate('/settings')}
-              className="w-8 h-8 rounded-full liquid-glass flex items-center justify-center tap-scale">
-              <Settings size={15} className="text-muted-foreground" />
-            </button>
-          </div>
-        </header>
+        <TopBar title="Profile" showSettings hideChat />
 
         {/* ── Sections ── */}
         <div ref={pageRef} className="px-4 pt-5 space-y-4 pb-2">

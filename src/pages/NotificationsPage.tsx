@@ -227,30 +227,22 @@ export default function NotificationsPage() {
       <div className="mobile-container min-h-screen bg-background pb-28">
 
         {/* ── Top bar ── */}
-        <header
-          ref={headerRef}
-          className="sticky top-0 z-40"
-          style={{
-            background: 'hsla(var(--glass-bg) / 0.4)',
-            backdropFilter: 'blur(var(--glass-blur-heavy)) saturate(220%)',
-            WebkitBackdropFilter: 'blur(var(--glass-blur-heavy)) saturate(220%)',
-            borderBottom: '0.5px solid hsla(var(--glass-border) / 0.4)',
-          }}>
-          <div className="flex items-center h-[48px] px-4 gap-3">
-            <button onClick={() => navigate(-1)}
-              className="w-8 h-8 rounded-full liquid-glass flex items-center justify-center tap-scale shrink-0">
-              <span className="text-sm font-medium">←</span>
-            </button>
-            <span className="flex-1 text-[17px] font-bold text-foreground tracking-tight">Notifications</span>
-            {unreadCount > 0 && (
-              <button onClick={markAllRead}
-                className="flex items-center gap-1.5 px-3 py-1.5 text-[11px] text-primary font-bold tap-scale liquid-glass rounded-full">
-                <CheckCheck size={12} />
-                Mark all read
+        <TopBar
+          title="Activity"
+          subtitle="What's happening"
+          hideChat
+          rightSlot={
+            unreadCount > 0 ? (
+              <button
+                onClick={markAllRead}
+                className="flex items-center gap-1 px-2.5 py-1.5 text-[11px] text-primary font-bold tap-scale rounded-full bg-primary/10 border border-primary/20 hover:bg-primary/15 transition-colors"
+              >
+                <CheckCheck size={11} />
+                All read
               </button>
-            )}
-          </div>
-        </header>
+            ) : undefined
+          }
+        />
 
         {/* ── Unread hero banner ── */}
         {unreadCount > 0 && (
