@@ -49,6 +49,7 @@ export default function ProfilePage() {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<'overview' | 'activity'>('overview');
   const { user: rawUser, myRequests, requests } = useAppStore();
+  const { xp, streak, unlockedAchievements } = useGamificationStore();
 
   const user = rawUser ? {
     ...rawUser,
