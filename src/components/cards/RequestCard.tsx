@@ -10,6 +10,7 @@ import { GradientAvatar } from '@/components/ui/GradientAvatar';
 import { BlueTick } from '@/components/ui/BlueTick';
 import { useAppStore } from '@/store/useAppStore';
 import { cn } from '@/lib/utils';
+import { Heart, Share2 } from 'lucide-react';
 
 interface RequestCardProps {
   request: Request;
@@ -178,14 +179,12 @@ export function RequestCard({ request, onJoin, onView, isJoined, className }: Re
             </span>
           </button>
           
-          <div className="flex items-center gap-2">
-            <button onClick={handleSaveClick} className="tap-scale p-1 -m-1 rounded-full hover:bg-muted/50 transition-colors">
-              <span className={cn('text-[14px]', isSaved ? '' : 'opacity-30 hover:opacity-50 transition-opacity')}>
-                {isSaved ? '❤️' : '🤍'}
-              </span>
+          <div className="flex items-center gap-1">
+            <button onClick={handleSaveClick} className="tap-scale p-1.5 rounded-full hover:bg-muted/50 transition-colors">
+              <Heart size={14} className={cn('transition-colors', isSaved ? 'fill-destructive text-destructive' : 'text-muted-foreground')} />
             </button>
-            <button onClick={handleShareClick} className="tap-scale p-1 -m-1 rounded-full hover:bg-muted/50 transition-colors">
-              <span className="text-[13px] opacity-30 hover:opacity-50 transition-opacity">📤</span>
+            <button onClick={handleShareClick} className="tap-scale p-1.5 rounded-full hover:bg-muted/50 transition-colors">
+              <Share2 size={14} className="text-muted-foreground" />
             </button>
           </div>
         </div>
