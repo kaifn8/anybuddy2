@@ -523,6 +523,17 @@ export default function RequestDetailPage() {
                   )}
                 </div>
 
+                {/* Rate meetup CTA for completed or expired plans */}
+                {(request.status === 'completed' || new Date(request.when).getTime() < Date.now()) && (
+                  <button
+                    onClick={() => { setShowInfo(false); navigate(`/attendance/${request.id}`); }}
+                    className="w-full flex items-center justify-center gap-2 py-3 rounded-[0.875rem] font-bold text-[13px] transition-all tap-scale"
+                    style={{ background: 'linear-gradient(135deg, hsl(var(--primary)), hsl(var(--secondary)))', color: 'hsl(var(--primary-foreground))' }}
+                  >
+                    ✅ Rate this meetup
+                  </button>
+                )}
+
                 <div className="h-4" />
               </div>
             </div>
