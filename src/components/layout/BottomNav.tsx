@@ -140,9 +140,9 @@ export const BottomNav = () => {
             <div className="flex items-center justify-between">
               {navItems.map((item) => {
                 const isActive = location.pathname === item.path;
-                // Separate badges: chats on 💬 tab, notifications on 🔔 tab
-                const badge = item.path === '/chats' ? chatUnread
-                  : item.path === '/notifications' ? unreadCount
+                // Badge: notifications on 🔔 tab, map has no badge
+                const badge = item.path === '/notifications' ? unreadCount
+                  : item.path === '/chats' ? chatUnread
                   : 0;
 
                 /* ── Center Post pill ── */
