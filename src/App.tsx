@@ -29,6 +29,8 @@ import AdminPricing from "./pages/admin/AdminPricing";
 import AdminUserDetail from "./pages/admin/AdminUserDetail";
 import QuestsPage from "./pages/QuestsPage";
 import LeaderboardPage from "./pages/LeaderboardPage";
+import AttendancePage from "./pages/AttendancePage";
+import CirclePage from "./pages/CirclePage";
 import { AchievementUnlock } from "./components/gamification/AchievementUnlock";
 import { XPPopupLayer } from "./components/gamification/XPPopup";
 import NotFound from "./pages/NotFound";
