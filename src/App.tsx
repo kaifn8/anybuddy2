@@ -40,6 +40,8 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
+      <AchievementUnlock />
+      <XPPopupLayer />
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<SplashPage />} />
