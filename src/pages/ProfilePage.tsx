@@ -126,27 +126,6 @@ export default function ProfilePage() {
             ))}
           </div>
 
-          {/* ── Trust progression ── */}
-          {nextLevel ? (
-            <div className="liquid-glass p-3.5 flex items-center gap-3">
-              <span className="text-lg shrink-0">{TRUST_PROGRESSION[currentIndex].emoji}</span>
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center justify-between mb-1.5">
-                  <p className="text-[12px] font-bold text-foreground">{TRUST_PROGRESSION[currentIndex].label} → {nextLevel.label}</p>
-                  <p className="text-[10px] text-primary font-bold">{nextLevel.joinsNeeded - user.completedJoins} more</p>
-                </div>
-                <div className="w-full h-1 rounded-full overflow-hidden bg-muted/40">
-                  <div className="h-full rounded-full transition-all duration-700"
-                    style={{ width: `${progressToNext}%`, background: 'linear-gradient(90deg, hsl(var(--primary)), hsl(var(--primary) / 0.7))' }} />
-                </div>
-              </div>
-            </div>
-          ) : (
-            <div className="liquid-glass p-3.5 flex items-center gap-2.5">
-              <span className="text-lg">🏆</span>
-              <p className="text-[12px] text-primary font-semibold">Max trust level — you get the best rates.</p>
-            </div>
-          )}
 
           {/* ── XP + Streak ── */}
           <XPProgressBar />
