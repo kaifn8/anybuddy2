@@ -310,7 +310,7 @@ export default function AttendancePage() {
               </h2>
               {myStatus === 'attended' && (
                 <div className="space-y-1">
-                  <p className="text-[13px] text-muted-foreground">+50 XP · Streak continued</p>
+                  <p className="text-[13px] text-muted-foreground">+50 XP · <span className="text-success font-semibold">+1 credit</span> · Streak continued</p>
                   {thankYous.size > 0 && (
                     <p className="text-[13px] text-success font-semibold">+{thankYous.size} thank you{thankYous.size > 1 ? 's' : ''} sent 🙏</p>
                   )}
