@@ -11,7 +11,7 @@ import { GradientAvatar } from '@/components/ui/GradientAvatar';
 import { TrustBadge } from '@/components/ui/TrustBadge';
 import { BlueTick } from '@/components/ui/BlueTick';
 import { VerificationCard } from '@/components/profile/VerificationCard';
-import { getLevelForXP } from '@/types/gamification';
+import { getLevelForXP, getNextLevel, getXPProgress } from '@/types/gamification';
 import { cn } from '@/lib/utils';
 import { Settings, ChevronRight, Flame, Zap } from 'lucide-react';
 import type { Badge, Request } from '@/types/anybuddy';
