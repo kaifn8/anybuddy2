@@ -168,9 +168,6 @@ export default function HomePage() {
           <div className="pt-4 mb-1">
             <div className="flex items-center justify-between px-4 mb-2.5">
               <h3 className="text-[13px] font-bold text-foreground tracking-tight">🚀 Filling up fast</h3>
-              <button onClick={() => navigate('/map')} className="text-[11px] text-primary font-semibold tap-scale">
-                Map view →
-              </button>
             </div>
             <div ref={trendingRef} className="flex gap-3 overflow-x-auto scrollbar-hide px-4 pb-3 snap-x snap-mandatory lg:flex-wrap">
               {trending.map((req) => {
