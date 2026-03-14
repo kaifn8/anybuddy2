@@ -7,6 +7,7 @@ import { BottomNav } from '@/components/layout/BottomNav';
 import { Button } from '@/components/ui/button';
 import { formatDistanceToNow } from 'date-fns';
 import { cn } from '@/lib/utils';
+import { Bell } from 'lucide-react';
 import type { Request } from '@/types/anybuddy';
 
 export default function ChatsPage() {
@@ -30,12 +31,24 @@ export default function ChatsPage() {
 
   const activeChats = chats.filter(c => c.request.status === 'active');
   const pastChats = chats.filter(c => c.request.status !== 'active');
+  const notifications = useAppStore((s) => s.notifications);
+  const unreadNotifs = notifications.filter(n => !n.read).length;
 
   return (
-    <div className="mobile-container min-h-screen bg-ambient pb-24">
-      <TopBar showBack title="Chats" />
+    <div className="mobile-container min-h-screen bg-background pb-24">
+      <TopBar title="Chats" />
 
-      <div className="px-5 pt-5">
+      {/* Notifications shortcut */}
+      {unreadNotifs > 0 && (
+        <button onClick={() => navigate('/notifications')}
+          className="mx-5 mt-4 flex items-center gap-3 px-4 py-2.5 rounded-[1rem] bg-primary/6 border border-primary/15 tap-scale w-[calc(100%-2.5rem)]">
+          <Bell size={14} className="text-primary shrink-0" />
+          <p className="text-[12px] font-semibold text-foreground flex-1 text-left">{unreadNotifs} unread notification{unreadNotifs > 1 ? 's' : ''}</p>
+          <span className="text-[11px] text-primary font-bold shrink-0">View →</span>
+        </button>
+      )}
+
+      <div className="px-5 pt-4">
         {chats.length === 0 ? (
           <div className="text-center pt-24 px-6">
             <div className="w-20 h-20 rounded-[1.5rem] liquid-glass flex items-center justify-center mx-auto mb-6">
