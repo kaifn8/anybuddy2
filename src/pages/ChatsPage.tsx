@@ -7,6 +7,7 @@ import { BottomNav } from '@/components/layout/BottomNav';
 import { Button } from '@/components/ui/button';
 import { formatDistanceToNow } from 'date-fns';
 import { cn } from '@/lib/utils';
+import { Bell } from 'lucide-react';
 import type { Request } from '@/types/anybuddy';
 
 export default function ChatsPage() {
