@@ -27,6 +27,10 @@ import AdminVerification from "./pages/admin/AdminVerification";
 import AdminModeration from "./pages/admin/AdminModeration";
 import AdminPricing from "./pages/admin/AdminPricing";
 import AdminUserDetail from "./pages/admin/AdminUserDetail";
+import QuestsPage from "./pages/QuestsPage";
+import LeaderboardPage from "./pages/LeaderboardPage";
+import { AchievementUnlock } from "./components/gamification/AchievementUnlock";
+import { XPPopupLayer } from "./components/gamification/XPPopup";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -36,6 +40,8 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
+      <AchievementUnlock />
+      <XPPopupLayer />
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<SplashPage />} />
@@ -54,6 +60,8 @@ const App = () => (
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/invite" element={<InviteFriendsPage />} />
           <Route path="/settings" element={<SettingsPage />} />
+          <Route path="/quests" element={<QuestsPage />} />
+          <Route path="/leaderboard" element={<LeaderboardPage />} />
           <Route path="/admin" element={<ProtectedAdminRoute />}>
             <Route index element={<AdminDashboard />} />
             <Route path="users" element={<AdminUsers />} />

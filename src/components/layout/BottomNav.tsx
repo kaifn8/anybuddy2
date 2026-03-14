@@ -1,14 +1,16 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { useAppStore } from '@/store/useAppStore';
+import { useGamificationStore } from '@/store/useGamificationStore';
 import { GradientAvatar } from '@/components/ui/GradientAvatar';
+import { StreakWidget } from '@/components/gamification/StreakWidget';
 import React from 'react';
 
 const navItems = [
   { emoji: '🏠', label: 'Home', path: '/home' },
   { emoji: '🗺️', label: 'Map', path: '/map' },
   { emoji: '+', label: 'Post', path: '/create', isMain: true },
-  { emoji: '🔔', label: 'Alerts', path: '/notifications' },
+  { emoji: '⚡', label: 'Quests', path: '/quests' },
   { emoji: '👤', label: 'Me', path: '/profile' },
 ];
 
@@ -17,7 +19,10 @@ export const BottomNav = React.forwardRef<HTMLElement, object>(function BottomNa
   const navigate = useNavigate();
   const notifications = useAppStore((s) => s.notifications);
   const user = useAppStore((s) => s.user);
+  const streak = useGamificationStore((s) => s.streak);
   const unreadCount = notifications.filter(n => !n.read).length;
+  const unlockedAchievements = useGamificationStore((s) => s.unlockedAchievements);
+  const questsBadge = unlockedAchievements.filter(a => !a.seen).length;
 
   return (
     <>
@@ -70,6 +75,10 @@ export const BottomNav = React.forwardRef<HTMLElement, object>(function BottomNa
               </button>
             );
           })}
+          {/* Desktop-only: Streak pill */}
+          <div className="mt-3 px-3 py-2.5">
+            <StreakWidget compact className="justify-start" />
+          </div>
         </div>
         <div className="px-3 pb-4">
           <button onClick={() => navigate('/settings')}
@@ -150,6 +159,16 @@ export const BottomNav = React.forwardRef<HTMLElement, object>(function BottomNa
                           isActive ? 'scale-110' : 'opacity-35 grayscale-[50%]'
                         )}>
                           {item.emoji}
+                        </span>
+                      )}
+                      {item.path === '/quests' && questsBadge > 0 && (
+                        <span className="absolute -top-1.5 -right-2 min-w-[14px] h-[14px] rounded-full flex items-center justify-center text-[7px] font-bold px-[2px]"
+                          style={{
+                            background: 'hsl(36 80% 58%)',
+                            color: '#fff',
+                            boxShadow: '0 2px 6px hsl(36 80% 58% / 0.5)',
+                          }}>
+                          {questsBadge}
                         </span>
                       )}
                       {item.path === '/notifications' && unreadCount > 0 && (

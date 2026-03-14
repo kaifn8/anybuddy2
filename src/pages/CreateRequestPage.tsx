@@ -2,6 +2,7 @@ import { useState, useMemo, useRef, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 import { useAppStore } from '@/store/useAppStore';
+import { useGamificationStore } from '@/store/useGamificationStore';
 import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
 import type { Category, Urgency } from '@/types/anybuddy';
 import { cn } from '@/lib/utils';
@@ -251,6 +252,7 @@ function LocationSearchField({ location, setLocation, locationCoords, setLocatio
 export default function CreateRequestPage() {
   const navigate = useNavigate();
   const { user, createRequest, updateCredits } = useAppStore();
+  const { addXP, recordActivity, progressQuest } = useGamificationStore();
   const zone = user?.zone || user?.city || 'Bandra';
 
   const [step, setStep] = useState<Step>('pick');
@@ -334,6 +336,9 @@ export default function CreateRequestPage() {
       liveShare: false, status: 'active', joinMode: 'auto', visibility: 'public', pendingJoinRequests: [],
     });
     updateCredits(-creditCost, 'Posted a plan');
+    addXP('post_hangout', 'Posted a hangout');
+    recordActivity();
+    progressQuest('post_a_hangout');
 
     // Find the newly created request id
     const latestId = `req_${Date.now()}`;

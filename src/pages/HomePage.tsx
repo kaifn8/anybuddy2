@@ -7,9 +7,12 @@ import { PageTransition } from '@/components/layout/PageTransition';
 import { RequestCard } from '@/components/cards/RequestCard';
 import { JoinConfirmDialog } from '@/components/JoinConfirmDialog';
 import { useAppStore } from '@/store/useAppStore';
+import { useGamificationStore } from '@/store/useGamificationStore';
 import { cn } from '@/lib/utils';
 import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
 import { GradientAvatar } from '@/components/ui/GradientAvatar';
+import { StreakWidget } from '@/components/gamification/StreakWidget';
+import { DailyQuestCard } from '@/components/gamification/DailyQuestCard';
 import type { Category, Request } from '@/types/anybuddy';
 
 const FILTERS: { id: Category | 'all'; label: string }[] = [
@@ -52,9 +55,11 @@ const QUICK_CREATE: { emoji: string; title: string; category: Category }[] = [
 export default function HomePage() {
   const navigate = useNavigate();
   const { requests, joinedRequests, joinRequest, updateCredits, refreshFeed, user } = useAppStore();
+  const { addXP, recordActivity, progressQuest } = useGamificationStore();
   const [activeFilter, setActiveFilter] = useState<Category | 'all'>('all');
   const [quickFilter, setQuickFilter] = useState<string | null>(null);
   const [confirmRequest, setConfirmRequest] = useState<Request | null>(null);
+  const [showQuestCard, setShowQuestCard] = useState(false);
   
   const cardsRef = useRef<HTMLDivElement>(null);
   const trendingRef = useRef<HTMLDivElement>(null);
@@ -115,6 +120,9 @@ export default function HomePage() {
     if (!confirmRequest) return;
     joinRequest(confirmRequest.id);
     updateCredits(0.5, 'Joined a request');
+    addXP('join_hangout', 'Joined a hangout');
+    recordActivity();
+    progressQuest('join_1_activity');
     setConfirmRequest(null);
     navigate(`/request/${confirmRequest.id}`);
   };
@@ -170,6 +178,20 @@ export default function HomePage() {
           </p>
           <span className="w-1.5 h-1.5 rounded-full bg-success animate-pulse shrink-0" />
         </div>
+      </div>
+
+      {/* Streak + Quest nudge row */}
+      <div className="px-5 pt-2 pb-1 flex gap-2">
+        <button
+          onClick={() => navigate('/quests')}
+          className="flex-1 liquid-glass-interactive flex items-center gap-2.5 px-3 py-2.5"
+          style={{ borderRadius: '0.875rem' }}
+        >
+          <StreakWidget compact />
+          <span className="text-muted-foreground/25 text-[10px]">•</span>
+          <span className="text-[11px] font-semibold text-muted-foreground flex-1 truncate">Daily quests</span>
+          <span className="text-[10px] text-primary font-bold">→</span>
+        </button>
       </div>
 
       {/* Trending */}
