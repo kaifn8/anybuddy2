@@ -47,7 +47,7 @@ export const BottomNav = () => {
   return (
     <>
       {/* ── Desktop sidebar ── */}
-      <nav ref={ref} className="hidden lg:flex fixed left-0 top-0 bottom-0 w-60 z-50 flex-col" style={{
+      <nav className="hidden lg:flex fixed left-0 top-0 bottom-0 w-60 z-50 flex-col" style={{
         background: 'hsla(var(--glass-bg) / 0.4)',
         backdropFilter: 'blur(var(--glass-blur-heavy)) saturate(210%)',
         WebkitBackdropFilter: 'blur(var(--glass-blur-heavy)) saturate(210%)',
