@@ -5,11 +5,14 @@ import { format } from 'date-fns';
 import { BottomNav } from '@/components/layout/BottomNav';
 import { getCategoryLabel, getCategoryEmoji } from '@/components/icons/CategoryIcon';
 import { useAppStore } from '@/store/useAppStore';
+import { useGamificationStore } from '@/store/useGamificationStore';
 import { Button } from '@/components/ui/button';
 import { GradientAvatar } from '@/components/ui/GradientAvatar';
 import { TrustBadge } from '@/components/ui/TrustBadge';
 import { BlueTick } from '@/components/ui/BlueTick';
 import { VerificationCard } from '@/components/profile/VerificationCard';
+import { XPProgressBar } from '@/components/gamification/XPProgressBar';
+import { StreakWidget } from '@/components/gamification/StreakWidget';
 import { cn } from '@/lib/utils';
 import type { Badge, Request, TrustLevel, VerificationStatus } from '@/types/anybuddy';
 
