@@ -64,6 +64,8 @@ const App = () => (
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="/quests" element={<QuestsPage />} />
           <Route path="/leaderboard" element={<LeaderboardPage />} />
+          <Route path="/attendance/:id" element={<AttendancePage />} />
+          <Route path="/circle" element={<CirclePage />} />
           <Route path="/admin" element={<ProtectedAdminRoute />}>
             <Route index element={<AdminDashboard />} />
             <Route path="users" element={<AdminUsers />} />
