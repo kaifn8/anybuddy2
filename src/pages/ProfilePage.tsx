@@ -71,11 +71,11 @@ export default function ProfilePage() {
     );
   }
 
-  const level        = getLevelForXP(xp);
-  const nextLevel    = getLevelForXP(xp + 1);
-  const xpIntoLevel  = xp - level.minXP;
-  const xpNeeded     = level.maxXP - level.minXP;
-  const xpPct        = Math.min(100, Math.round((xpIntoLevel / xpNeeded) * 100));
+  const level       = getLevelForXP(xp);
+  const nextLevel   = getNextLevel(xp);
+  const xpPct       = getXPProgress(xp);
+  const xpIntoLevel = nextLevel ? xp - level.xpRequired : 0;
+  const xpNeeded    = nextLevel ? nextLevel.xpRequired - level.xpRequired : 1;
 
   const joinDate     = new Date(user.createdAt);
   const joinText     = new Date().toDateString() === joinDate.toDateString()
