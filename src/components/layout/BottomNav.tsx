@@ -192,5 +192,4 @@ export const BottomNav = () => {
       </nav>
     </>
   );
-});
-BottomNav.displayName = 'BottomNav';
+};
