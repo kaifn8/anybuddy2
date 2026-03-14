@@ -6,12 +6,12 @@ import { GradientAvatar } from '@/components/ui/GradientAvatar';
 import { StreakWidget } from '@/components/gamification/StreakWidget';
 
 
-// Core 5-tab nav: Home | Notifications | Post | Chats | Me
+// Core 5-tab nav: Home | Map | Post | Notifications | Me
 const navItems = [
   { emoji: '🏠', label: 'Home',    path: '/home'          },
-  { emoji: '🔔', label: 'Alerts',  path: '/notifications' },
+  { emoji: '🗺️', label: 'Map',     path: '/map'           },
   { emoji: '+',  label: 'Post',    path: '/create',  isMain: true },
-  { emoji: '💬', label: 'Chats',   path: '/chats'         },
+  { emoji: '🔔', label: 'Alerts',  path: '/notifications' },
   { emoji: '👤', label: 'Me',      path: '/profile'       },
 ];
 
@@ -140,9 +140,9 @@ export const BottomNav = () => {
             <div className="flex items-center justify-between">
               {navItems.map((item) => {
                 const isActive = location.pathname === item.path;
-                // Separate badges: chats on 💬 tab, notifications on 🔔 tab
-                const badge = item.path === '/chats' ? chatUnread
-                  : item.path === '/notifications' ? unreadCount
+                // Badge: notifications on 🔔 tab, map has no badge
+                const badge = item.path === '/notifications' ? unreadCount
+                  : item.path === '/chats' ? chatUnread
                   : 0;
 
                 /* ── Center Post pill ── */
