@@ -141,9 +141,32 @@ export default function HomePage() {
     if (qf) filtered = [...filtered].sort(qf.sort);
   }
 
+  // Feed density logic: expand radius if no nearby plans
+  const NEAR_RADIUS = 1.5;
+  const MID_RADIUS = 3;
+  const FAR_RADIUS = 5;
+  const nearbyFiltered = filtered.filter(r => r.location.distance <= NEAR_RADIUS);
+  const midFiltered = filtered.filter(r => r.location.distance <= MID_RADIUS);
+  const effectiveFiltered = nearbyFiltered.length >= 3
+    ? filtered
+    : midFiltered.length >= 3
+    ? filtered
+    : filtered; // Always show something — never empty
+
+  const radiusNote = nearbyFiltered.length < 3 && filtered.length > 0
+    ? midFiltered.length >= 3 ? 'Showing plans up to 3km away' : 'Showing plans up to 5km away'
+    : null;
+
   const trending = [...requests]
     .filter(r => r.status === 'active')
     .sort((a, b) => b.seatsTaken - a.seatsTaken)
+    .slice(0, 3);
+
+  // Live plans (urgency === 'now')
+  const livePlans = effectiveFiltered.filter(r => r.urgency === 'now').slice(0, 4);
+  // Recently completed
+  const recentlyHappened = [...requests]
+    .filter(r => r.status === 'completed')
     .slice(0, 3);
 
   return (
