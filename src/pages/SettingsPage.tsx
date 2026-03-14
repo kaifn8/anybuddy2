@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BottomNav } from '@/components/layout/BottomNav';
+import { TopBar } from '@/components/layout/TopBar';
 import { useAppStore } from '@/store/useAppStore';
 import { GradientAvatar } from '@/components/ui/GradientAvatar';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
 import { useTheme } from '@/hooks/useTheme';
 import { cn } from '@/lib/utils';
-import { ChevronLeft, ChevronRight, Pencil, Check } from 'lucide-react';
+import { ChevronRight, Pencil, Check } from 'lucide-react';
 import type { Category } from '@/types/anybuddy';
 import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
 
@@ -42,19 +43,7 @@ export default function SettingsPage() {
   if (!user) {
     return (
       <div className="mobile-container min-h-screen bg-background pb-24">
-        <header className="sticky top-0 z-40" style={{
-          background: 'hsla(var(--glass-bg) / 0.35)',
-          backdropFilter: 'blur(var(--glass-blur-heavy)) saturate(220%)',
-          WebkitBackdropFilter: 'blur(var(--glass-blur-heavy)) saturate(220%)',
-          borderBottom: '0.5px solid hsla(var(--glass-border) / 0.4)',
-        }}>
-          <div className="flex items-center h-[48px] px-4 gap-3">
-            <button onClick={() => navigate(-1)} className="w-8 h-8 rounded-full liquid-glass flex items-center justify-center tap-scale shrink-0">
-              <ChevronLeft size={16} />
-            </button>
-            <span className="text-[17px] font-bold text-foreground tracking-tight">Settings</span>
-          </div>
-        </header>
+        <TopBar title="Settings" hideChat />
         <div className="flex flex-col items-center justify-center px-8 pt-32 text-center">
           <Button onClick={() => navigate('/signup')} className="h-11 px-8">Sign In</Button>
         </div>
@@ -65,19 +54,7 @@ export default function SettingsPage() {
 
   return (
     <div className="mobile-container min-h-screen bg-background pb-28">
-      <header className="sticky top-0 z-40" style={{
-        background: 'hsla(var(--glass-bg) / 0.35)',
-        backdropFilter: 'blur(var(--glass-blur-heavy)) saturate(220%)',
-        WebkitBackdropFilter: 'blur(var(--glass-blur-heavy)) saturate(220%)',
-        borderBottom: '0.5px solid hsla(var(--glass-border) / 0.4)',
-      }}>
-        <div className="flex items-center h-[48px] px-4 gap-3">
-          <button onClick={() => navigate(-1)} className="w-8 h-8 rounded-full liquid-glass flex items-center justify-center tap-scale shrink-0">
-            <ChevronLeft size={16} className="text-foreground" />
-          </button>
-          <span className="text-[17px] font-bold text-foreground tracking-tight flex-1">Settings</span>
-        </div>
-      </header>
+      <TopBar title="Settings" hideChat />
 
       <div className="px-4 pt-4 space-y-3">
 
