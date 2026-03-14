@@ -31,6 +31,8 @@ export default function ChatsPage() {
 
   const activeChats = chats.filter(c => c.request.status === 'active');
   const pastChats = chats.filter(c => c.request.status !== 'active');
+  const notifications = useAppStore((s) => s.notifications);
+  const unreadNotifs = notifications.filter(n => !n.read).length;
 
   return (
     <div className="mobile-container min-h-screen bg-background pb-24">
