@@ -26,11 +26,12 @@ export function DailyQuestCard() {
     const reward = claimQuestReward(quest.id);
     if (!reward) return;
     if (reward.credits > 0) {
-      updateCredits(reward.credits, `Quest: ${quest.title}`);
+      // Credits from quests are partial refunds for real-world activity — not XP-as-currency
+      updateCredits(reward.credits, `Activity refund: ${quest.title}`);
     }
     toast({
       title: `🎉 Quest Complete!`,
-      description: `+${quest.xpReward} XP${reward.credits > 0 ? ` · +${reward.credits} credits` : ''}`,
+      description: `+${quest.xpReward} XP${reward.credits > 0 ? ` · +${reward.credits} credit refund` : ''}`,
     });
   };
 
