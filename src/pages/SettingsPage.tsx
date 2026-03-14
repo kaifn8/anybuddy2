@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BottomNav } from '@/components/layout/BottomNav';
+import { TopBar } from '@/components/layout/TopBar';
 import { useAppStore } from '@/store/useAppStore';
 import { GradientAvatar } from '@/components/ui/GradientAvatar';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
 import { useTheme } from '@/hooks/useTheme';
 import { cn } from '@/lib/utils';
-import { ChevronLeft, ChevronRight, Pencil, Check } from 'lucide-react';
+import { ChevronRight, Pencil, Check } from 'lucide-react';
 import type { Category } from '@/types/anybuddy';
 import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
 
