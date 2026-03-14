@@ -11,7 +11,7 @@ import { useGamificationStore } from '@/store/useGamificationStore';
 import { cn } from '@/lib/utils';
 import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
 import { GradientAvatar } from '@/components/ui/GradientAvatar';
-import { StreakWidget } from '@/components/gamification/StreakWidget';
+
 import type { Category, Request } from '@/types/anybuddy';
 
 const FILTERS: { id: Category | 'all'; label: string }[] = [
@@ -162,28 +162,12 @@ export default function HomePage() {
           </button>
         </div>
 
-        {/* Streak nudge */}
-        <div className="px-4 pt-3 pb-1">
-          <button
-            onClick={() => navigate('/quests')}
-            className="w-full liquid-glass-interactive flex items-center gap-3 px-4 py-2.5 text-left"
-            style={{ borderRadius: '1rem' }}
-          >
-            <StreakWidget compact />
-            <div className="w-px h-4 bg-border/40 shrink-0" />
-            <span className="text-[12px] font-semibold text-foreground flex-1 truncate">Daily quests</span>
-            <span className="text-[11px] text-primary font-bold shrink-0">View →</span>
-          </button>
-        </div>
 
         {/* Trending — filling up fast */}
         {trending.length > 0 && (
           <div className="pt-4 mb-1">
             <div className="flex items-center justify-between px-4 mb-2.5">
               <h3 className="text-[13px] font-bold text-foreground tracking-tight">🚀 Filling up fast</h3>
-              <button onClick={() => navigate('/map')} className="text-[11px] text-primary font-semibold tap-scale">
-                Map view →
-              </button>
             </div>
             <div ref={trendingRef} className="flex gap-3 overflow-x-auto scrollbar-hide px-4 pb-3 snap-x snap-mandatory lg:flex-wrap">
               {trending.map((req) => {
@@ -280,10 +264,6 @@ export default function HomePage() {
               <span className="ml-1.5 normal-case font-normal text-[10px] text-muted-foreground/50">· {radiusNote}</span>
             )}
           </h3>
-          <button onClick={() => navigate('/circle')}
-            className="text-[11px] text-primary font-semibold tap-scale flex items-center gap-1">
-            👥 Circle
-          </button>
         </div>
 
         {/* Feed grid */}

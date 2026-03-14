@@ -6,13 +6,13 @@ import { GradientAvatar } from '@/components/ui/GradientAvatar';
 import { StreakWidget } from '@/components/gamification/StreakWidget';
 
 
-// Core 5-tab nav: Home | Map | Post | Chats | Me
+// Core 5-tab nav: Home | Notifications | Post | Chats | Me
 const navItems = [
-  { emoji: '🏠', label: 'Home',  path: '/home'    },
-  { emoji: '🗺️', label: 'Map',   path: '/map'     },
-  { emoji: '+',  label: 'Post',  path: '/create',  isMain: true },
-  { emoji: '💬', label: 'Chats', path: '/chats'   },
-  { emoji: '👤', label: 'Me',    path: '/profile'  },
+  { emoji: '🏠', label: 'Home',    path: '/home'          },
+  { emoji: '🔔', label: 'Alerts',  path: '/notifications' },
+  { emoji: '+',  label: 'Post',    path: '/create',  isMain: true },
+  { emoji: '💬', label: 'Chats',   path: '/chats'         },
+  { emoji: '👤', label: 'Me',      path: '/profile'       },
 ];
 
 // Desktop sidebar — all sections
@@ -140,8 +140,10 @@ export const BottomNav = () => {
             <div className="flex items-center justify-between">
               {navItems.map((item) => {
                 const isActive = location.pathname === item.path;
-                // Combined chats + notifs badge on Chats tab
-                const badge = item.path === '/chats' ? chatUnread + unreadCount : 0;
+                // Separate badges: chats on 💬 tab, notifications on 🔔 tab
+                const badge = item.path === '/chats' ? chatUnread
+                  : item.path === '/notifications' ? unreadCount
+                  : 0;
 
                 /* ── Center Post pill ── */
                 if (item.isMain) {
