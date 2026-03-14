@@ -45,7 +45,7 @@ const ATTENDANCE_OPTIONS: { status: AttendanceStatus; icon: React.ReactNode; lab
 export default function AttendancePage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { requests, submitReview, completeMeetup, user, addNotification } = useAppStore();
+  const { requests, submitReview, completeMeetup, user, addNotification, updateCredits } = useAppStore();
   const { addXP, recordActivity, progressQuest } = useGamificationStore();
 
   const [step, setStep] = useState<'attendance' | 'feedback' | 'thanks' | 'participants'>('attendance');
