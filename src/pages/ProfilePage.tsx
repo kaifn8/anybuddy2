@@ -2,6 +2,7 @@ import { useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 import { BottomNav } from '@/components/layout/BottomNav';
+import { TopBar } from '@/components/layout/TopBar';
 import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
 import { useAppStore } from '@/store/useAppStore';
 import { useGamificationStore } from '@/store/useGamificationStore';
@@ -12,7 +13,7 @@ import { BlueTick } from '@/components/ui/BlueTick';
 import { VerificationCard } from '@/components/profile/VerificationCard';
 import { getLevelForXP, getNextLevel, getXPProgress } from '@/types/gamification';
 import { cn } from '@/lib/utils';
-import { Settings, Flame, ChevronRight } from 'lucide-react';
+import { Flame, ChevronRight } from 'lucide-react';
 import type { Badge, Request } from '@/types/anybuddy';
 
 const badgeConfig: Record<Badge, { emoji: string; label: string }> = {
