@@ -131,7 +131,7 @@ export function TopBar({
               onClick={() => navigate('/profile')}
               className="tap-scale rounded-full ring-2 ring-primary/20 hover:ring-primary/50 transition-all duration-200"
             >
-              <GradientAvatar name={user?.name ?? 'Me'} size={32} />
+              <GradientAvatar name={user?.firstName ?? 'Me'} size={32} />
             </button>
           ) : (
             /* Map / Profile: live pill */
