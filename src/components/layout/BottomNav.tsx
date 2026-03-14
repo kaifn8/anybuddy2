@@ -4,7 +4,7 @@ import { useAppStore } from '@/store/useAppStore';
 import { useGamificationStore } from '@/store/useGamificationStore';
 import { GradientAvatar } from '@/components/ui/GradientAvatar';
 import { StreakWidget } from '@/components/gamification/StreakWidget';
-import React from 'react';
+
 
 // Core 5-tab nav: Home | Map | Post | Chats | Me
 const navItems = [
