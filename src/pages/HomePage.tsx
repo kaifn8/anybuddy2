@@ -7,9 +7,12 @@ import { PageTransition } from '@/components/layout/PageTransition';
 import { RequestCard } from '@/components/cards/RequestCard';
 import { JoinConfirmDialog } from '@/components/JoinConfirmDialog';
 import { useAppStore } from '@/store/useAppStore';
+import { useGamificationStore } from '@/store/useGamificationStore';
 import { cn } from '@/lib/utils';
 import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
 import { GradientAvatar } from '@/components/ui/GradientAvatar';
+import { StreakWidget } from '@/components/gamification/StreakWidget';
+import { DailyQuestCard } from '@/components/gamification/DailyQuestCard';
 import type { Category, Request } from '@/types/anybuddy';
 
 const FILTERS: { id: Category | 'all'; label: string }[] = [
