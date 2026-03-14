@@ -10,6 +10,7 @@ import { GradientAvatar } from '@/components/ui/GradientAvatar';
 import { BlueTick } from '@/components/ui/BlueTick';
 import { useAppStore } from '@/store/useAppStore';
 import { cn } from '@/lib/utils';
+import { Heart, Share2 } from 'lucide-react';
 
 interface RequestCardProps {
   request: Request;
