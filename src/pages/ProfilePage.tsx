@@ -138,8 +138,8 @@ export default function ProfilePage() {
             <div className="mt-4">
               <div className="flex items-center justify-between mb-1.5">
                 <div className="flex items-center gap-1.5">
-                  <Zap size={11} className="text-accent" />
-                  <span className="text-[11px] font-bold text-accent">{level.name}</span>
+                  <span className="text-[13px]">{level.emoji}</span>
+                  <span className="text-[11px] font-bold text-accent">{level.title}</span>
                 </div>
                 <span className="text-[10px] text-muted-foreground/50 font-medium">
                   {xpIntoLevel} / {xpNeeded} XP
