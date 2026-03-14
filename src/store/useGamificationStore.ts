@@ -39,6 +39,7 @@ interface GamificationState {
   // Actions
   addXP: (action: XPAction, label?: string) => void;
   recordActivity: () => void;
+  checkStreakAchievements: (count: number) => void;
   progressQuest: (questId: QuestType, amount?: number) => void;
   claimQuestReward: (questId: QuestType) => { xp: number; credits: number } | null;
   dismissAchievement: () => void;
