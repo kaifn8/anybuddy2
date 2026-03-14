@@ -162,19 +162,6 @@ export default function HomePage() {
           </button>
         </div>
 
-        {/* Streak nudge */}
-        <div className="px-4 pt-3 pb-1">
-          <button
-            onClick={() => navigate('/quests')}
-            className="w-full liquid-glass-interactive flex items-center gap-3 px-4 py-2.5 text-left"
-            style={{ borderRadius: '1rem' }}
-          >
-            <StreakWidget compact />
-            <div className="w-px h-4 bg-border/40 shrink-0" />
-            <span className="text-[12px] font-semibold text-foreground flex-1 truncate">Daily quests</span>
-            <span className="text-[11px] text-primary font-bold shrink-0">View →</span>
-          </button>
-        </div>
 
         {/* Trending — filling up fast */}
         {trending.length > 0 && (
