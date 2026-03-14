@@ -1,9 +1,8 @@
 import { useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { format } from 'date-fns';
 import gsap from 'gsap';
 import { BottomNav } from '@/components/layout/BottomNav';
-import { getCategoryLabel, getCategoryEmoji } from '@/components/icons/CategoryIcon';
+import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
 import { useAppStore } from '@/store/useAppStore';
 import { useGamificationStore } from '@/store/useGamificationStore';
 import { Button } from '@/components/ui/button';
@@ -13,7 +12,7 @@ import { BlueTick } from '@/components/ui/BlueTick';
 import { VerificationCard } from '@/components/profile/VerificationCard';
 import { getLevelForXP, getNextLevel, getXPProgress } from '@/types/gamification';
 import { cn } from '@/lib/utils';
-import { Settings, Flame } from 'lucide-react';
+import { Settings, Flame, ChevronRight } from 'lucide-react';
 import type { Badge, Request } from '@/types/anybuddy';
 
 const badgeConfig: Record<Badge, { emoji: string; label: string }> = {
@@ -29,8 +28,8 @@ export default function ProfilePage() {
   const { user: rawUser, myRequests, requests } = useAppStore();
   const { xp, streak, unlockedAchievements } = useGamificationStore();
 
-  const heroRef  = useRef<HTMLDivElement>(null);
-  const cardsRef = useRef<HTMLDivElement>(null);
+  const pageRef  = useRef<HTMLDivElement>(null);
+  const xpBarRef = useRef<HTMLDivElement>(null);
 
   const user = rawUser ? {
     ...rawUser,
@@ -39,19 +38,30 @@ export default function ProfilePage() {
     savedPlans: rawUser.savedPlans || [],
   } : null;
 
+  const level       = user ? getLevelForXP(xp) : null;
+  const nextLevel   = user ? getNextLevel(xp) : null;
+  const xpPct       = user ? getXPProgress(xp) : 0;
+  const xpIntoLevel = (nextLevel && level) ? xp - level.xpRequired : 0;
+  const xpNeeded    = (nextLevel && level) ? nextLevel.xpRequired - level.xpRequired : 1;
+
   useEffect(() => {
-    const els = [heroRef.current, cardsRef.current].filter(Boolean);
-    gsap.fromTo(els,
-      { opacity: 0, y: 20 },
-      { opacity: 1, y: 0, duration: 0.5, stagger: 0.08, ease: 'power3.out', clearProps: 'transform' }
+    if (!user || !pageRef.current) return;
+
+    // Stagger all direct sections
+    const sections = Array.from(pageRef.current.children);
+    gsap.fromTo(sections,
+      { opacity: 0, y: 22 },
+      { opacity: 1, y: 0, duration: 0.45, stagger: 0.07, ease: 'power3.out', clearProps: 'transform' }
     );
-    if (cardsRef.current) {
-      gsap.fromTo(Array.from(cardsRef.current.children),
-        { opacity: 0, y: 16 },
-        { opacity: 1, y: 0, duration: 0.4, stagger: 0.06, ease: 'power3.out', delay: 0.15, clearProps: 'transform' }
+
+    // XP bar: animate width from 0 → target after short delay
+    if (xpBarRef.current) {
+      gsap.fromTo(xpBarRef.current,
+        { width: '0%' },
+        { width: `${xpPct}%`, duration: 1.1, ease: 'power2.out', delay: 0.5 }
       );
     }
-  }, []);
+  }, [user]);
 
   if (!user) {
     return (
@@ -71,23 +81,15 @@ export default function ProfilePage() {
     );
   }
 
-  const level       = getLevelForXP(xp);
-  const nextLevel   = getNextLevel(xp);
-  const xpPct       = getXPProgress(xp);
-  const xpIntoLevel = nextLevel ? xp - level.xpRequired : 0;
-  const xpNeeded    = nextLevel ? nextLevel.xpRequired - level.xpRequired : 1;
-
-  const joinDate     = new Date(user.createdAt);
-  const joinText     = new Date().toDateString() === joinDate.toDateString()
-    ? 'Today' : format(joinDate, 'MMM yyyy');
-
-  const totalJoins       = user.meetupsAttended + user.completedJoins;
-  const newAchievements  = unlockedAchievements.filter(a => !a.seen).length;
-  const pastMeetups      = requests.filter(r => r.status === 'completed' && r.participants.some(p => p.id === user.id));
-  const savedPlansList   = user.savedPlans.map(id => requests.find(r => r.id === id)).filter(Boolean) as Request[];
-  const verifiedStatus   = user.verificationStatus || 'unverified';
-
-  const streakAlive = streak.lastActiveDate === new Date().toISOString().split('T')[0];
+  const totalJoins      = user.meetupsAttended + user.completedJoins;
+  const newAchievements = unlockedAchievements.filter(a => !a.seen).length;
+  const pastMeetups     = requests.filter(r => r.status === 'completed' && r.participants.some(p => p.id === user.id));
+  const verifiedStatus  = user.verificationStatus || 'unverified';
+  const streakAlive     = streak.lastActiveDate === new Date().toISOString().split('T')[0];
+  const recentActivity  = [
+    ...myRequests.slice(0, 2).map(r => ({ req: r, tag: 'Hosted' as const })),
+    ...pastMeetups.slice(0, 2).map(r => ({ req: r, tag: 'Attended' as const })),
+  ];
 
   return (
     <>
@@ -109,126 +111,142 @@ export default function ProfilePage() {
           </div>
         </header>
 
-        <div className="px-4 pt-4 space-y-3">
+        {/* ── Sections ── */}
+        <div ref={pageRef} className="px-4 pt-5 space-y-4 pb-2">
 
-          {/* ── Hero card ── */}
-          <div ref={heroRef} className="liquid-glass-heavy p-5">
-            {/* Avatar row */}
-            <div className="flex items-center gap-4">
-              <div className="relative shrink-0">
-                <GradientAvatar name={user.firstName} size={68} />
-                {verifiedStatus === 'verified' && (
-                  <BlueTick size={18} className="absolute -bottom-0.5 -right-0.5" />
-                )}
-              </div>
-              <div className="flex-1 min-w-0">
-                <h2 className="text-[20px] font-bold tracking-tight text-foreground leading-tight">{user.firstName}</h2>
-                <div className="flex items-center gap-2 mt-1">
-                  <TrustBadge level={user.trustLevel} size="sm" />
-                  <span className="text-[10px] text-muted-foreground/50">·</span>
-                  <span className="text-[11px] text-muted-foreground/60">📍 {user.zone ? `${user.zone}` : user.city}</span>
-                </div>
-                {user.bio && (
-                  <p className="text-[12px] mt-1.5 leading-relaxed text-muted-foreground line-clamp-2">{user.bio}</p>
-                )}
-              </div>
+          {/* 1. Identity */}
+          <div className="flex items-center gap-4">
+            <div className="relative shrink-0">
+              <GradientAvatar name={user.firstName} size={72} />
+              {verifiedStatus === 'verified' && (
+                <BlueTick size={18} className="absolute -bottom-0.5 -right-0.5" />
+              )}
             </div>
-
-            {/* XP bar */}
-            <div className="mt-4">
-              <div className="flex items-center justify-between mb-1.5">
-                <div className="flex items-center gap-1.5">
-                  <span className="text-[13px]">{level.emoji}</span>
-                  <span className="text-[11px] font-bold text-accent">{level.title}</span>
-                </div>
-                <span className="text-[10px] text-muted-foreground/50 font-medium">
-                  {xpIntoLevel} / {xpNeeded} XP
-                </span>
-              </div>
-              <div className="h-1.5 rounded-full overflow-hidden" style={{ background: 'hsl(var(--muted) / 0.4)' }}>
-                <div
-                  className="h-full rounded-full transition-all duration-1000"
-                  style={{
-                    width: `${xpPct}%`,
-                    background: 'linear-gradient(90deg, hsl(var(--accent)), hsl(var(--primary)))',
-                  }}
-                />
-              </div>
-            </div>
-
-            {/* Stats row */}
-            <div className="grid grid-cols-4 gap-2 mt-4">
-              {[
-                { value: `${user.reliabilityScore}%`, label: 'Show-up',   color: 'text-success'     },
-                { value: totalJoins,                   label: 'Joined',    color: 'text-foreground'  },
-                { value: user.meetupsHosted,            label: 'Hosted',    color: 'text-foreground'  },
-                { value: user.hostRating ? `${user.hostRating}★` : '—', label: 'Rating', color: 'text-accent' },
-              ].map((s, i) => (
-                <div key={i} className="text-center">
-                  <p className={cn('text-[15px] font-bold tabular-nums', s.color)}>{s.value}</p>
-                  <p className="text-[9px] text-muted-foreground/50 mt-0.5 uppercase tracking-wider font-medium">{s.label}</p>
-                </div>
-              ))}
-            </div>
-
-            {/* Streak pill */}
-            {streak.count > 0 && (
-              <div className="mt-4 flex items-center justify-between px-3 py-2 rounded-[0.75rem]"
-                style={{ background: streakAlive ? 'hsl(var(--accent) / 0.1)' : 'hsl(var(--muted) / 0.3)' }}>
-                <div className="flex items-center gap-2">
-                  <Flame size={14} className={streakAlive ? 'text-accent' : 'text-muted-foreground/40'} />
-                  <span className="text-[12px] font-bold text-foreground">{streak.count}-day streak</span>
-                </div>
-                {!streakAlive && (
-                  <span className="text-[10px] text-destructive font-semibold">At risk!</span>
-                )}
-                {streakAlive && (
-                  <span className="text-[10px] text-accent font-semibold">🔥 Keep going</span>
+            <div className="flex-1 min-w-0">
+              <h2 className="text-[22px] font-bold tracking-tight text-foreground">{user.firstName}</h2>
+              <div className="flex items-center gap-2 mt-0.5">
+                <TrustBadge level={user.trustLevel} size="sm" />
+                {user.city && (
+                  <>
+                    <span className="text-[10px] text-muted-foreground/30">·</span>
+                    <span className="text-[11px] text-muted-foreground/50">{user.zone || user.city}</span>
+                  </>
                 )}
               </div>
-            )}
-
-            {/* Interests */}
-            {user.interests.length > 0 && (
-              <div className="flex flex-wrap gap-1.5 mt-4">
-                {user.interests.map((i) => (
-                  <span key={i} className="flex items-center gap-1 px-2.5 py-1 text-[11px] font-medium liquid-glass rounded-full text-muted-foreground">
-                    {getCategoryEmoji(i)} {getCategoryLabel(i)}
-                  </span>
-                ))}
-              </div>
-            )}
+              {user.bio && (
+                <p className="text-[12px] text-muted-foreground mt-1.5 leading-relaxed line-clamp-2">{user.bio}</p>
+              )}
+            </div>
           </div>
 
-          {/* ── Quick actions ── */}
-          <div ref={cardsRef} className="grid grid-cols-2 gap-2">
+          {/* 2. Stats row — minimal inline */}
+          <div className="grid grid-cols-3 gap-2">
             {[
-              { emoji: '⚡', label: 'Daily Quests',   sub: 'XP + credits',        path: '/quests',      badge: newAchievements },
-              { emoji: '🏆', label: 'Leaderboard',    sub: 'Your weekly rank',     path: '/leaderboard', badge: 0               },
-              { emoji: '💳', label: 'Credits',         sub: `${user.credits} pts`, path: '/credits',     badge: 0               },
-              { emoji: '🎁', label: 'Invite Friends',  sub: 'Earn credits',        path: '/invite',      badge: 0               },
+              { value: `${user.reliabilityScore}%`, label: 'Show-up',  color: 'text-success'    },
+              { value: totalJoins,                   label: 'Plans',    color: 'text-foreground' },
+              { value: user.meetupsHosted,            label: 'Hosted',  color: 'text-foreground' },
+            ].map((s, i) => (
+              <div key={i} className="liquid-glass rounded-[0.875rem] py-3 text-center">
+                <p className={cn('text-[17px] font-bold tabular-nums', s.color)}>{s.value}</p>
+                <p className="text-[9px] text-muted-foreground/50 mt-0.5 uppercase tracking-wider font-medium">{s.label}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* 3. XP + Level */}
+          <div className="liquid-glass rounded-[1rem] px-4 py-3.5">
+            <div className="flex items-center justify-between mb-2.5">
+              <div className="flex items-center gap-2">
+                <span className="text-[16px]">{level?.emoji}</span>
+                <div>
+                  <p className="text-[13px] font-bold text-foreground tracking-tight">{level?.title}</p>
+                  <p className="text-[10px] text-muted-foreground/50">Level {level?.level}</p>
+                </div>
+              </div>
+              <div className="text-right">
+                <p className="text-[12px] font-bold text-foreground">{xp} <span className="text-muted-foreground/40 font-normal text-[10px]">XP</span></p>
+                {nextLevel && (
+                  <p className="text-[10px] text-muted-foreground/40">{xpIntoLevel}/{xpNeeded} to {nextLevel.title}</p>
+                )}
+              </div>
+            </div>
+            {/* XP bar — width animated by GSAP via ref */}
+            <div className="h-[5px] rounded-full overflow-hidden" style={{ background: 'hsla(var(--muted) / 0.4)' }}>
+              <div
+                ref={xpBarRef}
+                className="h-full rounded-full"
+                style={{
+                  width: '0%', // GSAP will animate this
+                  background: 'linear-gradient(90deg, hsl(var(--accent)), hsl(var(--primary)))',
+                  boxShadow: '0 0 8px hsl(var(--primary) / 0.35)',
+                }}
+              />
+            </div>
+          </div>
+
+          {/* 4. Streak — only if active */}
+          {streak.count > 0 && (
+            <button
+              onClick={() => navigate('/quests')}
+              className="w-full flex items-center gap-3 px-4 py-3 rounded-[1rem] tap-scale text-left"
+              style={{
+                background: streakAlive ? 'hsl(var(--accent) / 0.08)' : 'hsla(var(--muted) / 0.3)',
+                border: `0.5px solid ${streakAlive ? 'hsl(var(--accent) / 0.25)' : 'hsla(var(--border) / 0.3)'}`,
+              }}>
+              <Flame size={18} className={streakAlive ? 'text-accent' : 'text-muted-foreground/30'} />
+              <div className="flex-1">
+                <p className="text-[13px] font-bold text-foreground">{streak.count}-day streak</p>
+                <p className="text-[11px] text-muted-foreground/50 mt-0.5">
+                  {streakAlive ? 'Active today · Keep it up' : 'Complete a plan today to keep it'}
+                </p>
+              </div>
+              {!streakAlive && <span className="text-[10px] font-bold text-destructive shrink-0">At risk</span>}
+              {streakAlive && <ChevronRight size={14} className="text-muted-foreground/30 shrink-0" />}
+            </button>
+          )}
+
+          {/* 5. Quick links */}
+          <div className="grid grid-cols-2 gap-2">
+            {[
+              { emoji: '⚡', label: 'Quests',         path: '/quests',      badge: newAchievements },
+              { emoji: '🏆', label: 'Leaderboard',    path: '/leaderboard', badge: 0               },
+              { emoji: '💳', label: `Credits · ${user.credits}`, path: '/credits', badge: 0        },
+              { emoji: '🎁', label: 'Invite & Earn',  path: '/invite',      badge: 0               },
             ].map((item) => (
               <button key={item.path} onClick={() => navigate(item.path)}
-                className="liquid-glass-interactive flex items-center gap-2.5 px-3.5 py-3.5 text-left relative overflow-hidden">
+                className="liquid-glass-interactive flex items-center gap-2.5 px-3.5 py-3 text-left relative overflow-hidden">
                 {item.badge > 0 && (
-                  <span className="absolute top-2 right-2 w-4 h-4 rounded-full bg-destructive flex items-center justify-center text-[8px] font-bold text-white">
+                  <span className="absolute top-1.5 right-1.5 w-4 h-4 rounded-full bg-destructive flex items-center justify-center text-[8px] font-bold text-white">
                     {item.badge}
                   </span>
                 )}
-                <span className="text-[18px]">{item.emoji}</span>
-                <div className="min-w-0">
-                  <p className="text-[12px] font-bold text-foreground tracking-tight truncate">{item.label}</p>
-                  <p className="text-[10px] text-muted-foreground mt-0.5">{item.sub}</p>
-                </div>
+                <span className="text-[17px] shrink-0">{item.emoji}</span>
+                <p className="text-[12px] font-bold text-foreground tracking-tight truncate">{item.label}</p>
               </button>
             ))}
           </div>
 
-          {/* ── Badges ── */}
+          {/* 6. Interests — only if set */}
+          {user.interests.length > 0 && (
+            <div>
+              <p className="section-label mb-2">Into</p>
+              <div className="flex flex-wrap gap-1.5">
+                {user.interests.map((i) => (
+                  <span key={i}
+                    className="flex items-center gap-1 px-2.5 py-1 text-[11px] font-medium liquid-glass rounded-full text-muted-foreground">
+                    {getCategoryEmoji(i)}
+                    <span className="capitalize">{i}</span>
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* 7. Badges — only if earned */}
           {user.badges.length > 0 && (
-            <div className="liquid-glass-heavy p-4">
-              <h3 className="section-label mb-3">Badges</h3>
-              <div className="flex flex-wrap gap-2">
+            <div>
+              <p className="section-label mb-2">Badges</p>
+              <div className="flex flex-wrap gap-1.5">
                 {user.badges.map((badge) => {
                   const cfg = badgeConfig[badge];
                   if (!cfg) return null;
@@ -244,38 +262,26 @@ export default function ProfilePage() {
             </div>
           )}
 
-          {/* ── Verification ── */}
+          {/* 8. Verification */}
           <VerificationCard />
 
-          {/* ── Activity ── */}
-          {(myRequests.length > 0 || pastMeetups.length > 0 || savedPlansList.length > 0) && (
-            <div className="liquid-glass-heavy p-4">
-              <h3 className="section-label mb-3">Activity</h3>
+          {/* 9. Recent activity — max 4 rows */}
+          {recentActivity.length > 0 && (
+            <div>
+              <p className="section-label mb-2">Recent</p>
               <div className="space-y-1.5">
-                {[
-                  ...myRequests.slice(0, 3).map(r => ({ req: r, tag: 'Hosted' })),
-                  ...pastMeetups.slice(0, 3).map(r => ({ req: r, tag: 'Attended' })),
-                  ...savedPlansList.slice(0, 2).map(r => ({ req: r, tag: 'Saved' })),
-                ].map(({ req, tag }) => (
+                {recentActivity.map(({ req, tag }) => (
                   <button key={req.id + tag} onClick={() => navigate(`/request/${req.id}`)}
                     className="w-full liquid-glass-interactive flex items-center gap-3 p-3 text-left">
                     <span className="text-base shrink-0">{getCategoryEmoji(req.category)}</span>
                     <div className="flex-1 min-w-0">
                       <p className="text-[13px] font-semibold text-foreground truncate tracking-tight">{req.title}</p>
-                      <p className="text-[10px] text-muted-foreground mt-0.5">📍 {req.location.name}</p>
+                      <p className="text-[10px] text-muted-foreground/50 mt-0.5">📍 {req.location.name}</p>
                     </div>
-                    <span className="text-[9px] font-bold px-2 py-0.5 rounded-full shrink-0"
+                    <span className="text-[9px] font-semibold px-2 py-0.5 rounded-full shrink-0"
                       style={{
-                        background: tag === 'Hosted'
-                          ? 'hsl(var(--primary) / 0.1)'
-                          : tag === 'Attended'
-                            ? 'hsl(var(--success) / 0.1)'
-                            : 'hsl(var(--muted) / 0.4)',
-                        color: tag === 'Hosted'
-                          ? 'hsl(var(--primary))'
-                          : tag === 'Attended'
-                            ? 'hsl(var(--success))'
-                            : 'hsl(var(--muted-foreground))',
+                        background: tag === 'Hosted' ? 'hsl(var(--primary) / 0.1)' : 'hsl(var(--success) / 0.1)',
+                        color:      tag === 'Hosted' ? 'hsl(var(--primary))'        : 'hsl(var(--success))',
                       }}>
                       {tag}
                     </span>
@@ -286,13 +292,10 @@ export default function ProfilePage() {
           )}
 
           {/* Empty state */}
-          {myRequests.length === 0 && pastMeetups.length === 0 && user.badges.length === 0 && (
-            <div className="text-center py-12">
-              <div className="w-14 h-14 rounded-[1.25rem] liquid-glass flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl">✨</span>
-              </div>
-              <p className="text-[14px] font-semibold text-foreground mb-1.5 tracking-tight">Get started</p>
-              <p className="text-sm text-muted-foreground mb-5">Join a plan to build your profile</p>
+          {recentActivity.length === 0 && user.badges.length === 0 && (
+            <div className="text-center py-10">
+              <p className="text-[14px] font-semibold text-foreground mb-1 tracking-tight">Nothing yet</p>
+              <p className="text-[13px] text-muted-foreground mb-5">Join a plan to fill your profile</p>
               <Button onClick={() => navigate('/home')} variant="secondary" size="sm">Browse plans</Button>
             </div>
           )}
