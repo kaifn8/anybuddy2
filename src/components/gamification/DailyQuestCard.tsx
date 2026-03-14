@@ -111,9 +111,11 @@ export function DailyQuestCard() {
                     <span className="text-[10px] font-bold">Claim</span>
                   </div>
                 ) : (
-                  <div>
-                    <p className="text-[11px] font-bold text-primary">+{quest.xpReward}</p>
-                    <p className="text-[9px] text-muted-foreground">XP</p>
+                  <div className="flex flex-col items-end gap-0.5">
+                    <p className="text-[11px] font-bold text-primary">+{quest.xpReward} XP</p>
+                    {quest.creditReward ? (
+                      <p className="text-[9px] font-semibold text-success">+{quest.creditReward} refund</p>
+                    ) : null}
                   </div>
                 )}
               </div>
