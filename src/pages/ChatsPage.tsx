@@ -32,8 +32,8 @@ export default function ChatsPage() {
   const pastChats = chats.filter(c => c.request.status !== 'active');
 
   return (
-    <div className="mobile-container min-h-screen bg-ambient pb-24">
-      <TopBar showBack title="Chats" />
+    <div className="mobile-container min-h-screen bg-background pb-24">
+      <TopBar title="Chats" />
 
       <div className="px-5 pt-5">
         {chats.length === 0 ? (

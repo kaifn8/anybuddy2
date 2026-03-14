@@ -146,8 +146,8 @@ export default function MapPage() {
   const currentFilter = filters.find(f => f.id === filter);
 
   return (
-    <div className="mobile-container min-h-screen bg-ambient pb-24 flex flex-col">
-      <TopBar showBack title="Nearby Plans" />
+    <div className="mobile-container min-h-screen bg-background pb-24 flex flex-col">
+      <TopBar title="Map" />
 
       {/* Category filters — glass pills */}
       <div className="flex gap-2 px-5 py-2.5 overflow-x-auto scrollbar-hide z-[1000] relative">
