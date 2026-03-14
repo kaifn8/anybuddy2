@@ -13,7 +13,7 @@ import { BlueTick } from '@/components/ui/BlueTick';
 import { VerificationCard } from '@/components/profile/VerificationCard';
 import { getLevelForXP, getNextLevel, getXPProgress } from '@/types/gamification';
 import { cn } from '@/lib/utils';
-import { Settings, ChevronRight, Flame } from 'lucide-react';
+import { Settings, Flame } from 'lucide-react';
 import type { Badge, Request } from '@/types/anybuddy';
 
 const badgeConfig: Record<Badge, { emoji: string; label: string }> = {
