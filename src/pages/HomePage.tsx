@@ -55,9 +55,11 @@ const QUICK_CREATE: { emoji: string; title: string; category: Category }[] = [
 export default function HomePage() {
   const navigate = useNavigate();
   const { requests, joinedRequests, joinRequest, updateCredits, refreshFeed, user } = useAppStore();
+  const { addXP, recordActivity, progressQuest } = useGamificationStore();
   const [activeFilter, setActiveFilter] = useState<Category | 'all'>('all');
   const [quickFilter, setQuickFilter] = useState<string | null>(null);
   const [confirmRequest, setConfirmRequest] = useState<Request | null>(null);
+  const [showQuestCard, setShowQuestCard] = useState(false);
   
   const cardsRef = useRef<HTMLDivElement>(null);
   const trendingRef = useRef<HTMLDivElement>(null);
