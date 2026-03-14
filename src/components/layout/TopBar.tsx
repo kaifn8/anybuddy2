@@ -82,7 +82,7 @@ export function TopBar({
   const displayTitle    = title    ?? autoMeta.title;
   const displaySubtitle = subtitle ?? autoMeta.subtitle;
 
-  const firstName = user?.name?.split(' ')[0] ?? 'there';
+  const firstName = user?.firstName ?? 'there';
   const hour = new Date().getHours();
   const greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
 
