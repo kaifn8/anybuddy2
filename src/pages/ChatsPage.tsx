@@ -306,7 +306,7 @@ function CircleTab() {
       {peopleMet.length > 0 && (
         <button onClick={() => navigate('/invite')}
           className="w-full liquid-glass-interactive flex items-center gap-3 px-4 py-3.5 text-left rounded-[1rem]">
-          <UserPlus size={16} className="text-primary shrink-0" />
+          <AppIcon name="fc:invite" size={18} className="shrink-0" />
           <div className="flex-1 min-w-0">
             <p className="text-[13px] font-bold text-foreground tracking-tight">Invite real friends</p>
             <p className="text-[11px] text-muted-foreground mt-0.5">Earn credits for each referral</p>
