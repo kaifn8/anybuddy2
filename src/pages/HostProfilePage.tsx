@@ -63,7 +63,7 @@ export default function HostProfilePage() {
             <span className="text-xs text-muted-foreground inline-flex items-center gap-1">🛡️ Public meetup · <BlueTick size={12} /> Verified host</span>
           </div>
           <button onClick={() => setShowReport(true)} className="flex items-center gap-1 mt-2 mx-auto text-[11px] text-destructive/60 font-medium tap-scale">
-            <Flag size={10} /> Report user
+            <AppIcon name="fc:feedback" size={12} /> Report user
           </button>
         </div>
 
