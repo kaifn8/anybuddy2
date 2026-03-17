@@ -475,7 +475,7 @@ export default function RequestDetailPage() {
                                 <UserX size={14} className="mr-2" /> Remove {!canRemove && '(locked)'}
                               </DropdownMenuItem>
                               <DropdownMenuItem onClick={() => { setReportTarget({ id: p.id, name: p.name, type: 'user' }); setShowReport(true); }} className="text-xs">
-                                <Flag size={14} className="mr-2" /> Report
+                                <AppIcon name="fc:feedback" size={14} className="mr-2" /> Report
                               </DropdownMenuItem>
                               <DropdownMenuItem onClick={() => handleBlock(p.id, p.name)} className="text-xs text-destructive">
                                 <Ban size={14} className="mr-2" /> Block
