@@ -280,7 +280,7 @@ export default function NotificationsPage() {
         {showStreakWarning && (
           <div className="mx-4 mt-3 flex items-center gap-3 px-4 py-3 rounded-[1rem]"
             style={{ background: 'hsl(var(--accent) / 0.08)', border: '0.5px solid hsl(var(--accent) / 0.25)' }}>
-            <Flame size={16} className="text-accent shrink-0 animate-pulse" />
+            <AppIcon name="se:fire" size={18} className="shrink-0 animate-pulse" />
             <div className="flex-1 min-w-0">
               <p className="text-[12px] font-bold text-accent">{streak.count}-day streak at risk!</p>
               <p className="text-[11px] text-muted-foreground mt-0.5">Do something social today to keep it alive</p>
