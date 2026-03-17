@@ -363,7 +363,7 @@ export default function CreateRequestPage() {
           <p className="text-sm text-muted-foreground mb-6">People nearby can now join</p>
           <div className="liquid-glass p-4 rounded-2xl mb-6 text-left">
             <div className="flex items-center gap-2 mb-2">
-              <span className="text-lg">{getCategoryEmoji(category)}</span>
+              <CategoryIcon category={category} size="sm" />
               <h3 className="text-sm font-bold">{title}</h3>
             </div>
             <div className="flex flex-wrap gap-3 text-xs text-muted-foreground">
