@@ -7,7 +7,8 @@ import { useAppStore } from '@/store/useAppStore';
 import { useGamificationStore } from '@/store/useGamificationStore';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { Bell, BellOff, CheckCheck, Flame, ChevronRight } from 'lucide-react';
+import { CheckCheck, ChevronRight } from 'lucide-react';
+import { AppIcon } from '@/components/icons/AppIcon';
 import type { Notification } from '@/types/anybuddy';
 
 const NOTIF_CONFIG: Record<string, {
@@ -260,7 +261,7 @@ export default function NotificationsPage() {
             }}>
             <div className="w-9 h-9 rounded-[0.75rem] flex items-center justify-center shrink-0"
               style={{ background: 'hsl(var(--primary) / 0.12)' }}>
-              <Bell size={16} className="text-primary" />
+              <AppIcon name="se:bell" size={18} />
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-[13px] font-bold text-foreground tracking-tight">
@@ -279,7 +280,7 @@ export default function NotificationsPage() {
         {showStreakWarning && (
           <div className="mx-4 mt-3 flex items-center gap-3 px-4 py-3 rounded-[1rem]"
             style={{ background: 'hsl(var(--accent) / 0.08)', border: '0.5px solid hsl(var(--accent) / 0.25)' }}>
-            <Flame size={16} className="text-accent shrink-0 animate-pulse" />
+            <AppIcon name="se:fire" size={18} className="shrink-0 animate-pulse" />
             <div className="flex-1 min-w-0">
               <p className="text-[12px] font-bold text-accent">{streak.count}-day streak at risk!</p>
               <p className="text-[11px] text-muted-foreground mt-0.5">Do something social today to keep it alive</p>
@@ -337,7 +338,7 @@ export default function NotificationsPage() {
               </div>
             ) : (
               <div className="text-center py-16">
-                <BellOff size={28} className="mx-auto text-muted-foreground/30 mb-3" />
+                <AppIcon name="se:bell-with-slash" size={28} className="mx-auto opacity-40 mb-3" />
                 <p className="text-[14px] font-semibold text-muted-foreground">
                   No {filter === 'all' ? '' : filter} notifications
                 </p>
@@ -346,7 +347,7 @@ export default function NotificationsPage() {
           ) : (
             <div className="text-center py-20">
               <div className="w-16 h-16 rounded-[1.5rem] liquid-glass flex items-center justify-center mx-auto mb-5">
-                <Bell size={26} className="text-muted-foreground/40" />
+                <AppIcon name="se:bell" size={28} className="opacity-40" />
               </div>
               <p className="text-[17px] font-bold text-foreground mb-2 tracking-tight">All quiet here</p>
               <p className="text-[13px] text-muted-foreground mb-8 leading-relaxed max-w-[220px] mx-auto">

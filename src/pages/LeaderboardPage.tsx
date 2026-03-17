@@ -7,7 +7,8 @@ import { useAppStore } from '@/store/useAppStore';
 import { getLevelForXP } from '@/types/gamification';
 import { GradientAvatar } from '@/components/ui/GradientAvatar';
 import { cn } from '@/lib/utils';
-import { Flame, Clock } from 'lucide-react';
+import { Clock } from 'lucide-react';
+import { AppIcon } from '@/components/icons/AppIcon';
 
 const FAKE_NAMES = ['Priya M.', 'Arjun S.', 'Maya K.', 'Rohan V.', 'Zara Q.', 'Aditya P.', 'Neha R.', 'Vikram D.', 'Kabir T.', 'Riya N.'];
 const FAKE_XP_BASE = [420, 380, 310, 290, 260, 240, 215, 185, 160, 130];
@@ -131,7 +132,7 @@ export default function LeaderboardPage() {
                       <p className="text-[10px] text-muted-foreground">{level.emoji} {level.title}</p>
                     </div>
                     <div className="flex items-center gap-1 shrink-0 mr-2">
-                      <Flame size={11} className="text-accent" />
+                      <AppIcon name="se:fire" size={13} className={entry.streak > 0 ? '' : 'grayscale opacity-40'} />
                       <span className="text-[10px] text-muted-foreground tabular-nums">{entry.streak}</span>
                     </div>
                     <div className="shrink-0 text-right min-w-[42px]">

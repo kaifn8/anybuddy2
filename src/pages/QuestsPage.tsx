@@ -7,7 +7,8 @@ import { DailyQuestCard } from '@/components/gamification/DailyQuestCard';
 import { useGamificationStore } from '@/store/useGamificationStore';
 import { ACHIEVEMENTS } from '@/types/gamification';
 import { cn } from '@/lib/utils';
-import { ArrowRight, Flame, Star, Trophy } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
+import { AppIcon } from '@/components/icons/AppIcon';
 
 const RARITY_STYLES: Record<string, { bg: string; text: string; border: string }> = {
   common:    { bg: 'bg-primary/6',   text: 'text-primary',   border: 'border-primary/20'   },
@@ -32,22 +33,22 @@ export default function QuestsPage() {
           {/* Summary stats */}
           <div className="grid grid-cols-3 gap-2">
             <div className="liquid-glass p-3.5 text-center">
-              <div className="flex items-center justify-center gap-1 mb-1">
-                <Flame size={13} className="text-accent" />
+              <div className="flex items-center justify-center gap-1.5 mb-1">
+                <AppIcon name="se:fire" size={18} />
                 <span className="text-[18px] font-bold tabular-nums text-foreground">{streak.count}</span>
               </div>
               <p className="text-[9px] text-muted-foreground uppercase tracking-wider font-semibold">Streak</p>
             </div>
             <div className="liquid-glass p-3.5 text-center">
-              <div className="flex items-center justify-center gap-1 mb-1">
-                <Star size={13} className="text-primary" />
+              <div className="flex items-center justify-center gap-1.5 mb-1">
+                <AppIcon name="se:sparkles" size={18} />
                 <span className="text-[18px] font-bold tabular-nums text-foreground">{xp}</span>
               </div>
               <p className="text-[9px] text-muted-foreground uppercase tracking-wider font-semibold">Total XP</p>
             </div>
             <div className="liquid-glass p-3.5 text-center">
-              <div className="flex items-center justify-center gap-1 mb-1">
-                <Trophy size={13} className="text-secondary" />
+              <div className="flex items-center justify-center gap-1.5 mb-1">
+                <AppIcon name="se:trophy-1" size={18} />
                 <span className="text-[18px] font-bold tabular-nums text-foreground">{unlockedIds.size}</span>
               </div>
               <p className="text-[9px] text-muted-foreground uppercase tracking-wider font-semibold">Badges</p>
@@ -66,8 +67,8 @@ export default function QuestsPage() {
           {/* Leaderboard CTA */}
           <button onClick={() => navigate('/leaderboard')}
             className="w-full liquid-glass-interactive flex items-center gap-3 px-4 py-3.5 text-left">
-            <div className="w-10 h-10 rounded-[0.875rem] liquid-glass flex items-center justify-center text-xl shrink-0">
-              🏆
+            <div className="w-10 h-10 rounded-[0.875rem] liquid-glass flex items-center justify-center shrink-0">
+              <AppIcon name="fc:statistics" size={22} />
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-[13px] font-bold text-foreground tracking-tight">Weekly Leaderboard</p>

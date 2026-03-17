@@ -9,6 +9,7 @@ import { BottomNav } from '@/components/layout/BottomNav';
 import { Button } from '@/components/ui/button';
 import { formatDistanceToNow, format } from 'date-fns';
 import { MessageCircle, Users, UserPlus, Search, MapPin } from 'lucide-react';
+import { AppIcon } from '@/components/icons/AppIcon';
 import { cn } from '@/lib/utils';
 import type { Request } from '@/types/anybuddy';
 import { getCategoryEmoji as getCatEmoji } from '@/components/icons/CategoryIcon';
@@ -75,7 +76,7 @@ function ChatsTab() {
     return (
       <div className="text-center pt-20 px-6">
         <div className="w-20 h-20 rounded-[1.5rem] liquid-glass flex items-center justify-center mx-auto mb-5">
-          <MessageCircle size={36} className="text-muted-foreground/40" />
+          <AppIcon name="fc:comments" size={36} className="opacity-40" />
         </div>
         <h3 className="text-[18px] font-bold text-foreground mb-2 tracking-tight">No chats yet</h3>
         <p className="text-[13px] text-muted-foreground mb-8 leading-relaxed max-w-[240px] mx-auto">
@@ -247,7 +248,7 @@ function CircleTab() {
       {/* Search */}
       {peopleMet.length > 3 && (
         <div className="relative">
-          <Search size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground/50" />
+          <AppIcon name="fc:search" size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 opacity-50" style={{ transform: 'translateY(-50%)' }} />
           <input value={search} onChange={(e) => setSearch(e.target.value)}
             placeholder="Search your circle…"
             className="w-full h-10 bg-transparent liquid-glass rounded-[0.875rem] pl-9 pr-4 text-[13px] text-foreground placeholder:text-muted-foreground/40 outline-none border-none" />
@@ -285,7 +286,7 @@ function CircleTab() {
                 </div>
                 <button onClick={() => navigate(`/host/${person.id}`)}
                   className="w-8 h-8 rounded-full liquid-glass flex items-center justify-center shrink-0 tap-scale">
-                  <Users size={13} className="text-muted-foreground" />
+                  <AppIcon name="fc:conference-call" size={14} />
                 </button>
               </div>
             );
@@ -294,7 +295,7 @@ function CircleTab() {
       ) : (
         <div className="text-center py-16">
           <div className="w-14 h-14 rounded-[1.25rem] liquid-glass flex items-center justify-center mx-auto mb-4">
-            <Users size={26} className="text-muted-foreground/40" />
+            <AppIcon name="fc:conference-call" size={28} className="opacity-40" />
           </div>
           <p className="text-[15px] font-bold text-foreground mb-1.5 tracking-tight">No one yet</p>
           <p className="text-[13px] text-muted-foreground mb-6">Join a plan to start meeting people</p>
@@ -305,7 +306,7 @@ function CircleTab() {
       {peopleMet.length > 0 && (
         <button onClick={() => navigate('/invite')}
           className="w-full liquid-glass-interactive flex items-center gap-3 px-4 py-3.5 text-left rounded-[1rem]">
-          <UserPlus size={16} className="text-primary shrink-0" />
+          <AppIcon name="fc:invite" size={18} className="shrink-0" />
           <div className="flex-1 min-w-0">
             <p className="text-[13px] font-bold text-foreground tracking-tight">Invite real friends</p>
             <p className="text-[11px] text-muted-foreground mt-0.5">Earn credits for each referral</p>
@@ -366,7 +367,7 @@ export default function ChatsPage() {
               'relative z-10 flex-1 flex items-center justify-center gap-1.5 py-2 rounded-[0.75rem] text-[13px] font-semibold transition-colors duration-200',
               tab === 'chats' ? 'text-foreground' : 'text-muted-foreground'
             )}>
-            <MessageCircle size={14} />
+            <AppIcon name="fc:comments" size={15} />
             Chats
           </button>
           <button
@@ -375,7 +376,7 @@ export default function ChatsPage() {
               'relative z-10 flex-1 flex items-center justify-center gap-1.5 py-2 rounded-[0.75rem] text-[13px] font-semibold transition-colors duration-200',
               tab === 'circle' ? 'text-foreground' : 'text-muted-foreground'
             )}>
-            <Users size={14} />
+            <AppIcon name="fc:conference-call" size={15} />
             My Circle
           </button>
         </div>
