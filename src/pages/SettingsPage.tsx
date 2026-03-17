@@ -143,10 +143,11 @@ export default function SettingsPage() {
                 {INTEREST_OPTIONS.map((i) => (
                   <button key={i} onClick={() => toggleInterest(i)}
                     className={cn(
-                      'flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold tap-scale transition-all',
+                      'flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold tap-scale transition-all',
                       editInterests.includes(i) ? 'glass-pill-active' : 'glass-pill-inactive'
                     )}>
-                    {getCategoryEmoji(i)} <span className="capitalize">{i}</span>
+                    <CategoryIcon category={i} size="sm" className="!w-4 !h-4 !rounded-md bg-transparent" />
+                    <span className="capitalize">{i}</span>
                   </button>
                 ))}
               </div>

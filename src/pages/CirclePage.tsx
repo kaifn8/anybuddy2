@@ -102,7 +102,7 @@ export default function CirclePage() {
           {/* Search */}
           {peopleMet.length > 3 && (
             <div className="relative">
-              <Search size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground/50" />
+              <AppIcon name="fc:search" size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 opacity-50" />
               <input value={search} onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search your circle…"
                 className="w-full h-10 bg-transparent liquid-glass rounded-[0.875rem] pl-9 pr-4 text-[13px] text-foreground placeholder:text-muted-foreground/40 outline-none border-none" />
