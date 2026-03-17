@@ -12,7 +12,8 @@ import { BlueTick } from '@/components/ui/BlueTick';
 import { VerificationCard } from '@/components/profile/VerificationCard';
 import { getLevelForXP, getNextLevel, getXPProgress } from '@/types/gamification';
 import { cn } from '@/lib/utils';
-import { Settings, Flame, ChevronRight } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
+import { AppIcon } from '@/components/icons/AppIcon';
 import type { Badge, Request } from '@/types/anybuddy';
 
 const badgeConfig: Record<Badge, { emoji: string; label: string }> = {
@@ -46,15 +47,11 @@ export default function ProfilePage() {
 
   useEffect(() => {
     if (!user || !pageRef.current) return;
-
-    // Stagger all direct sections
     const sections = Array.from(pageRef.current.children);
     gsap.fromTo(sections,
       { opacity: 0, y: 22 },
       { opacity: 1, y: 0, duration: 0.45, stagger: 0.07, ease: 'power3.out', clearProps: 'transform' }
     );
-
-    // XP bar: animate width from 0 → target after short delay
     if (xpBarRef.current) {
       gsap.fromTo(xpBarRef.current,
         { width: '0%' },
@@ -69,7 +66,7 @@ export default function ProfilePage() {
         <div className="mobile-container min-h-screen bg-background flex items-center justify-center">
           <div className="text-center px-8">
             <div className="w-16 h-16 rounded-[1.25rem] liquid-glass flex items-center justify-center mx-auto mb-5">
-              <span className="text-2xl">👤</span>
+              <AppIcon name="fc:businessman" size={32} className="opacity-50" />
             </div>
             <p className="text-[16px] font-bold text-foreground mb-1.5 tracking-tight">Sign in to view your profile</p>
             <p className="text-sm text-muted-foreground mb-6">Your plans, badges, and stats</p>
@@ -106,7 +103,7 @@ export default function ProfilePage() {
             <span className="text-[17px] font-bold text-foreground tracking-tight">Profile</span>
             <button onClick={() => navigate('/settings')}
               className="w-8 h-8 rounded-full liquid-glass flex items-center justify-center tap-scale">
-              <Settings size={15} className="text-muted-foreground" />
+              <AppIcon name="fc:settings" size={17} />
             </button>
           </div>
         </header>
@@ -139,7 +136,7 @@ export default function ProfilePage() {
             </div>
           </div>
 
-          {/* 2. Stats row — minimal inline */}
+          {/* 2. Stats row */}
           <div className="grid grid-cols-3 gap-2">
             {[
               { value: `${user.reliabilityScore}%`, label: 'Show-up',  color: 'text-success'    },
@@ -170,13 +167,12 @@ export default function ProfilePage() {
                 )}
               </div>
             </div>
-            {/* XP bar — width animated by GSAP via ref */}
             <div className="h-[5px] rounded-full overflow-hidden" style={{ background: 'hsla(var(--muted) / 0.4)' }}>
               <div
                 ref={xpBarRef}
                 className="h-full rounded-full"
                 style={{
-                  width: '0%', // GSAP will animate this
+                  width: '0%',
                   background: 'linear-gradient(90deg, hsl(var(--accent)), hsl(var(--primary)))',
                   boxShadow: '0 0 8px hsl(var(--primary) / 0.35)',
                 }}
@@ -184,7 +180,7 @@ export default function ProfilePage() {
             </div>
           </div>
 
-          {/* 4. Streak — only if active */}
+          {/* 4. Streak */}
           {streak.count > 0 && (
             <button
               onClick={() => navigate('/quests')}
@@ -193,7 +189,7 @@ export default function ProfilePage() {
                 background: streakAlive ? 'hsl(var(--accent) / 0.08)' : 'hsla(var(--muted) / 0.3)',
                 border: `0.5px solid ${streakAlive ? 'hsl(var(--accent) / 0.25)' : 'hsla(var(--border) / 0.3)'}`,
               }}>
-              <Flame size={18} className={streakAlive ? 'text-accent' : 'text-muted-foreground/30'} />
+              <AppIcon name="se:fire" size={20} className={streakAlive ? '' : 'grayscale opacity-30'} />
               <div className="flex-1">
                 <p className="text-[13px] font-bold text-foreground">{streak.count}-day streak</p>
                 <p className="text-[11px] text-muted-foreground/50 mt-0.5">
@@ -208,10 +204,10 @@ export default function ProfilePage() {
           {/* 5. Quick links */}
           <div className="grid grid-cols-2 gap-2">
             {[
-              { emoji: '⚡', label: 'Quests',         path: '/quests',      badge: newAchievements },
-              { emoji: '🏆', label: 'Leaderboard',    path: '/leaderboard', badge: 0               },
-              { emoji: '💳', label: `Credits · ${user.credits}`, path: '/credits', badge: 0        },
-              { emoji: '🎁', label: 'Invite & Earn',  path: '/invite',      badge: 0               },
+              { icon: 'fc:todo-list' as const,      label: 'Quests',         path: '/quests',      badge: newAchievements },
+              { icon: 'fc:statistics' as const,     label: 'Leaderboard',    path: '/leaderboard', badge: 0               },
+              { icon: 'fc:money-transfer' as const, label: `Credits · ${user.credits}`, path: '/credits', badge: 0        },
+              { icon: 'fc:invite' as const,         label: 'Invite & Earn',  path: '/invite',      badge: 0               },
             ].map((item) => (
               <button key={item.path} onClick={() => navigate(item.path)}
                 className="liquid-glass-interactive flex items-center gap-2.5 px-3.5 py-3 text-left relative overflow-hidden">
@@ -220,13 +216,13 @@ export default function ProfilePage() {
                     {item.badge}
                   </span>
                 )}
-                <span className="text-[17px] shrink-0">{item.emoji}</span>
+                <AppIcon name={item.icon} size={22} className="shrink-0" />
                 <p className="text-[12px] font-bold text-foreground tracking-tight truncate">{item.label}</p>
               </button>
             ))}
           </div>
 
-          {/* 6. Interests — only if set */}
+          {/* 6. Interests */}
           {user.interests.length > 0 && (
             <div>
               <p className="section-label mb-2">Into</p>
@@ -242,7 +238,7 @@ export default function ProfilePage() {
             </div>
           )}
 
-          {/* 7. Badges — only if earned */}
+          {/* 7. Badges */}
           {user.badges.length > 0 && (
             <div>
               <p className="section-label mb-2">Badges</p>
@@ -265,7 +261,7 @@ export default function ProfilePage() {
           {/* 8. Verification */}
           <VerificationCard />
 
-          {/* 9. Recent activity — max 4 rows */}
+          {/* 9. Recent activity */}
           {recentActivity.length > 0 && (
             <div>
               <p className="section-label mb-2">Recent</p>
@@ -291,7 +287,6 @@ export default function ProfilePage() {
             </div>
           )}
 
-          {/* Empty state */}
           {recentActivity.length === 0 && user.badges.length === 0 && (
             <div className="text-center py-10">
               <p className="text-[14px] font-semibold text-foreground mb-1 tracking-tight">Nothing yet</p>
