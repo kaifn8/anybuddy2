@@ -6,6 +6,7 @@ import type { Category, Gender } from '@/types/anybuddy';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Check } from 'lucide-react';
+import { CategoryIcon } from '@/components/icons/CategoryIcon';
 
 type Step = 'method' | 'phone' | 'otp' | 'name' | 'gender' | 'photo' | 'bio' | 'age' | 'interests' | 'zone';
 const steps: Step[] = ['method', 'phone', 'otp', 'name', 'gender', 'photo', 'bio', 'age', 'interests', 'zone'];
