@@ -323,9 +323,7 @@ export default function HomePage() {
               {livePlans.map((req) => (
                 <button key={req.id} onClick={() => navigate(`/request/${req.id}`)}
                   className="w-full liquid-glass-interactive flex items-center gap-3 p-3 text-left" style={{ borderRadius: '0.875rem' }}>
-                  <div className="w-9 h-9 rounded-[0.875rem] liquid-glass flex items-center justify-center text-base shrink-0">
-                    {getCategoryEmoji(req.category)}
-                  </div>
+                  <CategoryIcon category={req.category} size="sm" className="liquid-glass shrink-0" />
                   <div className="flex-1 min-w-0">
                     <p className="text-[13px] font-bold text-foreground truncate tracking-tight">{req.title}</p>
                     <p className="text-[11px] text-muted-foreground mt-0.5">📍 {req.location.name} · {req.location.distance}km</p>
