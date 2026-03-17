@@ -145,9 +145,10 @@ export const BottomNav = () => {
               {navItems.map((item) => {
                 const isActive = location.pathname === item.path;
                 const badge = item.path === '/notifications' ? unreadCount : 0;
+                const isMain = 'isMain' in item && item.isMain;
 
                 /* ── Center Post pill ── */
-                if (item.isMain) {
+                if (isMain) {
                   return (
                     <button key={item.path} onClick={() => navigate(item.path)} className="tap-scale group">
                       <div className="h-[40px] px-5 rounded-full flex items-center justify-center gap-1.5 transition-transform group-active:scale-90" style={{
