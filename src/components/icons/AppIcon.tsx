@@ -1,108 +1,101 @@
 /**
- * AppIcon — Central color-icon wrapper using Iconify.
- * Uses flat-color-icons (MIT) and streamline-emojis for all app UI icons.
- * Pass a `name` from the union below; size defaults to 24.
+ * AppIcon — Central color-icon wrapper using Iconify with bundled icon sets.
+ * Uses flat-color-icons (MIT, Icons8) and streamline-emojis for all app UI icons.
+ * Icons are bundled locally (no API call needed).
  */
-import { Icon } from '@iconify/react';
+import { Icon, addCollection } from '@iconify/react';
+import flatColorIconsData from '@iconify-json/flat-color-icons/icons.json';
+import streamlineEmojisData from '@iconify-json/streamline-emojis/icons.json';
 
-// flat-color-icons (MIT, Icons8)
-import homeIcon from '@iconify-json/flat-color-icons/icons/home.json';
-import settingsIcon from '@iconify-json/flat-color-icons/icons/settings.json';
-import plusIcon from '@iconify-json/flat-color-icons/icons/plus.json';
-import searchIcon from '@iconify-json/flat-color-icons/icons/search.json';
-import shareIcon from '@iconify-json/flat-color-icons/icons/share.json';
-import bookmarkIcon from '@iconify-json/flat-color-icons/icons/bookmark.json';
-import calendarIcon from '@iconify-json/flat-color-icons/icons/calendar.json';
-import statisticsIcon from '@iconify-json/flat-color-icons/icons/statistics.json';
-import todoListIcon from '@iconify-json/flat-color-icons/icons/todo-list.json';
-import conferenceCallIcon from '@iconify-json/flat-color-icons/icons/conference-call.json';
-import inviteIcon from '@iconify-json/flat-color-icons/icons/invite.json';
-import likeIcon from '@iconify-json/flat-color-icons/icons/like.json';
-import feedbackIcon from '@iconify-json/flat-color-icons/icons/feedback.json';
-import commentsIcon from '@iconify-json/flat-color-icons/icons/comments.json';
-import trophyIcon from '@iconify-json/flat-color-icons/icons/icons8-cup.json';
-import globeIcon from '@iconify-json/flat-color-icons/icons/globe.json';
-import clockIcon from '@iconify-json/flat-color-icons/icons/clock.json';
-import infoIcon from '@iconify-json/flat-color-icons/icons/info.json';
-import cancelIcon from '@iconify-json/flat-color-icons/icons/cancel.json';
-import checkmarkIcon from '@iconify-json/flat-color-icons/icons/checkmark.json';
-import vipIcon from '@iconify-json/flat-color-icons/icons/vip.json';
-import ratingIcon from '@iconify-json/flat-color-icons/icons/rating.json';
-import moneyTransferIcon from '@iconify-json/flat-color-icons/icons/money-transfer.json';
-import lockIcon from '@iconify-json/flat-color-icons/icons/lock.json';
-import unlockIcon from '@iconify-json/flat-color-icons/icons/unlock.json';
-import businessmanIcon from '@iconify-json/flat-color-icons/icons/businessman.json';
-import collaborationIcon from '@iconify-json/flat-color-icons/icons/collaboration.json';
-import supportIcon from '@iconify-json/flat-color-icons/icons/support.json';
-import departmentIcon from '@iconify-json/flat-color-icons/icons/department.json';
-import newsIcon from '@iconify-json/flat-color-icons/icons/news.json';
-import ideaIcon from '@iconify-json/flat-color-icons/icons/idea.json';
+// Register the icon sets once
+addCollection(flatColorIconsData as Parameters<typeof addCollection>[0]);
+addCollection(streamlineEmojisData as Parameters<typeof addCollection>[0]);
 
-// streamline-emojis (color illustrated)
-import bellIcon from '@iconify-json/streamline-emojis/icons/bell.json';
-import bellSlashIcon from '@iconify-json/streamline-emojis/icons/bell-with-slash.json';
-import fireIcon from '@iconify-json/streamline-emojis/icons/fire.json';
-import snowflakeIcon from '@iconify-json/streamline-emojis/icons/snowflake.json';
-import crownIcon from '@iconify-json/streamline-emojis/icons/crown.json';
-import sparklesIcon from '@iconify-json/streamline-emojis/icons/sparkles.json';
-import mapIcon from '@iconify-json/streamline-emojis/icons/world-map.json';
-import trophyEmojiIcon from '@iconify-json/streamline-emojis/icons/trophy-1.json';
+export type AppIconName =
+  // flat-color-icons
+  | 'fc:home'
+  | 'fc:settings'
+  | 'fc:plus'
+  | 'fc:search'
+  | 'fc:share'
+  | 'fc:bookmark'
+  | 'fc:calendar'
+  | 'fc:statistics'
+  | 'fc:todo-list'
+  | 'fc:conference-call'
+  | 'fc:invite'
+  | 'fc:like'
+  | 'fc:feedback'
+  | 'fc:comments'
+  | 'fc:trophy'
+  | 'fc:globe'
+  | 'fc:clock'
+  | 'fc:info'
+  | 'fc:cancel'
+  | 'fc:checkmark'
+  | 'fc:vip'
+  | 'fc:rating'
+  | 'fc:money-transfer'
+  | 'fc:lock'
+  | 'fc:unlock'
+  | 'fc:businessman'
+  | 'fc:collaboration'
+  | 'fc:support'
+  | 'fc:department'
+  | 'fc:news'
+  | 'fc:idea'
+  // streamline-emojis
+  | 'se:bell'
+  | 'se:bell-with-slash'
+  | 'se:fire'
+  | 'se:snowflake'
+  | 'se:crown'
+  | 'se:sparkles'
+  | 'se:trophy-1'
+  | 'se:map-1';
 
-// Build icon data objects (prefix + body = valid Iconify icon data)
-function makeIcon(json: { body: string; width?: number; height?: number }) {
-  return { ...json };
-}
-
-const ICONS = {
-  // Navigation
-  home: makeIcon(homeIcon),
-  settings: makeIcon(settingsIcon),
-  plus: makeIcon(plusIcon),
-  globe: makeIcon(globeIcon),
-  comments: makeIcon(commentsIcon),
-  bell: makeIcon(bellIcon),
-  'bell-slash': makeIcon(bellSlashIcon),
-  businessman: makeIcon(businessmanIcon),
-
-  // Actions
-  search: makeIcon(searchIcon),
-  share: makeIcon(shareIcon),
-  bookmark: makeIcon(bookmarkIcon),
-  like: makeIcon(likeIcon),
-  feedback: makeIcon(feedbackIcon),
-  invite: makeIcon(inviteIcon),
-  cancel: makeIcon(cancelIcon),
-  checkmark: makeIcon(checkmarkIcon),
-  info: makeIcon(infoIcon),
-  lock: makeIcon(lockIcon),
-  unlock: makeIcon(unlockIcon),
-
-  // Social / gamification
-  'conference-call': makeIcon(conferenceCallIcon),
-  collaboration: makeIcon(collaborationIcon),
-  'todo-list': makeIcon(todoListIcon),
-  statistics: makeIcon(statisticsIcon),
-  trophy: makeIcon(trophyIcon),
-  'trophy-emoji': makeIcon(trophyEmojiIcon),
-  vip: makeIcon(vipIcon),
-  rating: makeIcon(ratingIcon),
-  crown: makeIcon(crownIcon),
-  fire: makeIcon(fireIcon),
-  snowflake: makeIcon(snowflakeIcon),
-  sparkles: makeIcon(sparklesIcon),
-  support: makeIcon(supportIcon),
-  department: makeIcon(departmentIcon),
-
-  // Utility
-  calendar: makeIcon(calendarIcon),
-  clock: makeIcon(clockIcon),
-  'money-transfer': makeIcon(moneyTransferIcon),
-  news: makeIcon(newsIcon),
-  idea: makeIcon(ideaIcon),
-  map: makeIcon(mapIcon),
-} as const;
-
-export type AppIconName = keyof typeof ICONS;
+// Maps our short prefix to Iconify prefixes + icon names
+const ICON_MAP: Record<AppIconName, string> = {
+  'fc:home': 'flat-color-icons:home',
+  'fc:settings': 'flat-color-icons:settings',
+  'fc:plus': 'flat-color-icons:plus',
+  'fc:search': 'flat-color-icons:search',
+  'fc:share': 'flat-color-icons:share',
+  'fc:bookmark': 'flat-color-icons:bookmark',
+  'fc:calendar': 'flat-color-icons:calendar',
+  'fc:statistics': 'flat-color-icons:statistics',
+  'fc:todo-list': 'flat-color-icons:todo-list',
+  'fc:conference-call': 'flat-color-icons:conference-call',
+  'fc:invite': 'flat-color-icons:invite',
+  'fc:like': 'flat-color-icons:like',
+  'fc:feedback': 'flat-color-icons:feedback',
+  'fc:comments': 'flat-color-icons:comments',
+  'fc:trophy': 'flat-color-icons:icons8-cup',
+  'fc:globe': 'flat-color-icons:globe',
+  'fc:clock': 'flat-color-icons:clock',
+  'fc:info': 'flat-color-icons:info',
+  'fc:cancel': 'flat-color-icons:cancel',
+  'fc:checkmark': 'flat-color-icons:checkmark',
+  'fc:vip': 'flat-color-icons:vip',
+  'fc:rating': 'flat-color-icons:rating',
+  'fc:money-transfer': 'flat-color-icons:money-transfer',
+  'fc:lock': 'flat-color-icons:lock',
+  'fc:unlock': 'flat-color-icons:unlock',
+  'fc:businessman': 'flat-color-icons:businessman',
+  'fc:collaboration': 'flat-color-icons:collaboration',
+  'fc:support': 'flat-color-icons:support',
+  'fc:department': 'flat-color-icons:department',
+  'fc:news': 'flat-color-icons:news',
+  'fc:idea': 'flat-color-icons:idea',
+  'se:bell': 'streamline-emojis:bell',
+  'se:bell-with-slash': 'streamline-emojis:bell-with-slash',
+  'se:fire': 'streamline-emojis:fire',
+  'se:snowflake': 'streamline-emojis:snowflake',
+  'se:crown': 'streamline-emojis:crown',
+  'se:sparkles': 'streamline-emojis:sparkles',
+  'se:trophy-1': 'streamline-emojis:trophy-1',
+  'se:map-1': 'streamline-emojis:globe-showing-europe-africa',
+};
 
 interface AppIconProps {
   name: AppIconName;
@@ -112,10 +105,9 @@ interface AppIconProps {
 }
 
 export function AppIcon({ name, size = 24, className, style }: AppIconProps) {
-  const iconData = ICONS[name];
   return (
     <Icon
-      icon={iconData}
+      icon={ICON_MAP[name]}
       width={size}
       height={size}
       className={className}
