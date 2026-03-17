@@ -228,9 +228,7 @@ export default function MapPage() {
       {selected && (
         <div className="mx-4 mt-2 shrink-0">
           <div className="liquid-glass-heavy p-3.5 flex items-center gap-3 relative" style={{ borderRadius: '1.25rem' }}>
-            <div className="w-10 h-10 rounded-[0.75rem] liquid-glass flex items-center justify-center text-lg shrink-0">
-              {getCategoryEmoji(selected.category)}
-            </div>
+            <CategoryIcon category={selected.category} size="sm" className="liquid-glass shrink-0" />
             <div className="flex-1 min-w-0">
               <p className="text-[13px] font-bold text-foreground truncate">{selected.title}</p>
               <p className="text-[11px] text-muted-foreground mt-0.5">📍 {selected.location.name} · {selected.location.distance}km</p>
