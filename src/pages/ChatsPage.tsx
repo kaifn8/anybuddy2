@@ -76,7 +76,7 @@ function ChatsTab() {
     return (
       <div className="text-center pt-20 px-6">
         <div className="w-20 h-20 rounded-[1.5rem] liquid-glass flex items-center justify-center mx-auto mb-5">
-          <MessageCircle size={36} className="text-muted-foreground/40" />
+          <AppIcon name="fc:comments" size={36} className="opacity-40" />
         </div>
         <h3 className="text-[18px] font-bold text-foreground mb-2 tracking-tight">No chats yet</h3>
         <p className="text-[13px] text-muted-foreground mb-8 leading-relaxed max-w-[240px] mx-auto">
