@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { UrgencyBadge } from '@/components/ui/UrgencyBadge';
-import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
+import { CategoryIcon } from '@/components/icons/CategoryIcon';
 import { formatDistanceToNow } from 'date-fns';
 import type { Request } from '@/types/anybuddy';
 import { Button } from '@/components/ui/button';

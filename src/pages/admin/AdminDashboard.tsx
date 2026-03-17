@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useAppStore } from '@/store/useAppStore';
-import { getCategoryLabel, getCategoryEmoji } from '@/components/icons/CategoryIcon';
+import { getCategoryLabel, CategoryIcon } from '@/components/icons/CategoryIcon';
 import { ANALYTICS_DATA } from '@/data/adminData';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, AreaChart, Area, PieChart, Pie, Cell } from 'recharts';
 import type { Category } from '@/types/anybuddy';

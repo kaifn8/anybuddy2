@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { TopBar } from '@/components/layout/TopBar';
 import gsap from 'gsap';
 import { useAppStore } from '@/store/useAppStore';
-import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
+import { CategoryIcon } from '@/components/icons/CategoryIcon';
 import { UrgencyBadge } from '@/components/ui/UrgencyBadge';
 import { TrustBadge } from '@/components/ui/TrustBadge';
 import { formatDistanceToNow } from 'date-fns';
