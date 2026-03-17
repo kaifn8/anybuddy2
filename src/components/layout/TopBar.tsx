@@ -15,17 +15,13 @@ export function TopBar({ showBack = false, title, hideChat = false, showSettings
   const requests = useAppStore((s) => s.requests);
   const chatMessages = useAppStore((s) => s.chatMessages);
   const joinedRequests = useAppStore((s) => s.joinedRequests);
-  const notifications = useAppStore((s) => s.notifications);
 
   const activeCount = requests.filter((r) => r.status === 'active').length;
 
-  const unreadChats = joinedRequests.reduce((count, id) => {
+  const totalBadge = joinedRequests.reduce((count, id) => {
     const msgs = chatMessages[id] || [];
     return count + (msgs.length > 0 ? 1 : 0);
   }, 0);
-
-  const unreadNotifs = notifications.filter(n => !n.read).length;
-  const totalBadge = unreadChats + unreadNotifs;
 
   const shouldShowBack = showBack || [
     '/credits', '/invite', '/notifications', '/settings', '/circle',
@@ -81,16 +77,6 @@ export function TopBar({ showBack = false, title, hideChat = false, showSettings
 
         {/* Right */}
         <div className="w-16 flex items-center justify-end gap-1.5">
-          {/* Notification bell */}
-          {!showSettings && !hideChat && unreadNotifs > 0 && (
-            <button onClick={() => navigate('/notifications')}
-              className="relative tap-scale w-8 h-8 flex items-center justify-center" style={glassBtn}>
-              <AppIcon name="se:bell" size={18} />
-              <span className="absolute -top-0.5 -right-0.5 min-w-[14px] h-[14px] rounded-full bg-destructive flex items-center justify-center text-[7px] font-bold text-white px-[2px]">
-                {unreadNotifs > 9 ? '9+' : unreadNotifs}
-              </span>
-            </button>
-          )}
           {showSettings ? (
             <button onClick={() => navigate('/settings')} className="tap-scale w-8 h-8 flex items-center justify-center" style={glassBtn}>
               <AppIcon name="fc:settings" size={18} />

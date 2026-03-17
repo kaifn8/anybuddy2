@@ -7,9 +7,10 @@ import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
 import { useTheme } from '@/hooks/useTheme';
 import { cn } from '@/lib/utils';
-import { ChevronLeft, ChevronRight, Pencil, Check } from 'lucide-react';
+import { ChevronRight, Pencil, Check } from 'lucide-react';
 import type { Category } from '@/types/anybuddy';
 import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
+import { AppIcon } from '@/components/icons/AppIcon';
 
 const INTEREST_OPTIONS: Category[] = ['chai', 'sports', 'food', 'explore', 'work', 'walk', 'help', 'casual'];
 
@@ -21,7 +22,6 @@ export default function SettingsPage() {
   const [locationSharing, setLocationSharing] = useState(true);
   const [editingProfile, setEditingProfile] = useState(false);
 
-  // Profile edit state
   const [editBio, setEditBio] = useState(user?.bio || '');
   const [editZone, setEditZone] = useState(user?.zone || '');
   const [editInterests, setEditInterests] = useState<Category[]>(user?.interests || []);
@@ -50,7 +50,7 @@ export default function SettingsPage() {
         }}>
           <div className="flex items-center h-[48px] px-4 gap-3">
             <button onClick={() => navigate(-1)} className="w-8 h-8 rounded-full liquid-glass flex items-center justify-center tap-scale shrink-0">
-              <ChevronLeft size={16} />
+              <span className="text-sm font-medium">←</span>
             </button>
             <span className="text-[17px] font-bold text-foreground tracking-tight">Settings</span>
           </div>
@@ -73,7 +73,7 @@ export default function SettingsPage() {
       }}>
         <div className="flex items-center h-[48px] px-4 gap-3">
           <button onClick={() => navigate(-1)} className="w-8 h-8 rounded-full liquid-glass flex items-center justify-center tap-scale shrink-0">
-            <ChevronLeft size={16} className="text-foreground" />
+            <span className="text-sm font-medium">←</span>
           </button>
           <span className="text-[17px] font-bold text-foreground tracking-tight flex-1">Settings</span>
         </div>
@@ -81,7 +81,7 @@ export default function SettingsPage() {
 
       <div className="px-4 pt-4 space-y-3">
 
-        {/* Profile card — tap to edit */}
+        {/* Profile card */}
         {!editingProfile ? (
           <button onClick={() => { setEditBio(user.bio || ''); setEditZone(user.zone || ''); setEditInterests(user.interests || []); setEditingProfile(true); }}
             className="w-full liquid-glass-heavy tap-scale text-left p-4">
@@ -102,7 +102,6 @@ export default function SettingsPage() {
             </div>
           </button>
         ) : (
-          /* ── Edit profile panel ── */
           <div className="liquid-glass-heavy p-4 space-y-3.5">
             <div className="flex items-center justify-between mb-1">
               <p className="text-[14px] font-bold text-foreground">Edit Profile</p>
@@ -118,8 +117,6 @@ export default function SettingsPage() {
                 </button>
               </div>
             </div>
-
-            {/* Bio */}
             <div>
               <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider block mb-1.5">Bio</label>
               <textarea
@@ -131,8 +128,6 @@ export default function SettingsPage() {
               />
               <p className="text-[9px] text-muted-foreground/40 text-right mt-0.5">{editBio.length}/120</p>
             </div>
-
-            {/* Zone */}
             <div>
               <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider block mb-1.5">Neighbourhood</label>
               <input
@@ -142,8 +137,6 @@ export default function SettingsPage() {
                 className="w-full h-9 px-3 rounded-[0.75rem] text-[13px] bg-muted/30 text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:ring-1 focus:ring-primary/30"
               />
             </div>
-
-            {/* Interests */}
             <div>
               <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider block mb-2">Interests</label>
               <div className="flex flex-wrap gap-1.5">
@@ -163,39 +156,39 @@ export default function SettingsPage() {
 
         {/* Quick actions */}
         <div className="grid grid-cols-2 gap-2">
-          <QuickAction emoji="⚡" label="Credits" sublabel={`${user.credits} pts`} onClick={() => navigate('/credits')} />
-          <QuickAction emoji="🎁" label="Invite" sublabel="Earn credits" onClick={() => navigate('/invite')} />
+          <QuickAction icon="fc:money-transfer" label="Credits" sublabel={`${user.credits} pts`} onClick={() => navigate('/credits')} />
+          <QuickAction icon="fc:invite" label="Invite" sublabel="Earn credits" onClick={() => navigate('/invite')} />
         </div>
 
         {/* Appearance */}
         <SettingsSection title="Appearance">
-          <SettingsToggle emoji="🌙" label="Dark Mode" checked={isDark} onCheckedChange={toggleTheme} />
+          <SettingsToggle icon="fc:idea" label="Dark Mode" checked={isDark} onCheckedChange={toggleTheme} />
           <Divider />
-          <SettingsLink emoji="🌐" label="Language" value="English" soon />
+          <SettingsLink icon="fc:globe" label="Language" value="English" soon />
         </SettingsSection>
 
         {/* Notifications */}
         <SettingsSection title="Notifications">
-          <SettingsToggle emoji="🔔" label="Push Notifications" checked={pushNotifications} onCheckedChange={setPushNotifications} />
+          <SettingsToggle icon="se:bell" label="Push Notifications" checked={pushNotifications} onCheckedChange={setPushNotifications} />
         </SettingsSection>
 
         {/* Privacy */}
         <SettingsSection title="Privacy">
-          <SettingsToggle emoji="📍" label="Location Sharing" checked={locationSharing} onCheckedChange={setLocationSharing} />
+          <SettingsToggle icon="fc:globe" label="Location Sharing" checked={locationSharing} onCheckedChange={setLocationSharing} />
           <Divider />
-          <SettingsLink emoji="🚫" label="Blocked Users" soon />
+          <SettingsLink icon="fc:cancel" label="Blocked Users" soon />
         </SettingsSection>
 
         {/* Support */}
         <SettingsSection title="Support">
-          <SettingsLink emoji="❓" label="Help Center" soon />
+          <SettingsLink icon="fc:info" label="Help Center" soon />
           <Divider />
-          <SettingsLink emoji="🐛" label="Report a Bug" soon />
+          <SettingsLink icon="fc:feedback" label="Report a Bug" soon />
         </SettingsSection>
 
         <button onClick={handleLogout} className="w-full liquid-glass-heavy py-3.5 px-5 tap-scale">
           <div className="flex items-center justify-center gap-2">
-            <span className="text-base">🚪</span>
+            <AppIcon name="fc:cancel" size={18} />
             <span className="text-[14px] font-bold text-destructive tracking-tight">Log Out</span>
           </div>
         </button>
@@ -219,13 +212,15 @@ function SettingsSection({ title, children }: { title: string; children: React.R
   );
 }
 
-function SettingsToggle({ emoji, label, checked, onCheckedChange }: {
-  emoji: string; label: string; checked: boolean; onCheckedChange: (v: boolean) => void;
+function SettingsToggle({ icon, label, checked, onCheckedChange }: {
+  icon: string; label: string; checked: boolean; onCheckedChange: (v: boolean) => void;
 }) {
   return (
     <div className="flex items-center justify-between px-4 py-3 hover:bg-muted/10 transition-colors">
       <div className="flex items-center gap-3">
-        <span className="w-8 h-8 rounded-[0.625rem] bg-muted/60 flex items-center justify-center text-[15px]">{emoji}</span>
+        <span className="w-8 h-8 rounded-[0.625rem] bg-muted/60 flex items-center justify-center">
+          <AppIcon name={icon as any} size={18} />
+        </span>
         <span className="text-[14px] font-medium tracking-tight">{label}</span>
       </div>
       <Switch checked={checked} onCheckedChange={onCheckedChange} />
@@ -233,14 +228,16 @@ function SettingsToggle({ emoji, label, checked, onCheckedChange }: {
   );
 }
 
-function SettingsLink({ emoji, label, value, onClick, soon }: {
-  emoji: string; label: string; value?: string; onClick?: () => void; soon?: boolean;
+function SettingsLink({ icon, label, value, onClick, soon }: {
+  icon: string; label: string; value?: string; onClick?: () => void; soon?: boolean;
 }) {
   return (
     <button onClick={soon ? undefined : onClick} disabled={soon}
       className={cn('w-full flex items-center justify-between px-4 py-3 tap-scale hover:bg-muted/10 transition-colors', soon && 'opacity-50 cursor-default')}>
       <div className="flex items-center gap-3">
-        <span className="w-8 h-8 rounded-[0.625rem] bg-muted/60 flex items-center justify-center text-[15px]">{emoji}</span>
+        <span className="w-8 h-8 rounded-[0.625rem] bg-muted/60 flex items-center justify-center">
+          <AppIcon name={icon as any} size={18} />
+        </span>
         <span className="text-[14px] font-medium tracking-tight">{label}</span>
       </div>
       <div className="flex items-center gap-2">
@@ -253,12 +250,14 @@ function SettingsLink({ emoji, label, value, onClick, soon }: {
   );
 }
 
-function QuickAction({ emoji, label, sublabel, onClick }: {
-  emoji: string; label: string; sublabel: string; onClick: () => void;
+function QuickAction({ icon, label, sublabel, onClick }: {
+  icon: string; label: string; sublabel: string; onClick: () => void;
 }) {
   return (
     <button onClick={onClick} className="liquid-glass-heavy p-3.5 tap-scale text-left flex items-center gap-3">
-      <span className="w-9 h-9 rounded-[0.75rem] liquid-glass flex items-center justify-center shrink-0 text-[16px]">{emoji}</span>
+      <span className="w-9 h-9 rounded-[0.75rem] liquid-glass flex items-center justify-center shrink-0">
+        <AppIcon name={icon as any} size={22} />
+      </span>
       <div>
         <p className="text-[13px] font-bold tracking-tight">{label}</p>
         <p className="text-[10px] text-muted-foreground mt-0.5">{sublabel}</p>

@@ -5,9 +5,9 @@ import { BottomNav } from '@/components/layout/BottomNav';
 import { TrustBadge } from '@/components/ui/TrustBadge';
 import { ProgressBar } from '@/components/ui/ProgressIndicator';
 import { useAppStore } from '@/store/useAppStore';
-import { ChevronLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import type { TrustLevel } from '@/types/anybuddy';
+import { AppIcon } from '@/components/icons/AppIcon';
 
 const trustProgression: TrustLevel[] = ['seed', 'solid', 'trusted', 'anchor'];
 const trustRequirements = {
@@ -63,7 +63,7 @@ export default function CreditsPage() {
         <div className="flex items-center h-[48px] px-4 gap-3">
           <button onClick={() => navigate(-1)}
             className="w-8 h-8 rounded-full liquid-glass flex items-center justify-center tap-scale shrink-0">
-            <ChevronLeft size={16} className="text-foreground" />
+            <span className="text-sm font-medium">←</span>
           </button>
           <span className="text-[17px] font-bold text-foreground tracking-tight">Credits & Trust</span>
         </div>
@@ -88,7 +88,7 @@ export default function CreditsPage() {
         <div className="liquid-glass-heavy p-4">
           <div className="flex items-center gap-3 mb-3">
             <div className="w-11 h-11 rounded-[0.875rem] liquid-glass flex items-center justify-center">
-              <span className="text-xl">🛡️</span>
+              <AppIcon name="fc:vip" size={26} />
             </div>
             <div className="flex-1">
               <p className="text-[10px] text-muted-foreground font-medium mb-1 uppercase tracking-wide">Trust Level</p>
@@ -100,7 +100,7 @@ export default function CreditsPage() {
           <div className="space-y-1 mb-3">
             {TRUST_PERKS[user?.trustLevel || 'seed'].map((perk, i) => (
               <p key={i} className="text-[11px] text-muted-foreground flex items-center gap-2">
-                <span className="text-success">✓</span> {perk}
+                <AppIcon name="fc:checkmark" size={13} className="shrink-0" /> {perk}
               </p>
             ))}
           </div>
@@ -119,7 +119,7 @@ export default function CreditsPage() {
 
           {!nextTrust && (
             <p className="text-[12px] text-success font-bold mt-2 flex items-center gap-1.5">
-              🏆 Maximum trust — you're a legend.
+              <AppIcon name="se:trophy-1" size={14} /> Maximum trust — you're a legend.
             </p>
           )}
         </div>
@@ -130,15 +130,15 @@ export default function CreditsPage() {
           <p className="text-[10px] text-muted-foreground mb-3">Credits are the economy — spend to post, earn by showing up.</p>
           <div className="space-y-3">
             {[
-              { emoji: '🤝', amount: '+0.5', action: 'Join a plan',          detail: 'Per accepted join'       },
-              { emoji: '✅', amount: '+1',   action: 'Actually show up',     detail: 'Attendance confirmed'    },
-              { emoji: '⭐', amount: '+2',   action: 'Get rated 5 stars',    detail: 'After meetup review'     },
-              { emoji: '🔥', amount: '+1',   action: '7-day streak',         detail: 'Stay active daily'       },
-              { emoji: '🎁', amount: '+3',   action: 'Invite a friend',      detail: 'When they join a plan'   },
+              { icon: 'fc:collaboration' as const,   amount: '+0.5', action: 'Join a plan',       detail: 'Per accepted join'    },
+              { icon: 'fc:checkmark' as const,        amount: '+1',   action: 'Actually show up',  detail: 'Attendance confirmed' },
+              { icon: 'fc:rating' as const,           amount: '+2',   action: 'Get rated 5 stars', detail: 'After meetup review'  },
+              { icon: 'se:fire' as const,             amount: '+1',   action: '7-day streak',      detail: 'Stay active daily'    },
+              { icon: 'fc:invite' as const,           amount: '+3',   action: 'Invite a friend',   detail: 'When they join a plan'},
             ].map((item, i) => (
               <div key={i} className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-[0.75rem] liquid-glass flex items-center justify-center shrink-0 text-base">
-                  {item.emoji}
+                <div className="w-9 h-9 rounded-[0.75rem] liquid-glass flex items-center justify-center shrink-0">
+                  <AppIcon name={item.icon} size={20} />
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-[12px] font-semibold text-foreground">{item.action}</p>
@@ -150,7 +150,7 @@ export default function CreditsPage() {
           </div>
           <div className="mt-3 pt-3 border-t border-border/15">
             <p className="text-[10px] text-muted-foreground/60 flex items-start gap-1.5">
-              <span className="shrink-0 mt-px">ℹ️</span>
+              <AppIcon name="fc:info" size={12} className="shrink-0 mt-px" />
               XP is separate — it tracks your reputation, level, and leaderboard rank. XP is never currency.
             </p>
           </div>
@@ -165,7 +165,7 @@ export default function CreditsPage() {
                 <div key={txn.id} className="flex items-center justify-between">
                   <div className="flex items-center gap-2.5">
                     <div className="w-8 h-8 rounded-[0.625rem] liquid-glass flex items-center justify-center shrink-0">
-                      <span className="text-sm">{txn.type === 'earn' ? '📈' : '📉'}</span>
+                      <AppIcon name={txn.type === 'earn' ? 'fc:positive-dynamic' as any : 'fc:negative-dynamic' as any} size={16} />
                     </div>
                     <div>
                       <p className="text-[12px] font-medium text-foreground">{txn.reason}</p>
@@ -181,7 +181,7 @@ export default function CreditsPage() {
           ) : (
             <div className="text-center py-8">
               <div className="w-12 h-12 rounded-2xl liquid-glass flex items-center justify-center mx-auto mb-3">
-                <span className="text-xl">📈</span>
+                <AppIcon name="fc:statistics" size={24} />
               </div>
               <p className="text-[12px] text-muted-foreground">Join a plan to start earning credits</p>
             </div>
