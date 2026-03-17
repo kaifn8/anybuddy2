@@ -153,9 +153,7 @@ function ChatsTab() {
             {pastChats.map(({ request, lastMessage }) => (
               <button key={request.id} onClick={() => navigate(`/request/${request.id}`)}
                 className="w-full liquid-glass flex items-center gap-3.5 p-3.5 text-left opacity-55 tap-scale">
-                <div className="w-10 h-10 rounded-[0.75rem] liquid-glass flex items-center justify-center shrink-0">
-                  <span className="text-lg">{getCategoryEmoji(request.category)}</span>
-                </div>
+                <CategoryIcon category={request.category} size="sm" className="liquid-glass shrink-0" />
                 <div className="flex-1 min-w-0">
                   <p className="text-[13px] font-semibold text-foreground truncate tracking-tight">{request.title}</p>
                   <p className="text-[11px] text-muted-foreground truncate mt-0.5">
