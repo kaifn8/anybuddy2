@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { UrgencyBadge } from '@/components/ui/UrgencyBadge';
-import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
+import { CategoryIcon } from '@/components/icons/CategoryIcon';
 import { formatDistanceToNow } from 'date-fns';
 import type { Request } from '@/types/anybuddy';
 import { Button } from '@/components/ui/button';
@@ -86,8 +86,8 @@ export function JoinConfirmDialog({ open, onClose, onConfirm, request }: JoinCon
     <Dialog open={open} onOpenChange={(v) => !v && handleClose()}>
       <DialogContent className="liquid-glass-heavy border-border/20 max-w-[340px] rounded-2xl p-5">
         <DialogHeader>
-          <DialogTitle className="text-sm font-bold flex items-center gap-2">
-            <span>{getCategoryEmoji(request.category)}</span>
+        <DialogTitle className="text-sm font-bold flex items-center gap-2">
+            <CategoryIcon category={request.category} size="sm" />
             {isReserved ? (
               <span className="flex items-center gap-1.5">🔒 Your spot is held</span>
             ) : (

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 import { useAppStore } from '@/store/useAppStore';
 import { useGamificationStore } from '@/store/useGamificationStore';
-import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
+import { CategoryIcon } from '@/components/icons/CategoryIcon';
 import type { Category, Urgency } from '@/types/anybuddy';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -363,7 +363,7 @@ export default function CreateRequestPage() {
           <p className="text-sm text-muted-foreground mb-6">People nearby can now join</p>
           <div className="liquid-glass p-4 rounded-2xl mb-6 text-left">
             <div className="flex items-center gap-2 mb-2">
-              <span className="text-lg">{getCategoryEmoji(category)}</span>
+              <CategoryIcon category={category} size="sm" />
               <h3 className="text-sm font-bold">{title}</h3>
             </div>
             <div className="flex flex-wrap gap-3 text-xs text-muted-foreground">
@@ -443,7 +443,7 @@ export default function CreateRequestPage() {
             {/* Editable title */}
             <div>
               <div className="flex items-center gap-2 mb-1.5">
-                <span className="text-xl">{getCategoryEmoji(category)}</span>
+                <CategoryIcon category={category} size="sm" />
                 <label className="text-xs font-medium text-muted-foreground">Activity</label>
               </div>
               {editingTitle ? (
@@ -535,9 +535,7 @@ export default function CreateRequestPage() {
           <div className="space-y-5 pt-2">
             <div className="liquid-glass-heavy p-5 rounded-3xl">
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-2xl">
-                  {getCategoryEmoji(category)}
-                </div>
+                <CategoryIcon category={category} size="lg" />
                 <div>
                   <h2 className="text-[15px] font-bold leading-tight">{title}</h2>
                   <p className="text-xs text-muted-foreground mt-0.5">by {user?.firstName || 'You'}</p>

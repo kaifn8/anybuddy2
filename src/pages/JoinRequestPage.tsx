@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { TopBar } from '@/components/layout/TopBar';
 import gsap from 'gsap';
 import { useAppStore } from '@/store/useAppStore';
-import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
+import { CategoryIcon } from '@/components/icons/CategoryIcon';
 import { UrgencyBadge } from '@/components/ui/UrgencyBadge';
 import { TrustBadge } from '@/components/ui/TrustBadge';
 import { formatDistanceToNow } from 'date-fns';
@@ -158,7 +158,7 @@ export default function JoinRequestPage() {
           {/* Request info */}
           <div className="liquid-glass-heavy p-4">
             <div className="flex items-start gap-3">
-              <span className="text-2xl">{getCategoryEmoji(request.category)}</span>
+              <CategoryIcon category={request.category} size="md" />
               <div className="flex-1">
                 <div className="flex items-center gap-2">
                   <UrgencyBadge urgency={request.urgency} />

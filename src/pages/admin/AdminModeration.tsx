@@ -3,7 +3,7 @@ import { useAppStore, type UserReport, type FlaggedMessage } from '@/store/useAp
 import { generateModerationLogs, type ModerationLog } from '@/data/adminData';
 import { Button } from '@/components/ui/button';
 import { CheckCircle2, XCircle, AlertTriangle, Shield, Bot, User, MessageSquare, Trash2, Eye, Ban } from 'lucide-react';
-import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
+import { CategoryIcon } from '@/components/icons/CategoryIcon';
 import { cn } from '@/lib/utils';
 import { formatDistanceToNow } from 'date-fns';
 
@@ -277,9 +277,7 @@ export default function AdminModeration() {
           {activePlans.map((plan) => (
             <div key={plan.id} className="rounded-2xl border border-border/30 bg-background/60 p-3.5">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-muted/50 flex items-center justify-center text-lg shrink-0">
-                  {getCategoryEmoji(plan.category)}
-                </div>
+                <CategoryIcon category={plan.category} size="sm" className="shrink-0" />
                 <div className="flex-1 min-w-0">
                   <p className="text-xs font-semibold truncate">{plan.title}</p>
                   <p className="text-[10px] text-muted-foreground mt-0.5">
