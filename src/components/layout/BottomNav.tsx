@@ -4,27 +4,27 @@ import { useAppStore } from '@/store/useAppStore';
 import { useGamificationStore } from '@/store/useGamificationStore';
 import { GradientAvatar } from '@/components/ui/GradientAvatar';
 import { StreakWidget } from '@/components/gamification/StreakWidget';
-
+import { AppIcon } from '@/components/icons/AppIcon';
 
 // Core 5-tab nav: Home | Map | Post | Notifications | Me
 const navItems = [
-  { emoji: '🏠', label: 'Home',    path: '/home'          },
-  { emoji: '🗺️', label: 'Map',     path: '/map'           },
-  { emoji: '+',  label: 'Post',    path: '/create',  isMain: true },
-  { emoji: '🔔', label: 'Alerts',  path: '/notifications' },
-  { emoji: '👤', label: 'Me',      path: '/profile'       },
-];
+  { name: 'Home',    path: '/home',          icon: 'fc:home'          },
+  { name: 'Map',     path: '/map',           icon: 'fc:globe'         },
+  { name: 'Post',    path: '/create',        icon: 'fc:plus',  isMain: true },
+  { name: 'Alerts',  path: '/notifications', icon: 'se:bell'          },
+  { name: 'Me',      path: '/profile',       icon: null               },
+] as const;
 
 // Desktop sidebar — all sections
 const desktopItems = [
-  { emoji: '🏠', label: 'Home',          path: '/home'          },
-  { emoji: '🗺️', label: 'Map',           path: '/map'           },
-  { emoji: '💬', label: 'Chats',         path: '/chats'         },
-  { emoji: '🔔', label: 'Notifications', path: '/notifications' },
-  { emoji: '⚡', label: 'Quests',        path: '/quests'        },
-  { emoji: '👥', label: 'My Circle',     path: '/circle'        },
-  { emoji: '🏆', label: 'Leaderboard',   path: '/leaderboard'   },
-];
+  { name: 'Home',          path: '/home',          icon: 'fc:home'           },
+  { name: 'Map',           path: '/map',           icon: 'fc:globe'          },
+  { name: 'Chats',         path: '/chats',         icon: 'fc:comments'       },
+  { name: 'Notifications', path: '/notifications', icon: 'se:bell'           },
+  { name: 'Quests',        path: '/quests',        icon: 'fc:todo-list'      },
+  { name: 'My Circle',     path: '/circle',        icon: 'fc:conference-call'},
+  { name: 'Leaderboard',   path: '/leaderboard',   icon: 'fc:statistics'     },
+] as const;
 
 export const BottomNav = () => {
   const location = useLocation();
@@ -63,7 +63,7 @@ export const BottomNav = () => {
         <div className="px-3 pt-1 pb-3">
           <button onClick={() => navigate('/create')}
             className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl bg-primary text-primary-foreground font-semibold tap-scale">
-            <span className="text-base">➕</span>
+            <AppIcon name="fc:plus" size={18} />
             <span className="text-[13px]">Post a plan</span>
           </button>
         </div>
@@ -87,14 +87,18 @@ export const BottomNav = () => {
                     : 'text-muted-foreground hover:bg-muted/40 hover:text-foreground'
                 )}>
                 <div className="relative">
-                  <span className={cn('text-[17px]', !isActive && 'opacity-60 grayscale-[30%]')}>{item.emoji}</span>
+                  <AppIcon
+                    name={item.icon as any}
+                    size={20}
+                    className={cn('transition-all', !isActive && 'opacity-50 grayscale')}
+                  />
                   {badge > 0 && (
                     <span className="absolute -top-1.5 -right-1.5 bg-destructive text-white text-[8px] rounded-full min-w-[14px] h-[14px] flex items-center justify-center font-bold px-0.5">
                       {badge > 9 ? '9+' : badge}
                     </span>
                   )}
                 </div>
-                <span className="text-[13px]">{item.label}</span>
+                <span className="text-[13px]">{item.name}</span>
               </button>
             );
           })}
@@ -121,7 +125,7 @@ export const BottomNav = () => {
           </button>
           <button onClick={() => navigate('/settings')}
             className="flex items-center gap-3 px-3 py-2.5 rounded-xl tap-scale text-muted-foreground hover:bg-muted/40 hover:text-foreground transition-all w-full text-left">
-            <span className="text-[17px] opacity-60">⚙️</span>
+            <AppIcon name="fc:settings" size={20} className="opacity-60" />
             <span className="text-[13px]">Settings</span>
           </button>
         </div>
@@ -140,10 +144,7 @@ export const BottomNav = () => {
             <div className="flex items-center justify-between">
               {navItems.map((item) => {
                 const isActive = location.pathname === item.path;
-                // Badge: notifications on 🔔 tab, map has no badge
-                const badge = item.path === '/notifications' ? unreadCount
-                  : item.path === '/chats' ? chatUnread
-                  : 0;
+                const badge = item.path === '/notifications' ? unreadCount : 0;
 
                 /* ── Center Post pill ── */
                 if (item.isMain) {
@@ -153,7 +154,7 @@ export const BottomNav = () => {
                         background: `linear-gradient(145deg, hsl(var(--primary)) 0%, hsl(211 100% 40%) 100%)`,
                         boxShadow: `0 4px 16px hsl(var(--primary) / 0.3), inset 0 1px 0 hsla(0 0% 100% / 0.2)`,
                       }}>
-                        <span className="text-[15px]">➕</span>
+                        <AppIcon name="fc:plus" size={16} />
                         <span className="text-[11px] font-bold text-white tracking-wide">Post</span>
                       </div>
                     </button>
@@ -175,13 +176,16 @@ export const BottomNav = () => {
                             : 'opacity-40')}
                           showInitials={false} />
                       ) : (
-                        <span className={cn('text-[20px] block transition-all duration-300',
-                          isActive ? 'scale-110' : 'opacity-35 grayscale-[50%]')}>
-                          {item.emoji}
-                        </span>
+                        <AppIcon
+                          name={item.icon as any}
+                          size={22}
+                          className={cn('block transition-all duration-300',
+                            isActive ? 'scale-110' : 'opacity-35 grayscale')}
+                          style={isActive ? { transform: 'scale(1.1)' } : undefined}
+                        />
                       )}
 
-                      {/* Chat + notification badge */}
+                      {/* Badge */}
                       {badge > 0 && (
                         <span className="absolute -top-1.5 -right-2 min-w-[14px] h-[14px] rounded-full flex items-center justify-center text-[7px] font-bold px-[2px]"
                           style={{ background: 'hsl(var(--destructive))', color: 'hsl(var(--destructive-foreground))', boxShadow: '0 2px 6px hsl(var(--destructive) / 0.4)' }}>

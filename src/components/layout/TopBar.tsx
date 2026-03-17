@@ -1,6 +1,6 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAppStore } from '@/store/useAppStore';
-import { Bell } from 'lucide-react';
+import { AppIcon } from '@/components/icons/AppIcon';
 
 interface TopBarProps {
   showBack?: boolean;
@@ -27,7 +27,6 @@ export function TopBar({ showBack = false, title, hideChat = false, showSettings
   const unreadNotifs = notifications.filter(n => !n.read).length;
   const totalBadge = unreadChats + unreadNotifs;
 
-  // Auto-detect back button: show when on sub-pages that should go back
   const shouldShowBack = showBack || [
     '/credits', '/invite', '/notifications', '/settings', '/circle',
     '/attendance', '/review',
@@ -82,11 +81,11 @@ export function TopBar({ showBack = false, title, hideChat = false, showSettings
 
         {/* Right */}
         <div className="w-16 flex items-center justify-end gap-1.5">
-          {/* Notification bell — always show on Home, Chats, and Map */}
+          {/* Notification bell */}
           {!showSettings && !hideChat && unreadNotifs > 0 && (
             <button onClick={() => navigate('/notifications')}
               className="relative tap-scale w-8 h-8 flex items-center justify-center" style={glassBtn}>
-              <Bell size={15} className="text-foreground" />
+              <AppIcon name="se:bell" size={18} />
               <span className="absolute -top-0.5 -right-0.5 min-w-[14px] h-[14px] rounded-full bg-destructive flex items-center justify-center text-[7px] font-bold text-white px-[2px]">
                 {unreadNotifs > 9 ? '9+' : unreadNotifs}
               </span>
@@ -94,11 +93,11 @@ export function TopBar({ showBack = false, title, hideChat = false, showSettings
           )}
           {showSettings ? (
             <button onClick={() => navigate('/settings')} className="tap-scale w-8 h-8 flex items-center justify-center" style={glassBtn}>
-              <span className="text-[14px]">⚙️</span>
+              <AppIcon name="fc:settings" size={18} />
             </button>
           ) : !hideChat ? (
             <button onClick={() => navigate('/chats')} className="relative tap-scale w-8 h-8 flex items-center justify-center" style={glassBtn}>
-              <span className="text-[14px]">💬</span>
+              <AppIcon name="fc:comments" size={18} />
               {totalBadge > 0 && (
                 <span className="absolute -top-0.5 -right-0.5 min-w-[14px] h-[14px] rounded-full bg-destructive text-white text-[7px] font-bold flex items-center justify-center px-[2px]">
                   {totalBadge > 9 ? '9+' : totalBadge}
