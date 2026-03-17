@@ -153,8 +153,8 @@ export default function RequestDetailPage() {
         <header className="sticky top-0 z-40 liquid-glass-nav">
           <div className="flex items-center gap-3 px-4 h-12 max-w-md mx-auto">
             <button onClick={() => navigate(-1)} className="w-8 h-8 rounded-xl tap-scale text-sm hover:bg-muted transition-colors">←</button>
-            <div className="flex-1 min-w-0 flex items-center gap-2">
-              <span className="text-lg">{getCategoryEmoji(request.category)}</span>
+              <div className="flex-1 min-w-0 flex items-center gap-2">
+              <CategoryIcon category={request.category} size="sm" className="shrink-0" />
               <div className="min-w-0">
                 <h1 className="text-[13px] font-semibold truncate">{request.title}</h1>
                 <p className="text-[10px] text-muted-foreground">
