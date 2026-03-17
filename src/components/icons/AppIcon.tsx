@@ -44,6 +44,16 @@ export type AppIconName =
   | 'fc:department'
   | 'fc:news'
   | 'fc:idea'
+  | 'fc:advertising'
+  | 'fc:sports-mode'
+  | 'fc:shop'
+  | 'fc:biotech'
+  | 'fc:trail-flow'
+  | 'fc:accept-database'
+  | 'fc:music'
+  | 'fc:reading'
+  | 'fc:camera'
+  | 'fc:leave'
   // streamline-emojis
   | 'se:bell'
   | 'se:bell-with-slash'
@@ -87,6 +97,16 @@ const ICON_MAP: Record<AppIconName, string> = {
   'fc:department': 'flat-color-icons:department',
   'fc:news': 'flat-color-icons:news',
   'fc:idea': 'flat-color-icons:idea',
+  'fc:advertising': 'flat-color-icons:advertising',
+  'fc:sports-mode': 'flat-color-icons:sports-mode',
+  'fc:shop': 'flat-color-icons:shop',
+  'fc:biotech': 'flat-color-icons:biotech',
+  'fc:trail-flow': 'flat-color-icons:trail-flow',
+  'fc:accept-database': 'flat-color-icons:accept-database',
+  'fc:music': 'flat-color-icons:music',
+  'fc:reading': 'flat-color-icons:reading',
+  'fc:camera': 'flat-color-icons:camera',
+  'fc:leave': 'flat-color-icons:leave',
   'se:bell': 'streamline-emojis:bell',
   'se:bell-with-slash': 'streamline-emojis:bell-with-slash',
   'se:fire': 'streamline-emojis:fire',
