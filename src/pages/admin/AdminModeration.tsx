@@ -279,7 +279,6 @@ export default function AdminModeration() {
               <div className="flex items-center gap-3">
                 <CategoryIcon category={plan.category} size="sm" className="shrink-0" />
                 <div className="flex-1 min-w-0">
-                <div className="flex-1 min-w-0">
                   <p className="text-xs font-semibold truncate">{plan.title}</p>
                   <p className="text-[10px] text-muted-foreground mt-0.5">
                     by {plan.userName} · {plan.seatsTaken}/{plan.seatsTotal} spots · 📍 {plan.location.name}
