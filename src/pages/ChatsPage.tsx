@@ -9,6 +9,7 @@ import { BottomNav } from '@/components/layout/BottomNav';
 import { Button } from '@/components/ui/button';
 import { formatDistanceToNow, format } from 'date-fns';
 import { MessageCircle, Users, UserPlus, Search, MapPin } from 'lucide-react';
+import { AppIcon } from '@/components/icons/AppIcon';
 import { cn } from '@/lib/utils';
 import type { Request } from '@/types/anybuddy';
 import { getCategoryEmoji as getCatEmoji } from '@/components/icons/CategoryIcon';
