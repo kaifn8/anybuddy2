@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { formatDistanceToNow } from 'date-fns';
 import type { Request } from '@/types/anybuddy';
-import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
+import { CategoryIcon } from '@/components/icons/CategoryIcon';
 import { UrgencyBadge } from '@/components/ui/UrgencyBadge';
 import { ShareSheet } from '@/components/ShareSheet';
 import { GradientAvatar } from '@/components/ui/GradientAvatar';
