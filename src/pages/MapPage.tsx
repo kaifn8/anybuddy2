@@ -8,7 +8,7 @@ import { JoinConfirmDialog } from '@/components/JoinConfirmDialog';
 import { ShareSheet } from '@/components/ShareSheet';
 import { useAppStore } from '@/store/useAppStore';
 import { useGamificationStore } from '@/store/useGamificationStore';
-import { getCategoryEmoji, CategoryIcon } from '@/components/icons/CategoryIcon';
+import { CategoryIcon, getCategoryEmoji } from '@/components/icons/CategoryIcon';
 import { AppIcon } from '@/components/icons/AppIcon';
 import { UrgencyBadge } from '@/components/ui/UrgencyBadge';
 import { GradientAvatar } from '@/components/ui/GradientAvatar';
