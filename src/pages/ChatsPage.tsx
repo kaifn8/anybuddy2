@@ -295,7 +295,7 @@ function CircleTab() {
       ) : (
         <div className="text-center py-16">
           <div className="w-14 h-14 rounded-[1.25rem] liquid-glass flex items-center justify-center mx-auto mb-4">
-            <Users size={26} className="text-muted-foreground/40" />
+            <AppIcon name="fc:conference-call" size={28} className="opacity-40" />
           </div>
           <p className="text-[15px] font-bold text-foreground mb-1.5 tracking-tight">No one yet</p>
           <p className="text-[13px] text-muted-foreground mb-6">Join a plan to start meeting people</p>
