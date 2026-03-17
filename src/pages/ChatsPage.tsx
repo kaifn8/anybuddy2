@@ -103,9 +103,7 @@ function ChatsTab() {
               <button key={request.id} onClick={() => navigate(`/request/${request.id}`)}
                 className="w-full liquid-glass-interactive flex items-center gap-3.5 p-4 text-left">
                 <div className="relative shrink-0">
-                  <div className="w-12 h-12 rounded-[0.875rem] liquid-glass flex items-center justify-center">
-                    <span className="text-xl">{getCategoryEmoji(request.category)}</span>
-                  </div>
+                  <CategoryIcon category={request.category} size="md" className="liquid-glass" />
                   <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-success border-[1.5px] border-background" />
                 </div>
                 <div className="flex-1 min-w-0">
