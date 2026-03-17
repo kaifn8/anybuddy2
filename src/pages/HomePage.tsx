@@ -204,9 +204,7 @@ export default function HomePage() {
                       style={{ background: `radial-gradient(ellipse at 20% 10%, hsl(var(--primary)), transparent 70%)` }} />
                     <div className="relative z-10 p-4">
                       <div className="flex items-center justify-between mb-3">
-                        <div className="w-9 h-9 rounded-[0.75rem] liquid-glass flex items-center justify-center text-lg">
-                          {getCategoryEmoji(req.category)}
-                        </div>
+                        <CategoryIcon category={req.category} size="sm" className="liquid-glass" />
                         <div className="flex items-center gap-1 px-2 py-0.5 rounded-full liquid-glass">
                           <span className="w-[5px] h-[5px] rounded-full bg-success animate-pulse" />
                           <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-[0.08em]">Live</span>
