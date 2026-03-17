@@ -529,7 +529,7 @@ export default function RequestDetailPage() {
                 {/* Actions */}
                 <div className="flex items-center gap-3 pt-2 border-t border-border/10">
                   <button onClick={() => setShowShare(true)} className="flex items-center gap-1.5 text-[12px] text-primary font-semibold tap-scale">
-                    <Share2 size={14} /> Share
+                    <AppIcon name="fc:share" size={16} /> Share
                   </button>
                   {isHost ? (
                     <button onClick={handleEndEarly} className="flex items-center gap-1.5 text-[12px] text-destructive/70 font-semibold tap-scale ml-auto">
