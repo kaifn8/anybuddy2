@@ -9,7 +9,8 @@ import { JoinConfirmDialog } from '@/components/JoinConfirmDialog';
 import { useAppStore } from '@/store/useAppStore';
 import { useGamificationStore } from '@/store/useGamificationStore';
 import { cn } from '@/lib/utils';
-import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
+import { CategoryIcon } from '@/components/icons/CategoryIcon';
+import { AppIcon } from '@/components/icons/AppIcon';
 import { GradientAvatar } from '@/components/ui/GradientAvatar';
 import { SlidersHorizontal, X } from 'lucide-react';
 import type { Category, Request, Gender } from '@/types/anybuddy';
@@ -26,16 +27,11 @@ const FILTERS: { id: Category | 'all'; label: string }[] = [
   { id: 'casual',  label: 'Chill'   },
 ];
 
-const filterEmojis: Record<string, string> = {
-  all: '🔥', chai: '☕', sports: '🏸', food: '🍜',
-  explore: '🧭', work: '💻', walk: '🚶', help: '🤝', casual: '🤙',
-};
-
-const QUICK_CREATE: { emoji: string; title: string; category: Category }[] = [
-  { emoji: '☕', title: 'Coffee',  category: 'chai'    },
-  { emoji: '🚶', title: 'Walk',   category: 'walk'    },
-  { emoji: '🍜', title: 'Food',   category: 'food'    },
-  { emoji: '🏸', title: 'Sports', category: 'sports'  },
+const QUICK_CREATE: { title: string; category: Category }[] = [
+  { title: 'Coffee',  category: 'chai'    },
+  { title: 'Walk',    category: 'walk'    },
+  { title: 'Food',    category: 'food'    },
+  { title: 'Sports',  category: 'sports'  },
 ];
 
 const GENDER_FILTERS: { id: 'any' | Gender; label: string; emoji: string }[] = [
@@ -208,9 +204,7 @@ export default function HomePage() {
                       style={{ background: `radial-gradient(ellipse at 20% 10%, hsl(var(--primary)), transparent 70%)` }} />
                     <div className="relative z-10 p-4">
                       <div className="flex items-center justify-between mb-3">
-                        <div className="w-9 h-9 rounded-[0.75rem] liquid-glass flex items-center justify-center text-lg">
-                          {getCategoryEmoji(req.category)}
-                        </div>
+                        <CategoryIcon category={req.category} size="sm" className="liquid-glass" />
                         <div className="flex items-center gap-1 px-2 py-0.5 rounded-full liquid-glass">
                           <span className="w-[5px] h-[5px] rounded-full bg-success animate-pulse" />
                           <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-[0.08em]">Live</span>
@@ -243,18 +237,18 @@ export default function HomePage() {
         <div className="px-4 pb-1">
           <div className="flex items-center gap-2">
             <div className="flex-1 flex gap-1.5 overflow-x-auto pb-1.5 scrollbar-hide">
-              {FILTERS.map((cat) => {
-                const emoji = filterEmojis[cat.id] || '✨';
-                return (
+              {FILTERS.map((cat) => (
                   <button key={cat.id} onClick={() => setActiveFilter(cat.id)}
                     className={cn('shrink-0 px-3 py-1.5 rounded-full text-[11px] font-semibold tap-scale transition-all flex items-center gap-1.5',
                       activeFilter === cat.id ? 'glass-pill-active' : 'glass-pill-inactive'
                     )}>
-                    <span>{emoji}</span>
+                    {cat.id === 'all'
+                      ? <AppIcon name="se:fire" size={13} />
+                      : <CategoryIcon category={cat.id as import('@/types/anybuddy').Category} size="sm" className="!w-4 !h-4 !rounded-md bg-transparent" />
+                    }
                     <span>{cat.label}</span>
                   </button>
-                );
-              })}
+              ))}
             </div>
             {/* Filter toggle button */}
             <button
@@ -329,9 +323,7 @@ export default function HomePage() {
               {livePlans.map((req) => (
                 <button key={req.id} onClick={() => navigate(`/request/${req.id}`)}
                   className="w-full liquid-glass-interactive flex items-center gap-3 p-3 text-left" style={{ borderRadius: '0.875rem' }}>
-                  <div className="w-9 h-9 rounded-[0.875rem] liquid-glass flex items-center justify-center text-base shrink-0">
-                    {getCategoryEmoji(req.category)}
-                  </div>
+                  <CategoryIcon category={req.category} size="sm" className="liquid-glass shrink-0" />
                   <div className="flex-1 min-w-0">
                     <p className="text-[13px] font-bold text-foreground truncate tracking-tight">{req.title}</p>
                     <p className="text-[11px] text-muted-foreground mt-0.5">📍 {req.location.name} · {req.location.distance}km</p>
@@ -392,9 +384,7 @@ export default function HomePage() {
                 {QUICK_CREATE.map((s, i) => (
                   <button key={i} onClick={() => navigate('/create')}
                     className="liquid-glass-interactive p-3.5 text-left flex items-center gap-2.5">
-                    <div className="w-9 h-9 rounded-[0.75rem] liquid-glass flex items-center justify-center shrink-0">
-                      <span className="text-base">{s.emoji}</span>
-                    </div>
+                    <CategoryIcon category={s.category} size="sm" className="liquid-glass shrink-0" />
                     <span className="text-[12px] font-semibold tracking-tight">{s.title}</span>
                   </button>
                 ))}
@@ -412,7 +402,7 @@ export default function HomePage() {
                 <button key={req.id} onClick={() => navigate(`/request/${req.id}`)}
                   className="shrink-0 liquid-glass px-3.5 py-2.5 flex items-center gap-2 opacity-55 tap-scale"
                   style={{ borderRadius: '0.875rem', minWidth: '180px' }}>
-                  <span className="text-base">{getCategoryEmoji(req.category)}</span>
+                  <CategoryIcon category={req.category} size="sm" />
                   <div className="min-w-0">
                     <p className="text-[12px] font-semibold text-foreground truncate">{req.title}</p>
                     <p className="text-[10px] text-muted-foreground">📍 {req.location.name}</p>
@@ -431,7 +421,7 @@ export default function HomePage() {
               {QUICK_CREATE.map((s, i) => (
                 <button key={i} onClick={() => navigate('/create')}
                   className="shrink-0 liquid-glass-interactive px-3.5 py-2.5 flex items-center gap-2" style={{ borderRadius: '0.875rem' }}>
-                  <span className="text-sm">{s.emoji}</span>
+                  <CategoryIcon category={s.category} size="sm" className="!w-6 !h-6 !rounded-lg bg-transparent" />
                   <span className="text-[12px] font-semibold tracking-tight">{s.title}</span>
                 </button>
               ))}

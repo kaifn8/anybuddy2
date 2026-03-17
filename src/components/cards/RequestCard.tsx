@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { formatDistanceToNow } from 'date-fns';
 import type { Request } from '@/types/anybuddy';
-import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
+import { CategoryIcon } from '@/components/icons/CategoryIcon';
 import { UrgencyBadge } from '@/components/ui/UrgencyBadge';
 import { ShareSheet } from '@/components/ShareSheet';
 import { GradientAvatar } from '@/components/ui/GradientAvatar';
@@ -120,9 +120,7 @@ export function RequestCard({ request, onJoin, onView, isJoined, className }: Re
 
         <div className="flex items-start gap-3 mb-3">
           {/* Category icon */}
-          <div className="w-11 h-11 rounded-[0.875rem] liquid-glass flex items-center justify-center text-xl shrink-0" style={{ borderRadius: '0.875rem' }}>
-            {getCategoryEmoji(request.category)}
-          </div>
+          <CategoryIcon category={request.category} size="md" className="shrink-0 liquid-glass" />
           
           <div className="flex-1 min-w-0">
             <h3 className="font-bold text-[15px] text-foreground leading-snug line-clamp-2 mb-1.5 tracking-tight">{request.title}</h3>
