@@ -237,18 +237,18 @@ export default function HomePage() {
         <div className="px-4 pb-1">
           <div className="flex items-center gap-2">
             <div className="flex-1 flex gap-1.5 overflow-x-auto pb-1.5 scrollbar-hide">
-              {FILTERS.map((cat) => {
-                const emoji = filterEmojis[cat.id] || '✨';
-                return (
+              {FILTERS.map((cat) => (
                   <button key={cat.id} onClick={() => setActiveFilter(cat.id)}
                     className={cn('shrink-0 px-3 py-1.5 rounded-full text-[11px] font-semibold tap-scale transition-all flex items-center gap-1.5',
                       activeFilter === cat.id ? 'glass-pill-active' : 'glass-pill-inactive'
                     )}>
-                    <span>{emoji}</span>
+                    {cat.id === 'all'
+                      ? <AppIcon name="se:fire" size={13} />
+                      : <CategoryIcon category={cat.id as import('@/types/anybuddy').Category} size="sm" className="!w-4 !h-4 !rounded-md bg-transparent" />
+                    }
                     <span>{cat.label}</span>
                   </button>
-                );
-              })}
+              ))}
             </div>
             {/* Filter toggle button */}
             <button
