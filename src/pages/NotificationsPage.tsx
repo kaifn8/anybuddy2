@@ -347,7 +347,7 @@ export default function NotificationsPage() {
           ) : (
             <div className="text-center py-20">
               <div className="w-16 h-16 rounded-[1.5rem] liquid-glass flex items-center justify-center mx-auto mb-5">
-                <Bell size={26} className="text-muted-foreground/40" />
+                <AppIcon name="se:bell" size={28} className="opacity-40" />
               </div>
               <p className="text-[17px] font-bold text-foreground mb-2 tracking-tight">All quiet here</p>
               <p className="text-[13px] text-muted-foreground mb-8 leading-relaxed max-w-[220px] mx-auto">
