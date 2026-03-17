@@ -384,7 +384,7 @@ export default function RequestDetailPage() {
                 
                 {/* Hero */}
                 <div className="flex items-start gap-3">
-                  <span className="text-3xl">{getCategoryEmoji(request.category)}</span>
+                 <CategoryIcon category={request.category} size="lg" className="shrink-0" />
                   <div className="flex-1 min-w-0">
                     <h3 className="font-bold text-base leading-tight mb-1">{request.title}</h3>
                     <UrgencyBadge urgency={request.urgency} />
