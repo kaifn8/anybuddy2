@@ -443,7 +443,7 @@ export default function CreateRequestPage() {
             {/* Editable title */}
             <div>
               <div className="flex items-center gap-2 mb-1.5">
-                <span className="text-xl">{getCategoryEmoji(category)}</span>
+                <CategoryIcon category={category} size="sm" />
                 <label className="text-xs font-medium text-muted-foreground">Activity</label>
               </div>
               {editingTitle ? (
