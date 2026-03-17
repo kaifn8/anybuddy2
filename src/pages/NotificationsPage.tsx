@@ -261,7 +261,7 @@ export default function NotificationsPage() {
             }}>
             <div className="w-9 h-9 rounded-[0.75rem] flex items-center justify-center shrink-0"
               style={{ background: 'hsl(var(--primary) / 0.12)' }}>
-              <Bell size={16} className="text-primary" />
+              <AppIcon name="se:bell" size={18} />
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-[13px] font-bold text-foreground tracking-tight">
