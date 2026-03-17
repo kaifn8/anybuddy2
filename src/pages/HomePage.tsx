@@ -402,7 +402,7 @@ export default function HomePage() {
                 <button key={req.id} onClick={() => navigate(`/request/${req.id}`)}
                   className="shrink-0 liquid-glass px-3.5 py-2.5 flex items-center gap-2 opacity-55 tap-scale"
                   style={{ borderRadius: '0.875rem', minWidth: '180px' }}>
-                  <span className="text-base">{getCategoryEmoji(req.category)}</span>
+                  <CategoryIcon category={req.category} size="sm" />
                   <div className="min-w-0">
                     <p className="text-[12px] font-semibold text-foreground truncate">{req.title}</p>
                     <p className="text-[10px] text-muted-foreground">📍 {req.location.name}</p>
