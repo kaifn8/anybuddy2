@@ -535,9 +535,7 @@ export default function CreateRequestPage() {
           <div className="space-y-5 pt-2">
             <div className="liquid-glass-heavy p-5 rounded-3xl">
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-2xl">
-                  {getCategoryEmoji(category)}
-                </div>
+                <CategoryIcon category={category} size="lg" />
                 <div>
                   <h2 className="text-[15px] font-bold leading-tight">{title}</h2>
                   <p className="text-xs text-muted-foreground mt-0.5">by {user?.firstName || 'You'}</p>
