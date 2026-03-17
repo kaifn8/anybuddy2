@@ -112,7 +112,7 @@ export default function HostProfilePage() {
               {hostRequests.slice(0, 5).map((req) => (
                 <button key={req.id} onClick={() => navigate(`/request/${req.id}`)}
                   className="w-full liquid-glass-interactive flex items-center gap-3 p-3 text-left">
-                  <span className="text-lg">{getCategoryEmoji(req.category)}</span>
+                  <CategoryIcon category={req.category} size="sm" />
                   <div className="flex-1 min-w-0">
                     <p className="font-semibold text-[14px] truncate">{req.title}</p>
                     <p className="text-[12px] text-muted-foreground mt-1">{req.seatsTaken} of {req.seatsTotal} spots filled • {req.status}</p>

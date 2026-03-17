@@ -185,7 +185,7 @@ export default function AttendancePage() {
                     </div>
                     {myStatus === opt.status && (
                       <div className="ml-auto w-5 h-5 rounded-full bg-primary flex items-center justify-center shrink-0">
-                        <CheckCircle2 size={12} className="text-primary-foreground" />
+                        <AppIcon name="fc:checkmark" size={12} />
                       </div>
                     )}
                   </button>

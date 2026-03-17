@@ -270,11 +270,11 @@ function CircleTab() {
                     )}
                   </div>
                   <div className="flex items-center gap-1 mt-0.5">
-                    <span className="text-[11px]">{getCatEmoji(lastPlan.category as any)}</span>
+                    <CategoryIcon category={lastPlan.category as any} size="sm" className="!w-4 !h-4 !rounded-md bg-transparent" />
                     <p className="text-[11px] text-muted-foreground truncate">{lastPlan.title}</p>
                   </div>
                   <div className="flex items-center gap-1 mt-0.5">
-                    <MapPin size={9} className="text-muted-foreground/40 shrink-0" />
+                    <AppIcon name="fc:globe" size={9} className="shrink-0 opacity-40" />
                     <p className="text-[10px] text-muted-foreground/50">{person.city} · {format(lastPlan.date, 'MMM d')}</p>
                   </div>
                 </div>

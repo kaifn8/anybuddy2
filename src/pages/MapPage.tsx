@@ -315,7 +315,7 @@ export default function MapPage() {
 
           {activeRequests.length === 0 && (
             <div className="text-center py-10">
-              <MapPin size={28} className="mx-auto text-muted-foreground/30 mb-3" />
+              <AppIcon name="fc:globe" size={28} className="mx-auto opacity-30 mb-3" />
               <p className="text-[13px] text-muted-foreground font-medium mb-1">No plans nearby</p>
               <p className="text-[11px] text-muted-foreground/60 mb-5">Try a different filter or post one yourself</p>
               <Button size="sm" variant="outline" onClick={() => navigate('/create')}>Post a plan</Button>

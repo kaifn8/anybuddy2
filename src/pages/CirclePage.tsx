@@ -147,9 +147,9 @@ export default function CirclePage() {
               })}
             </div>
           ) : (
-            <div className="text-center py-16">
+          <div className="text-center py-16">
               <div className="w-14 h-14 rounded-[1.25rem] liquid-glass flex items-center justify-center mx-auto mb-4">
-                <Users size={26} className="text-muted-foreground/40" />
+                <AppIcon name="fc:conference-call" size={26} className="opacity-40" />
               </div>
               <p className="text-[15px] font-bold text-foreground mb-1.5 tracking-tight">No one yet</p>
               <p className="text-[13px] text-muted-foreground mb-6">Join a plan to start meeting people</p>
@@ -161,7 +161,7 @@ export default function CirclePage() {
           {peopleMet.length > 0 && (
             <button onClick={() => navigate('/invite')}
               className="w-full liquid-glass-interactive flex items-center gap-3 px-4 py-3.5 text-left">
-              <UserPlus size={16} className="text-primary shrink-0" />
+              <AppIcon name="fc:invite" size={16} className="text-primary shrink-0" />
               <div className="flex-1 min-w-0">
                 <p className="text-[13px] font-bold text-foreground tracking-tight">Invite real friends</p>
                 <p className="text-[11px] text-muted-foreground mt-0.5">Earn credits for each referral</p>
