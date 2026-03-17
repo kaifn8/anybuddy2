@@ -15,17 +15,13 @@ export function TopBar({ showBack = false, title, hideChat = false, showSettings
   const requests = useAppStore((s) => s.requests);
   const chatMessages = useAppStore((s) => s.chatMessages);
   const joinedRequests = useAppStore((s) => s.joinedRequests);
-  const notifications = useAppStore((s) => s.notifications);
 
   const activeCount = requests.filter((r) => r.status === 'active').length;
 
-  const unreadChats = joinedRequests.reduce((count, id) => {
+  const totalBadge = joinedRequests.reduce((count, id) => {
     const msgs = chatMessages[id] || [];
     return count + (msgs.length > 0 ? 1 : 0);
   }, 0);
-
-  const unreadNotifs = notifications.filter(n => !n.read).length;
-  const totalBadge = unreadChats + unreadNotifs;
 
   const shouldShowBack = showBack || [
     '/credits', '/invite', '/notifications', '/settings', '/circle',
