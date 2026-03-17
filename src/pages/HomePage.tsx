@@ -27,16 +27,11 @@ const FILTERS: { id: Category | 'all'; label: string }[] = [
   { id: 'casual',  label: 'Chill'   },
 ];
 
-const filterEmojis: Record<string, string> = {
-  all: '🔥', chai: '☕', sports: '🏸', food: '🍜',
-  explore: '🧭', work: '💻', walk: '🚶', help: '🤝', casual: '🤙',
-};
-
-const QUICK_CREATE: { emoji: string; title: string; category: Category }[] = [
-  { emoji: '☕', title: 'Coffee',  category: 'chai'    },
-  { emoji: '🚶', title: 'Walk',   category: 'walk'    },
-  { emoji: '🍜', title: 'Food',   category: 'food'    },
-  { emoji: '🏸', title: 'Sports', category: 'sports'  },
+const QUICK_CREATE: { title: string; category: Category }[] = [
+  { title: 'Coffee',  category: 'chai'    },
+  { title: 'Walk',    category: 'walk'    },
+  { title: 'Food',    category: 'food'    },
+  { title: 'Sports',  category: 'sports'  },
 ];
 
 const GENDER_FILTERS: { id: 'any' | Gender; label: string; emoji: string }[] = [
