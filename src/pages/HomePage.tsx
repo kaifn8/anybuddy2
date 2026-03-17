@@ -421,7 +421,7 @@ export default function HomePage() {
               {QUICK_CREATE.map((s, i) => (
                 <button key={i} onClick={() => navigate('/create')}
                   className="shrink-0 liquid-glass-interactive px-3.5 py-2.5 flex items-center gap-2" style={{ borderRadius: '0.875rem' }}>
-                  <span className="text-sm">{s.emoji}</span>
+                  <CategoryIcon category={s.category} size="sm" className="!w-6 !h-6 !rounded-lg bg-transparent" />
                   <span className="text-[12px] font-semibold tracking-tight">{s.title}</span>
                 </button>
               ))}
