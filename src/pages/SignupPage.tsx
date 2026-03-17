@@ -299,8 +299,8 @@ export default function SignupPage() {
                             : 'border-border/30 bg-background/50 hover:border-border/50 hover:bg-background/80'
                       )}
                     >
-                      {/* Emoji */}
-                      <span className="text-2xl">{item.emoji}</span>
+                      {/* Category icon */}
+                      <CategoryIcon category={item.id} size="sm" />
                       
                       {/* Label */}
                       <span className={cn(
