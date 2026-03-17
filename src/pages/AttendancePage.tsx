@@ -146,9 +146,7 @@ export default function AttendancePage() {
         <div className="px-5 pt-5">
           {/* Plan summary */}
           <div className="liquid-glass p-3.5 flex items-center gap-3 mb-5">
-            <div className="w-10 h-10 rounded-[0.875rem] liquid-glass flex items-center justify-center text-xl shrink-0">
-              {getCategoryEmoji(request.category)}
-            </div>
+            <CategoryIcon category={request.category} size="md" className="liquid-glass shrink-0" />
             <div className="min-w-0">
               <p className="text-[13px] font-bold text-foreground truncate">{request.title}</p>
               <p className="text-[11px] text-muted-foreground">with {request.userName}</p>
