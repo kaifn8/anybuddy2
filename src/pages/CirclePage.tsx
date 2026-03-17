@@ -6,8 +6,8 @@ import { BottomNav } from '@/components/layout/BottomNav';
 import { useAppStore } from '@/store/useAppStore';
 import { GradientAvatar } from '@/components/ui/GradientAvatar';
 import { Button } from '@/components/ui/button';
-import { Search, Users, UserPlus, MapPin } from 'lucide-react';
-import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
+import { AppIcon } from '@/components/icons/AppIcon';
+import { CategoryIcon } from '@/components/icons/CategoryIcon';
 import { format } from 'date-fns';
 
 function usePeopleMet() {
@@ -102,7 +102,7 @@ export default function CirclePage() {
           {/* Search */}
           {peopleMet.length > 3 && (
             <div className="relative">
-              <Search size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground/50" />
+              <AppIcon name="fc:search" size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 opacity-50" />
               <input value={search} onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search your circle…"
                 className="w-full h-10 bg-transparent liquid-glass rounded-[0.875rem] pl-9 pr-4 text-[13px] text-foreground placeholder:text-muted-foreground/40 outline-none border-none" />
@@ -130,26 +130,26 @@ export default function CirclePage() {
                         )}
                       </div>
                       <div className="flex items-center gap-1 mt-0.5">
-                        <span className="text-[11px]">{getCategoryEmoji(lastPlan.category as any)}</span>
+                        <CategoryIcon category={lastPlan.category as any} size="sm" className="!w-4 !h-4 !rounded-md bg-transparent" />
                         <p className="text-[11px] text-muted-foreground truncate">{lastPlan.title}</p>
                       </div>
                       <div className="flex items-center gap-1 mt-0.5">
-                        <MapPin size={9} className="text-muted-foreground/40 shrink-0" />
+                        <AppIcon name="fc:globe" size={9} className="text-muted-foreground/40 shrink-0" />
                         <p className="text-[10px] text-muted-foreground/50">{person.city} · {format(lastPlan.date, 'MMM d')}</p>
                       </div>
                     </div>
                     <button onClick={() => navigate(`/host/${person.id}`)}
                       className="w-8 h-8 rounded-full liquid-glass flex items-center justify-center shrink-0 tap-scale">
-                      <Users size={13} className="text-muted-foreground" />
+                      <AppIcon name="fc:conference-call" size={14} />
                     </button>
                   </div>
                 );
               })}
             </div>
           ) : (
-            <div className="text-center py-16">
+          <div className="text-center py-16">
               <div className="w-14 h-14 rounded-[1.25rem] liquid-glass flex items-center justify-center mx-auto mb-4">
-                <Users size={26} className="text-muted-foreground/40" />
+                <AppIcon name="fc:conference-call" size={26} className="opacity-40" />
               </div>
               <p className="text-[15px] font-bold text-foreground mb-1.5 tracking-tight">No one yet</p>
               <p className="text-[13px] text-muted-foreground mb-6">Join a plan to start meeting people</p>
@@ -161,7 +161,7 @@ export default function CirclePage() {
           {peopleMet.length > 0 && (
             <button onClick={() => navigate('/invite')}
               className="w-full liquid-glass-interactive flex items-center gap-3 px-4 py-3.5 text-left">
-              <UserPlus size={16} className="text-primary shrink-0" />
+              <AppIcon name="fc:invite" size={16} className="text-primary shrink-0" />
               <div className="flex-1 min-w-0">
                 <p className="text-[13px] font-bold text-foreground tracking-tight">Invite real friends</p>
                 <p className="text-[11px] text-muted-foreground mt-0.5">Earn credits for each referral</p>

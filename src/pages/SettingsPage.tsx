@@ -9,7 +9,7 @@ import { useTheme } from '@/hooks/useTheme';
 import { cn } from '@/lib/utils';
 import { ChevronRight, Pencil, Check } from 'lucide-react';
 import type { Category } from '@/types/anybuddy';
-import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
+import { CategoryIcon } from '@/components/icons/CategoryIcon';
 import { AppIcon } from '@/components/icons/AppIcon';
 
 const INTEREST_OPTIONS: Category[] = ['chai', 'sports', 'food', 'explore', 'work', 'walk', 'help', 'casual'];
@@ -143,10 +143,11 @@ export default function SettingsPage() {
                 {INTEREST_OPTIONS.map((i) => (
                   <button key={i} onClick={() => toggleInterest(i)}
                     className={cn(
-                      'flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold tap-scale transition-all',
+                      'flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold tap-scale transition-all',
                       editInterests.includes(i) ? 'glass-pill-active' : 'glass-pill-inactive'
                     )}>
-                    {getCategoryEmoji(i)} <span className="capitalize">{i}</span>
+                    <CategoryIcon category={i} size="sm" className="!w-4 !h-4 !rounded-md bg-transparent" />
+                    <span className="capitalize">{i}</span>
                   </button>
                 ))}
               </div>

@@ -3,16 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 import { TopBar } from '@/components/layout/TopBar';
 import { useAppStore } from '@/store/useAppStore';
-import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
+import { CategoryIcon } from '@/components/icons/CategoryIcon';
 import { GradientAvatar } from '@/components/ui/GradientAvatar';
 import { BottomNav } from '@/components/layout/BottomNav';
 import { Button } from '@/components/ui/button';
 import { formatDistanceToNow, format } from 'date-fns';
-import { MessageCircle, Users, UserPlus, Search, MapPin } from 'lucide-react';
 import { AppIcon } from '@/components/icons/AppIcon';
 import { cn } from '@/lib/utils';
 import type { Request } from '@/types/anybuddy';
-import { getCategoryEmoji as getCatEmoji } from '@/components/icons/CategoryIcon';
 
 // ── Circle helpers (same logic as CirclePage) ──────────────────────────────
 function usePeopleMet() {
@@ -105,9 +103,7 @@ function ChatsTab() {
               <button key={request.id} onClick={() => navigate(`/request/${request.id}`)}
                 className="w-full liquid-glass-interactive flex items-center gap-3.5 p-4 text-left">
                 <div className="relative shrink-0">
-                  <div className="w-12 h-12 rounded-[0.875rem] liquid-glass flex items-center justify-center">
-                    <span className="text-xl">{getCategoryEmoji(request.category)}</span>
-                  </div>
+                  <CategoryIcon category={request.category} size="md" className="liquid-glass" />
                   <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-success border-[1.5px] border-background" />
                 </div>
                 <div className="flex-1 min-w-0">
@@ -157,9 +153,7 @@ function ChatsTab() {
             {pastChats.map(({ request, lastMessage }) => (
               <button key={request.id} onClick={() => navigate(`/request/${request.id}`)}
                 className="w-full liquid-glass flex items-center gap-3.5 p-3.5 text-left opacity-55 tap-scale">
-                <div className="w-10 h-10 rounded-[0.75rem] liquid-glass flex items-center justify-center shrink-0">
-                  <span className="text-lg">{getCategoryEmoji(request.category)}</span>
-                </div>
+                <CategoryIcon category={request.category} size="sm" className="liquid-glass shrink-0" />
                 <div className="flex-1 min-w-0">
                   <p className="text-[13px] font-semibold text-foreground truncate tracking-tight">{request.title}</p>
                   <p className="text-[11px] text-muted-foreground truncate mt-0.5">
@@ -276,11 +270,11 @@ function CircleTab() {
                     )}
                   </div>
                   <div className="flex items-center gap-1 mt-0.5">
-                    <span className="text-[11px]">{getCatEmoji(lastPlan.category as any)}</span>
+                    <CategoryIcon category={lastPlan.category as any} size="sm" className="!w-4 !h-4 !rounded-md bg-transparent" />
                     <p className="text-[11px] text-muted-foreground truncate">{lastPlan.title}</p>
                   </div>
                   <div className="flex items-center gap-1 mt-0.5">
-                    <MapPin size={9} className="text-muted-foreground/40 shrink-0" />
+                    <AppIcon name="fc:globe" size={9} className="shrink-0 opacity-40" />
                     <p className="text-[10px] text-muted-foreground/50">{person.city} · {format(lastPlan.date, 'MMM d')}</p>
                   </div>
                 </div>

@@ -8,8 +8,8 @@ import { useGamificationStore } from '@/store/useGamificationStore';
 import { GradientAvatar } from '@/components/ui/GradientAvatar';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { CheckCircle2, XCircle, Clock } from 'lucide-react';
-import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
+import { CategoryIcon } from '@/components/icons/CategoryIcon';
+import { AppIcon } from '@/components/icons/AppIcon';
 import { toast } from '@/hooks/use-toast';
 
 type AttendanceStatus = 'attended' | 'late' | 'no_show';
@@ -24,19 +24,19 @@ const FEEDBACK_OPTIONS: { type: FeedbackType; emoji: string; label: string; colo
 const ATTENDANCE_OPTIONS: { status: AttendanceStatus; icon: React.ReactNode; label: string; sub: string }[] = [
   {
     status: 'attended',
-    icon: <CheckCircle2 size={22} className="text-success" />,
+    icon: <AppIcon name="fc:checkmark" size={22} />,
     label: 'I was there',
     sub: 'Showed up on time',
   },
   {
     status: 'late',
-    icon: <Clock size={22} className="text-warning" />,
+    icon: <AppIcon name="fc:clock" size={22} />,
     label: 'Joined late',
     sub: 'Got there a bit late',
   },
   {
     status: 'no_show',
-    icon: <XCircle size={22} className="text-destructive" />,
+    icon: <AppIcon name="fc:cancel" size={22} />,
     label: "Couldn't make it",
     sub: 'Did not attend',
   },
@@ -146,9 +146,7 @@ export default function AttendancePage() {
         <div className="px-5 pt-5">
           {/* Plan summary */}
           <div className="liquid-glass p-3.5 flex items-center gap-3 mb-5">
-            <div className="w-10 h-10 rounded-[0.875rem] liquid-glass flex items-center justify-center text-xl shrink-0">
-              {getCategoryEmoji(request.category)}
-            </div>
+            <CategoryIcon category={request.category} size="md" className="liquid-glass shrink-0" />
             <div className="min-w-0">
               <p className="text-[13px] font-bold text-foreground truncate">{request.title}</p>
               <p className="text-[11px] text-muted-foreground">with {request.userName}</p>
@@ -187,7 +185,7 @@ export default function AttendancePage() {
                     </div>
                     {myStatus === opt.status && (
                       <div className="ml-auto w-5 h-5 rounded-full bg-primary flex items-center justify-center shrink-0">
-                        <CheckCircle2 size={12} className="text-primary-foreground" />
+                        <AppIcon name="fc:checkmark" size={12} />
                       </div>
                     )}
                   </button>

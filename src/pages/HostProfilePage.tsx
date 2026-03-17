@@ -3,9 +3,9 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { TopBar } from '@/components/layout/TopBar';
 import { useAppStore } from '@/store/useAppStore';
 import { TrustBadge } from '@/components/ui/TrustBadge';
-import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
+import { CategoryIcon } from '@/components/icons/CategoryIcon';
+import { AppIcon } from '@/components/icons/AppIcon';
 import { Button } from '@/components/ui/button';
-import { Flag } from 'lucide-react';
 import { BlueTick } from '@/components/ui/BlueTick';
 import { ReportDialog } from '@/components/ReportDialog';
 import { GradientAvatar } from '@/components/ui/GradientAvatar';
@@ -63,7 +63,7 @@ export default function HostProfilePage() {
             <span className="text-xs text-muted-foreground inline-flex items-center gap-1">🛡️ Public meetup · <BlueTick size={12} /> Verified host</span>
           </div>
           <button onClick={() => setShowReport(true)} className="flex items-center gap-1 mt-2 mx-auto text-[11px] text-destructive/60 font-medium tap-scale">
-            <Flag size={10} /> Report user
+            <AppIcon name="fc:feedback" size={12} /> Report user
           </button>
         </div>
 
@@ -112,7 +112,7 @@ export default function HostProfilePage() {
               {hostRequests.slice(0, 5).map((req) => (
                 <button key={req.id} onClick={() => navigate(`/request/${req.id}`)}
                   className="w-full liquid-glass-interactive flex items-center gap-3 p-3 text-left">
-                  <span className="text-lg">{getCategoryEmoji(req.category)}</span>
+                  <CategoryIcon category={req.category} size="sm" />
                   <div className="flex-1 min-w-0">
                     <p className="font-semibold text-[14px] truncate">{req.title}</p>
                     <p className="text-[12px] text-muted-foreground mt-1">{req.seatsTaken} of {req.seatsTotal} spots filled • {req.status}</p>

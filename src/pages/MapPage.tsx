@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { Share2, Navigation, MapPin, Users, Star, X } from 'lucide-react';
+import { X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker, useMap } from 'react-leaflet';
 import L from 'leaflet';
@@ -8,7 +8,8 @@ import { JoinConfirmDialog } from '@/components/JoinConfirmDialog';
 import { ShareSheet } from '@/components/ShareSheet';
 import { useAppStore } from '@/store/useAppStore';
 import { useGamificationStore } from '@/store/useGamificationStore';
-import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
+import { getCategoryEmoji, CategoryIcon } from '@/components/icons/CategoryIcon';
+import { AppIcon } from '@/components/icons/AppIcon';
 import { UrgencyBadge } from '@/components/ui/UrgencyBadge';
 import { GradientAvatar } from '@/components/ui/GradientAvatar';
 import { cn } from '@/lib/utils';
@@ -158,7 +159,7 @@ export default function MapPage() {
             </span>
             <button onClick={locateMe}
               className="w-8 h-8 rounded-full liquid-glass flex items-center justify-center tap-scale ml-1">
-              <Navigation size={14} className="text-primary" />
+              <AppIcon name="fc:globe" size={16} />
             </button>
           </div>
         </div>
@@ -227,9 +228,7 @@ export default function MapPage() {
       {selected && (
         <div className="mx-4 mt-2 shrink-0">
           <div className="liquid-glass-heavy p-3.5 flex items-center gap-3 relative" style={{ borderRadius: '1.25rem' }}>
-            <div className="w-10 h-10 rounded-[0.75rem] liquid-glass flex items-center justify-center text-lg shrink-0">
-              {getCategoryEmoji(selected.category)}
-            </div>
+            <CategoryIcon category={selected.category} size="sm" className="liquid-glass shrink-0" />
             <div className="flex-1 min-w-0">
               <p className="text-[13px] font-bold text-foreground truncate">{selected.title}</p>
               <p className="text-[11px] text-muted-foreground mt-0.5">📍 {selected.location.name} · {selected.location.distance}km</p>
@@ -269,15 +268,13 @@ export default function MapPage() {
               onClick={() => setSelectedId(selectedId === req.id ? null : req.id)}
             >
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-[0.75rem] liquid-glass flex items-center justify-center text-lg shrink-0">
-                  {getCategoryEmoji(req.category)}
-                </div>
+                <CategoryIcon category={req.category} size="sm" className="liquid-glass shrink-0" />
                 <div className="flex-1 min-w-0">
                   <h3 className="text-[13px] font-semibold text-foreground truncate leading-tight">{req.title}</h3>
                   <div className="flex items-center gap-2 mt-0.5">
                     <UrgencyBadge urgency={req.urgency} />
                     <span className="text-[10px] text-muted-foreground flex items-center gap-0.5">
-                      <MapPin size={9} /> {req.location.distance}km
+                      <AppIcon name="fc:globe" size={10} /> {req.location.distance}km
                     </span>
                   </div>
                 </div>
@@ -303,13 +300,13 @@ export default function MapPage() {
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="flex items-center gap-0.5 text-[10px] text-muted-foreground">
-                    <Star size={9} className="text-accent" /> {req.userReliability}%
+                    <AppIcon name="fc:rating" size={10} /> {req.userReliability}%
                   </span>
                   <button
                     onClick={(e) => { e.stopPropagation(); handleShare(req); }}
                     className="flex items-center gap-1 text-[10px] text-muted-foreground tap-scale"
                   >
-                    <Share2 size={10} /> Share
+                    <AppIcon name="fc:share" size={10} /> Share
                   </button>
                 </div>
               </div>
@@ -318,7 +315,7 @@ export default function MapPage() {
 
           {activeRequests.length === 0 && (
             <div className="text-center py-10">
-              <MapPin size={28} className="mx-auto text-muted-foreground/30 mb-3" />
+              <AppIcon name="fc:globe" size={28} className="mx-auto opacity-30 mb-3" />
               <p className="text-[13px] text-muted-foreground font-medium mb-1">No plans nearby</p>
               <p className="text-[11px] text-muted-foreground/60 mb-5">Try a different filter or post one yourself</p>
               <Button size="sm" variant="outline" onClick={() => navigate('/create')}>Post a plan</Button>

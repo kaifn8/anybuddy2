@@ -7,7 +7,6 @@ import { useAppStore } from '@/store/useAppStore';
 import { getLevelForXP } from '@/types/gamification';
 import { GradientAvatar } from '@/components/ui/GradientAvatar';
 import { cn } from '@/lib/utils';
-import { Clock } from 'lucide-react';
 import { AppIcon } from '@/components/icons/AppIcon';
 
 const FAKE_NAMES = ['Priya M.', 'Arjun S.', 'Maya K.', 'Rohan V.', 'Zara Q.', 'Aditya P.', 'Neha R.', 'Vikram D.', 'Kabir T.', 'Riya N.'];
@@ -56,7 +55,7 @@ export default function LeaderboardPage() {
               📍 Mumbai · Weekly XP
             </p>
             <div className="flex items-center justify-center gap-1.5 text-[13px] text-muted-foreground">
-              <Clock size={12} />
+              <AppIcon name="fc:clock" size={14} />
               <span>Resets in <span className="text-foreground font-bold">{daysLeft} day{daysLeft !== 1 ? 's' : ''}</span></span>
             </div>
             {myRank > 0 && (
