@@ -24,19 +24,19 @@ const FEEDBACK_OPTIONS: { type: FeedbackType; emoji: string; label: string; colo
 const ATTENDANCE_OPTIONS: { status: AttendanceStatus; icon: React.ReactNode; label: string; sub: string }[] = [
   {
     status: 'attended',
-    icon: <CheckCircle2 size={22} className="text-success" />,
+    icon: <AppIcon name="fc:checkmark" size={22} />,
     label: 'I was there',
     sub: 'Showed up on time',
   },
   {
     status: 'late',
-    icon: <Clock size={22} className="text-warning" />,
+    icon: <AppIcon name="fc:clock" size={22} />,
     label: 'Joined late',
     sub: 'Got there a bit late',
   },
   {
     status: 'no_show',
-    icon: <XCircle size={22} className="text-destructive" />,
+    icon: <AppIcon name="fc:cancel" size={22} />,
     label: "Couldn't make it",
     sub: 'Did not attend',
   },
