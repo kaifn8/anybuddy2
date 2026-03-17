@@ -9,7 +9,7 @@ import { useTheme } from '@/hooks/useTheme';
 import { cn } from '@/lib/utils';
 import { ChevronRight, Pencil, Check } from 'lucide-react';
 import type { Category } from '@/types/anybuddy';
-import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
+import { CategoryIcon } from '@/components/icons/CategoryIcon';
 import { AppIcon } from '@/components/icons/AppIcon';
 
 const INTEREST_OPTIONS: Category[] = ['chai', 'sports', 'food', 'explore', 'work', 'walk', 'help', 'casual'];

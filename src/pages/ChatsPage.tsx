@@ -3,16 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 import { TopBar } from '@/components/layout/TopBar';
 import { useAppStore } from '@/store/useAppStore';
-import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
+import { CategoryIcon } from '@/components/icons/CategoryIcon';
 import { GradientAvatar } from '@/components/ui/GradientAvatar';
 import { BottomNav } from '@/components/layout/BottomNav';
 import { Button } from '@/components/ui/button';
 import { formatDistanceToNow, format } from 'date-fns';
-import { MessageCircle, Users, UserPlus, Search, MapPin } from 'lucide-react';
 import { AppIcon } from '@/components/icons/AppIcon';
 import { cn } from '@/lib/utils';
 import type { Request } from '@/types/anybuddy';
-import { getCategoryEmoji as getCatEmoji } from '@/components/icons/CategoryIcon';
 
 // ── Circle helpers (same logic as CirclePage) ──────────────────────────────
 function usePeopleMet() {

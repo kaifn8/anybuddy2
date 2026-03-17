@@ -8,8 +8,8 @@ import { useGamificationStore } from '@/store/useGamificationStore';
 import { GradientAvatar } from '@/components/ui/GradientAvatar';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { CheckCircle2, XCircle, Clock } from 'lucide-react';
-import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
+import { CategoryIcon } from '@/components/icons/CategoryIcon';
+import { AppIcon } from '@/components/icons/AppIcon';
 import { toast } from '@/hooks/use-toast';
 
 type AttendanceStatus = 'attended' | 'late' | 'no_show';

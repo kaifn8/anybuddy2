@@ -6,8 +6,8 @@ import { BottomNav } from '@/components/layout/BottomNav';
 import { useAppStore } from '@/store/useAppStore';
 import { GradientAvatar } from '@/components/ui/GradientAvatar';
 import { Button } from '@/components/ui/button';
-import { Search, Users, UserPlus, MapPin } from 'lucide-react';
-import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
+import { AppIcon } from '@/components/icons/AppIcon';
+import { CategoryIcon } from '@/components/icons/CategoryIcon';
 import { format } from 'date-fns';
 
 function usePeopleMet() {

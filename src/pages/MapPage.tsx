@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { Share2, Navigation, MapPin, Users, Star, X } from 'lucide-react';
+import { X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker, useMap } from 'react-leaflet';
 import L from 'leaflet';
@@ -9,6 +9,8 @@ import { ShareSheet } from '@/components/ShareSheet';
 import { useAppStore } from '@/store/useAppStore';
 import { useGamificationStore } from '@/store/useGamificationStore';
 import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
+import { CategoryIcon } from '@/components/icons/CategoryIcon';
+import { AppIcon } from '@/components/icons/AppIcon';
 import { UrgencyBadge } from '@/components/ui/UrgencyBadge';
 import { GradientAvatar } from '@/components/ui/GradientAvatar';
 import { cn } from '@/lib/utils';

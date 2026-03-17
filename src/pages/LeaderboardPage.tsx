@@ -7,7 +7,6 @@ import { useAppStore } from '@/store/useAppStore';
 import { getLevelForXP } from '@/types/gamification';
 import { GradientAvatar } from '@/components/ui/GradientAvatar';
 import { cn } from '@/lib/utils';
-import { Clock } from 'lucide-react';
 import { AppIcon } from '@/components/icons/AppIcon';
 
 const FAKE_NAMES = ['Priya M.', 'Arjun S.', 'Maya K.', 'Rohan V.', 'Zara Q.', 'Aditya P.', 'Neha R.', 'Vikram D.', 'Kabir T.', 'Riya N.'];
