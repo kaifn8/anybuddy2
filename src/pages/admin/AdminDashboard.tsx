@@ -101,7 +101,7 @@ export default function AdminDashboard() {
               <div key={cat}>
                 <div className="flex justify-between text-xs mb-1">
                   <span className="font-medium flex items-center gap-1.5">
-                    <span>{getCategoryEmoji(cat)}</span>
+                    <CategoryIcon category={cat} size="sm" />
                     {getCategoryLabel(cat)}
                   </span>
                   <span className={demand > 80 ? 'text-warning font-semibold' : 'text-muted-foreground'}>{demand}%</span>

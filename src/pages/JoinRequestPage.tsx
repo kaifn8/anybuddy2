@@ -158,7 +158,7 @@ export default function JoinRequestPage() {
           {/* Request info */}
           <div className="liquid-glass-heavy p-4">
             <div className="flex items-start gap-3">
-              <span className="text-2xl">{getCategoryEmoji(request.category)}</span>
+              <CategoryIcon category={request.category} size="md" />
               <div className="flex-1">
                 <div className="flex items-center gap-2">
                   <UrgencyBadge urgency={request.urgency} />
