@@ -286,7 +286,7 @@ function CircleTab() {
                 </div>
                 <button onClick={() => navigate(`/host/${person.id}`)}
                   className="w-8 h-8 rounded-full liquid-glass flex items-center justify-center shrink-0 tap-scale">
-                  <Users size={13} className="text-muted-foreground" />
+                  <AppIcon name="fc:conference-call" size={14} />
                 </button>
               </div>
             );
