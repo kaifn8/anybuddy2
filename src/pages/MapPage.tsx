@@ -300,13 +300,13 @@ export default function MapPage() {
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="flex items-center gap-0.5 text-[10px] text-muted-foreground">
-                    <Star size={9} className="text-accent" /> {req.userReliability}%
+                    <AppIcon name="fc:rating" size={10} /> {req.userReliability}%
                   </span>
                   <button
                     onClick={(e) => { e.stopPropagation(); handleShare(req); }}
                     className="flex items-center gap-1 text-[10px] text-muted-foreground tap-scale"
                   >
-                    <Share2 size={10} /> Share
+                    <AppIcon name="fc:share" size={10} /> Share
                   </button>
                 </div>
               </div>
