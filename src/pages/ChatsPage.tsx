@@ -367,7 +367,7 @@ export default function ChatsPage() {
               'relative z-10 flex-1 flex items-center justify-center gap-1.5 py-2 rounded-[0.75rem] text-[13px] font-semibold transition-colors duration-200',
               tab === 'chats' ? 'text-foreground' : 'text-muted-foreground'
             )}>
-            <MessageCircle size={14} />
+            <AppIcon name="fc:comments" size={15} />
             Chats
           </button>
           <button
