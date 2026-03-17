@@ -1,11 +1,12 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Send, Share2, BadgeCheck, Flag, MoreVertical, UserX, Ban, XCircle, MapPin, Clock, Users, Navigation, Info, X, ChevronUp } from 'lucide-react';
+import { Send, BadgeCheck, MoreVertical, UserX, Ban, XCircle, X, Info } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { formatDistanceToNow } from 'date-fns';
 import { LocationMapPreview, formatWalkTime } from '@/components/LocationMap';
 import { useAppStore } from '@/store/useAppStore';
-import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
+import { CategoryIcon } from '@/components/icons/CategoryIcon';
+import { AppIcon } from '@/components/icons/AppIcon';
 import { UrgencyBadge } from '@/components/ui/UrgencyBadge';
 import { TrustBadge } from '@/components/ui/TrustBadge';
 import { ShareSheet } from '@/components/ShareSheet';
@@ -152,8 +153,8 @@ export default function RequestDetailPage() {
         <header className="sticky top-0 z-40 liquid-glass-nav">
           <div className="flex items-center gap-3 px-4 h-12 max-w-md mx-auto">
             <button onClick={() => navigate(-1)} className="w-8 h-8 rounded-xl tap-scale text-sm hover:bg-muted transition-colors">←</button>
-            <div className="flex-1 min-w-0 flex items-center gap-2">
-              <span className="text-lg">{getCategoryEmoji(request.category)}</span>
+              <div className="flex-1 min-w-0 flex items-center gap-2">
+              <CategoryIcon category={request.category} size="sm" className="shrink-0" />
               <div className="min-w-0">
                 <h1 className="text-[13px] font-semibold truncate">{request.title}</h1>
                 <p className="text-[10px] text-muted-foreground">
@@ -383,7 +384,7 @@ export default function RequestDetailPage() {
                 
                 {/* Hero */}
                 <div className="flex items-start gap-3">
-                  <span className="text-3xl">{getCategoryEmoji(request.category)}</span>
+                 <CategoryIcon category={request.category} size="lg" className="shrink-0" />
                   <div className="flex-1 min-w-0">
                     <h3 className="font-bold text-base leading-tight mb-1">{request.title}</h3>
                     <UrgencyBadge urgency={request.urgency} />
@@ -393,9 +394,9 @@ export default function RequestDetailPage() {
                 {/* Info rows */}
                 <div className="space-y-3">
                   {[
-                    { icon: <MapPin size={16} />, title: request.location.name, sub: `${request.location.distance} km away` },
-                    { icon: <Clock size={16} />, title: minsToStart <= 0 ? 'Happening now' : minsToStart < 60 ? `In ${minsToStart} min` : `${timeLeft} left`, sub: new Date(request.when).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) },
-                    { icon: <Users size={16} />, title: `${request.seatsTaken} of ${request.seatsTotal} going`, sub: seatsLeft === 0 ? 'Full' : `${seatsLeft} spot${seatsLeft > 1 ? 's' : ''} left` },
+                    { icon: <AppIcon name="fc:globe" size={18} />, title: request.location.name, sub: `${request.location.distance} km away` },
+                    { icon: <AppIcon name="fc:clock" size={18} />, title: minsToStart <= 0 ? 'Happening now' : minsToStart < 60 ? `In ${minsToStart} min` : `${timeLeft} left`, sub: new Date(request.when).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) },
+                    { icon: <AppIcon name="fc:conference-call" size={18} />, title: `${request.seatsTaken} of ${request.seatsTotal} going`, sub: seatsLeft === 0 ? 'Full' : `${seatsLeft} spot${seatsLeft > 1 ? 's' : ''} left` },
                   ].map((row, i) => (
                     <div key={i} className="flex items-center gap-3">
                       <div className="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center shrink-0 text-primary">{row.icon}</div>
@@ -419,9 +420,9 @@ export default function RequestDetailPage() {
                 {/* Info rows - update distance to show walk time */}
                 <div className="space-y-3">
                   {[
-                    { icon: <MapPin size={16} />, title: request.location.name, sub: `${request.location.distance} km · ${formatWalkTime(request.location.distance)}` },
-                    { icon: <Clock size={16} />, title: minsToStart <= 0 ? 'Happening now' : minsToStart < 60 ? `In ${minsToStart} min` : `${timeLeft} left`, sub: new Date(request.when).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) },
-                    { icon: <Users size={16} />, title: `${request.seatsTaken} of ${request.seatsTotal} going`, sub: seatsLeft === 0 ? 'Full' : `${seatsLeft} spot${seatsLeft > 1 ? 's' : ''} left` },
+                    { icon: <AppIcon name="fc:globe" size={18} />, title: request.location.name, sub: `${request.location.distance} km · ${formatWalkTime(request.location.distance)}` },
+                    { icon: <AppIcon name="fc:clock" size={18} />, title: minsToStart <= 0 ? 'Happening now' : minsToStart < 60 ? `In ${minsToStart} min` : `${timeLeft} left`, sub: new Date(request.when).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) },
+                    { icon: <AppIcon name="fc:conference-call" size={18} />, title: `${request.seatsTaken} of ${request.seatsTotal} going`, sub: seatsLeft === 0 ? 'Full' : `${seatsLeft} spot${seatsLeft > 1 ? 's' : ''} left` },
                   ].map((row, i) => (
                     <div key={i} className="flex items-center gap-3">
                       <div className="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center shrink-0 text-primary">{row.icon}</div>
@@ -474,7 +475,7 @@ export default function RequestDetailPage() {
                                 <UserX size={14} className="mr-2" /> Remove {!canRemove && '(locked)'}
                               </DropdownMenuItem>
                               <DropdownMenuItem onClick={() => { setReportTarget({ id: p.id, name: p.name, type: 'user' }); setShowReport(true); }} className="text-xs">
-                                <Flag size={14} className="mr-2" /> Report
+                                <AppIcon name="fc:feedback" size={14} className="mr-2" /> Report
                               </DropdownMenuItem>
                               <DropdownMenuItem onClick={() => handleBlock(p.id, p.name)} className="text-xs text-destructive">
                                 <Ban size={14} className="mr-2" /> Block
@@ -489,7 +490,7 @@ export default function RequestDetailPage() {
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end" className="w-36">
                               <DropdownMenuItem onClick={() => { setReportTarget({ id: p.id, name: p.name, type: 'user' }); setShowReport(true); }} className="text-xs">
-                                <Flag size={14} className="mr-2" /> Report
+                                <AppIcon name="fc:feedback" size={14} className="mr-2" /> Report
                               </DropdownMenuItem>
                               <DropdownMenuItem onClick={() => handleBlock(p.id, p.name)} className="text-xs text-destructive">
                                 <Ban size={14} className="mr-2" /> Block
@@ -528,7 +529,7 @@ export default function RequestDetailPage() {
                 {/* Actions */}
                 <div className="flex items-center gap-3 pt-2 border-t border-border/10">
                   <button onClick={() => setShowShare(true)} className="flex items-center gap-1.5 text-[12px] text-primary font-semibold tap-scale">
-                    <Share2 size={14} /> Share
+                    <AppIcon name="fc:share" size={16} /> Share
                   </button>
                   {isHost ? (
                     <button onClick={handleEndEarly} className="flex items-center gap-1.5 text-[12px] text-destructive/70 font-semibold tap-scale ml-auto">
@@ -606,7 +607,7 @@ export default function RequestDetailPage() {
             </div>
           )}
           <div className="flex items-start gap-3 mb-4">
-            <span className="text-3xl">{getCategoryEmoji(request.category)}</span>
+            <CategoryIcon category={request.category} size="lg" className="shrink-0" />
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2 mb-1">
                 <h2 className="font-bold text-base leading-tight">{request.title}</h2>
@@ -616,9 +617,9 @@ export default function RequestDetailPage() {
           </div>
           <div className="space-y-2.5">
             {[
-              { icon: <MapPin size={16} />, title: request.location.name, sub: `${request.location.distance} km · ${formatWalkTime(request.location.distance)}` },
-              { icon: <Clock size={16} />, title: minsToStart <= 0 ? 'Happening now' : minsToStart < 60 ? `In ${minsToStart} min` : `${timeLeft} left`, sub: new Date(request.when).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) },
-              { icon: <Users size={16} />, title: `${request.seatsTaken} of ${request.seatsTotal} going`, sub: seatsLeft === 0 ? 'Full' : `${seatsLeft} spot${seatsLeft > 1 ? 's' : ''} left` },
+              { icon: <AppIcon name="fc:globe" size={18} />, title: request.location.name, sub: `${request.location.distance} km · ${formatWalkTime(request.location.distance)}` },
+              { icon: <AppIcon name="fc:clock" size={18} />, title: minsToStart <= 0 ? 'Happening now' : minsToStart < 60 ? `In ${minsToStart} min` : `${timeLeft} left`, sub: new Date(request.when).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) },
+              { icon: <AppIcon name="fc:conference-call" size={18} />, title: `${request.seatsTaken} of ${request.seatsTotal} going`, sub: seatsLeft === 0 ? 'Full' : `${seatsLeft} spot${seatsLeft > 1 ? 's' : ''} left` },
             ].map((row, i) => (
               <div key={i} className="flex items-center gap-3">
                 <div className="w-8 h-8 rounded-xl bg-primary/10 flex items-center justify-center shrink-0 text-primary">{row.icon}</div>
@@ -670,11 +671,11 @@ export default function RequestDetailPage() {
         {/* Action bar */}
         <div className="flex items-center gap-3 py-2">
           <button onClick={() => setShowShare(true)} className="flex items-center gap-1.5 text-[12px] text-primary font-semibold tap-scale">
-            <Share2 size={14} /> Share
+            <AppIcon name="fc:share" size={16} /> Share
           </button>
           <button onClick={() => { setReportTarget({ id: request.id, name: request.title, type: 'plan' }); setShowReport(true); }}
             className="flex items-center gap-1.5 text-[12px] text-destructive/70 font-semibold tap-scale ml-auto">
-            <Flag size={12} /> Report
+            <AppIcon name="fc:feedback" size={16} /> Report
           </button>
         </div>
 
