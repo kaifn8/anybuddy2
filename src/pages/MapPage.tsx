@@ -159,7 +159,7 @@ export default function MapPage() {
             </span>
             <button onClick={locateMe}
               className="w-8 h-8 rounded-full liquid-glass flex items-center justify-center tap-scale ml-1">
-              <Navigation size={14} className="text-primary" />
+              <AppIcon name="fc:globe" size={16} />
             </button>
           </div>
         </div>
