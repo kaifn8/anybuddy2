@@ -338,7 +338,7 @@ export default function NotificationsPage() {
               </div>
             ) : (
               <div className="text-center py-16">
-                <BellOff size={28} className="mx-auto text-muted-foreground/30 mb-3" />
+                <AppIcon name="se:bell-with-slash" size={28} className="mx-auto opacity-40 mb-3" />
                 <p className="text-[14px] font-semibold text-muted-foreground">
                   No {filter === 'all' ? '' : filter} notifications
                 </p>
