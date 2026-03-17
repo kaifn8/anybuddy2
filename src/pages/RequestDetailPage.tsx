@@ -607,7 +607,7 @@ export default function RequestDetailPage() {
             </div>
           )}
           <div className="flex items-start gap-3 mb-4">
-            <span className="text-3xl">{getCategoryEmoji(request.category)}</span>
+            <CategoryIcon category={request.category} size="lg" className="shrink-0" />
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2 mb-1">
                 <h2 className="font-bold text-base leading-tight">{request.title}</h2>
