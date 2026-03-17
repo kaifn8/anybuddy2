@@ -12,17 +12,17 @@ type Step = 'method' | 'phone' | 'otp' | 'name' | 'gender' | 'photo' | 'bio' | '
 const steps: Step[] = ['method', 'phone', 'otp', 'name', 'gender', 'photo', 'bio', 'age', 'interests', 'zone'];
 const ageRanges = ['18-24', '25-34', '35-44', '45-54', '55+'];
 
-// Interest options with emoji and label
-const interestOptions: { id: Category; emoji: string; label: string }[] = [
-  { id: 'chai', emoji: '☕', label: 'Coffee / Chai' },
-  { id: 'food', emoji: '🍜', label: 'Food' },
-  { id: 'casual', emoji: '🍻', label: 'Drinks' },
-  { id: 'sports', emoji: '🏸', label: 'Sports' },
-  { id: 'walk', emoji: '🚶', label: 'Walks' },
-  { id: 'explore', emoji: '🌆', label: 'Explore' },
-  { id: 'shopping', emoji: '🛍', label: 'Shopping' },
-  { id: 'work', emoji: '💻', label: 'Work / Study' },
-  { id: 'help', emoji: '🎮', label: 'Games' },
+// Interest options with label
+const interestOptions: { id: Category; label: string }[] = [
+  { id: 'chai',     label: 'Coffee / Chai' },
+  { id: 'food',     label: 'Food' },
+  { id: 'casual',   label: 'Drinks' },
+  { id: 'sports',   label: 'Sports' },
+  { id: 'walk',     label: 'Walks' },
+  { id: 'explore',  label: 'Explore' },
+  { id: 'shopping', label: 'Shopping' },
+  { id: 'work',     label: 'Work / Study' },
+  { id: 'help',     label: 'Games' },
 ];
 const cities = [
   { name: 'Mumbai', emoji: '🌆', zones: ['Bandra', 'Andheri', 'Colaba', 'Juhu', 'Powai', 'Lower Parel', 'Worli', 'Dadar'] },
