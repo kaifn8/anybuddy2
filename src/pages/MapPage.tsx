@@ -268,15 +268,13 @@ export default function MapPage() {
               onClick={() => setSelectedId(selectedId === req.id ? null : req.id)}
             >
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-[0.75rem] liquid-glass flex items-center justify-center text-lg shrink-0">
-                  {getCategoryEmoji(req.category)}
-                </div>
+                <CategoryIcon category={req.category} size="sm" className="liquid-glass shrink-0" />
                 <div className="flex-1 min-w-0">
                   <h3 className="text-[13px] font-semibold text-foreground truncate leading-tight">{req.title}</h3>
                   <div className="flex items-center gap-2 mt-0.5">
                     <UrgencyBadge urgency={req.urgency} />
                     <span className="text-[10px] text-muted-foreground flex items-center gap-0.5">
-                      <MapPin size={9} /> {req.location.distance}km
+                      <AppIcon name="fc:globe" size={10} /> {req.location.distance}km
                     </span>
                   </div>
                 </div>
