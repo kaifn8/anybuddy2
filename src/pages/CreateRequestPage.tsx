@@ -156,7 +156,7 @@ function LocationSearchField({ location, setLocation, locationCoords, setLocatio
           <p className="text-sm font-semibold text-foreground">{location}</p>
           <p className="text-[10px] text-muted-foreground">Tap to change location</p>
         </div>
-        <Pencil size={14} className="text-muted-foreground shrink-0" />
+        <AppIcon name="fc:edit-image" size={14} className="text-muted-foreground shrink-0 opacity-60" />
       </button>
     );
   }
