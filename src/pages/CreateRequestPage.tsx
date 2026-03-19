@@ -386,7 +386,7 @@ export default function CreateRequestPage() {
       <div className="flex items-center gap-3 px-5 pt-4 pb-2">
         <button onClick={() => step === 'pick' ? navigate(-1) : setStep(step === 'preview' ? 'customize' : 'pick')}
           className="w-8 h-8 rounded-full flex items-center justify-center tap-scale hover:bg-muted/50">
-          <ChevronLeft size={20} />
+          <span className="text-lg font-medium">←</span>
         </button>
         <h1 className="text-lg font-bold">
           {step === 'pick' ? 'New Plan' : step === 'customize' ? 'Customize' : 'Ready?'}
