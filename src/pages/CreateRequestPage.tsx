@@ -214,7 +214,7 @@ function LocationSearchField({ location, setLocation, locationCoords, setLocatio
             {filteredPopular.slice(0, 6).map((place) => (
               <button key={place.name} onClick={() => selectPlace(place)}
                 className="flex items-center gap-2 p-2.5 rounded-lg liquid-glass tap-scale text-left">
-                <MapPin size={12} className="text-primary shrink-0" />
+                <AppIcon name="fc:globe" size={12} className="shrink-0" />
                 <div className="min-w-0">
                   <p className="text-[11px] font-semibold text-foreground truncate">{place.name}</p>
                   <p className="text-[9px] text-muted-foreground">{place.area}</p>
