@@ -374,7 +374,7 @@ export default function RequestDetailPage() {
                 <div className="flex items-center justify-between">
                   <h2 className="text-[15px] font-bold">Plan Details</h2>
                   <button onClick={() => setShowInfo(false)} className="w-8 h-8 rounded-full bg-muted/50 flex items-center justify-center tap-scale">
-                    <X size={16} className="text-muted-foreground" />
+                    <AppIcon name="fc:cancel" size={16} />
                   </button>
                 </div>
               </div>
