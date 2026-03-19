@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 import { Button } from '@/components/ui/button';
 import { GradientAvatar } from '@/components/ui/GradientAvatar';
+import { CategoryIcon } from '@/components/icons/CategoryIcon';
+import type { Category } from '@/types/anybuddy';
 
 const slides = [
   { id: 'people', title: "Friends busy?", description: "People around you are free right now. Coffee, food, walks, games. Jump in." },
