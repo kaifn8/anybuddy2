@@ -230,7 +230,7 @@ export default function ProfilePage() {
                 {user.interests.map((i) => (
                   <span key={i}
                     className="flex items-center gap-1 px-2.5 py-1 text-[11px] font-medium liquid-glass rounded-full text-muted-foreground">
-                    {getCategoryEmoji(i)}
+                    <CategoryIcon category={i} size="sm" className="!w-4 !h-4 !rounded-md bg-transparent" />
                     <span className="capitalize">{i}</span>
                   </span>
                 ))}
