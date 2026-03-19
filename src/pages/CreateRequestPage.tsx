@@ -174,14 +174,14 @@ function LocationSearchField({ location, setLocation, locationCoords, setLocatio
           className="flex-1 bg-transparent text-sm font-medium focus:outline-none placeholder:text-muted-foreground/50"
           placeholder="Search for a place..."
         />
-        {isSearching && <Loader2 size={14} className="text-muted-foreground animate-spin shrink-0" />}
+        {isSearching && <span className="w-3.5 h-3.5 border-2 border-muted-foreground/30 border-t-muted-foreground rounded-full animate-spin shrink-0" />}
       </div>
 
       {/* Auto-detect button */}
       <button onClick={detectLocation} disabled={isLocating}
         className="w-full flex items-center gap-2.5 p-3 rounded-xl liquid-glass tap-scale text-left">
         <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-          {isLocating ? <Loader2 size={14} className="text-primary animate-spin" /> : <Navigation size={14} className="text-primary" />}
+          {isLocating ? <span className="w-3.5 h-3.5 border-2 border-primary/30 border-t-primary rounded-full animate-spin" /> : <AppIcon name="fc:globe" size={14} />}
         </div>
         <div>
           <p className="text-[12px] font-semibold text-foreground">{isLocating ? 'Detecting...' : 'Use current location'}</p>
