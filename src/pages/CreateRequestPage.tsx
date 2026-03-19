@@ -165,7 +165,7 @@ function LocationSearchField({ location, setLocation, locationCoords, setLocatio
     <div className="space-y-2.5">
       {/* Search input */}
       <div className="flex items-center gap-2.5 p-3 rounded-xl liquid-glass">
-        <Search size={16} className="text-muted-foreground shrink-0" />
+        <AppIcon name="fc:search" size={16} className="text-muted-foreground shrink-0" />
         <input
           ref={inputRef}
           autoFocus
