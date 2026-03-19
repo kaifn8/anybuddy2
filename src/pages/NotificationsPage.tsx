@@ -148,7 +148,7 @@ function NotifItem({
               <p className="text-[10px] text-muted-foreground/40 font-medium">{timeAgo}</p>
               {n.requestId && (
                 <span className={cn('text-[10px] font-semibold flex items-center gap-0.5', cfg.color)}>
-                  View <ChevronRight size={10} />
+                  View →
                 </span>
               )}
             </div>
