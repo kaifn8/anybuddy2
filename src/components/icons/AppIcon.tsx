@@ -62,7 +62,17 @@ export type AppIconName =
   | 'se:crown'
   | 'se:sparkles'
   | 'se:trophy-1'
-  | 'se:map-1';
+  | 'se:map-1'
+  // category icons (streamline-emojis)
+  | 'se:chai'
+  | 'se:food'
+  | 'se:sports'
+  | 'se:walk'
+  | 'se:explore'
+  | 'se:work'
+  | 'se:shopping'
+  | 'se:help'
+  | 'se:casual';
 
 // Maps our short prefix to Iconify prefixes + icon names
 const ICON_MAP: Record<AppIconName, string> = {
@@ -115,6 +125,16 @@ const ICON_MAP: Record<AppIconName, string> = {
   'se:sparkles': 'streamline-emojis:sparkles',
   'se:trophy-1': 'streamline-emojis:trophy-1',
   'se:map-1': 'streamline-emojis:globe-showing-europe-africa',
+  // category icons — semantically correct streamline-emojis
+  'se:chai':     'streamline-emojis:clinking-beer-mugs',   // coffee/drinks vibe
+  'se:food':     'streamline-emojis:hamburger-1',           // food
+  'se:sports':   'streamline-emojis:basketball',            // sports
+  'se:walk':     'streamline-emojis:man-walking-1',         // walk
+  'se:explore':  'streamline-emojis:globe-showing-europe-africa', // explore
+  'se:work':     'streamline-emojis:briefcase',             // work
+  'se:shopping': 'streamline-emojis:handbag',               // shopping
+  'se:help':     'streamline-emojis:handshake',             // help/collaborate
+  'se:casual':   'streamline-emojis:sparkles',              // casual/chill
 };
 
 interface AppIconProps {
