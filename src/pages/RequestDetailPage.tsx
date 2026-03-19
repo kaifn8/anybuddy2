@@ -164,7 +164,7 @@ export default function RequestDetailPage() {
             </div>
             <button onClick={() => setShowInfo(true)}
               className="w-8 h-8 rounded-xl flex items-center justify-center tap-scale hover:bg-muted transition-colors">
-              <Info size={18} className="text-muted-foreground" />
+              <AppIcon name="fc:info" size={18} />
             </button>
           </div>
         </header>
