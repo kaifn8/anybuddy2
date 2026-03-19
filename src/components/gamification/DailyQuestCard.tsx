@@ -73,7 +73,7 @@ export function DailyQuestCard() {
                 'w-9 h-9 rounded-[0.75rem] flex items-center justify-center shrink-0 text-lg',
                 isClaimed ? 'bg-success/10' : 'bg-muted/30'
               )}>
-                {isClaimed ? <CheckCircle2 size={18} className="text-success" /> : quest.emoji}
+                {isClaimed ? <AppIcon name="fc:checkmark" size={18} /> : quest.emoji}
               </div>
 
               {/* Text */}
