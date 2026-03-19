@@ -343,7 +343,7 @@ export default function RequestDetailPage() {
                     message.trim() ? 'opacity-100 hover:scale-105 hover:shadow-xl hover:shadow-primary/30' : 'opacity-30 scale-90'
                   )}
                 >
-                  <Send size={16} className="text-primary-foreground ml-0.5" />
+                  <AppIcon name="fc:share" size={16} className="text-primary-foreground" />
                 </button>
               </div>
             </div>
