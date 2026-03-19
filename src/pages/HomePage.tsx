@@ -12,7 +12,7 @@ import { cn } from '@/lib/utils';
 import { CategoryIcon } from '@/components/icons/CategoryIcon';
 import { AppIcon } from '@/components/icons/AppIcon';
 import { GradientAvatar } from '@/components/ui/GradientAvatar';
-import { SlidersHorizontal, X } from 'lucide-react';
+import { AppIcon } from '@/components/icons/AppIcon';
 import type { Category, Request, Gender } from '@/types/anybuddy';
 
 const FILTERS: { id: Category | 'all'; label: string }[] = [

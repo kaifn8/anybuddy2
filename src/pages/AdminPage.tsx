@@ -4,7 +4,7 @@ import { TopBar } from '@/components/layout/TopBar';
 import { useAppStore } from '@/store/useAppStore';
 import { getCategoryLabel } from '@/components/icons/CategoryIcon';
 import { Button } from '@/components/ui/button';
-import { CheckCircle2, XCircle } from 'lucide-react';
+import { AppIcon } from '@/components/icons/AppIcon';
 import type { Category } from '@/types/anybuddy';
 import { cn } from '@/lib/utils';
 

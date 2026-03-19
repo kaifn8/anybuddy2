@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Send, BadgeCheck, MoreVertical, UserX, Ban, XCircle, X, Info } from 'lucide-react';
+import { MoreVertical, UserX, Ban, XCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { formatDistanceToNow } from 'date-fns';
 import { LocationMapPreview, formatWalkTime } from '@/components/LocationMap';

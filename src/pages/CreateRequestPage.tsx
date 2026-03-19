@@ -7,7 +7,7 @@ import { CategoryIcon } from '@/components/icons/CategoryIcon';
 import type { Category, Urgency } from '@/types/anybuddy';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { ChevronLeft, Pencil, Search, MapPin, Loader2, Navigation } from 'lucide-react';
+import { AppIcon } from '@/components/icons/AppIcon';
 import { LocationMapPicker } from '@/components/LocationMap';
 
 // ── Template data ──────────────────────────────────────────────

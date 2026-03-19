@@ -7,7 +7,7 @@ import { useAppStore } from '@/store/useAppStore';
 import { useGamificationStore } from '@/store/useGamificationStore';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { CheckCheck, ChevronRight } from 'lucide-react';
+
 import { AppIcon } from '@/components/icons/AppIcon';
 import type { Notification } from '@/types/anybuddy';
 

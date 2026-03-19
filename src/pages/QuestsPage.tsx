@@ -7,7 +7,7 @@ import { DailyQuestCard } from '@/components/gamification/DailyQuestCard';
 import { useGamificationStore } from '@/store/useGamificationStore';
 import { ACHIEVEMENTS } from '@/types/gamification';
 import { cn } from '@/lib/utils';
-import { ArrowRight } from 'lucide-react';
+
 import { AppIcon } from '@/components/icons/AppIcon';
 
 const RARITY_STYLES: Record<string, { bg: string; text: string; border: string }> = {

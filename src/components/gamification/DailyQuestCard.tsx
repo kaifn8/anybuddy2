@@ -2,7 +2,7 @@ import { useGamificationStore, QuestProgress } from '@/store/useGamificationStor
 import { getDailyQuests, DailyQuest } from '@/types/gamification';
 import { useAppStore } from '@/store/useAppStore';
 import { cn } from '@/lib/utils';
-import { CheckCircle2, Zap } from 'lucide-react';
+import { AppIcon } from '@/components/icons/AppIcon';
 import { toast } from '@/hooks/use-toast';
 import { useNavigate } from 'react-router-dom';
 

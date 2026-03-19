@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
 import { useTheme } from '@/hooks/useTheme';
 import { cn } from '@/lib/utils';
-import { ChevronRight, Pencil, Check } from 'lucide-react';
+
 import type { Category } from '@/types/anybuddy';
 import { CategoryIcon } from '@/components/icons/CategoryIcon';
 import { AppIcon } from '@/components/icons/AppIcon';
