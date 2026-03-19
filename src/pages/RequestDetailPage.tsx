@@ -343,7 +343,7 @@ export default function RequestDetailPage() {
                     message.trim() ? 'opacity-100 hover:scale-105 hover:shadow-xl hover:shadow-primary/30' : 'opacity-30 scale-90'
                   )}
                 >
-                  <AppIcon name="fc:like" size={16} />
+                  <span className="text-primary-foreground text-base font-bold leading-none">↑</span>
                 </button>
               </div>
             </div>
