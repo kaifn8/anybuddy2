@@ -3,15 +3,15 @@ import type { AppIconName } from '@/components/icons/AppIcon';
 import type { Category } from '@/types/anybuddy';
 
 const iconMap: Record<Category, AppIconName> = {
-  chai:     'fc:advertising',   // warm/coffee vibe — orange cup icon
-  explore:  'fc:trail-flow',    // exploration/travel
-  shopping: 'fc:shop',          // shopping bag
-  work:     'fc:idea',          // coworking / brainstorm
-  help:     'fc:collaboration', // helping hands / teamwork
-  casual:   'fc:like',          // chill / like
-  sports:   'fc:sports-mode',   // sports/activity
-  food:     'fc:biotech',       // closest to food/plate in flat-color
-  walk:     'fc:leave',         // walking / departing
+  chai:     'se:chai',      // clinking mugs — coffee/drinks
+  explore:  'se:explore',   // globe — exploration
+  shopping: 'se:shopping',  // handbag
+  work:     'se:work',      // briefcase
+  help:     'se:help',      // handshake
+  casual:   'se:casual',    // sparkles
+  sports:   'se:sports',    // basketball
+  food:     'se:food',      // hamburger
+  walk:     'se:walk',      // person walking
 };
 
 // Fallback emoji for places that still need a string (e.g. filter chips)
