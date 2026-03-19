@@ -7,7 +7,7 @@ import { CategoryIcon } from '@/components/icons/CategoryIcon';
 import type { Category, Urgency } from '@/types/anybuddy';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { ChevronLeft, Pencil, Search, MapPin, Loader2, Navigation } from 'lucide-react';
+import { AppIcon } from '@/components/icons/AppIcon';
 import { LocationMapPicker } from '@/components/LocationMap';
 
 // ── Template data ──────────────────────────────────────────────
@@ -156,7 +156,7 @@ function LocationSearchField({ location, setLocation, locationCoords, setLocatio
           <p className="text-sm font-semibold text-foreground">{location}</p>
           <p className="text-[10px] text-muted-foreground">Tap to change location</p>
         </div>
-        <Pencil size={14} className="text-muted-foreground shrink-0" />
+        <AppIcon name="fc:bookmark" size={14} className="text-muted-foreground shrink-0 opacity-60" />
       </button>
     );
   }
@@ -165,7 +165,7 @@ function LocationSearchField({ location, setLocation, locationCoords, setLocatio
     <div className="space-y-2.5">
       {/* Search input */}
       <div className="flex items-center gap-2.5 p-3 rounded-xl liquid-glass">
-        <Search size={16} className="text-muted-foreground shrink-0" />
+        <AppIcon name="fc:search" size={16} className="text-muted-foreground shrink-0" />
         <input
           ref={inputRef}
           autoFocus
@@ -174,14 +174,14 @@ function LocationSearchField({ location, setLocation, locationCoords, setLocatio
           className="flex-1 bg-transparent text-sm font-medium focus:outline-none placeholder:text-muted-foreground/50"
           placeholder="Search for a place..."
         />
-        {isSearching && <Loader2 size={14} className="text-muted-foreground animate-spin shrink-0" />}
+        {isSearching && <span className="w-3.5 h-3.5 border-2 border-muted-foreground/30 border-t-muted-foreground rounded-full animate-spin shrink-0" />}
       </div>
 
       {/* Auto-detect button */}
       <button onClick={detectLocation} disabled={isLocating}
         className="w-full flex items-center gap-2.5 p-3 rounded-xl liquid-glass tap-scale text-left">
         <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-          {isLocating ? <Loader2 size={14} className="text-primary animate-spin" /> : <Navigation size={14} className="text-primary" />}
+          {isLocating ? <span className="w-3.5 h-3.5 border-2 border-primary/30 border-t-primary rounded-full animate-spin" /> : <AppIcon name="fc:globe" size={14} />}
         </div>
         <div>
           <p className="text-[12px] font-semibold text-foreground">{isLocating ? 'Detecting...' : 'Use current location'}</p>
@@ -196,7 +196,7 @@ function LocationSearchField({ location, setLocation, locationCoords, setLocatio
           {searchResults.map((place, i) => (
             <button key={i} onClick={() => selectPlace(place)}
               className="w-full flex items-center gap-2.5 p-2.5 rounded-lg tap-scale text-left hover:bg-muted/30 transition-colors">
-              <MapPin size={14} className="text-primary shrink-0" />
+              <AppIcon name="fc:globe" size={14} className="shrink-0" />
               <div>
                 <p className="text-[12px] font-semibold text-foreground">{place.name}</p>
                 {place.area && <p className="text-[10px] text-muted-foreground">{place.area}</p>}
@@ -214,7 +214,7 @@ function LocationSearchField({ location, setLocation, locationCoords, setLocatio
             {filteredPopular.slice(0, 6).map((place) => (
               <button key={place.name} onClick={() => selectPlace(place)}
                 className="flex items-center gap-2 p-2.5 rounded-lg liquid-glass tap-scale text-left">
-                <MapPin size={12} className="text-primary shrink-0" />
+                <AppIcon name="fc:globe" size={12} className="shrink-0" />
                 <div className="min-w-0">
                   <p className="text-[11px] font-semibold text-foreground truncate">{place.name}</p>
                   <p className="text-[9px] text-muted-foreground">{place.area}</p>
@@ -386,7 +386,7 @@ export default function CreateRequestPage() {
       <div className="flex items-center gap-3 px-5 pt-4 pb-2">
         <button onClick={() => step === 'pick' ? navigate(-1) : setStep(step === 'preview' ? 'customize' : 'pick')}
           className="w-8 h-8 rounded-full flex items-center justify-center tap-scale hover:bg-muted/50">
-          <ChevronLeft size={20} />
+          <span className="text-lg font-medium">←</span>
         </button>
         <h1 className="text-lg font-bold">
           {step === 'pick' ? 'New Plan' : step === 'customize' ? 'Customize' : 'Ready?'}
@@ -410,7 +410,7 @@ export default function CreateRequestPage() {
                 {QUICK_STARTS.map((qs, i) => (
                   <button key={i} onClick={() => selectQuickStart(qs)}
                     className="w-full flex items-center gap-3 p-3.5 rounded-2xl liquid-glass tap-scale text-left transition-all hover:shadow-md active:scale-[0.98]">
-                    <span className="text-2xl">{qs.emoji}</span>
+                    <CategoryIcon category={qs.category} size="sm" className="liquid-glass shrink-0" />
                     <div className="flex-1">
                       <p className="text-sm font-semibold">{qs.text}</p>
                       <p className="text-[10px] text-muted-foreground">📍 {location} · 👥 {qs.seats} people</p>
@@ -428,7 +428,7 @@ export default function CreateRequestPage() {
                 {TEMPLATES.map((t) => (
                   <button key={t.category} onClick={() => selectTemplate(t)}
                     className="flex flex-col items-center gap-1.5 py-4 px-2 rounded-2xl liquid-glass tap-scale transition-all hover:shadow-md active:scale-[0.96]">
-                    <span className="text-2xl">{t.emoji}</span>
+                    <CategoryIcon category={t.category} size="sm" />
                     <span className="text-[11px] font-medium text-foreground">{t.label}</span>
                   </button>
                 ))}
@@ -459,7 +459,7 @@ export default function CreateRequestPage() {
                 <button onClick={() => setEditingTitle(true)}
                   className="w-full flex items-center justify-between h-11 px-4 rounded-xl liquid-glass tap-scale">
                   <span className="text-sm font-semibold truncate">{title}</span>
-                  <Pencil size={14} className="text-muted-foreground shrink-0" />
+                  <AppIcon name="fc:bookmark" size={14} className="opacity-50 shrink-0" />
                 </button>
               )}
             </div>

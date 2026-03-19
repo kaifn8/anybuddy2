@@ -4,7 +4,7 @@ import { TopBar } from '@/components/layout/TopBar';
 import { useAppStore } from '@/store/useAppStore';
 import { getCategoryLabel } from '@/components/icons/CategoryIcon';
 import { Button } from '@/components/ui/button';
-import { CheckCircle2, XCircle } from 'lucide-react';
+import { AppIcon } from '@/components/icons/AppIcon';
 import type { Category } from '@/types/anybuddy';
 import { cn } from '@/lib/utils';
 
@@ -122,7 +122,7 @@ export default function AdminPage() {
                         className="flex-1 h-9 text-[12px]"
                         onClick={() => rejectVerification(v.userId)}
                       >
-                        <XCircle size={14} className="mr-1" />
+                        <AppIcon name="fc:cancel" size={14} className="mr-1" />
                         Reject
                       </Button>
                       <Button
@@ -130,7 +130,7 @@ export default function AdminPage() {
                         className="flex-1 h-9 text-[12px]"
                         onClick={() => approveVerification(v.userId)}
                       >
-                        <CheckCircle2 size={14} className="mr-1" />
+                        <AppIcon name="fc:checkmark" size={14} className="mr-1" />
                         Approve
                       </Button>
                     </div>

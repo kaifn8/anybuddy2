@@ -2,7 +2,7 @@ import { useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 import { BottomNav } from '@/components/layout/BottomNav';
-import { getCategoryEmoji } from '@/components/icons/CategoryIcon';
+import { CategoryIcon } from '@/components/icons/CategoryIcon';
 import { useAppStore } from '@/store/useAppStore';
 import { useGamificationStore } from '@/store/useGamificationStore';
 import { Button } from '@/components/ui/button';
@@ -12,7 +12,7 @@ import { BlueTick } from '@/components/ui/BlueTick';
 import { VerificationCard } from '@/components/profile/VerificationCard';
 import { getLevelForXP, getNextLevel, getXPProgress } from '@/types/gamification';
 import { cn } from '@/lib/utils';
-import { ChevronRight } from 'lucide-react';
+
 import { AppIcon } from '@/components/icons/AppIcon';
 import type { Badge, Request } from '@/types/anybuddy';
 
@@ -197,7 +197,7 @@ export default function ProfilePage() {
                 </p>
               </div>
               {!streakAlive && <span className="text-[10px] font-bold text-destructive shrink-0">At risk</span>}
-              {streakAlive && <ChevronRight size={14} className="text-muted-foreground/30 shrink-0" />}
+              {streakAlive && <span className="text-muted-foreground/30 text-sm shrink-0">›</span>}
             </button>
           )}
 
@@ -230,7 +230,7 @@ export default function ProfilePage() {
                 {user.interests.map((i) => (
                   <span key={i}
                     className="flex items-center gap-1 px-2.5 py-1 text-[11px] font-medium liquid-glass rounded-full text-muted-foreground">
-                    {getCategoryEmoji(i)}
+                    <CategoryIcon category={i} size="sm" className="!w-4 !h-4 !rounded-md bg-transparent" />
                     <span className="capitalize">{i}</span>
                   </span>
                 ))}
@@ -269,7 +269,7 @@ export default function ProfilePage() {
                 {recentActivity.map(({ req, tag }) => (
                   <button key={req.id + tag} onClick={() => navigate(`/request/${req.id}`)}
                     className="w-full liquid-glass-interactive flex items-center gap-3 p-3 text-left">
-                    <span className="text-base shrink-0">{getCategoryEmoji(req.category)}</span>
+                    <CategoryIcon category={req.category} size="sm" className="shrink-0 !w-7 !h-7 liquid-glass" />
                     <div className="flex-1 min-w-0">
                       <p className="text-[13px] font-semibold text-foreground truncate tracking-tight">{req.title}</p>
                       <p className="text-[10px] text-muted-foreground/50 mt-0.5">📍 {req.location.name}</p>

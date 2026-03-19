@@ -7,7 +7,7 @@ import { DailyQuestCard } from '@/components/gamification/DailyQuestCard';
 import { useGamificationStore } from '@/store/useGamificationStore';
 import { ACHIEVEMENTS } from '@/types/gamification';
 import { cn } from '@/lib/utils';
-import { ArrowRight } from 'lucide-react';
+
 import { AppIcon } from '@/components/icons/AppIcon';
 
 const RARITY_STYLES: Record<string, { bg: string; text: string; border: string }> = {
@@ -74,7 +74,7 @@ export default function QuestsPage() {
               <p className="text-[13px] font-bold text-foreground tracking-tight">Weekly Leaderboard</p>
               <p className="text-[11px] text-muted-foreground mt-0.5">See who's most active in Mumbai</p>
             </div>
-            <ArrowRight size={16} className="text-muted-foreground/40 shrink-0" />
+            <span className="text-[12px] text-muted-foreground/40 shrink-0">→</span>
           </button>
 
           {/* Achievements grid */}

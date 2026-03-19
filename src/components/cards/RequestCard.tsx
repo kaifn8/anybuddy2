@@ -10,7 +10,7 @@ import { GradientAvatar } from '@/components/ui/GradientAvatar';
 import { BlueTick } from '@/components/ui/BlueTick';
 import { useAppStore } from '@/store/useAppStore';
 import { cn } from '@/lib/utils';
-import { Heart, Share2 } from 'lucide-react';
+import { AppIcon } from '@/components/icons/AppIcon';
 
 interface RequestCardProps {
   request: Request;
@@ -179,10 +179,10 @@ export function RequestCard({ request, onJoin, onView, isJoined, className }: Re
           
           <div className="flex items-center gap-1">
             <button onClick={handleSaveClick} className="tap-scale p-1.5 rounded-full hover:bg-muted/50 transition-colors">
-              <Heart size={14} className={cn('transition-colors', isSaved ? 'fill-destructive text-destructive' : 'text-muted-foreground')} />
+              <AppIcon name="fc:like" size={14} className={cn('transition-colors', isSaved ? '' : 'grayscale opacity-50')} />
             </button>
             <button onClick={handleShareClick} className="tap-scale p-1.5 rounded-full hover:bg-muted/50 transition-colors">
-              <Share2 size={14} className="text-muted-foreground" />
+              <AppIcon name="fc:share" size={14} />
             </button>
           </div>
         </div>

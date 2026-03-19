@@ -2,7 +2,7 @@ import { useGamificationStore, QuestProgress } from '@/store/useGamificationStor
 import { getDailyQuests, DailyQuest } from '@/types/gamification';
 import { useAppStore } from '@/store/useAppStore';
 import { cn } from '@/lib/utils';
-import { CheckCircle2, Zap } from 'lucide-react';
+import { AppIcon } from '@/components/icons/AppIcon';
 import { toast } from '@/hooks/use-toast';
 import { useNavigate } from 'react-router-dom';
 
@@ -73,7 +73,7 @@ export function DailyQuestCard() {
                 'w-9 h-9 rounded-[0.75rem] flex items-center justify-center shrink-0 text-lg',
                 isClaimed ? 'bg-success/10' : 'bg-muted/30'
               )}>
-                {isClaimed ? <CheckCircle2 size={18} className="text-success" /> : quest.emoji}
+                {isClaimed ? <AppIcon name="fc:checkmark" size={18} /> : quest.emoji}
               </div>
 
               {/* Text */}
@@ -107,7 +107,7 @@ export function DailyQuestCard() {
               <div className="shrink-0 text-right">
                 {prog.completed && !isClaimed ? (
                   <div className="flex items-center gap-1 px-2 py-1 rounded-full bg-primary text-primary-foreground">
-                    <Zap size={10} />
+                    <AppIcon name="se:sparkles" size={10} />
                     <span className="text-[10px] font-bold">Claim</span>
                   </div>
                 ) : (

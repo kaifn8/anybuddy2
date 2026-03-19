@@ -12,7 +12,6 @@ import { cn } from '@/lib/utils';
 import { CategoryIcon } from '@/components/icons/CategoryIcon';
 import { AppIcon } from '@/components/icons/AppIcon';
 import { GradientAvatar } from '@/components/ui/GradientAvatar';
-import { SlidersHorizontal, X } from 'lucide-react';
 import type { Category, Request, Gender } from '@/types/anybuddy';
 
 const FILTERS: { id: Category | 'all'; label: string }[] = [
@@ -259,7 +258,7 @@ export default function HomePage() {
                   ? 'bg-primary text-primary-foreground'
                   : 'liquid-glass text-muted-foreground'
               )}>
-              {showFilters ? <X size={13} /> : <SlidersHorizontal size={13} />}
+              {showFilters ? <AppIcon name="fc:cancel" size={13} /> : <AppIcon name="fc:settings" size={13} />}
             </button>
           </div>
         </div>

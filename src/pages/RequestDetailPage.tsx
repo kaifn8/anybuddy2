@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Send, BadgeCheck, MoreVertical, UserX, Ban, XCircle, X, Info } from 'lucide-react';
+import { MoreVertical, UserX, Ban, XCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { formatDistanceToNow } from 'date-fns';
 import { LocationMapPreview, formatWalkTime } from '@/components/LocationMap';
@@ -164,7 +164,7 @@ export default function RequestDetailPage() {
             </div>
             <button onClick={() => setShowInfo(true)}
               className="w-8 h-8 rounded-xl flex items-center justify-center tap-scale hover:bg-muted transition-colors">
-              <Info size={18} className="text-muted-foreground" />
+              <AppIcon name="fc:info" size={18} />
             </button>
           </div>
         </header>
@@ -343,7 +343,7 @@ export default function RequestDetailPage() {
                     message.trim() ? 'opacity-100 hover:scale-105 hover:shadow-xl hover:shadow-primary/30' : 'opacity-30 scale-90'
                   )}
                 >
-                  <Send size={16} className="text-primary-foreground ml-0.5" />
+                  <span className="text-primary-foreground text-base font-bold leading-none">↑</span>
                 </button>
               </div>
             </div>
@@ -374,7 +374,7 @@ export default function RequestDetailPage() {
                 <div className="flex items-center justify-between">
                   <h2 className="text-[15px] font-bold">Plan Details</h2>
                   <button onClick={() => setShowInfo(false)} className="w-8 h-8 rounded-full bg-muted/50 flex items-center justify-center tap-scale">
-                    <X size={16} className="text-muted-foreground" />
+                    <AppIcon name="fc:cancel" size={16} />
                   </button>
                 </div>
               </div>
@@ -442,7 +442,7 @@ export default function RequestDetailPage() {
                     <div className="flex-1">
                       <p className="text-sm font-semibold flex items-center gap-1">
                         {request.userName}
-                        {(request.userTrust === 'trusted' || request.userTrust === 'anchor') && <BadgeCheck size={14} className="text-primary" strokeWidth={2.5} />}
+                        {(request.userTrust === 'trusted' || request.userTrust === 'anchor') && <AppIcon name="fc:vip" size={14} />}
                       </p>
                       <div className="flex items-center gap-2">
                         <TrustBadge level={request.userTrust} size="sm" />
@@ -650,7 +650,7 @@ export default function RequestDetailPage() {
             <div className="flex-1">
               <p className="text-sm font-semibold flex items-center gap-1">
                 {request.userName}
-                {(request.userTrust === 'trusted' || request.userTrust === 'anchor') && <BadgeCheck size={14} className="text-primary" strokeWidth={2.5} />}
+                {(request.userTrust === 'trusted' || request.userTrust === 'anchor') && <AppIcon name="fc:vip" size={14} />}
               </p>
               <div className="flex items-center gap-2">
                 <TrustBadge level={request.userTrust} size="sm" />

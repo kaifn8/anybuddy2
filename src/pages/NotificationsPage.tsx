@@ -7,7 +7,7 @@ import { useAppStore } from '@/store/useAppStore';
 import { useGamificationStore } from '@/store/useGamificationStore';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { CheckCheck, ChevronRight } from 'lucide-react';
+
 import { AppIcon } from '@/components/icons/AppIcon';
 import type { Notification } from '@/types/anybuddy';
 
@@ -148,7 +148,7 @@ function NotifItem({
               <p className="text-[10px] text-muted-foreground/40 font-medium">{timeAgo}</p>
               {n.requestId && (
                 <span className={cn('text-[10px] font-semibold flex items-center gap-0.5', cfg.color)}>
-                  View <ChevronRight size={10} />
+                  View →
                 </span>
               )}
             </div>
@@ -245,7 +245,7 @@ export default function NotificationsPage() {
             {unreadCount > 0 && (
               <button onClick={markAllRead}
                 className="flex items-center gap-1.5 px-3 py-1.5 text-[11px] text-primary font-bold tap-scale liquid-glass rounded-full">
-                <CheckCheck size={12} />
+                <AppIcon name="fc:checkmark" size={12} />
                 Mark all read
               </button>
             )}

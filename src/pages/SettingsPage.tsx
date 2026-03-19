@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
 import { useTheme } from '@/hooks/useTheme';
 import { cn } from '@/lib/utils';
-import { ChevronRight, Pencil, Check } from 'lucide-react';
+
 import type { Category } from '@/types/anybuddy';
 import { CategoryIcon } from '@/components/icons/CategoryIcon';
 import { AppIcon } from '@/components/icons/AppIcon';
@@ -96,8 +96,8 @@ export default function SettingsPage() {
                 </span>
               </div>
               <div className="flex items-center gap-1.5 shrink-0">
-                <Pencil size={13} className="text-muted-foreground/50" />
-                <ChevronRight size={14} className="text-muted-foreground/30" />
+                <AppIcon name="fc:bookmark" size={13} className="opacity-50" />
+                <span className="text-muted-foreground/30 text-sm">›</span>
               </div>
             </div>
           </button>
@@ -113,7 +113,7 @@ export default function SettingsPage() {
                 <button onClick={handleSaveProfile}
                   className="text-[11px] font-bold px-2.5 py-1 rounded-full tap-scale flex items-center gap-1"
                   style={{ background: 'hsl(var(--primary))', color: 'hsl(var(--primary-foreground))' }}>
-                  <Check size={11} /> Save
+                  <AppIcon name="fc:checkmark" size={11} /> Save
                 </button>
               </div>
             </div>
@@ -245,7 +245,7 @@ function SettingsLink({ icon, label, value, onClick, soon }: {
         {value && <span className="text-[12px] text-muted-foreground">{value}</span>}
         {soon
           ? <span className="text-[8px] font-bold bg-muted/60 text-muted-foreground px-1.5 py-0.5 rounded-full uppercase tracking-wider">Soon</span>
-          : <ChevronRight size={14} className="text-muted-foreground/30" />}
+          : <span className="text-muted-foreground/30 text-sm">›</span>}
       </div>
     </button>
   );
