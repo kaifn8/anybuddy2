@@ -96,7 +96,7 @@ export default function SettingsPage() {
                 </span>
               </div>
               <div className="flex items-center gap-1.5 shrink-0">
-                <AppIcon name="fc:edit-image" size={13} className="opacity-50" />
+                <AppIcon name="fc:bookmark" size={13} className="opacity-50" />
                 <span className="text-muted-foreground/30 text-sm">›</span>
               </div>
             </div>

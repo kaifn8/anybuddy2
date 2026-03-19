@@ -197,7 +197,7 @@ export default function ProfilePage() {
                 </p>
               </div>
               {!streakAlive && <span className="text-[10px] font-bold text-destructive shrink-0">At risk</span>}
-              {streakAlive && <AppIcon name="fc:right-down2" size={14} className="text-muted-foreground/30 shrink-0 opacity-30" />}
+              {streakAlive && <span className="text-muted-foreground/30 text-sm shrink-0">›</span>}
             </button>
           )}
 
