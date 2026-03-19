@@ -155,17 +155,17 @@ export default function OnboardingPage() {
               <div className="absolute bottom-0 left-0 right-0 px-4 pb-4 pt-10 bg-gradient-to-t from-background via-background/90 to-transparent z-30">
                 {/* Activity chips */}
                 <div className="flex justify-center gap-2.5 mb-3">
-                  {[
-                    { emoji: '☕', count: 3 },
-                    { emoji: '🚶', count: 2 },
-                    { emoji: '🏸', count: 4 },
-                    { emoji: '🍜', count: 1 },
-                  ].map((a, i) => (
+                  {(
+                    [
+                      { category: 'chai' as Category, count: 3 },
+                      { category: 'walk' as Category, count: 2 },
+                      { category: 'sports' as Category, count: 4 },
+                      { category: 'food' as Category, count: 1 },
+                    ] as { category: Category; count: number }[]
+                  ).map((a, i) => (
                     <div key={i} className="flex flex-col items-center gap-1"
                       style={{ animation: 'scale-in 0.3s ease-out both', animationDelay: `${0.4 + i * 0.08}s` }}>
-                      <div className="w-11 h-11 rounded-2xl liquid-glass flex items-center justify-center text-lg">
-                        {a.emoji}
-                      </div>
+                      <CategoryIcon category={a.category} size="md" className="liquid-glass" />
                       <span className="text-[8px] font-bold text-muted-foreground">{a.count} plans</span>
                     </div>
                   ))}
