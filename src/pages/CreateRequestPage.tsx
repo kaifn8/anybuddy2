@@ -410,7 +410,7 @@ export default function CreateRequestPage() {
                 {QUICK_STARTS.map((qs, i) => (
                   <button key={i} onClick={() => selectQuickStart(qs)}
                     className="w-full flex items-center gap-3 p-3.5 rounded-2xl liquid-glass tap-scale text-left transition-all hover:shadow-md active:scale-[0.98]">
-                    <span className="text-2xl">{qs.emoji}</span>
+                    <CategoryIcon category={qs.category} size="sm" className="liquid-glass shrink-0" />
                     <div className="flex-1">
                       <p className="text-sm font-semibold">{qs.text}</p>
                       <p className="text-[10px] text-muted-foreground">📍 {location} · 👥 {qs.seats} people</p>
@@ -428,7 +428,7 @@ export default function CreateRequestPage() {
                 {TEMPLATES.map((t) => (
                   <button key={t.category} onClick={() => selectTemplate(t)}
                     className="flex flex-col items-center gap-1.5 py-4 px-2 rounded-2xl liquid-glass tap-scale transition-all hover:shadow-md active:scale-[0.96]">
-                    <span className="text-2xl">{t.emoji}</span>
+                    <CategoryIcon category={t.category} size="sm" />
                     <span className="text-[11px] font-medium text-foreground">{t.label}</span>
                   </button>
                 ))}
