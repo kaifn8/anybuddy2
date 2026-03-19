@@ -130,7 +130,7 @@ export default function AdminPage() {
                         className="flex-1 h-9 text-[12px]"
                         onClick={() => approveVerification(v.userId)}
                       >
-                        <CheckCircle2 size={14} className="mr-1" />
+                        <AppIcon name="fc:checkmark" size={14} className="mr-1" />
                         Approve
                       </Button>
                     </div>

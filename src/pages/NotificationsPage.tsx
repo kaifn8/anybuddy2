@@ -245,7 +245,7 @@ export default function NotificationsPage() {
             {unreadCount > 0 && (
               <button onClick={markAllRead}
                 className="flex items-center gap-1.5 px-3 py-1.5 text-[11px] text-primary font-bold tap-scale liquid-glass rounded-full">
-                <CheckCheck size={12} />
+                <AppIcon name="fc:checkmark" size={12} />
                 Mark all read
               </button>
             )}

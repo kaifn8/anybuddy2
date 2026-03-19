@@ -107,7 +107,7 @@ export function DailyQuestCard() {
               <div className="shrink-0 text-right">
                 {prog.completed && !isClaimed ? (
                   <div className="flex items-center gap-1 px-2 py-1 rounded-full bg-primary text-primary-foreground">
-                    <Zap size={10} />
+                    <AppIcon name="se:sparkles" size={10} />
                     <span className="text-[10px] font-bold">Claim</span>
                   </div>
                 ) : (

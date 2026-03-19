@@ -245,7 +245,7 @@ function SettingsLink({ icon, label, value, onClick, soon }: {
         {value && <span className="text-[12px] text-muted-foreground">{value}</span>}
         {soon
           ? <span className="text-[8px] font-bold bg-muted/60 text-muted-foreground px-1.5 py-0.5 rounded-full uppercase tracking-wider">Soon</span>
-          : <ChevronRight size={14} className="text-muted-foreground/30" />}
+          : <span className="text-muted-foreground/30 text-sm">›</span>}
       </div>
     </button>
   );

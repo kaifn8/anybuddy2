@@ -650,7 +650,7 @@ export default function RequestDetailPage() {
             <div className="flex-1">
               <p className="text-sm font-semibold flex items-center gap-1">
                 {request.userName}
-                {(request.userTrust === 'trusted' || request.userTrust === 'anchor') && <BadgeCheck size={14} className="text-primary" strokeWidth={2.5} />}
+                {(request.userTrust === 'trusted' || request.userTrust === 'anchor') && <AppIcon name="fc:vip" size={14} />}
               </p>
               <div className="flex items-center gap-2">
                 <TrustBadge level={request.userTrust} size="sm" />

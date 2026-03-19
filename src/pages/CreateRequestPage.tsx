@@ -459,7 +459,7 @@ export default function CreateRequestPage() {
                 <button onClick={() => setEditingTitle(true)}
                   className="w-full flex items-center justify-between h-11 px-4 rounded-xl liquid-glass tap-scale">
                   <span className="text-sm font-semibold truncate">{title}</span>
-                  <Pencil size={14} className="text-muted-foreground shrink-0" />
+                  <AppIcon name="fc:edit-image" size={14} className="opacity-50 shrink-0" />
                 </button>
               )}
             </div>

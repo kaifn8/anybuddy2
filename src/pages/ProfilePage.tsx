@@ -269,7 +269,7 @@ export default function ProfilePage() {
                 {recentActivity.map(({ req, tag }) => (
                   <button key={req.id + tag} onClick={() => navigate(`/request/${req.id}`)}
                     className="w-full liquid-glass-interactive flex items-center gap-3 p-3 text-left">
-                    <span className="text-base shrink-0">{getCategoryEmoji(req.category)}</span>
+                    <CategoryIcon category={req.category} size="sm" className="shrink-0 !w-7 !h-7 liquid-glass" />
                     <div className="flex-1 min-w-0">
                       <p className="text-[13px] font-semibold text-foreground truncate tracking-tight">{req.title}</p>
                       <p className="text-[10px] text-muted-foreground/50 mt-0.5">📍 {req.location.name}</p>

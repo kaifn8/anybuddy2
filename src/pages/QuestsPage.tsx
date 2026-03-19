@@ -74,7 +74,7 @@ export default function QuestsPage() {
               <p className="text-[13px] font-bold text-foreground tracking-tight">Weekly Leaderboard</p>
               <p className="text-[11px] text-muted-foreground mt-0.5">See who's most active in Mumbai</p>
             </div>
-            <ArrowRight size={16} className="text-muted-foreground/40 shrink-0" />
+            <span className="text-[12px] text-muted-foreground/40 shrink-0">→</span>
           </button>
 
           {/* Achievements grid */}

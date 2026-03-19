@@ -258,7 +258,7 @@ export default function HomePage() {
                   ? 'bg-primary text-primary-foreground'
                   : 'liquid-glass text-muted-foreground'
               )}>
-              {showFilters ? <X size={13} /> : <SlidersHorizontal size={13} />}
+              {showFilters ? <AppIcon name="fc:cancel" size={13} /> : <AppIcon name="fc:settings" size={13} />}
             </button>
           </div>
         </div>
