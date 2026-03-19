@@ -196,7 +196,7 @@ function LocationSearchField({ location, setLocation, locationCoords, setLocatio
           {searchResults.map((place, i) => (
             <button key={i} onClick={() => selectPlace(place)}
               className="w-full flex items-center gap-2.5 p-2.5 rounded-lg tap-scale text-left hover:bg-muted/30 transition-colors">
-              <MapPin size={14} className="text-primary shrink-0" />
+              <AppIcon name="fc:globe" size={14} className="shrink-0" />
               <div>
                 <p className="text-[12px] font-semibold text-foreground">{place.name}</p>
                 {place.area && <p className="text-[10px] text-muted-foreground">{place.area}</p>}
