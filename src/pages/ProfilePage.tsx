@@ -12,7 +12,7 @@ import { BlueTick } from '@/components/ui/BlueTick';
 import { VerificationCard } from '@/components/profile/VerificationCard';
 import { getLevelForXP, getNextLevel, getXPProgress } from '@/types/gamification';
 import { cn } from '@/lib/utils';
-import { ChevronRight } from 'lucide-react';
+
 import { AppIcon } from '@/components/icons/AppIcon';
 import type { Badge, Request } from '@/types/anybuddy';
 
