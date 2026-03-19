@@ -122,7 +122,7 @@ export default function AdminPage() {
                         className="flex-1 h-9 text-[12px]"
                         onClick={() => rejectVerification(v.userId)}
                       >
-                        <XCircle size={14} className="mr-1" />
+                        <AppIcon name="fc:cancel" size={14} className="mr-1" />
                         Reject
                       </Button>
                       <Button
