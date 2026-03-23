@@ -91,6 +91,12 @@ export type AppIconName =
   | 'tw:man'
   | 'tw:woman'
   | 'tw:globe'
+  | 'tw:trophy'
+  | 'tw:shield'
+  | 'tw:seedling'
+  | 'tw:handshake'
+  | 'tw:edit'
+  | 'tw:camera'
   // twemoji — category icons
   | 'se:chai'
   | 'se:food'
@@ -179,6 +185,12 @@ const ICON_MAP: Record<AppIconName, string> = {
   'tw:man':         'twemoji:man',
   'tw:woman':       'twemoji:woman',
   'tw:globe':       'twemoji:world-map',
+  'tw:trophy':      'twemoji:trophy',
+  'tw:shield':      'twemoji:shield',
+  'tw:seedling':    'twemoji:seedling',
+  'tw:handshake':   'twemoji:handshake',
+  'tw:edit':        'twemoji:pencil',
+  'tw:camera':      'twemoji:camera',
   // twemoji — category icons
   'se:chai':     'twemoji:hot-beverage',
   'se:food':     'twemoji:fork-and-knife-with-plate',
