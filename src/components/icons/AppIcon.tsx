@@ -1,15 +1,17 @@
 /**
  * AppIcon — Central color-icon wrapper using Iconify with bundled icon sets.
- * Uses flat-color-icons (MIT, Icons8) and streamline-emojis for all app UI icons.
+ * Uses flat-color-icons (MIT, Icons8) for UI icons and twemoji for category/emoji icons.
  * Icons are bundled locally (no API call needed).
  */
 import { Icon, addCollection } from '@iconify/react';
 import flatColorIconsData from '@iconify-json/flat-color-icons/icons.json';
 import streamlineEmojisData from '@iconify-json/streamline-emojis/icons.json';
+import twemojiData from '@iconify-json/twemoji/icons.json';
 
 // Register the icon sets once
 addCollection(flatColorIconsData as Parameters<typeof addCollection>[0]);
 addCollection(streamlineEmojisData as Parameters<typeof addCollection>[0]);
+addCollection(twemojiData as Parameters<typeof addCollection>[0]);
 
 export type AppIconName =
   // flat-color-icons
@@ -54,7 +56,7 @@ export type AppIconName =
   | 'fc:reading'
   | 'fc:camera'
   | 'fc:leave'
-  // streamline-emojis
+  // streamline-emojis (non-category)
   | 'se:bell'
   | 'se:bell-with-slash'
   | 'se:fire'
@@ -63,7 +65,7 @@ export type AppIconName =
   | 'se:sparkles'
   | 'se:trophy-1'
   | 'se:map-1'
-  // category icons (streamline-emojis)
+  // category icons (twemoji — Instagram-style flat colorful)
   | 'se:chai'
   | 'se:food'
   | 'se:sports'
@@ -117,6 +119,7 @@ const ICON_MAP: Record<AppIconName, string> = {
   'fc:reading': 'flat-color-icons:reading',
   'fc:camera': 'flat-color-icons:camera',
   'fc:leave': 'flat-color-icons:leave',
+  // streamline-emojis (non-category badges/indicators)
   'se:bell': 'streamline-emojis:bell',
   'se:bell-with-slash': 'streamline-emojis:bell-with-slash',
   'se:fire': 'streamline-emojis:fire',
@@ -125,16 +128,16 @@ const ICON_MAP: Record<AppIconName, string> = {
   'se:sparkles': 'streamline-emojis:sparkles',
   'se:trophy-1': 'streamline-emojis:trophy-1',
   'se:map-1': 'streamline-emojis:globe-showing-europe-africa',
-  // category icons — semantically correct streamline-emojis
-  'se:chai':     'streamline-emojis:clinking-beer-mugs',   // coffee/drinks vibe
-  'se:food':     'streamline-emojis:hamburger-1',           // food
-  'se:sports':   'streamline-emojis:basketball',            // sports
-  'se:walk':     'streamline-emojis:man-walking-1',         // walk
-  'se:explore':  'streamline-emojis:globe-showing-europe-africa', // explore
-  'se:work':     'streamline-emojis:briefcase',             // work
-  'se:shopping': 'streamline-emojis:handbag',               // shopping
-  'se:help':     'streamline-emojis:handshake',             // help/collaborate
-  'se:casual':   'streamline-emojis:sparkles',              // casual/chill
+  // category icons — twemoji (Instagram-style flat colorful emoji)
+  'se:chai':     'twemoji:hot-beverage',        // ☕ coffee/chai
+  'se:food':     'twemoji:fork-and-knife-with-plate', // 🍽 food
+  'se:sports':   'twemoji:basketball',           // 🏀 sports
+  'se:walk':     'twemoji:person-walking',       // 🚶 walk
+  'se:explore':  'twemoji:compass',              // 🧭 explore
+  'se:work':     'twemoji:laptop',               // 💻 work
+  'se:shopping': 'twemoji:shopping-bags',        // 🛍 shopping
+  'se:help':     'twemoji:handshake',            // 🤝 help
+  'se:casual':   'twemoji:sparkles',             // ✨ casual
 };
 
 interface AppIconProps {
