@@ -308,7 +308,7 @@ export default function CreateRequestPage() {
 
   const selectQuickStart = (qs: typeof QUICK_STARTS[number]) => {
     setCategory(qs.category);
-    setTitle(`${qs.emoji} ${qs.text}`);
+    setTitle(qs.text);
     setTimeMinutes(qs.minutes);
     setUrgency(qs.minutes <= 30 ? 'now' : 'today');
     setSeats(qs.seats);
