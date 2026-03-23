@@ -8,22 +8,22 @@ import { AppIcon } from '@/components/icons/AppIcon';
 
 // Core 5-tab nav: Home | Map | Post | Notifications | Me
 const navItems = [
-  { name: 'Home',    path: '/home',          icon: 'fc:home'          },
-  { name: 'Map',     path: '/map',           icon: 'fc:globe'         },
+  { name: 'Home',    path: '/home',          icon: 'tw:home'          },
+  { name: 'Map',     path: '/map',           icon: 'tw:map'           },
   { name: 'Post',    path: '/create',        icon: 'fc:plus',  isMain: true },
-  { name: 'Alerts',  path: '/notifications', icon: 'se:bell'          },
+  { name: 'Alerts',  path: '/notifications', icon: 'tw:bell'          },
   { name: 'Me',      path: '/profile',       icon: null               },
 ] as const;
 
 // Desktop sidebar — all sections
 const desktopItems = [
-  { name: 'Home',          path: '/home',          icon: 'fc:home'           },
-  { name: 'Map',           path: '/map',           icon: 'fc:globe'          },
-  { name: 'Chats',         path: '/chats',         icon: 'fc:comments'       },
-  { name: 'Notifications', path: '/notifications', icon: 'se:bell'           },
-  { name: 'Quests',        path: '/quests',        icon: 'fc:todo-list'      },
-  { name: 'My Circle',     path: '/circle',        icon: 'fc:conference-call'},
-  { name: 'Leaderboard',   path: '/leaderboard',   icon: 'fc:statistics'     },
+  { name: 'Home',          path: '/home',          icon: 'tw:home'           },
+  { name: 'Map',           path: '/map',           icon: 'tw:map'            },
+  { name: 'Chats',         path: '/chats',         icon: 'tw:chat'           },
+  { name: 'Notifications', path: '/notifications', icon: 'tw:bell'           },
+  { name: 'Quests',        path: '/quests',        icon: 'tw:quests'         },
+  { name: 'My Circle',     path: '/circle',        icon: 'tw:circle'         },
+  { name: 'Leaderboard',   path: '/leaderboard',   icon: 'tw:leaderboard'    },
 ] as const;
 
 export const BottomNav = () => {
@@ -125,7 +125,7 @@ export const BottomNav = () => {
           </button>
           <button onClick={() => navigate('/settings')}
             className="flex items-center gap-3 px-3 py-2.5 rounded-xl tap-scale text-muted-foreground hover:bg-muted/40 hover:text-foreground transition-all w-full text-left">
-            <AppIcon name="fc:settings" size={20} className="opacity-60" />
+            <AppIcon name="tw:settings" size={20} className="opacity-60" />
             <span className="text-[13px]">Settings</span>
           </button>
         </div>
