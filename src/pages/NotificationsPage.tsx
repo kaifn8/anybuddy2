@@ -303,7 +303,7 @@ export default function NotificationsPage() {
                 'shrink-0 flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[11px] font-semibold tap-scale transition-all',
                 filter === tab.id ? 'glass-pill-active' : 'glass-pill-inactive'
               )}>
-              <span>{tab.emoji}</span>
+              <AppIcon name={tab.icon} size={13} />
               <span>{tab.label}</span>
             </button>
           ))}

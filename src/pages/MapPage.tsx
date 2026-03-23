@@ -173,7 +173,10 @@ export default function MapPage() {
               'h-8 px-3 rounded-full flex items-center gap-1.5 tap-scale text-[11px] font-semibold transition-all whitespace-nowrap shrink-0',
               filter === f.id ? 'glass-pill-active' : 'glass-pill-inactive'
             )}>
-            <span className="text-xs">{f.emoji}</span>
+            {f.id === 'all'
+              ? <AppIcon name="tw:fire" size={13} />
+              : <CategoryIcon category={f.id as import('@/types/anybuddy').Category} size="sm" className="!w-4 !h-4 !rounded-md bg-transparent" />
+            }
             <span>{f.label}</span>
           </button>
         ))}

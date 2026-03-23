@@ -369,7 +369,7 @@ export default function HomePage() {
           {filtered.length === 0 && (
             <div className="col-span-full pt-10 text-center px-4">
               <div className="w-14 h-14 rounded-[1.25rem] liquid-glass flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl">✨</span>
+                <AppIcon name="se:casual" size={28} />
               </div>
               <p className="text-[15px] font-semibold text-foreground mb-1.5 tracking-tight">Nothing here yet</p>
               <p className="text-sm text-muted-foreground mb-4">

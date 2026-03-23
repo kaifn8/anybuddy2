@@ -413,7 +413,7 @@ export default function CreateRequestPage() {
                     <CategoryIcon category={qs.category} size="sm" className="liquid-glass shrink-0" />
                     <div className="flex-1">
                       <p className="text-sm font-semibold">{qs.text}</p>
-                      <p className="text-[10px] text-muted-foreground">📍 {location} · 👥 {qs.seats} people</p>
+                      <p className="text-[10px] text-muted-foreground flex items-center gap-1"><AppIcon name="tw:pin" size={10} /> {location} · <AppIcon name="tw:people" size={10} /> {qs.seats} people</p>
                     </div>
                     <span className="text-xs text-primary font-semibold">Go →</span>
                   </button>
