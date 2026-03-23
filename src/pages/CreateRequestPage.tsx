@@ -358,7 +358,7 @@ export default function CreateRequestPage() {
     return (
       <div className="mobile-container min-h-screen bg-ambient flex items-center justify-center px-8">
         <div ref={successRef} className="text-center">
-          <span className="text-6xl block mb-4">🎉</span>
+          <span className="text-6xl block mb-4"><AppIcon name="tw:party" size={64} /></span>
           <h2 className="text-xl font-bold mb-1">Your plan is live!</h2>
           <p className="text-sm text-muted-foreground mb-6">People nearby can now join</p>
           <div className="liquid-glass p-4 rounded-2xl mb-6 text-left">
