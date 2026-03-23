@@ -125,7 +125,7 @@ export const BottomNav = () => {
           </button>
           <button onClick={() => navigate('/settings')}
             className="flex items-center gap-3 px-3 py-2.5 rounded-xl tap-scale text-muted-foreground hover:bg-muted/40 hover:text-foreground transition-all w-full text-left">
-            <AppIcon name="fc:settings" size={20} className="opacity-60" />
+            <AppIcon name="tw:settings" size={20} className="opacity-60" />
             <span className="text-[13px]">Settings</span>
           </button>
         </div>

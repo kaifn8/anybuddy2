@@ -79,11 +79,11 @@ export function TopBar({ showBack = false, title, hideChat = false, showSettings
         <div className="w-16 flex items-center justify-end gap-1.5">
           {showSettings ? (
             <button onClick={() => navigate('/settings')} className="tap-scale w-8 h-8 flex items-center justify-center" style={glassBtn}>
-              <AppIcon name="fc:settings" size={18} />
+              <AppIcon name="tw:settings" size={18} />
             </button>
           ) : !hideChat ? (
             <button onClick={() => navigate('/chats')} className="relative tap-scale w-8 h-8 flex items-center justify-center" style={glassBtn}>
-              <AppIcon name="fc:comments" size={18} />
+              <AppIcon name="tw:chat" size={18} />
               {totalBadge > 0 && (
                 <span className="absolute -top-0.5 -right-0.5 min-w-[14px] h-[14px] rounded-full bg-destructive text-white text-[7px] font-bold flex items-center justify-center px-[2px]">
                   {totalBadge > 9 ? '9+' : totalBadge}

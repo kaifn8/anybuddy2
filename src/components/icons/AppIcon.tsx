@@ -1,6 +1,7 @@
 /**
  * AppIcon — Central color-icon wrapper using Iconify with bundled icon sets.
- * Uses flat-color-icons (MIT, Icons8) for UI icons and twemoji for category/emoji icons.
+ * Uses flat-color-icons for UI accents, streamline-emojis for badges,
+ * and twemoji for navigation & category icons (Instagram-style colorful).
  * Icons are bundled locally (no API call needed).
  */
 import { Icon, addCollection } from '@iconify/react';
@@ -14,7 +15,7 @@ addCollection(streamlineEmojisData as Parameters<typeof addCollection>[0]);
 addCollection(twemojiData as Parameters<typeof addCollection>[0]);
 
 export type AppIconName =
-  // flat-color-icons
+  // flat-color-icons (UI accent)
   | 'fc:home'
   | 'fc:settings'
   | 'fc:plus'
@@ -56,7 +57,7 @@ export type AppIconName =
   | 'fc:reading'
   | 'fc:camera'
   | 'fc:leave'
-  // streamline-emojis (non-category)
+  // streamline-emojis (badges & gamification)
   | 'se:bell'
   | 'se:bell-with-slash'
   | 'se:fire'
@@ -65,7 +66,16 @@ export type AppIconName =
   | 'se:sparkles'
   | 'se:trophy-1'
   | 'se:map-1'
-  // category icons (twemoji — Instagram-style flat colorful)
+  // twemoji — navigation icons (Instagram-style)
+  | 'tw:home'
+  | 'tw:map'
+  | 'tw:bell'
+  | 'tw:chat'
+  | 'tw:settings'
+  | 'tw:quests'
+  | 'tw:circle'
+  | 'tw:leaderboard'
+  // twemoji — category icons
   | 'se:chai'
   | 'se:food'
   | 'se:sports'
@@ -119,7 +129,7 @@ const ICON_MAP: Record<AppIconName, string> = {
   'fc:reading': 'flat-color-icons:reading',
   'fc:camera': 'flat-color-icons:camera',
   'fc:leave': 'flat-color-icons:leave',
-  // streamline-emojis (non-category badges/indicators)
+  // streamline-emojis (badges)
   'se:bell': 'streamline-emojis:bell',
   'se:bell-with-slash': 'streamline-emojis:bell-with-slash',
   'se:fire': 'streamline-emojis:fire',
@@ -128,16 +138,25 @@ const ICON_MAP: Record<AppIconName, string> = {
   'se:sparkles': 'streamline-emojis:sparkles',
   'se:trophy-1': 'streamline-emojis:trophy-1',
   'se:map-1': 'streamline-emojis:globe-showing-europe-africa',
-  // category icons — twemoji (Instagram-style flat colorful emoji)
-  'se:chai':     'twemoji:hot-beverage',        // ☕ coffee/chai
-  'se:food':     'twemoji:fork-and-knife-with-plate', // 🍽 food
-  'se:sports':   'twemoji:basketball',           // 🏀 sports
-  'se:walk':     'twemoji:person-walking',       // 🚶 walk
-  'se:explore':  'twemoji:compass',              // 🧭 explore
-  'se:work':     'twemoji:laptop',               // 💻 work
-  'se:shopping': 'twemoji:shopping-bags',        // 🛍 shopping
-  'se:help':     'twemoji:handshake',            // 🤝 help
-  'se:casual':   'twemoji:sparkles',             // ✨ casual
+  // twemoji — navigation (Instagram-style colorful)
+  'tw:home':        'twemoji:house',
+  'tw:map':         'twemoji:world-map',
+  'tw:bell':        'twemoji:bell',
+  'tw:chat':        'twemoji:speech-balloon',
+  'tw:settings':    'twemoji:gear',
+  'tw:quests':      'twemoji:clipboard',
+  'tw:circle':      'twemoji:busts-in-silhouette',
+  'tw:leaderboard': 'twemoji:bar-chart',
+  // twemoji — category icons
+  'se:chai':     'twemoji:hot-beverage',
+  'se:food':     'twemoji:fork-and-knife-with-plate',
+  'se:sports':   'twemoji:basketball',
+  'se:walk':     'twemoji:person-walking',
+  'se:explore':  'twemoji:compass',
+  'se:work':     'twemoji:laptop',
+  'se:shopping': 'twemoji:shopping-bags',
+  'se:help':     'twemoji:handshake',
+  'se:casual':   'twemoji:sparkles',
 };
 
 interface AppIconProps {
