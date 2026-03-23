@@ -75,6 +75,7 @@ export type AppIconName =
   | 'tw:quests'
   | 'tw:circle'
   | 'tw:leaderboard'
+  | 'tw:plus'
   // twemoji — category icons
   | 'se:chai'
   | 'se:food'
