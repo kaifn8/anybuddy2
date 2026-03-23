@@ -91,6 +91,12 @@ export type AppIconName =
   | 'tw:man'
   | 'tw:woman'
   | 'tw:globe'
+  | 'tw:trophy'
+  | 'tw:shield'
+  | 'tw:seedling'
+  | 'tw:handshake'
+  | 'tw:edit'
+  | 'tw:camera'
   // twemoji — category icons
   | 'se:chai'
   | 'se:food'
