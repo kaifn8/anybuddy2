@@ -367,9 +367,9 @@ export default function CreateRequestPage() {
               <h3 className="text-sm font-bold">{title}</h3>
             </div>
             <div className="flex flex-wrap gap-3 text-xs text-muted-foreground">
-              <span>📍 {location}</span>
-              <span>⏰ {timeLabel}</span>
-              <span>👥 Need {seats} {seats === 1 ? 'person' : 'people'}</span>
+              <span className="flex items-center gap-1"><AppIcon name="tw:pin" size={12} /> {location}</span>
+              <span className="flex items-center gap-1"><AppIcon name="tw:clock" size={12} /> {timeLabel}</span>
+              <span className="flex items-center gap-1"><AppIcon name="tw:people" size={12} /> Need {seats} {seats === 1 ? 'person' : 'people'}</span>
             </div>
           </div>
           <Button className="w-full h-12" onClick={() => navigate('/home')}>
