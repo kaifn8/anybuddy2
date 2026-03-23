@@ -33,10 +33,12 @@ const QUICK_CREATE: { title: string; category: Category }[] = [
   { title: 'Sports',  category: 'sports'  },
 ];
 
-const GENDER_FILTERS: { id: 'any' | Gender; label: string; emoji: string }[] = [
-  { id: 'any',    label: 'Anyone',   emoji: '👥' },
-  { id: 'male',   label: 'Men',      emoji: '👨' },
-  { id: 'female', label: 'Women',    emoji: '👩' },
+import type { AppIconName } from '@/components/icons/AppIcon';
+
+const GENDER_FILTERS: { id: 'any' | Gender; label: string; icon: AppIconName }[] = [
+  { id: 'any',    label: 'Anyone', icon: 'tw:people' },
+  { id: 'male',   label: 'Men',    icon: 'tw:man'    },
+  { id: 'female', label: 'Women',  icon: 'tw:woman'  },
 ];
 
 const RADIUS_OPTIONS = [1, 2, 5, 10];
@@ -276,7 +278,7 @@ export default function HomePage() {
                       'flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-full text-[11px] font-semibold tap-scale transition-all',
                       genderFilter === g.id ? 'glass-pill-active' : 'glass-pill-inactive'
                     )}>
-                    <span>{g.emoji}</span>
+                    <AppIcon name={g.icon} size={13} />
                     <span>{g.label}</span>
                   </button>
                 ))}
@@ -367,7 +369,7 @@ export default function HomePage() {
           {filtered.length === 0 && (
             <div className="col-span-full pt-10 text-center px-4">
               <div className="w-14 h-14 rounded-[1.25rem] liquid-glass flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl">✨</span>
+                <AppIcon name="se:casual" size={28} />
               </div>
               <p className="text-[15px] font-semibold text-foreground mb-1.5 tracking-tight">Nothing here yet</p>
               <p className="text-sm text-muted-foreground mb-4">

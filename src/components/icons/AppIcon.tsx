@@ -76,6 +76,21 @@ export type AppIconName =
   | 'tw:circle'
   | 'tw:leaderboard'
   | 'tw:plus'
+  // twemoji — UI / state icons
+  | 'tw:pin'
+  | 'tw:clock'
+  | 'tw:people'
+  | 'tw:fire'
+  | 'tw:party'
+  | 'tw:check'
+  | 'tw:star'
+  | 'tw:lightning'
+  | 'tw:medal'
+  | 'tw:megaphone'
+  | 'tw:world'
+  | 'tw:man'
+  | 'tw:woman'
+  | 'tw:globe'
   // twemoji — category icons
   | 'se:chai'
   | 'se:food'
@@ -149,6 +164,21 @@ const ICON_MAP: Record<AppIconName, string> = {
   'tw:circle':      'twemoji:busts-in-silhouette',
   'tw:leaderboard': 'twemoji:bar-chart',
   'tw:plus':        'twemoji:plus',
+  // twemoji — UI / state icons
+  'tw:pin':         'twemoji:round-pushpin',
+  'tw:clock':       'twemoji:alarm-clock',
+  'tw:people':      'twemoji:busts-in-silhouette',
+  'tw:fire':        'twemoji:fire',
+  'tw:party':       'twemoji:party-popper',
+  'tw:check':       'twemoji:check-mark-button',
+  'tw:star':        'twemoji:star',
+  'tw:lightning':   'twemoji:high-voltage',
+  'tw:medal':       'twemoji:sports-medal',
+  'tw:megaphone':   'twemoji:loudspeaker',
+  'tw:world':       'twemoji:globe-showing-asia-australia',
+  'tw:man':         'twemoji:man',
+  'tw:woman':       'twemoji:woman',
+  'tw:globe':       'twemoji:world-map',
   // twemoji — category icons
   'se:chai':     'twemoji:hot-beverage',
   'se:food':     'twemoji:fork-and-knife-with-plate',

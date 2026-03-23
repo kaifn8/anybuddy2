@@ -3,6 +3,7 @@ import { useAppStore, type UserReport, type FlaggedMessage } from '@/store/useAp
 import { generateModerationLogs, type ModerationLog } from '@/data/adminData';
 import { Button } from '@/components/ui/button';
 import { CheckCircle2, XCircle, AlertTriangle, Shield, Bot, User, MessageSquare, Trash2, Eye, Ban } from 'lucide-react';
+import { AppIcon } from '@/components/icons/AppIcon';
 import { CategoryIcon } from '@/components/icons/CategoryIcon';
 import { cn } from '@/lib/utils';
 import { formatDistanceToNow } from 'date-fns';
@@ -123,7 +124,7 @@ export default function AdminModeration() {
 
           {filteredReports.length === 0 ? (
             <div className="text-center py-12 rounded-2xl border border-border/20 bg-background/40">
-              <span className="text-3xl block mb-2">✅</span>
+              <AppIcon name="tw:check" size={32} className="mx-auto mb-2" />
               <p className="text-xs text-muted-foreground">
                 {reportFilter === 'all' ? 'No reports yet. Users can report from plan details and host profiles.' : `No ${reportFilter} reports`}
               </p>
@@ -207,7 +208,7 @@ export default function AdminModeration() {
             </h3>
             {allFlagged.length === 0 ? (
               <div className="text-center py-10 rounded-2xl border border-border/20 bg-background/40">
-                <span className="text-3xl block mb-2">💬</span>
+                <AppIcon name="tw:chat" size={32} className="mx-auto mb-2" />
                 <p className="text-xs text-muted-foreground">No flagged messages</p>
               </div>
             ) : (

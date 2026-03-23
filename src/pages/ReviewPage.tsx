@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { TopBar } from '@/components/layout/TopBar';
 import gsap from 'gsap';
 import { useAppStore } from '@/store/useAppStore';
+import { AppIcon } from '@/components/icons/AppIcon';
 import { Button } from '@/components/ui/button';
 
 export default function ReviewPage() {
@@ -52,7 +53,7 @@ export default function ReviewPage() {
       
       {submitted ? (
         <div ref={successRef} className="flex flex-col items-center justify-center min-h-[70vh] px-8">
-          <span className="text-6xl mb-4">🎉</span>
+          <AppIcon name="tw:party" size={72} className="mb-4" />
           <h2 className="text-title font-bold mb-1">Thanks!</h2>
           <p className="text-sm text-muted-foreground">Your feedback helps the community</p>
         </div>

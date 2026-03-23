@@ -83,14 +83,14 @@ function LocateControl({ mapRef }: { mapRef: React.MutableRefObject<any> }) {
   return null;
 }
 
-const FILTERS: { id: Category | 'all'; label: string; emoji: string }[] = [
-  { id: 'all',     label: 'All',     emoji: '🔥' },
-  { id: 'chai',    label: 'Chai',    emoji: '☕' },
-  { id: 'sports',  label: 'Sports',  emoji: '🏸' },
-  { id: 'food',    label: 'Food',    emoji: '🍜' },
-  { id: 'explore', label: 'Explore', emoji: '🧭' },
-  { id: 'walk',    label: 'Walk',    emoji: '🚶' },
-  { id: 'work',    label: 'Work',    emoji: '💻' },
+const FILTERS: { id: Category | 'all'; label: string }[] = [
+  { id: 'all',     label: 'All'     },
+  { id: 'chai',    label: 'Chai'    },
+  { id: 'sports',  label: 'Sports'  },
+  { id: 'food',    label: 'Food'    },
+  { id: 'explore', label: 'Explore' },
+  { id: 'walk',    label: 'Walk'    },
+  { id: 'work',    label: 'Work'    },
 ];
 
 export default function MapPage() {
@@ -173,7 +173,10 @@ export default function MapPage() {
               'h-8 px-3 rounded-full flex items-center gap-1.5 tap-scale text-[11px] font-semibold transition-all whitespace-nowrap shrink-0',
               filter === f.id ? 'glass-pill-active' : 'glass-pill-inactive'
             )}>
-            <span className="text-xs">{f.emoji}</span>
+            {f.id === 'all'
+              ? <AppIcon name="tw:fire" size={13} />
+              : <CategoryIcon category={f.id as import('@/types/anybuddy').Category} size="sm" className="!w-4 !h-4 !rounded-md bg-transparent" />
+            }
             <span>{f.label}</span>
           </button>
         ))}
@@ -211,7 +214,7 @@ export default function MapPage() {
         {activeRequests.length === 0 && (
           <div className="absolute inset-0 flex items-center justify-center z-[500] pointer-events-none">
             <div className="text-center liquid-glass-heavy px-6 py-5 pointer-events-auto" style={{ borderRadius: '1.25rem' }}>
-              <span className="text-3xl block mb-2">🗺️</span>
+              <AppIcon name="tw:map" size={32} className="mx-auto mb-2" />
               <p className="text-[14px] font-bold text-foreground mb-1">No plans nearby</p>
               <p className="text-[11px] text-muted-foreground mb-3">Be the first to post one</p>
               <button onClick={() => navigate('/create')}

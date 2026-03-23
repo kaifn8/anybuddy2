@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import { AppIcon } from '@/components/icons/AppIcon';
 import type { Request } from '@/types/anybuddy';
 
 interface ShareSheetProps {
@@ -56,28 +57,28 @@ export function ShareSheet({ open, onClose, title, text }: ShareSheetProps) {
 
         <div className="grid grid-cols-3 gap-3 mt-3">
           <button onClick={handleWhatsApp} className="flex flex-col items-center gap-2 p-3 rounded-xl liquid-glass tap-scale">
-            <span className="text-2xl">💬</span>
+            <AppIcon name="tw:chat" size={32} />
             <span className="text-2xs font-semibold">WhatsApp</span>
           </button>
           <button onClick={handleInstagram} className="flex flex-col items-center gap-2 p-3 rounded-xl liquid-glass tap-scale">
-            <span className="text-2xl">📸</span>
+            <AppIcon name="tw:megaphone" size={32} />
             <span className="text-2xs font-semibold">Instagram</span>
           </button>
           {navigator.share ? (
             <button onClick={handleNativeShare} className="flex flex-col items-center gap-2 p-3 rounded-xl liquid-glass tap-scale">
-              <span className="text-2xl">📤</span>
+              <AppIcon name="fc:share" size={32} />
               <span className="text-2xs font-semibold">More</span>
             </button>
           ) : (
             <button onClick={handleCopyLink} className="flex flex-col items-center gap-2 p-3 rounded-xl liquid-glass tap-scale">
-              <span className="text-2xl">{copied ? '✅' : '🔗'}</span>
+              {copied ? <AppIcon name="tw:check" size={32} /> : <AppIcon name="fc:bookmark" size={32} />}
               <span className="text-2xs font-semibold">{copied ? 'Copied!' : 'Copy Link'}</span>
             </button>
           )}
         </div>
         {navigator.share && (
           <button onClick={handleCopyLink} className="w-full mt-2 py-2.5 rounded-xl liquid-glass tap-scale text-xs font-semibold flex items-center justify-center gap-1.5">
-            {copied ? <>✅ Copied!</> : <>🔗 Copy Link</>}
+            {copied ? <><AppIcon name="tw:check" size={14} /> Copied!</> : <><AppIcon name="fc:bookmark" size={14} /> Copy Link</>}
           </button>
         )}
       </DialogContent>

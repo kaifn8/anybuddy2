@@ -301,7 +301,7 @@ export default function AttendancePage() {
                 className="w-24 h-24 rounded-[1.5rem] liquid-glass flex items-center justify-center mb-5"
                 style={{ boxShadow: '0 0 32px hsl(var(--success) / 0.25)' }}
               >
-                <span className="text-5xl">🎉</span>
+                <AppIcon name="tw:party" size={72} className="mb-5" />
               </div>
               <h2 className="text-[22px] font-bold text-foreground tracking-tight mb-2">
                 {myStatus === 'attended' ? 'Awesome!' : 'Thanks for letting us know'}

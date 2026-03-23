@@ -21,21 +21,21 @@ interface QuickTemplate {
 }
 
 const TEMPLATES: QuickTemplate[] = [
-  { emoji: '☕', label: 'Coffee', category: 'chai', titleFn: z => `Coffee near ${z}`, defaultMinutes: 20, seats: 2 },
-  { emoji: '🍜', label: 'Food', category: 'food', titleFn: z => `Grab food in ${z}`, defaultMinutes: 30, seats: 2 },
-  { emoji: '🏸', label: 'Sports', category: 'sports', titleFn: z => `Badminton in ${z}`, defaultMinutes: 45, seats: 3 },
-  { emoji: '🚶', label: 'Walk', category: 'walk', titleFn: z => `Walk around ${z}`, defaultMinutes: 15, seats: 2 },
-  { emoji: '🧭', label: 'Explore', category: 'explore', titleFn: z => `Explore ${z}`, defaultMinutes: 30, seats: 2 },
-  { emoji: '💻', label: 'Work', category: 'work', titleFn: z => `Co-work in ${z}`, defaultMinutes: 60, seats: 2 },
-  { emoji: '🛍️', label: 'Shopping', category: 'shopping', titleFn: z => `Shopping in ${z}`, defaultMinutes: 45, seats: 2 },
-  { emoji: '🤙', label: 'Casual', category: 'casual', titleFn: z => `Hangout in ${z}`, defaultMinutes: 20, seats: 2 },
+  { emoji: '', label: 'Coffee',   category: 'chai',     titleFn: z => `Coffee near ${z}`,    defaultMinutes: 20, seats: 2 },
+  { emoji: '', label: 'Food',     category: 'food',     titleFn: z => `Grab food in ${z}`,   defaultMinutes: 30, seats: 2 },
+  { emoji: '', label: 'Sports',   category: 'sports',   titleFn: z => `Badminton in ${z}`,   defaultMinutes: 45, seats: 3 },
+  { emoji: '', label: 'Walk',     category: 'walk',     titleFn: z => `Walk around ${z}`,    defaultMinutes: 15, seats: 2 },
+  { emoji: '', label: 'Explore',  category: 'explore',  titleFn: z => `Explore ${z}`,        defaultMinutes: 30, seats: 2 },
+  { emoji: '', label: 'Work',     category: 'work',     titleFn: z => `Co-work in ${z}`,     defaultMinutes: 60, seats: 2 },
+  { emoji: '', label: 'Shopping', category: 'shopping', titleFn: z => `Shopping in ${z}`,    defaultMinutes: 45, seats: 2 },
+  { emoji: '', label: 'Casual',   category: 'casual',   titleFn: z => `Hangout in ${z}`,     defaultMinutes: 20, seats: 2 },
 ];
 
 const QUICK_STARTS = [
-  { emoji: '☕', text: 'Coffee in 20 min', category: 'chai' as Category, minutes: 20, seats: 2 },
-  { emoji: '🏸', text: 'Badminton tonight', category: 'sports' as Category, minutes: 180, seats: 4 },
-  { emoji: '🚶', text: 'Walk nearby', category: 'walk' as Category, minutes: 10, seats: 2 },
-  { emoji: '🍜', text: 'Dinner nearby', category: 'food' as Category, minutes: 60, seats: 3 },
+  { text: 'Coffee in 20 min', category: 'chai'   as Category, minutes: 20,  seats: 2 },
+  { text: 'Badminton tonight', category: 'sports' as Category, minutes: 180, seats: 4 },
+  { text: 'Walk nearby',       category: 'walk'   as Category, minutes: 10,  seats: 2 },
+  { text: 'Dinner nearby',     category: 'food'   as Category, minutes: 60,  seats: 3 },
 ];
 
 const TIME_OPTIONS = [
@@ -308,7 +308,7 @@ export default function CreateRequestPage() {
 
   const selectQuickStart = (qs: typeof QUICK_STARTS[number]) => {
     setCategory(qs.category);
-    setTitle(`${qs.emoji} ${qs.text}`);
+    setTitle(qs.text);
     setTimeMinutes(qs.minutes);
     setUrgency(qs.minutes <= 30 ? 'now' : 'today');
     setSeats(qs.seats);
@@ -358,7 +358,7 @@ export default function CreateRequestPage() {
     return (
       <div className="mobile-container min-h-screen bg-ambient flex items-center justify-center px-8">
         <div ref={successRef} className="text-center">
-          <span className="text-6xl block mb-4">🎉</span>
+          <span className="text-6xl block mb-4"><AppIcon name="tw:party" size={64} /></span>
           <h2 className="text-xl font-bold mb-1">Your plan is live!</h2>
           <p className="text-sm text-muted-foreground mb-6">People nearby can now join</p>
           <div className="liquid-glass p-4 rounded-2xl mb-6 text-left">
@@ -367,9 +367,9 @@ export default function CreateRequestPage() {
               <h3 className="text-sm font-bold">{title}</h3>
             </div>
             <div className="flex flex-wrap gap-3 text-xs text-muted-foreground">
-              <span>📍 {location}</span>
-              <span>⏰ {timeLabel}</span>
-              <span>👥 Need {seats} {seats === 1 ? 'person' : 'people'}</span>
+              <span className="flex items-center gap-1"><AppIcon name="tw:pin" size={12} /> {location}</span>
+              <span className="flex items-center gap-1"><AppIcon name="tw:clock" size={12} /> {timeLabel}</span>
+              <span className="flex items-center gap-1"><AppIcon name="tw:people" size={12} /> Need {seats} {seats === 1 ? 'person' : 'people'}</span>
             </div>
           </div>
           <Button className="w-full h-12" onClick={() => navigate('/home')}>
@@ -405,7 +405,7 @@ export default function CreateRequestPage() {
           <>
             {/* Quick starts — one-tap plans */}
             <div className="mb-6">
-              <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">⚡ Quick start</p>
+              <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3 flex items-center gap-1.5"><AppIcon name="tw:lightning" size={13} /> Quick start</p>
               <div className="space-y-2">
                 {QUICK_STARTS.map((qs, i) => (
                   <button key={i} onClick={() => selectQuickStart(qs)}
@@ -413,7 +413,7 @@ export default function CreateRequestPage() {
                     <CategoryIcon category={qs.category} size="sm" className="liquid-glass shrink-0" />
                     <div className="flex-1">
                       <p className="text-sm font-semibold">{qs.text}</p>
-                      <p className="text-[10px] text-muted-foreground">📍 {location} · 👥 {qs.seats} people</p>
+                      <p className="text-[10px] text-muted-foreground flex items-center gap-1"><AppIcon name="tw:pin" size={10} /> {location} · <AppIcon name="tw:people" size={10} /> {qs.seats} people</p>
                     </div>
                     <span className="text-xs text-primary font-semibold">Go →</span>
                   </button>
