@@ -63,7 +63,7 @@ export const BottomNav = () => {
         <div className="px-3 pt-1 pb-3">
           <button onClick={() => navigate('/create')}
             className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl bg-primary text-primary-foreground font-semibold tap-scale">
-            <AppIcon name="fc:plus" size={18} />
+            <AppIcon name="tw:plus" size={18} />
             <span className="text-[13px]">Post a plan</span>
           </button>
         </div>
