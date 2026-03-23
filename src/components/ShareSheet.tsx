@@ -78,7 +78,7 @@ export function ShareSheet({ open, onClose, title, text }: ShareSheetProps) {
         </div>
         {navigator.share && (
           <button onClick={handleCopyLink} className="w-full mt-2 py-2.5 rounded-xl liquid-glass tap-scale text-xs font-semibold flex items-center justify-center gap-1.5">
-            {copied ? <>✅ Copied!</> : <>🔗 Copy Link</>}
+            {copied ? <><AppIcon name="tw:check" size={14} /> Copied!</> : <><AppIcon name="fc:bookmark" size={14} /> Copy Link</>}
           </button>
         )}
       </DialogContent>

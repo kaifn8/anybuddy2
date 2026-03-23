@@ -214,7 +214,7 @@ export default function MapPage() {
         {activeRequests.length === 0 && (
           <div className="absolute inset-0 flex items-center justify-center z-[500] pointer-events-none">
             <div className="text-center liquid-glass-heavy px-6 py-5 pointer-events-auto" style={{ borderRadius: '1.25rem' }}>
-              <span className="text-3xl block mb-2">🗺️</span>
+              <AppIcon name="tw:map" size={32} className="mx-auto mb-2" />
               <p className="text-[14px] font-bold text-foreground mb-1">No plans nearby</p>
               <p className="text-[11px] text-muted-foreground mb-3">Be the first to post one</p>
               <button onClick={() => navigate('/create')}
