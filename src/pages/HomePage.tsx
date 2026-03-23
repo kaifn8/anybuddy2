@@ -278,7 +278,7 @@ export default function HomePage() {
                       'flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-full text-[11px] font-semibold tap-scale transition-all',
                       genderFilter === g.id ? 'glass-pill-active' : 'glass-pill-inactive'
                     )}>
-                    <span>{g.emoji}</span>
+                    <AppIcon name={g.icon} size={13} />
                     <span>{g.label}</span>
                   </button>
                 ))}
