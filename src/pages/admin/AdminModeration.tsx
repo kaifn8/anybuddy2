@@ -3,6 +3,7 @@ import { useAppStore, type UserReport, type FlaggedMessage } from '@/store/useAp
 import { generateModerationLogs, type ModerationLog } from '@/data/adminData';
 import { Button } from '@/components/ui/button';
 import { CheckCircle2, XCircle, AlertTriangle, Shield, Bot, User, MessageSquare, Trash2, Eye, Ban } from 'lucide-react';
+import { AppIcon } from '@/components/icons/AppIcon';
 import { CategoryIcon } from '@/components/icons/CategoryIcon';
 import { cn } from '@/lib/utils';
 import { formatDistanceToNow } from 'date-fns';

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import { AppIcon } from '@/components/icons/AppIcon';
 import type { Request } from '@/types/anybuddy';
 
 interface ShareSheetProps {

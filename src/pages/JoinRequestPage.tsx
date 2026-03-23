@@ -10,7 +10,7 @@ import { formatDistanceToNow } from 'date-fns';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { toast } from 'sonner';
-import { GradientAvatar } from '@/components/ui/GradientAvatar';
+import { AppIcon } from '@/components/icons/AppIcon';
 
 const RESERVATION_SECONDS = 45;
 

@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { TopBar } from '@/components/layout/TopBar';
 import gsap from 'gsap';
 import { useAppStore } from '@/store/useAppStore';
+import { AppIcon } from '@/components/icons/AppIcon';
 import { Button } from '@/components/ui/button';
 
 export default function ReviewPage() {
