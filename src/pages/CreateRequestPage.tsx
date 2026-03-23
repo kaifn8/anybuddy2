@@ -405,7 +405,7 @@ export default function CreateRequestPage() {
           <>
             {/* Quick starts — one-tap plans */}
             <div className="mb-6">
-              <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">⚡ Quick start</p>
+              <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3 flex items-center gap-1.5"><AppIcon name="tw:lightning" size={13} /> Quick start</p>
               <div className="space-y-2">
                 {QUICK_STARTS.map((qs, i) => (
                   <button key={i} onClick={() => selectQuickStart(qs)}
