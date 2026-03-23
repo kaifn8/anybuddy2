@@ -21,21 +21,21 @@ interface QuickTemplate {
 }
 
 const TEMPLATES: QuickTemplate[] = [
-  { emoji: '☕', label: 'Coffee', category: 'chai', titleFn: z => `Coffee near ${z}`, defaultMinutes: 20, seats: 2 },
-  { emoji: '🍜', label: 'Food', category: 'food', titleFn: z => `Grab food in ${z}`, defaultMinutes: 30, seats: 2 },
-  { emoji: '🏸', label: 'Sports', category: 'sports', titleFn: z => `Badminton in ${z}`, defaultMinutes: 45, seats: 3 },
-  { emoji: '🚶', label: 'Walk', category: 'walk', titleFn: z => `Walk around ${z}`, defaultMinutes: 15, seats: 2 },
-  { emoji: '🧭', label: 'Explore', category: 'explore', titleFn: z => `Explore ${z}`, defaultMinutes: 30, seats: 2 },
-  { emoji: '💻', label: 'Work', category: 'work', titleFn: z => `Co-work in ${z}`, defaultMinutes: 60, seats: 2 },
-  { emoji: '🛍️', label: 'Shopping', category: 'shopping', titleFn: z => `Shopping in ${z}`, defaultMinutes: 45, seats: 2 },
-  { emoji: '🤙', label: 'Casual', category: 'casual', titleFn: z => `Hangout in ${z}`, defaultMinutes: 20, seats: 2 },
+  { emoji: '', label: 'Coffee',   category: 'chai',     titleFn: z => `Coffee near ${z}`,    defaultMinutes: 20, seats: 2 },
+  { emoji: '', label: 'Food',     category: 'food',     titleFn: z => `Grab food in ${z}`,   defaultMinutes: 30, seats: 2 },
+  { emoji: '', label: 'Sports',   category: 'sports',   titleFn: z => `Badminton in ${z}`,   defaultMinutes: 45, seats: 3 },
+  { emoji: '', label: 'Walk',     category: 'walk',     titleFn: z => `Walk around ${z}`,    defaultMinutes: 15, seats: 2 },
+  { emoji: '', label: 'Explore',  category: 'explore',  titleFn: z => `Explore ${z}`,        defaultMinutes: 30, seats: 2 },
+  { emoji: '', label: 'Work',     category: 'work',     titleFn: z => `Co-work in ${z}`,     defaultMinutes: 60, seats: 2 },
+  { emoji: '', label: 'Shopping', category: 'shopping', titleFn: z => `Shopping in ${z}`,    defaultMinutes: 45, seats: 2 },
+  { emoji: '', label: 'Casual',   category: 'casual',   titleFn: z => `Hangout in ${z}`,     defaultMinutes: 20, seats: 2 },
 ];
 
 const QUICK_STARTS = [
-  { emoji: '☕', text: 'Coffee in 20 min', category: 'chai' as Category, minutes: 20, seats: 2 },
-  { emoji: '🏸', text: 'Badminton tonight', category: 'sports' as Category, minutes: 180, seats: 4 },
-  { emoji: '🚶', text: 'Walk nearby', category: 'walk' as Category, minutes: 10, seats: 2 },
-  { emoji: '🍜', text: 'Dinner nearby', category: 'food' as Category, minutes: 60, seats: 3 },
+  { text: 'Coffee in 20 min', category: 'chai'   as Category, minutes: 20,  seats: 2 },
+  { text: 'Badminton tonight', category: 'sports' as Category, minutes: 180, seats: 4 },
+  { text: 'Walk nearby',       category: 'walk'   as Category, minutes: 10,  seats: 2 },
+  { text: 'Dinner nearby',     category: 'food'   as Category, minutes: 60,  seats: 3 },
 ];
 
 const TIME_OPTIONS = [

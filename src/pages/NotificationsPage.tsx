@@ -11,27 +11,29 @@ import { Button } from '@/components/ui/button';
 import { AppIcon } from '@/components/icons/AppIcon';
 import type { Notification } from '@/types/anybuddy';
 
+import type { AppIconName } from '@/components/icons/AppIcon';
+
 const NOTIF_CONFIG: Record<string, {
-  emoji: string; color: string; bg: string; label: string; gradient: string;
+  icon: AppIconName; color: string; bg: string; label: string; gradient: string;
 }> = {
-  nearby:     { emoji: '📍', color: 'text-primary',          bg: 'bg-primary/10',     label: 'Nearby',   gradient: 'from-primary/20 to-primary/5'      },
-  urgent:     { emoji: '⚡', color: 'text-warning',          bg: 'bg-warning/10',     label: 'Now',      gradient: 'from-warning/20 to-warning/5'       },
-  join:       { emoji: '🎉', color: 'text-success',          bg: 'bg-success/10',     label: 'Joined',   gradient: 'from-success/20 to-success/5'       },
-  message:    { emoji: '💬', color: 'text-secondary',        bg: 'bg-secondary/10',   label: 'Message',  gradient: 'from-secondary/20 to-secondary/5'   },
-  credit:     { emoji: '💰', color: 'text-accent',           bg: 'bg-accent/10',      label: 'Credits',  gradient: 'from-accent/20 to-accent/5'         },
-  trust:      { emoji: '🛡️', color: 'text-primary',          bg: 'bg-primary/10',     label: 'Trust',    gradient: 'from-primary/20 to-primary/5'       },
-  reminder:   { emoji: '⏰', color: 'text-muted-foreground', bg: 'bg-muted/20',       label: 'Reminder', gradient: 'from-muted/20 to-muted/5'           },
-  completion: { emoji: '✅', color: 'text-success',          bg: 'bg-success/10',     label: 'Done',     gradient: 'from-success/20 to-success/5'       },
-  streak:     { emoji: '🔥', color: 'text-accent',           bg: 'bg-accent/10',      label: 'Streak',   gradient: 'from-accent/20 to-accent/5'         },
-  badge:      { emoji: '🏅', color: 'text-secondary',        bg: 'bg-secondary/10',   label: 'Badge',    gradient: 'from-secondary/20 to-secondary/5'  },
+  nearby:     { icon: 'tw:pin',       color: 'text-primary',          bg: 'bg-primary/10',     label: 'Nearby',   gradient: 'from-primary/20 to-primary/5'      },
+  urgent:     { icon: 'tw:lightning', color: 'text-warning',          bg: 'bg-warning/10',     label: 'Now',      gradient: 'from-warning/20 to-warning/5'       },
+  join:       { icon: 'tw:party',     color: 'text-success',          bg: 'bg-success/10',     label: 'Joined',   gradient: 'from-success/20 to-success/5'       },
+  message:    { icon: 'tw:chat',      color: 'text-secondary',        bg: 'bg-secondary/10',   label: 'Message',  gradient: 'from-secondary/20 to-secondary/5'   },
+  credit:     { icon: 'fc:money-transfer', color: 'text-accent',      bg: 'bg-accent/10',      label: 'Credits',  gradient: 'from-accent/20 to-accent/5'         },
+  trust:      { icon: 'fc:vip',       color: 'text-primary',          bg: 'bg-primary/10',     label: 'Trust',    gradient: 'from-primary/20 to-primary/5'       },
+  reminder:   { icon: 'tw:clock',     color: 'text-muted-foreground', bg: 'bg-muted/20',       label: 'Reminder', gradient: 'from-muted/20 to-muted/5'           },
+  completion: { icon: 'tw:check',     color: 'text-success',          bg: 'bg-success/10',     label: 'Done',     gradient: 'from-success/20 to-success/5'       },
+  streak:     { icon: 'tw:fire',      color: 'text-accent',           bg: 'bg-accent/10',      label: 'Streak',   gradient: 'from-accent/20 to-accent/5'         },
+  badge:      { icon: 'tw:medal',     color: 'text-secondary',        bg: 'bg-secondary/10',   label: 'Badge',    gradient: 'from-secondary/20 to-secondary/5'  },
 };
 
 const FILTER_TABS = [
-  { id: 'all',     label: 'All',     emoji: '🔔' },
-  { id: 'nearby',  label: 'Nearby',  emoji: '📍' },
-  { id: 'join',    label: 'Joins',   emoji: '🎉' },
-  { id: 'message', label: 'Chats',   emoji: '💬' },
-  { id: 'urgent',  label: 'Urgent',  emoji: '⚡' },
+  { id: 'all',     label: 'All',     icon: 'tw:bell'      as AppIconName },
+  { id: 'nearby',  label: 'Nearby',  icon: 'tw:pin'       as AppIconName },
+  { id: 'join',    label: 'Joins',   icon: 'tw:party'     as AppIconName },
+  { id: 'message', label: 'Chats',   icon: 'tw:chat'      as AppIconName },
+  { id: 'urgent',  label: 'Urgent',  icon: 'tw:lightning' as AppIconName },
 ];
 
 function getGroupLabel(timestamp: Date) {

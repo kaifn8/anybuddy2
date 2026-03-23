@@ -83,14 +83,14 @@ function LocateControl({ mapRef }: { mapRef: React.MutableRefObject<any> }) {
   return null;
 }
 
-const FILTERS: { id: Category | 'all'; label: string; emoji: string }[] = [
-  { id: 'all',     label: 'All',     emoji: '🔥' },
-  { id: 'chai',    label: 'Chai',    emoji: '☕' },
-  { id: 'sports',  label: 'Sports',  emoji: '🏸' },
-  { id: 'food',    label: 'Food',    emoji: '🍜' },
-  { id: 'explore', label: 'Explore', emoji: '🧭' },
-  { id: 'walk',    label: 'Walk',    emoji: '🚶' },
-  { id: 'work',    label: 'Work',    emoji: '💻' },
+const FILTERS: { id: Category | 'all'; label: string }[] = [
+  { id: 'all',     label: 'All'     },
+  { id: 'chai',    label: 'Chai'    },
+  { id: 'sports',  label: 'Sports'  },
+  { id: 'food',    label: 'Food'    },
+  { id: 'explore', label: 'Explore' },
+  { id: 'walk',    label: 'Walk'    },
+  { id: 'work',    label: 'Work'    },
 ];
 
 export default function MapPage() {

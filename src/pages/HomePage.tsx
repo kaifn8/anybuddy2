@@ -33,10 +33,12 @@ const QUICK_CREATE: { title: string; category: Category }[] = [
   { title: 'Sports',  category: 'sports'  },
 ];
 
-const GENDER_FILTERS: { id: 'any' | Gender; label: string; emoji: string }[] = [
-  { id: 'any',    label: 'Anyone',   emoji: '👥' },
-  { id: 'male',   label: 'Men',      emoji: '👨' },
-  { id: 'female', label: 'Women',    emoji: '👩' },
+import type { AppIconName } from '@/components/icons/AppIcon';
+
+const GENDER_FILTERS: { id: 'any' | Gender; label: string; icon: AppIconName }[] = [
+  { id: 'any',    label: 'Anyone', icon: 'tw:people' },
+  { id: 'male',   label: 'Men',    icon: 'tw:man'    },
+  { id: 'female', label: 'Women',  icon: 'tw:woman'  },
 ];
 
 const RADIUS_OPTIONS = [1, 2, 5, 10];
