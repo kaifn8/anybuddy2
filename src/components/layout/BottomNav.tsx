@@ -10,7 +10,7 @@ import { AppIcon } from '@/components/icons/AppIcon';
 const navItems = [
   { name: 'Home',    path: '/home',          icon: 'tw:home'          },
   { name: 'Map',     path: '/map',           icon: 'tw:map'           },
-  { name: 'Post',    path: '/create',        icon: 'fc:plus',  isMain: true },
+  { name: 'Post',    path: '/create',        icon: 'tw:plus',  isMain: true },
   { name: 'Alerts',  path: '/notifications', icon: 'tw:bell'          },
   { name: 'Me',      path: '/profile',       icon: null               },
 ] as const;
@@ -63,7 +63,7 @@ export const BottomNav = () => {
         <div className="px-3 pt-1 pb-3">
           <button onClick={() => navigate('/create')}
             className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl bg-primary text-primary-foreground font-semibold tap-scale">
-            <AppIcon name="fc:plus" size={18} />
+            <AppIcon name="tw:plus" size={18} />
             <span className="text-[13px]">Post a plan</span>
           </button>
         </div>
@@ -155,7 +155,7 @@ export const BottomNav = () => {
                         background: `linear-gradient(145deg, hsl(var(--primary)) 0%, hsl(211 100% 40%) 100%)`,
                         boxShadow: `0 4px 16px hsl(var(--primary) / 0.3), inset 0 1px 0 hsla(0 0% 100% / 0.2)`,
                       }}>
-                        <AppIcon name="fc:plus" size={16} />
+                        <AppIcon name="tw:plus" size={16} />
                         <span className="text-[11px] font-bold text-white tracking-wide">Post</span>
                       </div>
                     </button>

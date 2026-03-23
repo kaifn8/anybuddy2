@@ -75,6 +75,7 @@ export type AppIconName =
   | 'tw:quests'
   | 'tw:circle'
   | 'tw:leaderboard'
+  | 'tw:plus'
   // twemoji — category icons
   | 'se:chai'
   | 'se:food'
@@ -147,6 +148,7 @@ const ICON_MAP: Record<AppIconName, string> = {
   'tw:quests':      'twemoji:clipboard',
   'tw:circle':      'twemoji:busts-in-silhouette',
   'tw:leaderboard': 'twemoji:bar-chart',
+  'tw:plus':        'twemoji:plus',
   // twemoji — category icons
   'se:chai':     'twemoji:hot-beverage',
   'se:food':     'twemoji:fork-and-knife-with-plate',
