@@ -118,7 +118,7 @@ function NotifItem({
             'relative z-10 w-10 h-10 rounded-[0.875rem] flex items-center justify-center shrink-0 mt-0.5',
             cfg.bg
           )}>
-            <span className="text-[17px]">{cfg.emoji}</span>
+            <AppIcon name={cfg.icon} size={17} />
           </div>
 
           <div className="relative z-10 flex-1 min-w-0">
