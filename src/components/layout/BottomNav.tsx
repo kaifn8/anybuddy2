@@ -10,7 +10,7 @@ import { AppIcon } from '@/components/icons/AppIcon';
 const navItems = [
   { name: 'Home',    path: '/home',          icon: 'tw:home'          },
   { name: 'Map',     path: '/map',           icon: 'tw:map'           },
-  { name: 'Post',    path: '/create',        icon: 'fc:plus',  isMain: true },
+  { name: 'Post',    path: '/create',        icon: 'tw:plus',  isMain: true },
   { name: 'Alerts',  path: '/notifications', icon: 'tw:bell'          },
   { name: 'Me',      path: '/profile',       icon: null               },
 ] as const;
