@@ -98,7 +98,7 @@ export default function AdminPage() {
 
             {pendingVerifications.filter(v => v.status === 'pending').length === 0 ? (
               <div className="text-center py-10">
-                <span className="text-3xl block mb-2">✅</span>
+                <AppIcon name="tw:check" size={32} className="mx-auto mb-2" />
                 <p className="text-xs text-muted-foreground">No pending verifications</p>
               </div>
             ) : (

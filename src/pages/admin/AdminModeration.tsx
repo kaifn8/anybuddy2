@@ -207,7 +207,7 @@ export default function AdminModeration() {
             </h3>
             {allFlagged.length === 0 ? (
               <div className="text-center py-10 rounded-2xl border border-border/20 bg-background/40">
-                <span className="text-3xl block mb-2">💬</span>
+                <AppIcon name="tw:chat" size={32} className="mx-auto mb-2" />
                 <p className="text-xs text-muted-foreground">No flagged messages</p>
               </div>
             ) : (

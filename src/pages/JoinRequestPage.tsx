@@ -140,7 +140,7 @@ export default function JoinRequestPage() {
       
       {isJoined ? (
         <div ref={successRef} className="flex flex-col items-center justify-center min-h-[70vh] px-8">
-          <span className="text-6xl mb-4">🎉</span>
+          <AppIcon name="tw:party" size={72} className="mb-4" />
           <h2 className="text-title font-bold mb-1">You're in!</h2>
           <p className="text-sm text-muted-foreground">Opening chat with {request.userName}...</p>
         </div>
