@@ -306,41 +306,46 @@
 
   .tahoe-btn-primary {
     @apply tahoe-btn text-primary-foreground;
-    background: linear-gradient(180deg, hsl(211 100% 56%) 0%, hsl(211 100% 44%) 100%);
-    backdrop-filter: blur(12px) saturate(160%);
-    -webkit-backdrop-filter: blur(12px) saturate(160%);
-    border: 0.5px solid hsla(211 100% 72% / 0.3);
+    background: linear-gradient(180deg, hsl(211 100% 56%) 0%, hsl(211 100% 42%) 100%);
+    backdrop-filter: blur(20px) saturate(200%);
+    -webkit-backdrop-filter: blur(20px) saturate(200%);
+    border: 0.5px solid hsla(211 100% 72% / 0.35);
     box-shadow:
-      inset 0 1px 0 hsla(0 0% 100% / 0.18),
-      0 1px 3px hsla(211 100% 35% / 0.12),
-      0 4px 16px hsla(211 100% 35% / 0.1);
+      inset 0 1px 0 hsla(0 0% 100% / 0.25),
+      inset 0 -0.5px 0 hsla(211 100% 30% / 0.2),
+      0 1px 3px hsla(211 100% 35% / 0.15),
+      0 6px 20px hsla(211 100% 35% / 0.15);
   }
 
   .tahoe-btn-primary:hover {
-    background: linear-gradient(180deg, hsl(211 100% 58%) 0%, hsl(211 100% 46%) 100%);
-    transform: translateY(-1px);
+    background: linear-gradient(180deg, hsl(211 100% 58%) 0%, hsl(211 100% 44%) 100%);
+    transform: translateY(-1.5px);
     box-shadow:
-      inset 0 1px 0 hsla(0 0% 100% / 0.25),
-      0 2px 8px hsla(211 100% 35% / 0.15),
-      0 8px 24px hsla(211 100% 35% / 0.15);
+      inset 0 1px 0 hsla(0 0% 100% / 0.3),
+      inset 0 -0.5px 0 hsla(211 100% 30% / 0.2),
+      0 2px 8px hsla(211 100% 35% / 0.2),
+      0 12px 32px hsla(211 100% 35% / 0.2);
   }
 
   .tahoe-btn-secondary {
     @apply tahoe-btn text-foreground;
     background: hsla(var(--glass-bg));
-    backdrop-filter: blur(20px) saturate(160%);
-    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    backdrop-filter: blur(var(--glass-blur)) saturate(200%);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(200%);
     border: 0.5px solid hsla(var(--glass-border));
-    box-shadow: inset 0 0.5px 0 hsla(var(--glass-highlight));
+    box-shadow:
+      inset 0 1px 0 hsla(var(--glass-highlight)),
+      0 1px 3px hsla(var(--glass-shadow)),
+      0 4px 16px hsla(var(--glass-shadow));
   }
 
   .tahoe-btn-secondary:hover {
     background: hsla(var(--glass-bg-heavy));
-    transform: translateY(-1px);
+    transform: translateY(-1.5px);
     box-shadow:
-      inset 0 0.5px 0 hsla(var(--glass-highlight)),
+      inset 0 1px 0 hsla(var(--glass-highlight)),
       0 2px 8px hsla(var(--glass-shadow)),
-      0 6px 16px hsla(var(--glass-shadow));
+      0 8px 28px hsla(var(--glass-shadow-lg));
   }
 
   .tahoe-btn-ghost {
@@ -351,7 +356,10 @@
 
   .tahoe-btn-ghost:hover {
     background: hsla(var(--glass-bg));
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
     transform: translateY(-0.5px);
+    box-shadow: inset 0 0.5px 0 hsla(var(--glass-highlight));
   }
 
   /* ═══════════════════════════════════
