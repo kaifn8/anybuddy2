@@ -77,14 +77,15 @@
     --input: 228 12% 16%;
     --primary: 211 100% 56%;
     --secondary: 260 40% 62%;
-    --glass-bg: 228 18% 12% / 0.60;
-    --glass-bg-heavy: 228 18% 14% / 0.78;
-    --glass-border: 0 0% 100% / 0.06;
-    --glass-highlight: 0 0% 100% / 0.04;
-    --glass-shadow: 0 0% 0% / 0.35;
-    --glass-shadow-lg: 0 0% 0% / 0.45;
-    --glass-blur: 28px;
-    --glass-blur-heavy: 48px;
+    --glass-bg: 228 18% 12% / 0.50;
+    --glass-bg-heavy: 228 18% 14% / 0.68;
+    --glass-border: 0 0% 100% / 0.08;
+    --glass-highlight: 0 0% 100% / 0.06;
+    --glass-shadow: 0 0% 0% / 0.40;
+    --glass-shadow-lg: 0 0% 0% / 0.50;
+    --glass-blur: 36px;
+    --glass-blur-heavy: 56px;
+    --glass-blur-ultra: 72px;
   }
 }
 
