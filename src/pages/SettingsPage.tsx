@@ -112,11 +112,9 @@ export default function SettingsPage() {
                   className="text-[11px] text-muted-foreground font-semibold px-2.5 py-1 liquid-glass rounded-full tap-scale">
                   Cancel
                 </button>
-                <button onClick={handleSaveProfile}
-                  className="text-[11px] font-bold px-2.5 py-1 rounded-full tap-scale flex items-center gap-1"
-                  style={{ background: 'hsl(var(--primary))', color: 'hsl(var(--primary-foreground))' }}>
+                <Button onClick={handleSaveProfile} size="sm" className="h-7 px-3 text-[11px] rounded-full gap-1">
                   <AppIcon name="fc:checkmark" size={11} /> Save
-                </button>
+                </Button>
               </div>
             </div>
             <div>
