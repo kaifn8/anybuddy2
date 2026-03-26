@@ -233,10 +233,11 @@ export default function NotificationsPage() {
           ref={headerRef}
           className="sticky top-0 z-40"
           style={{
-            background: 'hsla(var(--glass-bg) / 0.4)',
-            backdropFilter: 'blur(var(--glass-blur-heavy)) saturate(220%)',
-            WebkitBackdropFilter: 'blur(var(--glass-blur-heavy)) saturate(220%)',
-            borderBottom: '0.5px solid hsla(var(--glass-border) / 0.4)',
+            background: 'hsla(var(--glass-bg) / 0.3)',
+            backdropFilter: 'blur(var(--glass-blur-ultra)) saturate(240%)',
+            WebkitBackdropFilter: 'blur(var(--glass-blur-ultra)) saturate(240%)',
+            borderBottom: '0.5px solid hsla(var(--glass-border) / 0.5)',
+            boxShadow: '0 0.5px 8px hsla(var(--glass-shadow)), inset 0 0.5px 0 hsla(var(--glass-highlight))',
           }}>
           <div className="flex items-center h-[48px] px-4 gap-3">
             <button onClick={() => navigate(-1)}
