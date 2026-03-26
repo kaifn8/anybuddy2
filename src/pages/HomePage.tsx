@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 import { TopBar } from '@/components/layout/TopBar';
