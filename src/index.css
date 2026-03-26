@@ -44,14 +44,15 @@
     --radius: 1rem;
 
     /* ── Glass tokens — Apple vibrancy ── */
-    --glass-bg: 0 0% 100% / 0.62;
-    --glass-bg-heavy: 0 0% 100% / 0.78;
-    --glass-border: 0 0% 100% / 0.65;
-    --glass-highlight: 0 0% 100% / 0.95;
-    --glass-shadow: 220 40% 20% / 0.06;
-    --glass-shadow-lg: 220 40% 20% / 0.10;
-    --glass-blur: 28px;
-    --glass-blur-heavy: 48px;
+    --glass-bg: 0 0% 100% / 0.52;
+    --glass-bg-heavy: 0 0% 100% / 0.68;
+    --glass-border: 0 0% 100% / 0.72;
+    --glass-highlight: 0 0% 100% / 1;
+    --glass-shadow: 220 40% 20% / 0.07;
+    --glass-shadow-lg: 220 40% 20% / 0.13;
+    --glass-blur: 36px;
+    --glass-blur-heavy: 56px;
+    --glass-blur-ultra: 72px;
 
     --sidebar-background: 220 16% 96%;
     --sidebar-foreground: 220 30% 8%;
