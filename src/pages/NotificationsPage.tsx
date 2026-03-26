@@ -288,11 +288,9 @@ export default function NotificationsPage() {
               <p className="text-[12px] font-bold text-accent">{streak.count}-day streak at risk!</p>
               <p className="text-[11px] text-muted-foreground mt-0.5">Do something social today to keep it alive</p>
             </div>
-            <button onClick={() => navigate('/home')}
-              className="shrink-0 text-[10px] font-bold px-3 py-1.5 rounded-full tap-scale"
-              style={{ background: 'hsl(var(--accent))', color: 'hsl(var(--background))' }}>
+            <Button onClick={() => navigate('/home')} size="sm" className="h-7 px-3 text-[10px] rounded-full shrink-0">
               Go →
-            </button>
+            </Button>
           </div>
         )}
 

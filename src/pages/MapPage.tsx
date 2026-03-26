@@ -217,11 +217,9 @@ export default function MapPage() {
               <AppIcon name="tw:map" size={32} className="mx-auto mb-2" />
               <p className="text-[14px] font-bold text-foreground mb-1">No plans nearby</p>
               <p className="text-[11px] text-muted-foreground mb-3">Be the first to post one</p>
-              <button onClick={() => navigate('/create')}
-                className="text-[11px] font-bold px-4 py-1.5 rounded-full tap-scale"
-                style={{ background: 'hsl(var(--primary))', color: 'hsl(var(--primary-foreground))' }}>
+              <Button onClick={() => navigate('/create')} size="sm" className="text-[11px] h-8 px-4 rounded-full">
                 Post a plan
-              </button>
+              </Button>
             </div>
           </div>
         )}
