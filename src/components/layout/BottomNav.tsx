@@ -47,10 +47,11 @@ export const BottomNav = () => {
     <>
       {/* ── Desktop sidebar ── */}
       <nav className="hidden lg:flex fixed left-0 top-0 bottom-0 w-60 z-50 flex-col" style={{
-        background: 'hsla(var(--glass-bg) / 0.4)',
-        backdropFilter: 'blur(var(--glass-blur-heavy)) saturate(210%)',
-        WebkitBackdropFilter: 'blur(var(--glass-blur-heavy)) saturate(210%)',
-        borderRight: '0.5px solid hsla(var(--glass-border) / 0.4)',
+        background: 'hsla(var(--glass-bg) / 0.3)',
+        backdropFilter: 'blur(var(--glass-blur-ultra)) saturate(240%)',
+        WebkitBackdropFilter: 'blur(var(--glass-blur-ultra)) saturate(240%)',
+        borderRight: '0.5px solid hsla(var(--glass-border) / 0.5)',
+        boxShadow: '0.5px 0 8px hsla(var(--glass-shadow)), inset -0.5px 0 0 hsla(var(--glass-highlight))',
       }}>
         {/* Logo */}
         <div className="px-5 h-14 flex items-center">
@@ -135,11 +136,11 @@ export const BottomNav = () => {
       <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-50" style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}>
         <div className="max-w-md mx-auto px-5 pb-2">
           <div className="relative rounded-full px-2 py-1.5" style={{
-            background: 'hsla(var(--glass-bg) / 0.35)',
-            backdropFilter: 'blur(64px) saturate(260%)',
-            WebkitBackdropFilter: 'blur(64px) saturate(260%)',
+            background: 'hsla(var(--glass-bg) / 0.3)',
+            backdropFilter: 'blur(var(--glass-blur-ultra)) saturate(280%)',
+            WebkitBackdropFilter: 'blur(var(--glass-blur-ultra)) saturate(280%)',
             border: '0.5px solid hsla(var(--glass-border))',
-            boxShadow: `0 8px 32px hsla(var(--glass-shadow-lg)), 0 1px 4px hsla(var(--glass-shadow)), inset 0 0.5px 0 hsla(var(--glass-highlight))`,
+            boxShadow: `0 -2px 8px hsla(var(--glass-shadow)), 0 8px 40px hsla(var(--glass-shadow-lg)), 0 1px 4px hsla(var(--glass-shadow)), inset 0 1px 0 hsla(var(--glass-highlight))`,
           }}>
             <div className="flex items-center justify-between">
               {navItems.map((item) => {

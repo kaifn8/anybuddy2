@@ -44,14 +44,15 @@
     --radius: 1rem;
 
     /* ── Glass tokens — Apple vibrancy ── */
-    --glass-bg: 0 0% 100% / 0.62;
-    --glass-bg-heavy: 0 0% 100% / 0.78;
-    --glass-border: 0 0% 100% / 0.65;
-    --glass-highlight: 0 0% 100% / 0.95;
-    --glass-shadow: 220 40% 20% / 0.06;
-    --glass-shadow-lg: 220 40% 20% / 0.10;
-    --glass-blur: 28px;
-    --glass-blur-heavy: 48px;
+    --glass-bg: 0 0% 100% / 0.52;
+    --glass-bg-heavy: 0 0% 100% / 0.68;
+    --glass-border: 0 0% 100% / 0.72;
+    --glass-highlight: 0 0% 100% / 1;
+    --glass-shadow: 220 40% 20% / 0.07;
+    --glass-shadow-lg: 220 40% 20% / 0.13;
+    --glass-blur: 36px;
+    --glass-blur-heavy: 56px;
+    --glass-blur-ultra: 72px;
 
     --sidebar-background: 220 16% 96%;
     --sidebar-foreground: 220 30% 8%;
@@ -76,14 +77,15 @@
     --input: 228 12% 16%;
     --primary: 211 100% 56%;
     --secondary: 260 40% 62%;
-    --glass-bg: 228 18% 12% / 0.60;
-    --glass-bg-heavy: 228 18% 14% / 0.78;
-    --glass-border: 0 0% 100% / 0.06;
-    --glass-highlight: 0 0% 100% / 0.04;
-    --glass-shadow: 0 0% 0% / 0.35;
-    --glass-shadow-lg: 0 0% 0% / 0.45;
-    --glass-blur: 28px;
-    --glass-blur-heavy: 48px;
+    --glass-bg: 228 18% 12% / 0.50;
+    --glass-bg-heavy: 228 18% 14% / 0.68;
+    --glass-border: 0 0% 100% / 0.08;
+    --glass-highlight: 0 0% 100% / 0.06;
+    --glass-shadow: 0 0% 0% / 0.40;
+    --glass-shadow-lg: 0 0% 0% / 0.50;
+    --glass-blur: 36px;
+    --glass-blur-heavy: 56px;
+    --glass-blur-ultra: 72px;
   }
 }
 
@@ -115,66 +117,71 @@
 
   .liquid-glass {
     background: hsla(var(--glass-bg));
-    backdrop-filter: blur(var(--glass-blur)) saturate(190%);
-    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(190%);
+    backdrop-filter: blur(var(--glass-blur)) saturate(200%);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(200%);
     border: 0.5px solid hsla(var(--glass-border));
     border-radius: 1rem;
     box-shadow:
       0 1px 3px hsla(var(--glass-shadow)),
-      0 4px 16px hsla(var(--glass-shadow)),
-      inset 0 0.5px 0 hsla(var(--glass-highlight));
+      0 6px 20px hsla(var(--glass-shadow)),
+      inset 0 1px 0 hsla(var(--glass-highlight));
   }
 
   .liquid-glass-heavy {
     background: hsla(var(--glass-bg-heavy));
-    backdrop-filter: blur(var(--glass-blur-heavy)) saturate(210%);
-    -webkit-backdrop-filter: blur(var(--glass-blur-heavy)) saturate(210%);
+    backdrop-filter: blur(var(--glass-blur-heavy)) saturate(220%);
+    -webkit-backdrop-filter: blur(var(--glass-blur-heavy)) saturate(220%);
     border: 0.5px solid hsla(var(--glass-border));
     border-radius: 1.5rem;
     box-shadow:
       0 1px 2px hsla(var(--glass-shadow)),
-      0 4px 20px hsla(var(--glass-shadow)),
-      0 12px 40px hsla(var(--glass-shadow-lg)),
-      inset 0 0.5px 0 hsla(var(--glass-highlight));
+      0 6px 24px hsla(var(--glass-shadow)),
+      0 16px 48px hsla(var(--glass-shadow-lg)),
+      inset 0 1px 0 hsla(var(--glass-highlight)),
+      inset 0 -0.5px 0 hsla(var(--glass-border));
   }
 
   .liquid-glass-subtle {
     background: hsla(var(--glass-bg));
-    backdrop-filter: blur(20px) saturate(160%);
-    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
     border: 0.5px solid hsla(var(--glass-border));
     border-radius: 999px;
+    box-shadow: inset 0 0.5px 0 hsla(var(--glass-highlight));
   }
 
   .liquid-glass-nav {
     background: hsla(var(--glass-bg-heavy));
-    backdrop-filter: blur(var(--glass-blur-heavy)) saturate(210%);
-    -webkit-backdrop-filter: blur(var(--glass-blur-heavy)) saturate(210%);
+    backdrop-filter: blur(var(--glass-blur-ultra)) saturate(230%);
+    -webkit-backdrop-filter: blur(var(--glass-blur-ultra)) saturate(230%);
     border-bottom: 0.5px solid hsla(var(--glass-border));
-    box-shadow: 0 0.5px 6px hsla(var(--glass-shadow));
+    box-shadow:
+      0 0.5px 6px hsla(var(--glass-shadow)),
+      0 4px 16px hsla(var(--glass-shadow)),
+      inset 0 0.5px 0 hsla(var(--glass-highlight));
   }
 
   .liquid-glass-interactive {
     background: hsla(var(--glass-bg));
-    backdrop-filter: blur(var(--glass-blur)) saturate(190%);
-    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(190%);
+    backdrop-filter: blur(var(--glass-blur)) saturate(200%);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(200%);
     border: 0.5px solid hsla(var(--glass-border));
     border-radius: 1.25rem;
     box-shadow:
       0 1px 3px hsla(var(--glass-shadow)),
-      0 4px 16px hsla(var(--glass-shadow)),
-      inset 0 0.5px 0 hsla(var(--glass-highlight));
+      0 6px 20px hsla(var(--glass-shadow)),
+      inset 0 1px 0 hsla(var(--glass-highlight));
     cursor: pointer;
     transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1);
   }
 
   .liquid-glass-interactive:hover {
     background: hsla(var(--glass-bg-heavy));
-    transform: translateY(-1px) scale(1.005);
+    transform: translateY(-2px) scale(1.008);
     box-shadow:
-      0 2px 6px hsla(var(--glass-shadow)),
-      0 8px 28px hsla(var(--glass-shadow-lg)),
-      inset 0 0.5px 0 hsla(var(--glass-highlight));
+      0 2px 8px hsla(var(--glass-shadow)),
+      0 12px 36px hsla(var(--glass-shadow-lg)),
+      inset 0 1px 0 hsla(var(--glass-highlight));
   }
 
   .liquid-glass-interactive:active {
@@ -185,25 +192,25 @@
   /* Glass card — for RequestCard etc */
   .liquid-glass-card {
     background: hsla(var(--glass-bg));
-    backdrop-filter: blur(var(--glass-blur)) saturate(190%);
-    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(190%);
+    backdrop-filter: blur(var(--glass-blur)) saturate(200%);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(200%);
     border: 0.5px solid hsla(var(--glass-border));
     border-radius: 1.25rem;
     box-shadow:
       0 1px 3px hsla(var(--glass-shadow)),
-      0 4px 16px hsla(var(--glass-shadow)),
-      inset 0 0.5px 0 hsla(var(--glass-highlight));
+      0 6px 20px hsla(var(--glass-shadow)),
+      inset 0 1px 0 hsla(var(--glass-highlight));
     cursor: pointer;
     transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1);
   }
 
   .liquid-glass-card:hover {
     background: hsla(var(--glass-bg-heavy));
-    transform: translateY(-1px) scale(1.005);
+    transform: translateY(-2px) scale(1.008);
     box-shadow:
-      0 2px 6px hsla(var(--glass-shadow)),
-      0 8px 28px hsla(var(--glass-shadow-lg)),
-      inset 0 0.5px 0 hsla(var(--glass-highlight));
+      0 2px 8px hsla(var(--glass-shadow)),
+      0 12px 36px hsla(var(--glass-shadow-lg)),
+      inset 0 1px 0 hsla(var(--glass-highlight));
   }
 
   .liquid-glass-card:active {
@@ -214,14 +221,16 @@
   /* Trending glass card — prominent / highlighted */
   .liquid-glass-trending {
     background: hsla(var(--glass-bg-heavy));
-    backdrop-filter: blur(var(--glass-blur-heavy)) saturate(220%);
-    -webkit-backdrop-filter: blur(var(--glass-blur-heavy)) saturate(220%);
+    backdrop-filter: blur(var(--glass-blur-heavy)) saturate(230%);
+    -webkit-backdrop-filter: blur(var(--glass-blur-heavy)) saturate(230%);
     border: 1px solid hsla(var(--glass-border));
     border-radius: 1.5rem;
     box-shadow:
       0 1px 3px hsla(var(--glass-shadow)),
-      0 4px 16px hsla(var(--glass-shadow)),
-      inset 0 1px 0 hsla(var(--glass-highlight));
+      0 6px 20px hsla(var(--glass-shadow)),
+      0 16px 48px hsla(var(--glass-shadow-lg)),
+      inset 0 1px 0 hsla(var(--glass-highlight)),
+      inset 0 -0.5px 0 hsla(var(--glass-border));
     overflow: hidden;
     transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
   }
@@ -230,34 +239,52 @@
     transform: translateY(-3px) scale(1.015);
     box-shadow:
       0 4px 12px hsla(var(--glass-shadow)),
-      0 20px 56px hsla(var(--glass-shadow-lg)),
+      0 24px 64px hsla(var(--glass-shadow-lg)),
       inset 0 1px 0 hsla(var(--glass-highlight));
   }
 
   /* Specular highlight */
   .specular-highlight {
     box-shadow:
-      inset 0 0.5px 0 hsla(var(--glass-highlight)),
+      inset 0 1px 0 hsla(var(--glass-highlight)),
       0 1px 3px hsla(var(--glass-shadow)),
-      0 4px 16px hsla(var(--glass-shadow));
+      0 6px 20px hsla(var(--glass-shadow));
   }
 
   /* Glass input */
   .liquid-glass-input {
     background: hsla(var(--glass-bg));
-    backdrop-filter: blur(20px) saturate(160%);
-    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
     border: 0.5px solid hsla(var(--glass-border));
     border-radius: 0.875rem;
-    box-shadow: inset 0 0.5px 0 hsla(var(--glass-highlight));
+    box-shadow:
+      inset 0 1px 0 hsla(var(--glass-highlight)),
+      0 1px 4px hsla(var(--glass-shadow));
     transition: all 0.25s cubic-bezier(0.25, 1, 0.5, 1);
   }
 
   .liquid-glass-input:focus {
     border-color: hsl(var(--primary) / 0.4);
     box-shadow:
-      inset 0 0.5px 0 hsla(var(--glass-highlight)),
-      0 0 0 4px hsl(var(--primary) / 0.08);
+      inset 0 1px 0 hsla(var(--glass-highlight)),
+      0 0 0 4px hsl(var(--primary) / 0.1),
+      0 2px 8px hsla(var(--glass-shadow));
+  }
+
+  /* Ultra glass — maximum frosted effect for overlays/modals */
+  .liquid-glass-ultra {
+    background: hsla(var(--glass-bg-heavy));
+    backdrop-filter: blur(var(--glass-blur-ultra)) saturate(240%);
+    -webkit-backdrop-filter: blur(var(--glass-blur-ultra)) saturate(240%);
+    border: 0.5px solid hsla(var(--glass-border));
+    border-radius: 1.5rem;
+    box-shadow:
+      0 2px 6px hsla(var(--glass-shadow)),
+      0 12px 40px hsla(var(--glass-shadow)),
+      0 24px 72px hsla(var(--glass-shadow-lg)),
+      inset 0 1px 0 hsla(var(--glass-highlight)),
+      inset 0 -0.5px 0 hsla(var(--glass-border));
   }
 
   /* ═══════════════════════════════════
@@ -558,11 +585,11 @@
 
 .bg-ambient {
   background:
-    radial-gradient(ellipse 80% 50% at 10% 0%, hsla(211 100% 65% / 0.07) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 40% at 90% 10%, hsla(260 45% 58% / 0.05) 0%, transparent 50%),
-    radial-gradient(ellipse 70% 50% at 60% 95%, hsla(36 80% 60% / 0.04) 0%, transparent 50%),
-    radial-gradient(ellipse 50% 40% at 85% 85%, hsla(152 55% 44% / 0.03) 0%, transparent 40%),
-    radial-gradient(ellipse 120% 100% at 50% 50%, hsla(220 16% 96% / 0.5) 0%, transparent 70%),
+    radial-gradient(ellipse 90% 60% at 10% 0%, hsla(211 100% 65% / 0.09) 0%, transparent 60%),
+    radial-gradient(ellipse 70% 50% at 90% 10%, hsla(260 45% 58% / 0.07) 0%, transparent 50%),
+    radial-gradient(ellipse 80% 60% at 60% 95%, hsla(36 80% 60% / 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse 60% 50% at 85% 85%, hsla(152 55% 44% / 0.04) 0%, transparent 40%),
+    radial-gradient(ellipse 130% 100% at 50% 50%, hsla(220 16% 96% / 0.4) 0%, transparent 70%),
     hsl(var(--background));
 }
 

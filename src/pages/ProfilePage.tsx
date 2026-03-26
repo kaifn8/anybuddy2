@@ -153,10 +153,11 @@ export default function ProfilePage() {
 
         {/* ── Sticky top bar ── */}
         <header className="sticky top-0 z-40" style={{
-          background: 'hsla(var(--glass-bg) / 0.4)',
-          backdropFilter: 'blur(var(--glass-blur-heavy)) saturate(220%)',
-          WebkitBackdropFilter: 'blur(var(--glass-blur-heavy)) saturate(220%)',
-          borderBottom: '0.5px solid hsla(var(--glass-border) / 0.4)',
+          background: 'hsla(var(--glass-bg) / 0.3)',
+          backdropFilter: 'blur(var(--glass-blur-ultra)) saturate(240%)',
+          WebkitBackdropFilter: 'blur(var(--glass-blur-ultra)) saturate(240%)',
+          borderBottom: '0.5px solid hsla(var(--glass-border) / 0.5)',
+          boxShadow: '0 0.5px 8px hsla(var(--glass-shadow)), inset 0 0.5px 0 hsla(var(--glass-highlight))',
         }}>
           <div className="flex items-center justify-between h-[48px] px-4">
             <span className="text-[17px] font-bold text-foreground tracking-tight">Profile</span>

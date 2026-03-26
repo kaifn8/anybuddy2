@@ -39,10 +39,11 @@ export function TopBar({ showBack = false, title, hideChat = false, showSettings
     <header
       className="sticky top-0 z-40 lg:pl-64"
       style={{
-        background: 'hsla(var(--glass-bg) / 0.35)',
-        backdropFilter: 'blur(var(--glass-blur-heavy)) saturate(220%)',
-        WebkitBackdropFilter: 'blur(var(--glass-blur-heavy)) saturate(220%)',
-        borderBottom: '0.5px solid hsla(var(--glass-border) / 0.4)',
+        background: 'hsla(var(--glass-bg) / 0.3)',
+        backdropFilter: 'blur(var(--glass-blur-ultra)) saturate(240%)',
+        WebkitBackdropFilter: 'blur(var(--glass-blur-ultra)) saturate(240%)',
+        borderBottom: '0.5px solid hsla(var(--glass-border) / 0.5)',
+        boxShadow: '0 0.5px 8px hsla(var(--glass-shadow)), inset 0 0.5px 0 hsla(var(--glass-highlight))',
       }}
     >
       <div className="max-w-md md:max-w-2xl lg:max-w-4xl xl:max-w-5xl mx-auto flex items-center justify-between h-[48px] px-4">
