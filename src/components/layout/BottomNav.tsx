@@ -47,10 +47,11 @@ export const BottomNav = () => {
     <>
       {/* ── Desktop sidebar ── */}
       <nav className="hidden lg:flex fixed left-0 top-0 bottom-0 w-60 z-50 flex-col" style={{
-        background: 'hsla(var(--glass-bg) / 0.4)',
-        backdropFilter: 'blur(var(--glass-blur-heavy)) saturate(210%)',
-        WebkitBackdropFilter: 'blur(var(--glass-blur-heavy)) saturate(210%)',
-        borderRight: '0.5px solid hsla(var(--glass-border) / 0.4)',
+        background: 'hsla(var(--glass-bg) / 0.3)',
+        backdropFilter: 'blur(var(--glass-blur-ultra)) saturate(240%)',
+        WebkitBackdropFilter: 'blur(var(--glass-blur-ultra)) saturate(240%)',
+        borderRight: '0.5px solid hsla(var(--glass-border) / 0.5)',
+        boxShadow: '0.5px 0 8px hsla(var(--glass-shadow)), inset -0.5px 0 0 hsla(var(--glass-highlight))',
       }}>
         {/* Logo */}
         <div className="px-5 h-14 flex items-center">

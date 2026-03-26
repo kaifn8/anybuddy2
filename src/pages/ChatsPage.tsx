@@ -346,8 +346,10 @@ export default function ChatsPage() {
       {/* ── Segmented slider ── */}
       <div className="px-4 pt-3.5 pb-2">
         <div className="relative flex rounded-[1rem] p-[3px]" style={{
-          background: 'hsla(var(--glass-bg) / 0.35)',
-          border: '0.5px solid hsla(var(--glass-border) / 0.5)',
+          background: 'hsla(var(--glass-bg) / 0.25)',
+          backdropFilter: 'blur(var(--glass-blur-heavy)) saturate(220%)',
+          border: '0.5px solid hsla(var(--glass-border) / 0.6)',
+          boxShadow: 'inset 0 0.5px 0 hsla(var(--glass-highlight))',
         }}>
           {/* sliding highlight */}
           <div ref={indicatorRef} className="absolute top-[3px] left-[3px] w-[calc(50%-3px)] h-[calc(100%-6px)] rounded-[0.75rem] pointer-events-none"
