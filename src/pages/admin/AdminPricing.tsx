@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { useAppStore, type PricingConfig } from '@/store/useAppStore';
 import { toast } from 'sonner';
@@ -92,18 +93,19 @@ export default function AdminPricing() {
 
       {pricingEdited && (
         <div className="flex gap-2">
-          <button
+          <Button
             onClick={() => { setLocalPricing(pricingConfig); setPricingEdited(false); }}
-            className="flex-1 h-10 rounded-xl border border-border/30 text-sm font-medium text-muted-foreground tap-scale"
+            variant="outline"
+            className="flex-1 h-10"
           >
             Reset
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={savePricing}
-            className="flex-1 h-10 rounded-xl bg-primary text-primary-foreground text-sm font-semibold tap-scale shadow-sm"
+            className="flex-1 h-10"
           >
             Save Pricing
-          </button>
+          </Button>
         </div>
       )}
 
@@ -133,18 +135,19 @@ export default function AdminPricing() {
 
       {discountsEdited && (
         <div className="flex gap-2">
-          <button
+          <Button
             onClick={() => { setLocalDiscounts(trustDiscounts); setDiscountsEdited(false); }}
-            className="flex-1 h-10 rounded-xl border border-border/30 text-sm font-medium text-muted-foreground tap-scale"
+            variant="outline"
+            className="flex-1 h-10"
           >
             Reset
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={saveDiscounts}
-            className="flex-1 h-10 rounded-xl bg-primary text-primary-foreground text-sm font-semibold tap-scale shadow-sm"
+            className="flex-1 h-10"
           >
             Save Discounts
-          </button>
+          </Button>
         </div>
       )}
     </div>

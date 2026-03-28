@@ -520,10 +520,7 @@ export default function OnboardingPage() {
         </div>
         
         <Button 
-          className="w-full h-12 text-[15px] font-semibold rounded-2xl transition-all active:scale-[0.98]"
-          style={{
-            boxShadow: '0 4px 20px hsl(var(--primary) / 0.25)',
-          }}
+          className="w-full h-12 text-[15px] font-semibold"
           onClick={handleNext}
         >
           {isLastSlide ? "Let's go →" : 'Continue →'}
