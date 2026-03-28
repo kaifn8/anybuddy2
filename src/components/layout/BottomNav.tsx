@@ -63,11 +63,11 @@ export const BottomNav = () => {
 
         {/* Post button */}
         <div className="px-3 pt-1 pb-3">
-          <button onClick={() => navigate('/create')}
-            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl bg-primary text-primary-foreground font-semibold tap-scale">
+          <Button onClick={() => navigate('/create')}
+            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl">
             <AppIcon name="tw:plus" size={18} />
             <span className="text-[13px]">Post a plan</span>
-          </button>
+          </Button>
         </div>
 
         {/* Nav items */}

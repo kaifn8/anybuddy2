@@ -335,16 +335,14 @@ export default function RequestDetailPage() {
 
               {/* Send button */}
               <div className="shrink-0 pb-1">
-                <button
+                <Button
                   onClick={handleSend}
                   disabled={!message.trim()}
-                  className={cn(
-                    'w-10 h-10 rounded-full bg-primary flex items-center justify-center tap-scale shadow-lg shadow-primary/25 transition-all duration-200',
-                    message.trim() ? 'opacity-100 hover:scale-105 hover:shadow-xl hover:shadow-primary/30' : 'opacity-30 scale-90'
-                  )}
+                  size="icon"
+                  className="w-10 h-10 rounded-full"
                 >
-                  <span className="text-primary-foreground text-base font-bold leading-none">↑</span>
-                </button>
+                  <span className="text-base font-bold leading-none">↑</span>
+                </Button>
               </div>
             </div>
 
