@@ -246,11 +246,10 @@ export default function NotificationsPage() {
             </button>
             <span className="flex-1 text-[17px] font-bold text-foreground tracking-tight">Notifications</span>
             {unreadCount > 0 && (
-              <button onClick={markAllRead}
-                className="flex items-center gap-1.5 px-3 py-1.5 text-[11px] text-primary font-bold tap-scale liquid-glass rounded-full">
+              <Button onClick={markAllRead} variant="ghost" size="sm" className="h-7 px-3 text-[11px] text-primary font-bold rounded-full gap-1.5">
                 <AppIcon name="fc:checkmark" size={12} />
                 Mark all read
-              </button>
+              </Button>
             )}
           </div>
         </header>

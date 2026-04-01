@@ -1,6 +1,7 @@
 import { useGamificationStore } from '@/store/useGamificationStore';
 import { cn } from '@/lib/utils';
 import { toast } from '@/hooks/use-toast';
+import { Button } from '@/components/ui/button';
 import { AppIcon } from '@/components/icons/AppIcon';
 
 interface StreakWidgetProps {

@@ -288,9 +288,9 @@ export default function AttendancePage() {
                 ))}
               </div>
 
-              <button onClick={handleFinalSubmit} className="w-full text-[11px] text-muted-foreground font-medium py-2 tap-scale">
+              <Button onClick={handleFinalSubmit} variant="link" className="w-full text-[11px] text-muted-foreground">
                 Skip
-              </button>
+              </Button>
             </div>
           )}
 

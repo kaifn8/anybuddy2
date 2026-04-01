@@ -418,10 +418,9 @@ export default function ProfilePage() {
                 <div className="w-10 h-1 rounded-full bg-muted/50 mx-auto mb-1" />
                 <p className="text-[15px] font-bold text-foreground tracking-tight">Edit Profile</p>
               </div>
-              <button onClick={saveEdit}
-                className="text-[13px] font-bold text-primary tap-scale">
+              <Button onClick={saveEdit} variant="link" size="sm" className="h-auto p-0 text-[13px] font-bold">
                 Save
-              </button>
+              </Button>
             </div>
 
             <div className="px-5 py-4 space-y-5 pb-10">

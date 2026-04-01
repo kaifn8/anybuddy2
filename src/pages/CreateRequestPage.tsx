@@ -242,9 +242,9 @@ function LocationSearchField({ location, setLocation, locationCoords, setLocatio
         height="140px"
       />
 
-      <button onClick={() => setEditing(false)} className="w-full text-center text-xs text-primary font-semibold tap-scale py-1">
+      <Button onClick={() => setEditing(false)} variant="link" className="w-full text-xs">
         Done
-      </button>
+      </Button>
     </div>
   );
 }

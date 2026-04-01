@@ -377,10 +377,10 @@ export default function HomePage() {
                 {hasActiveFilters ? 'Try adjusting your filters' : 'Be the first to post — someone\'s probably free.'}
               </p>
               {hasActiveFilters && (
-                <button onClick={() => { setGenderFilter('any'); setRadiusKm(5); setActiveFilter('all'); }}
-                  className="text-[12px] text-primary font-bold tap-scale mb-4">
+                <Button onClick={() => { setGenderFilter('any'); setRadiusKm(5); setActiveFilter('all'); }}
+                  variant="link" className="text-[12px] h-auto mb-4">
                   Clear filters →
-                </button>
+                </Button>
               )}
               <div className="grid grid-cols-2 gap-2 max-w-xs mx-auto">
                 {QUICK_CREATE.map((s, i) => (

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
 import { AppIcon } from '@/components/icons/AppIcon';
 import type { Request } from '@/types/anybuddy';
 

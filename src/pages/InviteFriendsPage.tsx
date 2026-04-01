@@ -74,9 +74,9 @@ export default function InviteFriendsPage() {
             <code className="text-xs font-mono text-foreground flex-1 overflow-x-auto whitespace-nowrap">
               {inviteLink}
             </code>
-            <button onClick={handleCopyLink} className="tap-scale p-2 rounded-lg liquid-glass transition-colors">
+            <Button onClick={handleCopyLink} variant="ghost" size="icon" className="w-9 h-9 rounded-lg liquid-glass">
               <AppIcon name={copied ? 'fc:checkmark' : 'fc:share'} size={18} />
-            </button>
+            </Button>
           </div>
           
           <div className="grid grid-cols-2 gap-2">

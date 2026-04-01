@@ -6,6 +6,7 @@ import { XPProgressBar } from '@/components/gamification/XPProgressBar';
 import { DailyQuestCard } from '@/components/gamification/DailyQuestCard';
 import { useGamificationStore } from '@/store/useGamificationStore';
 import { ACHIEVEMENTS } from '@/types/gamification';
+import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
 import { AppIcon } from '@/components/icons/AppIcon';

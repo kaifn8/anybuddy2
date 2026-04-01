@@ -108,10 +108,9 @@ export default function SettingsPage() {
             <div className="flex items-center justify-between mb-1">
               <p className="text-[14px] font-bold text-foreground">Edit Profile</p>
               <div className="flex gap-2">
-                <button onClick={() => setEditingProfile(false)}
-                  className="text-[11px] text-muted-foreground font-semibold px-2.5 py-1 liquid-glass rounded-full tap-scale">
+                <Button onClick={() => setEditingProfile(false)} variant="ghost" size="sm" className="h-7 px-3 text-[11px] rounded-full">
                   Cancel
-                </button>
+                </Button>
                 <Button onClick={handleSaveProfile} size="sm" className="h-7 px-3 text-[11px] rounded-full gap-1">
                   <AppIcon name="fc:checkmark" size={11} /> Save
                 </Button>
