@@ -567,9 +567,9 @@ export default function CreateRequestPage() {
               </div>
             </div>
 
-            <button onClick={() => setStep('customize')} className="w-full text-center text-xs text-primary font-semibold tap-scale py-2">
+            <Button onClick={() => setStep('customize')} variant="link" className="w-full text-xs">
               ← Edit details
-            </button>
+            </Button>
           </div>
         )}
       </div>
