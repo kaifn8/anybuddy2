@@ -162,15 +162,13 @@ export default function ProfilePage() {
           <div className="flex items-center justify-between h-[48px] px-4">
             <span className="text-[17px] font-bold text-foreground tracking-tight">Profile</span>
             <div className="flex items-center gap-1.5">
-              <button onClick={openEdit}
-                className="flex items-center gap-1.5 px-3 h-8 rounded-full liquid-glass tap-scale">
+              <Button onClick={openEdit} variant="ghost" size="sm" className="h-8 px-3 rounded-full gap-1.5">
                 <AppIcon name="tw:edit" size={13} />
                 <span className="text-[11px] font-semibold">Edit</span>
-              </button>
-              <button onClick={() => navigate('/settings')}
-                className="w-8 h-8 rounded-full liquid-glass flex items-center justify-center tap-scale">
+              </Button>
+              <Button onClick={() => navigate('/settings')} variant="ghost" size="icon" className="w-8 h-8 rounded-full">
                 <AppIcon name="tw:settings" size={17} />
-              </button>
+              </Button>
             </div>
           </div>
         </header>
