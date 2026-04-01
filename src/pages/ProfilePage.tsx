@@ -411,10 +411,9 @@ export default function ProfilePage() {
 
             {/* Sheet header */}
             <div className="flex items-center justify-between px-5 pt-4 pb-3 border-b border-border/10 sticky top-0 bg-background/95 backdrop-blur-sm z-10">
-              <button onClick={closeEdit}
-                className="text-[13px] text-muted-foreground font-semibold tap-scale">
+              <Button onClick={closeEdit} variant="ghost" size="sm" className="h-auto p-0 text-[13px]">
                 Cancel
-              </button>
+              </Button>
               <div>
                 <div className="w-10 h-1 rounded-full bg-muted/50 mx-auto mb-1" />
                 <p className="text-[15px] font-bold text-foreground tracking-tight">Edit Profile</p>
