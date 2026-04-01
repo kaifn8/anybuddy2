@@ -392,9 +392,9 @@ export default function CreateRequestPage() {
           {step === 'pick' ? 'New Plan' : step === 'customize' ? 'Customize' : 'Ready?'}
         </h1>
         {step === 'customize' && (
-          <button onClick={() => setStep('preview')} className="ml-auto text-xs font-semibold text-primary tap-scale">
+            <Button onClick={() => setStep('preview')} variant="link" size="sm" className="ml-auto text-xs">
             Preview →
-          </button>
+          </Button>
         )}
       </div>
 
