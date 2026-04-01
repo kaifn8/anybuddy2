@@ -64,9 +64,9 @@ export function ReportDialog({ open, onClose, targetId, targetName, targetType }
               <p className="text-[10px] text-muted-foreground">{targetName}</p>
             </div>
           </div>
-          <button onClick={onClose} className="p-1.5 rounded-full hover:bg-muted tap-scale">
+          <Button onClick={onClose} variant="ghost" size="icon" className="w-8 h-8 rounded-full">
             <span className="text-lg">✕</span>
-          </button>
+          </Button>
         </div>
 
         {submitted ? (

@@ -194,7 +194,7 @@ export default function SignupPage() {
                     className="w-14 h-14 text-center text-xl font-bold rounded-xl liquid-glass focus:ring-2 focus:ring-primary/20 focus:outline-none" autoFocus={i === 0} />
                 ))}
               </div>
-              <button className="w-full text-primary text-sm font-semibold py-2 tap-scale">Resend code</button>
+              <Button variant="link" className="w-full text-sm">Resend code</Button>
             </div>
           )}
           
@@ -246,7 +246,7 @@ export default function SignupPage() {
                 </div>
               </div>
               <Button variant="secondary" className="w-full h-12">Upload Photo</Button>
-              <button className="w-full text-primary text-sm font-semibold py-2 tap-scale" onClick={() => goToStep('bio')}>Skip for now</button>
+              <Button variant="link" className="w-full text-sm" onClick={() => goToStep('bio')}>Skip for now</Button>
             </div>
           )}
           

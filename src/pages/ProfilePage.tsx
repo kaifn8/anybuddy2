@@ -162,15 +162,13 @@ export default function ProfilePage() {
           <div className="flex items-center justify-between h-[48px] px-4">
             <span className="text-[17px] font-bold text-foreground tracking-tight">Profile</span>
             <div className="flex items-center gap-1.5">
-              <button onClick={openEdit}
-                className="flex items-center gap-1.5 px-3 h-8 rounded-full liquid-glass tap-scale">
+              <Button onClick={openEdit} variant="ghost" size="sm" className="h-8 px-3 rounded-full gap-1.5">
                 <AppIcon name="tw:edit" size={13} />
                 <span className="text-[11px] font-semibold">Edit</span>
-              </button>
-              <button onClick={() => navigate('/settings')}
-                className="w-8 h-8 rounded-full liquid-glass flex items-center justify-center tap-scale">
+              </Button>
+              <Button onClick={() => navigate('/settings')} variant="ghost" size="icon" className="w-8 h-8 rounded-full">
                 <AppIcon name="tw:settings" size={17} />
-              </button>
+              </Button>
             </div>
           </div>
         </header>
@@ -221,11 +219,10 @@ export default function ProfilePage() {
             {user.bio ? (
               <p className="text-[12px] text-muted-foreground leading-relaxed">{user.bio}</p>
             ) : (
-              <button onClick={openEdit}
-                className="text-[11px] text-primary/60 font-medium tap-scale flex items-center gap-1 mt-0.5">
+              <Button onClick={openEdit} variant="link" size="sm" className="h-auto p-0 text-[11px] text-primary/60 gap-1 mt-0.5">
                 <AppIcon name="tw:edit" size={11} />
                 Add a bio
-              </button>
+              </Button>
             )}
 
             {/* Host rating */}
@@ -414,18 +411,16 @@ export default function ProfilePage() {
 
             {/* Sheet header */}
             <div className="flex items-center justify-between px-5 pt-4 pb-3 border-b border-border/10 sticky top-0 bg-background/95 backdrop-blur-sm z-10">
-              <button onClick={closeEdit}
-                className="text-[13px] text-muted-foreground font-semibold tap-scale">
+              <Button onClick={closeEdit} variant="ghost" size="sm" className="h-auto p-0 text-[13px]">
                 Cancel
-              </button>
+              </Button>
               <div>
                 <div className="w-10 h-1 rounded-full bg-muted/50 mx-auto mb-1" />
                 <p className="text-[15px] font-bold text-foreground tracking-tight">Edit Profile</p>
               </div>
-              <button onClick={saveEdit}
-                className="text-[13px] font-bold text-primary tap-scale">
+              <Button onClick={saveEdit} variant="link" size="sm" className="h-auto p-0 text-[13px] font-bold">
                 Save
-              </button>
+              </Button>
             </div>
 
             <div className="px-5 py-4 space-y-5 pb-10">

@@ -242,9 +242,9 @@ function LocationSearchField({ location, setLocation, locationCoords, setLocatio
         height="140px"
       />
 
-      <button onClick={() => setEditing(false)} className="w-full text-center text-xs text-primary font-semibold tap-scale py-1">
+      <Button onClick={() => setEditing(false)} variant="link" className="w-full text-xs">
         Done
-      </button>
+      </Button>
     </div>
   );
 }
@@ -392,9 +392,9 @@ export default function CreateRequestPage() {
           {step === 'pick' ? 'New Plan' : step === 'customize' ? 'Customize' : 'Ready?'}
         </h1>
         {step === 'customize' && (
-          <button onClick={() => setStep('preview')} className="ml-auto text-xs font-semibold text-primary tap-scale">
+            <Button onClick={() => setStep('preview')} variant="link" size="sm" className="ml-auto text-xs">
             Preview →
-          </button>
+          </Button>
         )}
       </div>
 
@@ -567,9 +567,9 @@ export default function CreateRequestPage() {
               </div>
             </div>
 
-            <button onClick={() => setStep('customize')} className="w-full text-center text-xs text-primary font-semibold tap-scale py-2">
+            <Button onClick={() => setStep('customize')} variant="link" className="w-full text-xs">
               ← Edit details
-            </button>
+            </Button>
           </div>
         )}
       </div>

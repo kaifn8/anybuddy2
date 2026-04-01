@@ -1,6 +1,7 @@
 import { useGamificationStore } from '@/store/useGamificationStore';
 import { cn } from '@/lib/utils';
 import { toast } from '@/hooks/use-toast';
+import { Button } from '@/components/ui/button';
 import { AppIcon } from '@/components/icons/AppIcon';
 
 interface StreakWidgetProps {
@@ -61,17 +62,20 @@ export function StreakWidget({ compact = false, className }: StreakWidgetProps) 
 
       {/* Freeze token button — show if streak is at risk */}
       {!isActive && streak.count > 0 && (
-        <button
+        <Button
           onClick={handleFreeze}
+          variant="ghost"
+          size="sm"
+          disabled={streak.freezeCount === 0}
           className={cn(
-            'shrink-0 flex items-center gap-1 px-2.5 py-1.5 rounded-full tap-scale transition-all',
+            'shrink-0 h-auto px-2.5 py-1.5 rounded-full gap-1',
             streak.freezeCount > 0
-              ? 'bg-primary/10 text-primary'
-              : 'bg-muted/30 text-muted-foreground/40 cursor-not-allowed'
+              ? 'bg-primary/10 text-primary hover:bg-primary/15'
+              : 'bg-muted/30 text-muted-foreground/40'
           )}>
           <AppIcon name="se:snowflake" size={13} className={streak.freezeCount === 0 ? 'grayscale opacity-40' : ''} />
           <span className="text-[10px] font-bold">{streak.freezeCount}</span>
-        </button>
+        </Button>
       )}
 
       {/* Show freeze count when active too */}

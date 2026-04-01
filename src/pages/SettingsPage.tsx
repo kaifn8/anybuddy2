@@ -108,10 +108,9 @@ export default function SettingsPage() {
             <div className="flex items-center justify-between mb-1">
               <p className="text-[14px] font-bold text-foreground">Edit Profile</p>
               <div className="flex gap-2">
-                <button onClick={() => setEditingProfile(false)}
-                  className="text-[11px] text-muted-foreground font-semibold px-2.5 py-1 liquid-glass rounded-full tap-scale">
+                <Button onClick={() => setEditingProfile(false)} variant="ghost" size="sm" className="h-7 px-3 text-[11px] rounded-full">
                   Cancel
-                </button>
+                </Button>
                 <Button onClick={handleSaveProfile} size="sm" className="h-7 px-3 text-[11px] rounded-full gap-1">
                   <AppIcon name="fc:checkmark" size={11} /> Save
                 </Button>
@@ -187,12 +186,10 @@ export default function SettingsPage() {
           <SettingsLink icon="fc:feedback" label="Report a Bug" soon />
         </SettingsSection>
 
-        <button onClick={handleLogout} className="w-full liquid-glass-heavy py-3.5 px-5 tap-scale">
-          <div className="flex items-center justify-center gap-2">
-            <AppIcon name="fc:cancel" size={18} />
-            <span className="text-[14px] font-bold text-destructive tracking-tight">Log Out</span>
-          </div>
-        </button>
+        <Button onClick={handleLogout} variant="destructive" className="w-full gap-2">
+          <AppIcon name="fc:cancel" size={18} />
+          Log Out
+        </Button>
 
         <p className="text-center text-[10px] text-muted-foreground/30 pb-2 pt-1">AnyBuddy v1.0 · Made in Mumbai 🇮🇳</p>
       </div>

@@ -6,6 +6,7 @@ import { XPProgressBar } from '@/components/gamification/XPProgressBar';
 import { DailyQuestCard } from '@/components/gamification/DailyQuestCard';
 import { useGamificationStore } from '@/store/useGamificationStore';
 import { ACHIEVEMENTS } from '@/types/gamification';
+import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
 import { AppIcon } from '@/components/icons/AppIcon';
@@ -65,17 +66,17 @@ export default function QuestsPage() {
           <DailyQuestCard />
 
           {/* Leaderboard CTA */}
-          <button onClick={() => navigate('/leaderboard')}
-            className="w-full liquid-glass-interactive flex items-center gap-3 px-4 py-3.5 text-left">
+          <Button onClick={() => navigate('/leaderboard')}
+            variant="ghost" className="w-full h-auto px-4 py-3.5 justify-start gap-3 rounded-2xl liquid-glass-interactive">
             <div className="w-10 h-10 rounded-[0.875rem] liquid-glass flex items-center justify-center shrink-0">
               <AppIcon name="fc:statistics" size={22} />
             </div>
-            <div className="flex-1 min-w-0">
+            <div className="flex-1 min-w-0 text-left">
               <p className="text-[13px] font-bold text-foreground tracking-tight">Weekly Leaderboard</p>
               <p className="text-[11px] text-muted-foreground mt-0.5">See who's most active in Mumbai</p>
             </div>
             <span className="text-[12px] text-muted-foreground/40 shrink-0">→</span>
-          </button>
+          </Button>
 
           {/* Achievements grid */}
           <div className="liquid-glass-heavy p-4">

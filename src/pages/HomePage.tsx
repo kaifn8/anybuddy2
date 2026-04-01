@@ -305,11 +305,10 @@ export default function HomePage() {
             </div>
             {/* Reset */}
             {hasActiveFilters && (
-              <button
-                onClick={() => { setGenderFilter('any'); setRadiusKm(5); setActiveFilter('all'); setShowFilters(false); }}
-                className="w-full text-center text-[11px] font-semibold text-destructive tap-scale py-0.5">
+              <Button onClick={() => { setGenderFilter('any'); setRadiusKm(5); setActiveFilter('all'); setShowFilters(false); }}
+                variant="link" className="w-full text-[11px] text-destructive h-auto py-0.5">
                 Reset filters
-              </button>
+              </Button>
             )}
           </div>
         )}
@@ -377,10 +376,10 @@ export default function HomePage() {
                 {hasActiveFilters ? 'Try adjusting your filters' : 'Be the first to post — someone\'s probably free.'}
               </p>
               {hasActiveFilters && (
-                <button onClick={() => { setGenderFilter('any'); setRadiusKm(5); setActiveFilter('all'); }}
-                  className="text-[12px] text-primary font-bold tap-scale mb-4">
+                <Button onClick={() => { setGenderFilter('any'); setRadiusKm(5); setActiveFilter('all'); }}
+                  variant="link" className="text-[12px] h-auto mb-4">
                   Clear filters →
-                </button>
+                </Button>
               )}
               <div className="grid grid-cols-2 gap-2 max-w-xs mx-auto">
                 {QUICK_CREATE.map((s, i) => (
