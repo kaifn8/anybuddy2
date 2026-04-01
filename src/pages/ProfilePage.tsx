@@ -219,11 +219,10 @@ export default function ProfilePage() {
             {user.bio ? (
               <p className="text-[12px] text-muted-foreground leading-relaxed">{user.bio}</p>
             ) : (
-              <button onClick={openEdit}
-                className="text-[11px] text-primary/60 font-medium tap-scale flex items-center gap-1 mt-0.5">
+              <Button onClick={openEdit} variant="link" size="sm" className="h-auto p-0 text-[11px] text-primary/60 gap-1 mt-0.5">
                 <AppIcon name="tw:edit" size={11} />
                 Add a bio
-              </button>
+              </Button>
             )}
 
             {/* Host rating */}
