@@ -187,12 +187,10 @@ export default function SettingsPage() {
           <SettingsLink icon="fc:feedback" label="Report a Bug" soon />
         </SettingsSection>
 
-        <button onClick={handleLogout} className="w-full liquid-glass-heavy py-3.5 px-5 tap-scale">
-          <div className="flex items-center justify-center gap-2">
-            <AppIcon name="fc:cancel" size={18} />
-            <span className="text-[14px] font-bold text-destructive tracking-tight">Log Out</span>
-          </div>
-        </button>
+        <Button onClick={handleLogout} variant="destructive" className="w-full gap-2">
+          <AppIcon name="fc:cancel" size={18} />
+          Log Out
+        </Button>
 
         <p className="text-center text-[10px] text-muted-foreground/30 pb-2 pt-1">AnyBuddy v1.0 · Made in Mumbai 🇮🇳</p>
       </div>
