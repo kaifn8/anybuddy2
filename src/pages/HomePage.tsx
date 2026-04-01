@@ -305,11 +305,10 @@ export default function HomePage() {
             </div>
             {/* Reset */}
             {hasActiveFilters && (
-              <button
-                onClick={() => { setGenderFilter('any'); setRadiusKm(5); setActiveFilter('all'); setShowFilters(false); }}
-                className="w-full text-center text-[11px] font-semibold text-destructive tap-scale py-0.5">
+              <Button onClick={() => { setGenderFilter('any'); setRadiusKm(5); setActiveFilter('all'); setShowFilters(false); }}
+                variant="link" className="w-full text-[11px] text-destructive h-auto py-0.5">
                 Reset filters
-              </button>
+              </Button>
             )}
           </div>
         )}
